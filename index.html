@@ -243,210 +243,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/Hexo部署到Github完整步骤/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="HX">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx研究工坊">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/01/17/Hexo部署到Github完整步骤/" itemprop="url">Hexo部署到Github完整步骤</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-17T17:53:50+08:00">
-                2017-01-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/A/" itemprop="url" rel="index">
-                    <span itemprop="name">A</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ol>
-<li><a href="https://nodejs.org/en/" target="_blank">安装Node.js</a></li>
-<li><a href="https://git-scm.com/" target="_blank">安装Git官网</a></li>
-<li><a href="https://hexo.io/zh-cn/" target="_blank">安装Hexo</a></li>
-<li><a href="https://github.com/" target="_blank">注册Github账户</a></li>
-</ol>
-<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><ol>
-<li>创建一个文件夹  <code>CD</code>  到当前目录</li>
-<li><p>安装hexo到该文件夹。执行如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm i -g hexo</div></pre></td></tr></table></figure>
-</li>
-<li><p>安装完成后，将会看到如下目录结构<br><img src="http://img.blog.csdn.net/20171018203605199?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="hexo目录结构"></p>
-</li>
-<li><p>测试是否安装成功，执行如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo clean</div><div class="line">hexo generate</div><div class="line">hexo server</div></pre></td></tr></table></figure>
-</li>
-<li><p>打开页面 </p>
-<pre><code>http://localhost:4000
-</code></pre></li>
-</ol>
-<h3 id="Github创建仓库"><a href="#Github创建仓库" class="headerlink" title="Github创建仓库"></a>Github创建仓库</h3><ol>
-<li>登录Github，选择New repositor<br><img src="http://img.blog.csdn.net/20171018204044621?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="Github"></li>
-<li>填写Repositor 名`你的Github名称.github.io <strong>（注意！前缀必须是你的Github名称）</strong><br><img src="http://img.blog.csdn.net/20171018204401956?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
-</ol>
-<h3 id="创建SSH"><a href="#创建SSH" class="headerlink" title="创建SSH"></a>创建SSH</h3><ol>
-<li>打开<strong>git-bash.exe</strong>，配置Github账户信息</li>
-<li><p>在gitbash执行如下命令：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C &quot;你的电子邮箱&quot;</div></pre></td></tr></table></figure>
-<p>接下来会提示你输入一个文件名来保存你的SSH key ，如果不输入直接回车，则会保存在默认的文件里<br>然后会提示你输入passphrases 会要求你输入两次密码</p>
-</li>
-<li>找到id_rsa.pub文件打开依次：<code>Ctrl+A</code>  <code>Ctrl+C</code> 复制信息</li>
-</ol>
-<h3 id="Github-添加-SSH"><a href="#Github-添加-SSH" class="headerlink" title="Github 添加 SSH"></a>Github 添加 SSH</h3><ol>
-<li>点击<strong>Settings</strong><br><img src="http://img.blog.csdn.net/20171018205844760?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
-<li>依次点击左侧<strong>SSH and GPG keys</strong> 右侧 <strong>New SSH key</strong><br><img src="http://img.blog.csdn.net/20171018205805406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
-<li>Title随便填写，把刚才<strong>id_rsa.pub</strong>文件复制的信息粘贴到<strong>key</strong>中，然后点击<strong>Add SSH key</strong></li>
-<li>在<strong>gitbash</strong>中验证是否添加成功，执行如下命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="配置Bolog"><a href="#配置Bolog" class="headerlink" title="配置Bolog"></a>配置Bolog</h3><ol>
-<li>打开你博客文件夹找到<strong>_config.yml</strong>文件并打开</li>
-<li>在最下面添加<div class="note default"><p>deploy:<br>type: git<br>      repo: git@github.com:hanx0610/hanx0610.github.io<br>      branch: master</p></div>
-（注意分号后有个空格）</li>
-</ol>
-<h3 id="部署到Github"><a href="#部署到Github" class="headerlink" title="部署到Github"></a>部署到Github</h3><ol>
-<li><p>安装组件，执行如下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
-</li>
-<li><p>回到gitbash中，进入你的blog目录，分别依次执行以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo clean</div><div class="line">$ hexo generate</div><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>会提示你输入密码</p>
-</li>
-<li>打开页面<pre><code>http://Github用户名.github.io
-</code></pre></li>
-</ol>
-<h3 id="绑定到个人域名"><a href="#绑定到个人域名" class="headerlink" title="绑定到个人域名"></a>绑定到个人域名</h3><ol>
-<li><p>执行如下命令得到 <code>IP</code> 地址</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ping http://Github用户名.github.io</div></pre></td></tr></table></figure>
-</li>
-<li><p>注册购买域名</p>
-</li>
-<li>解析DNS，<br> 添加解析记录 A (记录值为<code>IP</code>)<br> 添加解析记录 CNAME (记录值为<code>Github用户名.github.io</code>)</li>
-<li>打开博客文件夹下source目录创建一个txt文件写入你的域名，命名CNAME，保存<strong>去掉文件后缀名</strong></li>
-</ol>
-<hr>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/欢迎使用CSDN-markdown编辑器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -697,6 +493,209 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/17/Hexo部署到Github完整步骤/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HX">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx研究工坊">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/01/17/Hexo部署到Github完整步骤/" itemprop="url">Hexo部署到Github完整步骤</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-17T17:53:50+08:00">
+                2017-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/其他/" itemprop="url" rel="index">
+                    <span itemprop="name">其他</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ol>
+<li><a href="https://nodejs.org/en/" target="_blank">安装Node.js</a></li>
+<li><a href="https://git-scm.com/" target="_blank">安装Git官网</a></li>
+<li><a href="https://hexo.io/zh-cn/" target="_blank">安装Hexo</a></li>
+<li><a href="https://github.com/" target="_blank">注册Github账户</a></li>
+</ol>
+<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><ol>
+<li>创建一个文件夹  <code>CD</code>  到当前目录</li>
+<li><p>安装hexo到该文件夹。执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm i -g hexo</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装完成后，将会看到如下目录结构<br><img src="http://img.blog.csdn.net/20171018203605199?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="hexo目录结构"></p>
+</li>
+<li><p>测试是否安装成功，执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">hexo clean</div><div class="line">hexo generate</div><div class="line">hexo server</div></pre></td></tr></table></figure>
+</li>
+<li><p>打开页面 </p>
+<pre><code>http://localhost:4000
+</code></pre></li>
+</ol>
+<h3 id="Github创建仓库"><a href="#Github创建仓库" class="headerlink" title="Github创建仓库"></a>Github创建仓库</h3><ol>
+<li>登录Github，选择New repositor<br><img src="http://img.blog.csdn.net/20171018204044621?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="Github"></li>
+<li>填写Repositor 名`你的Github名称.github.io <strong>（注意！前缀必须是你的Github名称）</strong><br><img src="http://img.blog.csdn.net/20171018204401956?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+</ol>
+<h3 id="创建SSH"><a href="#创建SSH" class="headerlink" title="创建SSH"></a>创建SSH</h3><ol>
+<li>打开<strong>git-bash.exe</strong>，配置Github账户信息</li>
+<li><p>在gitbash执行如下命令：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C &quot;你的电子邮箱&quot;</div></pre></td></tr></table></figure>
+<p>接下来会提示你输入一个文件名来保存你的SSH key ，如果不输入直接回车，则会保存在默认的文件里<br>然后会提示你输入passphrases 会要求你输入两次密码</p>
+</li>
+<li>找到id_rsa.pub文件打开依次：<code>Ctrl+A</code>  <code>Ctrl+C</code> 复制信息</li>
+</ol>
+<h3 id="Github-添加-SSH"><a href="#Github-添加-SSH" class="headerlink" title="Github 添加 SSH"></a>Github 添加 SSH</h3><ol>
+<li>点击<strong>Settings</strong><br><img src="http://img.blog.csdn.net/20171018205844760?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+<li>依次点击左侧<strong>SSH and GPG keys</strong> 右侧 <strong>New SSH key</strong><br><img src="http://img.blog.csdn.net/20171018205805406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+<li>Title随便填写，把刚才<strong>id_rsa.pub</strong>文件复制的信息粘贴到<strong>key</strong>中，然后点击<strong>Add SSH key</strong></li>
+<li>在<strong>gitbash</strong>中验证是否添加成功，执行如下命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ssh -T git@github.com</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="配置Bolog"><a href="#配置Bolog" class="headerlink" title="配置Bolog"></a>配置Bolog</h3><ol>
+<li>打开你博客文件夹找到<strong>_config.yml</strong>文件并打开</li>
+<li>在最下面添加<div class="note default"><p>deploy:<br>type: git<br>      repo: git@github.com:hanx0610/hanx0610.github.io<br>      branch: master</p></div>
+（注意分号后有个空格）</li>
+</ol>
+<h3 id="部署到Github"><a href="#部署到Github" class="headerlink" title="部署到Github"></a>部署到Github</h3><ol>
+<li><p>安装组件，执行如下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ npm install hexo-deployer-git --save</div></pre></td></tr></table></figure>
+</li>
+<li><p>回到gitbash中，进入你的blog目录，分别依次执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ hexo clean</div><div class="line">$ hexo generate</div><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>会提示你输入密码</p>
+</li>
+<li>打开页面<pre><code>http://Github用户名.github.io
+</code></pre></li>
+</ol>
+<h3 id="绑定到个人域名"><a href="#绑定到个人域名" class="headerlink" title="绑定到个人域名"></a>绑定到个人域名</h3><ol>
+<li><p>执行如下命令得到 <code>IP</code> 地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ping http://Github用户名.github.io</div></pre></td></tr></table></figure>
+</li>
+<li><p>注册购买域名</p>
+</li>
+<li>解析DNS，<br> 添加解析记录 A (记录值为<code>IP</code>)<br> 添加解析记录 CNAME (记录值为<code>Github用户名.github.io</code>)<br><img src="http://img.blog.csdn.net/20171021215158539?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+<li>打开博客文件夹下source目录创建一个txt文件写入你的域名，命名CNAME，保存<strong>去掉文件后缀名</strong><br> <img src="http://img.blog.csdn.net/20171021215116416?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjQxNDIyNjE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -760,7 +759,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -771,7 +770,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
