@@ -8,7 +8,10 @@
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="jquery.filterizr.js"></script>
 <style>
-
+html,body{
+	margin:0px;
+	padding:0px;
+}
 @media screen and (max-width: 1200px) { 
 	.big-box {
 		width:1000px !important;
@@ -31,21 +34,69 @@
 .box .img{width:100%;height:120px;background-repeat:no-repeat;background-position:center}
 .box .title{text-align:center;color:#337ab7;font-size:22px;margin:15px 0}
 .box .text{text-align:center;font-size:14px;color:#333;overflow:hidden}
-.nav{
+.screen{
 	width:100%;
 	height:auto;
+	margin:80px auto 100px;
+	text-align:center;
 }
-.nav button{
-	width:100px;
-	height:25px;
-	
+
+.screen a{
+	margin:0px 15px;
+	font-size:14px;
+	border:0px;
+	color:#999;
+}
+.nav{
+	width:100%;
+	height:40px;
+	line-height:40px;
+	background-color:#333;
+}
+.nav div{
+	width:700px;
+	margin:0px auto;
+	text-align:center;
+}
+.nav div a{
+	color:#E0E0E0;
+	margin:0px 10px;
+	text-decoration:none;
+	font-size:14px;
+}
+.nav div a:hover{
+	cursor:pointer;
+	color:#fff;
+	text-decoration:underline;
+}
+.screen div{
+	width: 700px;
+	padding: 20px 0;
+	border-bottom: 1px #ededed solid;
+	margin: 0 auto;
+}
+.screen a:hover{
+	cursor:pointer;
+	color:#111;
+	text-decoration:underline;
 }
 </style>
 <body>
     <div class="nav">
-        <button type="button" data-multifilter="1">代码</button>
-        <button type="button" data-multifilter="2">素材</button>
-        <button type="button" data-multifilter="3">模板</button>
+        <div>
+            <a href="../index.html">首页</a>
+            <a href="../tags/index.html">归档</a>
+            <a href="../index.html">标签</a>
+            <a href="../archives/index.html">收藏</a>
+        </div>
+    </div>
+    <div class="screen">
+        <div>
+            <a data-multifilter="all">全部</a>
+            <a data-multifilter="2">前端</a>
+            <a data-multifilter="3">后端</a>
+            <a data-multifilter="4">其他</a>
+        </div>
     </div>
     <div class="big-box">
         <div class="filtr-item" data-category="1">
@@ -99,9 +150,6 @@
 $(function() {
 	$('.big-box').filterizr();
 
-	$('.nav li').on('click', function() {
-		$(this).toggleClass('active');
-	});
 });
 </script>
 
