@@ -7,90 +7,55 @@
 </head>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="jquery.filterizr.js"></script>
-<style>
-html,body{
-	margin:0px;
-	padding:0px;
-}
-@media screen and (max-width: 1200px) { 
-	.big-box {
-		width:1000px !important;
-	}
-}
-@media screen and (max-width: 1030px) { 
-	.big-box {
-		width:700px !important;
-	}
-}
-.vuejs_img{background-image:url(../img/vuejs.png)}
-.big-box{
-	width:1175px;
-	height:auto;
-	display:block;
-	margin:0px auto;
-}
-.box{padding:4px;margin:0px 15px 20px;background-color:#fff;border:1px solid #ddd;border-radius:0px;-webkit-transition:border .2s ease-in-out;-o-transition:border .2s ease-in-out;transition:border .2s ease-in-out;height:280px;width:250px; display:inline-block;}
-.box:hover .img,.box:hover .title{filter:saturate(160%);cursor:pointer;color:#5BA4F4}
-.box .img{width:100%;height:120px;background-repeat:no-repeat;background-position:center}
-.box .title{text-align:center;color:#337ab7;font-size:22px;margin:15px 0}
-.box .text{text-align:center;font-size:14px;color:#333;overflow:hidden}
-.screen{
-	width:100%;
-	height:auto;
-	margin:80px auto 100px;
-	text-align:center;
-}
+<link href="font-awesome.min.css" rel="stylesheet"/>
 
-.screen a{
-	margin:0px 15px;
-	font-size:14px;
-	border:0px;
-	color:#999;
+<style>
+body,html{margin:0;padding:0}
+@media screen and (max-width:1200px){.big-box{width:1000px!important}
 }
-.nav{
-	width:100%;
-	height:40px;
-	line-height:40px;
-	background-color:#333;
+@media screen and (max-width:1030px){.big-box{width:700px!important}
 }
-.nav div{
-	width:700px;
-	margin:0px auto;
-	text-align:center;
-}
-.nav div a{
-	color:#E0E0E0;
-	margin:0px 10px;
-	text-decoration:none;
-	font-size:14px;
-}
-.nav div a:hover{
-	cursor:pointer;
-	color:#fff;
-	text-decoration:underline;
-}
-.screen div{
-	width: 700px;
-	padding: 20px 0;
-	border-bottom: 1px #ededed solid;
-	margin: 0 auto;
-}
-.screen a:hover{
-	cursor:pointer;
-	color:#111;
-	text-decoration:underline;
-}
+.bsie_img{background-image:url(../img/bsie.png)}
+.chartjs_img{background-image:url(../img/chartjs.png)}
+.git-guide_img{background-image:url(../img/git-guide.png)}
+.gulpjs_img{background-image:url(../img/gulpjs.png)}
+.handlebars_img{background-image:url(../img/handlebars.png)}
+.lesscss_img{background-image:url(../img/lesscss.png)}
+.sass_img{background-image:url(../img/sass.png)}
+.vuejs_img{background-image:url(../img/vuejs.png)}
+.webpack_img{background-image:url(../img/webpack.png)}
+.websafecolors_img{background-image:url(../img/websafecolors.png)}
+.echarts_img{background-image:url(../img/echarts.png)}
+
+.big-box{width:1175px;height:auto;display:block;margin:0 auto}
+.box{padding:4px;margin:0 15px 20px;background-color:#fff;border:1px solid #ddd;border-radius:0;-webkit-transition:border .2s ease-in-out;-o-transition:border .2s ease-in-out;transition:border .2s ease-in-out;height:260px;width:250px;display:inline-block}
+.box:hover .img,.box:hover .title{filter:saturate(160%);cursor:pointer;color:#5BA4F4}
+.box .img{width:100%;height:120px;background-repeat:no-repeat;background-position:center; background-size:100%;}
+.box .title{text-align:center;color:#337ab7;font-size:22px;margin:15px 0}
+.box .text{text-align:center;font-size:14px;color:#333;overflow:hidden;padding: 0px 10px;box-sizing: border-box; height:65px;}
+.screen{width:100%;height:auto;margin:120px auto 100px;text-align:center}
+.screen a{margin:0 15px;font-size:14px;border:0;color:#999}
+.nav{width:100%;height:40px;line-height:40px;background-color:#333; position:fixed; top:0px; z-index:999;}
+.nav div{width:700px;margin:0 auto;text-align:center}
+.nav div a{color:#E0E0E0;margin:0 10px;text-decoration:none;font-size:14px}
+.nav div a:hover{cursor:pointer;color:#fff;text-decoration:underline}
+.screen div{width:700px;padding:20px 0;border-bottom:1px #ededed solid;margin:0 auto}
+.screen a:hover{cursor:pointer;color:#111;text-decoration:underline}
+.screen .title{font-size:28px}
+
 </style>
 <body>
     <div class="nav">
         <div>
-            <a href="../index.html">首页</a>
-            <a href="../tags/index.html">归档</a>
-            <a href="../index.html">标签</a>
-            <a href="../archives/index.html">收藏</a>
+            <a href="../index.html"><i class="menu-item-icon fa fa-fw fa-home"></i>首页</a>
+            <a href="../tags/index.html"><i class="menu-item-icon fa fa-fw fa-tags"></i>标签</a>
+            <a href="../archives/index.html"><i class="menu-item-icon fa fa-fw fa-archive"></i>归档</a>
         </div>
     </div>
     <div class="screen">
+        <div class="title">
+            关于技术的优质网络资源
+        </div>
         <div>
             <a data-multifilter="all">全部</a>
             <a data-multifilter="2">前端</a>
@@ -100,49 +65,103 @@ html,body{
     </div>
     <div class="big-box">
         <div class="filtr-item" data-category="1">
-        	<div class="box">
+        	<a href="https://vuejs.bootcss.com/">
+            <div class="box">
                 <div class="img vuejs_img"></div>
                 <div>
-                    <p class="title">Bootstrap 编码规范</p>
-                    <p class="text">Bootstrap 编码规范：编写灵活、稳定、高质量的 HTML 和 CSS 代码的规范。</p>
+                    <p class="title">Vue.js</p>
+                    <p class="text">是一套构建用户界面的渐进式框架。</p>
                 </div>
             </div>
+            </a>
         </div>
         <div class="filtr-item" data-category="1">
+        	<a href="http://www.gulpjs.com.cn/">
         	<div class="box">
-                <div class="img vuejs_img"></div>
+                <div class="img git-guide_img"></div>
                 <div>
-                    <p class="title">Bootstrap 编码规范</p>
-                    <p class="text">Bootstrap 编码规范：编写灵活、稳定、高质量的 HTML 和 CSS 代码的规范。</p>
+                    <p class="title">gulp.js</p>
+                    <p class="text">基于流的自动化构建工具。</p>
                 </div>
             </div>
+            </a>
         </div>
         <div class="filtr-item" data-category="1">
+        	<a href="http://www.sasschina.com/">
         	<div class="box">
-                <div class="img vuejs_img"></div>
+                <div class="img sass_img"></div>
                 <div>
-                    <p class="title">Bootstrap 编码规范</p>
-                    <p class="text">Bootstrap 编码规范：编写灵活、稳定、高质量的 HTML 和 CSS 代码的规范。</p>
+                    <p class="title">Sass</p>
+                    <p class="text">成熟、稳定、强大的 CSS 扩展语言解析器。</p>
                 </div>
             </div>
+            </a>
         </div>
         <div class="filtr-item" data-category="1">
+        	<a href="http://lesscss.cn/">
         	<div class="box">
-                <div class="img vuejs_img"></div>
+                <div class="img lesscss_img"></div>
                 <div>
-                    <p class="title">Bootstrap 编码规范</p>
-                    <p class="text">Bootstrap 编码规范：编写灵活、稳定、高质量的 HTML 和 CSS 代码的规范。</p>
+                    <p class="title">LESS</p>
+                    <p class="text">CSS 预处理语言</p>
                 </div>
             </div>
+            </a>
         </div>
         <div class="filtr-item" data-category="1">
+        	<a href="https://handlebars.bootcss.com/">
         	<div class="box">
-                <div class="img vuejs_img"></div>
+                <div class="img handlebars_img"></div>
                 <div>
-                    <p class="title">Bootstrap 编码规范</p>
-                    <p class="text">Bootstrap 编码规范：编写灵活、稳定、高质量的 HTML 和 CSS 代码的规范。</p>
+                    <p class="title">Handlebars</p>
+                    <p class="text">一个书写高效率、语义化的模板引擎</p>
                 </div>
             </div>
+            </a>
+        </div>
+        <div class="filtr-item" data-category="1">
+        	<a href="http://www.bootcss.com/p/bsie/">
+        	<div class="box">
+                <div class="img bsie_img"></div>
+                <div>
+                    <p class="title">Bsie</p>
+                    <p class="text">Bootstrap IE6 兼容方案</p>
+                </div>
+            </div>
+            </a>
+        </div>
+        <div class="filtr-item" data-category="1">
+        	<a href="http://www.bootcss.com/p/chart.js/">
+        	<div class="box">
+                <div class="img chartjs_img"></div>
+                <div>
+                    <p class="title">Chart.js</p>
+                    <p class="text">是一个简单、面向对象、为设计者和开发者准备的图表绘制工具库</p>
+                </div>
+            </div>
+            </a>
+        </div>
+        <div class="filtr-item" data-category="1">
+        	<a href="http://www.bootcss.com/p/websafecolors/">
+        	<div class="box">
+                <div class="img websafecolors_img"></div>
+                <div>
+                    <p class="title">Web Safe Colors</p>
+                    <p class="text">Web 安全色</p>
+                </div>
+            </div>
+            </a>
+        </div>
+        <div class="filtr-item" data-category="1">
+        	<a href="http://echarts.baidu.com/">
+        	<div class="box">
+                <div class="img echarts_img"></div>
+                <div>
+                    <p class="title">ECharts</p>
+                    <p class="text">提供了常规的折线图，柱状图，散点图，饼图，K线图，用于统计的盒形图，用于地理数据可视化的地图...</p>
+                </div>
+            </div>
+            </a>
         </div>
     </div>
 </body>
