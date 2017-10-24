@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="hanx碎片仓库" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="前言Javascript 作为一种运行在客户端的脚本语言，其源代码对用户来说是完全可见的。但不是每一个 js 开发者都希望自己的代码能被直接阅读，比如恶意软件的制造者们。为了增加代码分析的难度，混淆（obfuscate）工具被应用到了许多恶意软件（如 0day 挂马、跨站攻击等）当中。分析人员为了掀开恶意软件的面纱，首先就得对脚本进行反混淆（deobfuscate）处理。本文将介绍一些常见的混淆手">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用estools辅助反混淆Javascript">
+<meta property="og:url" content="http://yoursite.com/2017/01/06/使用estools辅助反混淆Javascript/index.html">
+<meta property="og:site_name" content="hanx碎片仓库">
+<meta property="og:description" content="前言Javascript 作为一种运行在客户端的脚本语言，其源代码对用户来说是完全可见的。但不是每一个 js 开发者都希望自己的代码能被直接阅读，比如恶意软件的制造者们。为了增加代码分析的难度，混淆（obfuscate）工具被应用到了许多恶意软件（如 0day 挂马、跨站攻击等）当中。分析人员为了掀开恶意软件的面纱，首先就得对脚本进行反混淆（deobfuscate）处理。本文将介绍一些常见的混淆手">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/1-base62-1024x281.png">
+<meta property="og:image" content="http://yoursite.com/img/2-lsb-steg.png">
+<meta property="og:image" content="http://yoursite.com/img/3-ast-1024x491.png">
+<meta property="og:image" content="http://yoursite.com/img/4-obfuscated-js.png">
+<meta property="og:image" content="http://yoursite.com/img/5-online-obfuscate-1024x266.png">
+<meta property="og:image" content="http://yoursite.com/img/6-deobfuscated.png">
+<meta property="og:updated_time" content="2017-10-24T14:21:18.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用estools辅助反混淆Javascript">
+<meta name="twitter:description" content="前言Javascript 作为一种运行在客户端的脚本语言，其源代码对用户来说是完全可见的。但不是每一个 js 开发者都希望自己的代码能被直接阅读，比如恶意软件的制造者们。为了增加代码分析的难度，混淆（obfuscate）工具被应用到了许多恶意软件（如 0day 挂马、跨站攻击等）当中。分析人员为了掀开恶意软件的面纱，首先就得对脚本进行反混淆（deobfuscate）处理。本文将介绍一些常见的混淆手">
+<meta name="twitter:image" content="http://yoursite.com/img/1-base62-1024x281.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/01/06/使用estools辅助反混淆Javascript/"/>
+
+
+
+
+
+  <title>使用estools辅助反混淆Javascript | hanx碎片仓库</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hanx碎片仓库</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Time waits for no one</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-collection">
+          <a href="/me/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            收藏
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/06/使用estools辅助反混淆Javascript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="HX">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx碎片仓库">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用estools辅助反混淆Javascript</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-06T13:14:22+08:00">
+                2017-01-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Javascript 作为一种运行在客户端的脚本语言，其源代码对用户来说是完全可见的。但不是每一个 js 开发者都希望自己的代码能被直接阅读，比如恶意软件的制造者们。为了增加代码分析的难度，混淆（obfuscate）工具被应用到了许多恶意软件（如 0day 挂马、跨站攻击等）当中。分析人员为了掀开恶意软件的面纱，首先就得对脚本进行反混淆（deobfuscate）处理。<br>本文将介绍一些常见的混淆手段和 estools 进行静态代码分析的入门。</p>
+<h3 id="常见混淆手段"><a href="#常见混淆手段" class="headerlink" title="常见混淆手段"></a>常见混淆手段</h3><h4 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h4><p>这类混淆的关键思想在于将需要执行的代码进行一次编码，在执行的时候还原出浏览器可执行的合法的脚本，然后执行之。看上去和可执行文件的加壳有那么点类似。Javascript 提供了将字符串当做代码执行（evaluate）的能力，可以通过 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" rel="external">Function 构造器</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/eval" target="_blank" rel="external">eval</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setTimeout" target="_blank" rel="external">setTimeout</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setInterval" target="_blank" rel="external">setInterval&nbsp;</a>将字符串传递给 js 引擎进行解析执行。最常见的是 <a href="http://dean.edwards.name/packer/" target="_blank" rel="external">base62 编码</a>——其最明显的特征是生成的代码以<code>eval(function(p,a,c,k,e,r))</code> 开头。</p>
+<p><img src="/img/1-base62-1024x281.png" alt="hexo目录结构"></p>
+<p>无论代码如何进行变形，其最终都要调用一次 eval 等函数。解密的方法不需要对其算法做任何分析，只需要简单地找到这个最终的调用，改为 <code>console.log</code> 或者其他方式，将程序解码后的结果按照字符串输出即可。自动化的实现方式已经有许多文章介绍过，此处就不再赘述。</p>
+<h4 id="隐写术"><a href="#隐写术" class="headerlink" title="隐写术"></a>隐写术</h4><p>严格说这不能称之为混淆，只是将 js 代码隐藏到了特定的介质当中。如通过最低有效位（LSB）算法嵌入到图片的 RGB 通道、隐藏在图片 EXIF 元数据、隐藏在 HTML 空白字符等。</p>
+<p>比如这个耸人听闻的议题：<a href="http://www.freebuf.com/news/69106.html" target="_blank" rel="external">一张图片黑掉你</a>：在图片中嵌入恶意程序，PPT（ <a href="https://conference.hitb.org/hitbsecconf2015ams/wp-content/uploads/2015/02/D1T1-Saumil-Shah-Stegosploit-Hacking-with-Pictures.pdf" target="_blank" rel="external">https://conference.hitb.org/hitbsecconf2015ams/wp-content/uploads/2015/02/D1T1-Saumil-Shah-Stegosploit-Hacking-with-Pictures.pdf</a> ）放出来一看，正是使用了最低有效位平面算法。结合 HTML5 的 canvas 或者处理二进制数据的 TypeArray，脚本可以抽取出载体中隐藏的数据（如代码）。<br><img src="/img/2-lsb-steg.png" alt="hexo目录结构"><br>隐写的方式同样需要解码程序和动态执行，所以破解的方式和前者相同，在浏览器上下文中劫持替换关键函数调用的行为，改为文本输出即可得到载体中隐藏的代码。</p>
+<h4 id="复杂化表达式"><a href="#复杂化表达式" class="headerlink" title="复杂化表达式"></a>复杂化表达式</h4><p>代码混淆不一定会调用 eval，也可以通过在代码中填充无效的指令来增加代码复杂度，极大地降低可读性。Javascript 中存在许多称得上丧心病狂的特性，这些特性组合起来，可以把原本简单的字面量（Literal）、成员访问（MemberExpression）、函数调用（CallExpression）等代码片段变得难以阅读。<br>Js 中的字面量有字符串、数字、正则表达式</p>
+<p>下面简单举一个例子:</p>
+<ol>
+<li>访问一个对象的成员有两种方法——点运算符和下标运算符。调用 window 的 eval 方法，既可以写成 <code>window.eval()</code>，也可以 <code>window[&#39;eval&#39;]</code>；</li>
+<li>为了让代码更变态一些，混淆器选用第二种写法，然后再在字符串字面量上做文章。先把字符串拆成几个部分：<code>&#39;e&#39; + &#39;v&#39; + &#39;al&#39;</code>；</li>
+<li>这样看上去还是很明显，再利用一个数字进制转换的技巧：<code>14..toString(15)+31..toString(32)+0xf1.toString(22)</code>；</li>
+<li>一不做二不休，把数字也展开：<code>(0b1110).toString(4&lt;&lt;2)+(&#39; &#39;.charCodeAt() - 1).toString(Math.log(0x100000000) / Math.log(2)) + 0xf1.toString(11 &lt;&lt; 1)</code>；</li>
+<li>最后的效果：<code>window[(2*7).toString(4&lt;&lt;2)+(&#39; &#39;.charCodeAt() - 1).toString(Math.log(0x100000000) / Math.log(2)) + 0xf1.toString(11 &lt;&lt; 1)](&#39;alert(1)&#39;)</code><br>在 js 中可以找到许多这样互逆的运算，通过使用随机生成的方式将其组合使用，可以把简单的表达式无限复杂化。</li>
+</ol>
+<h3 id="静态分析实现"><a href="#静态分析实现" class="headerlink" title="静态分析实现"></a>静态分析实现</h3><h4 id="解析和变换代码"><a href="#解析和变换代码" class="headerlink" title="解析和变换代码"></a>解析和变换代码</h4><p>本文对 Javascript 实现反混淆的思路是模拟执行代码中可预测结果的部分，编写一个简单的脚本执行引擎，只执行符合某些预定规则的代码块，最后将计算结果替换掉原本冗长的代码，实现表达式的简化。</p>
+<p>果对脚本引擎解释器的原理有初步了解的话，可以知道解释器在为了“读懂”代码，会对源代码进行词法分析、语法分析，将代码的字符串转换为抽象语法树（ <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank" rel="external">Abstract Syntax Tree</a>, AST）的数据形式。</p>
+<p>如这段代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="number">5</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addA</span>(<span class="params">d</span>) </span>&#123;</div><div class="line"><span class="keyword">return</span> a + d;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> c = addA(<span class="number">2</span>) + b;</div></pre></td></tr></table></figure></p>
+<p>对应的语法树如图：<br><img src="/img/3-ast-1024x491.png" alt="hexo目录结构"><br>（由 <a href="http://jointjs.com/demos/javascript-ast" target="_blank" rel="external">JointJS</a> 的在线工具生成）<br>不考虑 JIT 技术，解释器可以从语法树的根节点开始，使用深度优先遍历整棵树的所有节点，根据节点上分析出来的指令逐个执行，直到脚本结束返回结果。</p>
+<p>通过 js 代码生成抽象语法树的工具很多，如压缩器 <a href="https://github.com/mishoo/UglifyJS" target="_blank" rel="external">UglifyJS</a> 带的 parser，还有本文使用的 <a href="http://esprima.org/" target="_blank" rel="external">esprima</a>。</p>
+<p>esprima 提供的接口很简单：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ast = <span class="built_in">require</span>(<span class="string">'esprima'</span>).parse(code)</div></pre></td></tr></table></figure></p>
+<p>另外 Esprima 提供了一个在线工具，可以把任意（合法的）Javascript 代码解析成为 AST 并输出：<a href="http://esprima.org/demo/parse.html" target="_blank" rel="external">http://esprima.org/demo/parse.html</a></p>
+<p>再结合 estools 的几个辅助库即可对 js 进行静态代码分析：</p>
+<ul>
+<li><a href="https://github.com/estools/escope" target="_blank" rel="external">escope</a> Javascript 作用域分析工具</li>
+<li><a href="https://github.com/estools/esutils" target="_blank" rel="external">esutil</a> 辅助函数库，检查语法树节点是否满足某些条件</li>
+<li><a href="http://github.com/estools/estraverse" target="_blank" rel="external">estraverse</a> 语法树遍历辅助库，接口有一点类似 SAX 方式解析 XML</li>
+<li><a href="http://github.com/estools/esrecurse" target="_blank" rel="external">esrecurse</a> 另一个语法树遍历工具，使用递归</li>
+<li><a href="https://github.com/estools/esquery" target="_blank" rel="external">esquery</a> 使用 css 选择器的语法从语法树中提取符合条件的节点</li>
+<li><a href="http://github.com/estools/escodegen" target="_blank" rel="external">escodegen</a> 与 esprima 功能互逆，将语法树还原为代码</li>
+</ul>
+<p>项目中使用的遍历工具是 estraverse。其提供了两个静态方法，<code>estraverse.traverse</code> 和 <code>estraverse.replace</code>。前者单纯遍历 AST 的节点，通过返回值控制是否继续遍历到叶子节点；而 replace 方法则可以在遍历的过程中直接修改 AST，实现代码重构功能。具体的用法可以参考其官方文档，或者本文附带的示例代码。</p>
+<h4 id="规则设计"><a href="#规则设计" class="headerlink" title="规则设计"></a>规则设计</h4><p>从实际遇到的代码入手。最近在研究一些 XSS 蠕虫的时候遇到了类似如下代码混淆：<br><img src="/img/4-obfuscated-js.png" alt="hexo目录结构"></p>
+<p>观察其代码风格，发现这个混淆器做了这几件事：</p>
+<ol>
+<li>字符串字面量混淆：首先提取全部的字符串，在全局作用域创建一个字符串数组，同时转义字符增大阅读难度，然后将字符串出现的地方替换成为数组元素的引用</li>
+<li>变量名混淆：不同于压缩器的缩短命名，此处使用了下划线加数字的格式，变量之间区分度很低，相比单个字母更难以阅读</li>
+<li>成员运算符混淆：将点运算符替换为字符串下标形式，然后对字符串进行混淆</li>
+<li>删除多余的空白字符：减小文件体积，这是所有压缩器都会做的事</li>
+</ol>
+<p>经过搜索，这样的代码很有可能是通过<a href="http://javascriptobfuscator.com/Javascript-Obfuscator.aspx" target="_blank" rel="external">javascriptobfuscator.com</a>的免费版生成的。其中免费版可以使用的三个选项（Encode Strings / Strings / Replace Names）也印证了前面观察到的现象。</p>
+<p>这些变换中，变量名混淆是不可逆的。要是可以智能给变量命名的工具也不错，比如这个 <a href="http://jsnice.org/" target="_blank" rel="external">jsnice</a> 网站提供了一个在线工具，可以分析变量具体作用自动重命名。就算不能做到十全十美，实在不行就用人工的方式，使用 IDE（如 WebStorm）的代码重构功能，结合代码行为分析进行手工重命名还原。</p>
+<p>再看字符串的处理。由于字符串将会被提取到一个全局的数组，在语法树中可以观察到这样的特征： 在全局作用域下，出现一个 VariableDeclarator，其 init 属性为 ArrayExpression，而且所有元素都是 Literal ——这说明这个数组所有元素都是常量。简单地将其求值，与变量名（标识符）关联起来。注意，此处为了简化处理，并没有考虑变量名作用域链的问题。在 js 中，作用域链上存在变量名的优先级，比如全局上的变量名是可以被局部变量重新定义的。如果混淆器再变态一点，在不同的作用域上使用相同的变量名，反混淆器又没有处理作用域的情况，将会导致解出来的代码出错。</p>
+<p>在测试程序中我设置了如下的替换规则：</p>
+<ol>
+<li>全局变量声明的字符串数组，在代码中直接使用数字下标引用其值</li>
+<li>结果确定的一连串二元运算，如 <code>1 * 2 + 3 / 4 - 6 % 5</code></li>
+<li>正则表达式字面量的 source，字符串字面量的 length</li>
+<li>完全由字符串常量组成的数组，其 join / reverse / slice 等方法的返回值</li>
+<li>字符串常量的 substr / charAt 等方法的返回值</li>
+<li>decodeURIComponent 等全局函数，其所有参数为常量的，替换为其返回值</li>
+<li>结果为常数的数学函数调用，如 <code>Math.sin(3.14)</code></li>
+</ol>
+<p>至于缩进的还原，这是 escodegen 自带的功能。在调用 <code>escodegen.generate</code> 方法生成代码的时候使用默认的配置（忽略第二个参数）即可。</p>
+<h3 id="DEMO程序"><a href="#DEMO程序" class="headerlink" title="DEMO程序"></a>DEMO程序</h3><p>这个反混淆器的原型放在 GitHub 上：<a href="https://github.com/ChiChou/etacsufbo" target="_blank" rel="external">https://github.com/ChiChou/etacsufbo</a></p>
+<p>运行环境和使用方法参考仓库的 README。</p>
+<p>从<a href="http://youmightnotneedjquery.com/" target="_blank" rel="external">YOU MIGHT NOT NEED JQUERY</a>上摘抄了一段代码，放入<a href="https://javascriptobfuscator.com/Javascript-Obfuscator.aspx" target="_blank" rel="external">javascriptobfuscator.com</a>测试混淆：<br><img src="/img/5-online-obfuscate-1024x266.png" alt="hexo目录结构"><br>将混淆结果（ <a href="https://github.com/ChiChou/etacsufbo/blob/master/tests/cases/jsobfuscator.com.js" target="_blank" rel="external">https://github.com/ChiChou/etacsufbo/blob/master/tests/cases/jsobfuscator.com.js</a> ）进行解开，结果如下：<br><img src="/img/6-deobfuscated.png" alt="hexo目录结构"><br>虽然变量名可读性依旧很差，但已经可以大体看出代码的行为了。</p>
+<p>演示程序目前存在大量局限性，只能算一个半自动的辅助工具，还有许多没有实现的功能。</p>
+<p>一些混淆器会对字符串字面量进行更复杂的保护，将字符串转换为 f(x) 的形式，其中 f 函数为一个解密函数，参数 x 为密文的字符串。也有原地生成一个匿名函数，返回值为字符串的。这种方式通常使用的函数表达式具有上下文无关的特性——其返回值只与函数的输入有关，与当前代码所处的上下文（比如类的成员、DOM 中取到的值）无关。如以下代码片段中的 xor 函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xor = <span class="function"><span class="keyword">function</span>(<span class="params">str, a, b</span>) </span>&#123;</div><div class="line"><span class="keyword">return</span> <span class="built_in">String</span>.fromCharCode.apply(<span class="literal">null</span>, str.split(<span class="string">''</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params">c, i</span>) </span>&#123;</div><div class="line"><span class="keyword">var</span> ascii = c.charCodeAt(<span class="number">0</span>);</div><div class="line"><span class="keyword">return</span> ascii ^ (i % <span class="number">2</span> ? a : b);</div><div class="line">&#125;));</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>如何判断某个函数是否具有这样的特性呢？<br>首先一些库函数可以确定符合，如 btoa，escape，String.fromCharCode 等，只要输入值是常量，返回值就是固定的。建立一个这样的内置函数白名单，接着遍历函数表达式的 AST，若该函数参与计算的参数均没有来自外部上下文，且其所有 CallExpression 的 callee 在函数白名单内，那么通过递归的方式可以确认一个函数是否满足条件。还有的混淆器会给变量创建大量的引用实例，也就是给同一个对象使用了多个别名，阅读起来非常具有干扰性。可以派出 escope 工具对变量标识符进行数据流分析，替换为所指向的正确值。还有利用数学的恒等式进行混淆的。如声明一个变量 a，若 a 为 Number，则表达式 <code>a-a</code>、<code>a * 0</code> 均恒为 0。但如果 a 满足 <code>isNaN(a)</code>，则表达式返回 <code>NaN</code>。要清理这类代码，同样需要借助数据流分析的方法。<br>目前还没有见到使用扁平化流程跳转实现的 js 混淆样本，笔者认为可能跟 js 语言本身的使用场景和特点有关。一般 js 的代都是偏业务型的，不会有太复杂的流程控制或者算法，混淆起来效果不一定理想。</p>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>Javascript 的确是一门神奇的语言，经常可以遇到一些让人惊讶的奇技淫巧。解密保护过的代码也是有趣的事情。据说几大科技巨头在酝酿给浏览器应用设计一款通用的字节码标准——<a href="https://github.com/WebAssembly" target="_blank" rel="external">WebAssembly</a>。一旦这个设想得以实现，代码保护将可以引入真正意义上的“加壳”或者虚拟机保护，对抗技术又将提升到一个新的台阶。</p>
+<p>演示项目代码托管在 GitHub：<a href="https://github.com/ChiChou/etacsufbo" target="_blank" rel="external">https://github.com/ChiChou/etacsufbo</a></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="http://tobyho.com/2013/12/02/fun-with-esprima/" target="_blank" rel="external">http://tobyho.com/2013/12/02/fun-with-esprima/</a></li>
+<li><a href="https://github.com/estree/estree/blob/master/spec.md" target="_blank" rel="external">https://github.com/estree/estree/blob/master/spec.md</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API</a></li>
+<li><a href="http://jointjs.com/demos/javascript-ast" target="_blank" rel="external">http://jointjs.com/demos/javascript-ast</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/20/ES6 ES2015核心内容/" rel="next" title="ES6/ES2015核心内容">
+                <i class="fa fa-chevron-left"></i> ES6/ES2015核心内容
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/17/Hexo部署到Github完整步骤/" rel="prev" title="Hexo部署到Github完整步骤">
+                Hexo部署到Github完整步骤 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/20171022140737.png"
+                alt="HX" />
+            
+              <p class="site-author-name" itemprop="name">HX</p>
+              <p class="site-description motion-element" itemprop="description">技术博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见混淆手段"><span class="nav-number">2.</span> <span class="nav-text">常见混淆手段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加密"><span class="nav-number">2.1.</span> <span class="nav-text">加密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隐写术"><span class="nav-number">2.2.</span> <span class="nav-text">隐写术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#复杂化表达式"><span class="nav-number">2.3.</span> <span class="nav-text">复杂化表达式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态分析实现"><span class="nav-number">3.</span> <span class="nav-text">静态分析实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解析和变换代码"><span class="nav-number">3.1.</span> <span class="nav-text">解析和变换代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#规则设计"><span class="nav-number">3.2.</span> <span class="nav-text">规则设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DEMO程序"><span class="nav-number">4.</span> <span class="nav-text">DEMO程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束语"><span class="nav-number">5.</span> <span class="nav-text">结束语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">HX</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
