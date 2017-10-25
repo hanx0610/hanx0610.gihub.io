@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>无标题文档</title>
+<title>hanx碎片仓库</title>
 </head>
 <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script src="jquery.filterizr.js"></script>
@@ -63,29 +63,35 @@ body,html{margin:0;padding:0}
 .nav div{width:700px;margin:0 auto;text-align:center}
 .nav div a{color:#E0E0E0;margin:0 10px;text-decoration:none;font-size:14px}
 .nav div a:hover{cursor:pointer;color:#fff;text-decoration:underline}
+#but .on{
+	text-shadow: 0px 1px 1px #72d2c4;
+	color:#05ceb1;
+}
 .screen div{width:700px;padding:20px 0;border-bottom:1px #ededed solid;margin:0 auto}
 .screen a:hover{cursor:pointer;color:#111;text-decoration:underline}
-.screen .title{font-size:28px}
+.screen .title{font-size:28px; padding-bottom:50px;}
 
 </style>
+
+
 <body>
     <div class="nav">
         <div>
-            <a target="_blank" href="../index.html"><i class="menu-item-icon fa fa-fw fa-home"></i>首页</a>
-            <a target="_blank" href="../tags/index.html"><i class="menu-item-icon fa fa-fw fa-tags"></i>标签</a>
-            <a target="_blank" href="../archives/index.html"><i class="menu-item-icon fa fa-fw fa-archive"></i>归档</a>
+            <a class="on" href="../index.html"><i class="menu-item-icon fa fa-fw fa-home"></i>首页</a>
+            <a href="../tags/index.html"><i class="menu-item-icon fa fa-fw fa-tags"></i>标签</a>
+            <a href="../archives/index.html"><i class="menu-item-icon fa fa-fw fa-archive"></i>归档</a>
         </div>
     </div>
     <div class="screen">
         <div class="title">
             关于开发优质网络资源收录
         </div>
-        <div>
-            <a data-multifilter="all">全部</a>
-            <a data-multifilter="1">前端</a>
-            <a data-multifilter="2">后端</a>
-            <a data-multifilter="4">设计</a>
-            <a data-multifilter="5">其他</a>
+        <div id="but">
+        	<a class="on" data-filter="all">全部</a>
+            <a data-filter="1">前端</a>
+            <a data-filter="2">后端</a>
+            <a data-filter="4">设计</a>
+            <a data-filter="5">其他</a>
         </div>
     </div>
     <div class="big-box">
@@ -424,7 +430,12 @@ body,html{margin:0;padding:0}
 </body>
 <script>
 $(function() {
-	$('.big-box').filterizr();
+	$(".big-box").filterizr();
+
+	$("#but a").click(function(){
+		$("#but a").removeClass("on");
+		$(this).addClass("on");
+	});
 
 });
 </script>
