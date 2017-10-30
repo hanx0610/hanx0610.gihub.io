@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2016/05/06/%E5%89%8D%E7%AB%AFQ&A/</loc>
+    <lastmod>2017-10-30T14:22:39.942Z</lastmod>
+    <data>
+        <display>
+        <title>前端基础 Q&A</title>
+        <pubTime>2016-05-06T14:15:00.000Z</pubTime>
+        
+        <tag>JavaScript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/06/10/Github%20%E5%AE%89%E5%85%A8%E7%B1%BBRepo%E6%94%B6%E9%9B%86%E6%95%B4%E7%90%86/</loc>
     <lastmod>2017-10-24T15:17:45.327Z</lastmod>
     <data>
@@ -71,9 +91,9 @@
         <title>7个高性能JavaScript代码高亮插件</title>
         <pubTime>2016-02-13T05:00:06.000Z</pubTime>
         
-        <tag>插件</tag>
-         
         <tag>JavaScript</tag>
+         
+        <tag>插件</tag>
          
          
            
