@@ -263,6 +263,243 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/Oracle数据库基础语法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/12/08/Oracle数据库基础语法/" itemprop="url">Oracle数据库基础语法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-08T17:53:50+08:00">
+                2015-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="数据完整性-四种类型的约束"><a href="#数据完整性-四种类型的约束" class="headerlink" title="数据完整性-四种类型的约束"></a>数据完整性-四种类型的约束</h3><ol>
+<li><p>实体完整性约束：主键约束，唯一约束等方式实现</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--添加主键约束：</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> 约束名 PRIMARY <span class="keyword">KEY</span>(字段名);</div><div class="line"><span class="comment">--添加唯一约束：</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> 约束名 <span class="keyword">UNIQUE</span>(字段名);</div></pre></td></tr></table></figure>
+</li>
+<li><p>域完整性约束：通过数据类型、检查约束、默认值、非空约束等方式实现</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--添加域完整性约束：</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> 约束名 <span class="keyword">CHECK</span>(条件);</div></pre></td></tr></table></figure>
+</li>
+<li><p>引用完整性约束：通过主键和外键之间的引用关系实现</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--添加引用完整性约束：</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 子表表名 <span class="keyword">ADD</span> <span class="keyword">CONSTRAINT</span> 约束名 FOREIGN <span class="keyword">KEY</span>(子表外键)</div><div class="line"><span class="keyword">REFERENCES</span> 主表名称(主表主键);</div></pre></td></tr></table></figure>
+</li>
+<li><p>自定义完整性约束:借助于数据库规则，存储过程，触发器对象进行约束</p>
+</li>
+</ol>
+<h3 id="SQL-三种语言与函数"><a href="#SQL-三种语言与函数" class="headerlink" title="SQL-三种语言与函数"></a>SQL-三种语言与函数</h3><ol>
+<li><p>DDL：数据定义语言，创建数据库，创建数据库表，创建视图</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--创建表空间：</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLESPACE</span> 表空间名称</div><div class="line"><span class="keyword">DATAFILE</span> <span class="string">'表空间数据文件路径和名称'</span> <span class="keyword">size</span>[K|M]文件大小</div><div class="line"><span class="keyword">AUTOEXTEND</span> [<span class="keyword">OFF</span>|<span class="keyword">ON</span>]启动用或禁用文件扩展);</div><div class="line"><span class="comment">--创建用户</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> 用户名 <span class="keyword">BY</span> 口令</div><div class="line"><span class="keyword">DEFAULT</span> <span class="keyword">TABLESPACE</span> 表空间名</div><div class="line"><span class="keyword">TEMPORARY</span> <span class="keyword">TABLESPACE</span> 临时表空间名</div><div class="line"><span class="keyword">QUOTA</span>  空间大小 <span class="keyword">ON</span> 空间名称;</div><div class="line"><span class="comment">--授予权限</span></div><div class="line"><span class="keyword">GRANT</span> 角色 <span class="keyword">TO</span> 用户名;</div><div class="line"><span class="comment">--取消授权</span></div><div class="line"><span class="keyword">REVOKE</span> 角色 <span class="keyword">FROM</span> 用户名;</div><div class="line">##(常用角色:CONNECT,RESOURCE,DBA)</div><div class="line">##(授予所有权限：ALL PRIVILEGES)</div><div class="line"><span class="comment">--创建表</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> 表名(字段名称 字段类型,字段名称 字段类型);</div><div class="line"><span class="comment">--查看表结构</span></div><div class="line">DESC 表名;</div></pre></td></tr></table></figure>
+</li>
+<li><p>DML：数据操作语言，操作数据库对象所包括的数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--插入数据</span></div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 表名 (列名,列名,列名...) <span class="keyword">VALUES</span> (数据值,数据值,数据值...);</div><div class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 表名 <span class="keyword">VALUES</span>(数值,数值,数值);</div><div class="line"><span class="comment">--修改数据</span></div><div class="line"><span class="keyword">UPDATE</span> 表名 <span class="keyword">SET</span> 列名=数值,列名=数值 <span class="keyword">WHERE</span> 条件;</div><div class="line"><span class="comment">--删除数据</span></div><div class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 条件</div><div class="line"><span class="comment">--查询数据</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表名 </div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 条件 <span class="keyword">AND</span> 条件</div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 条件 <span class="keyword">OR</span>  条件</div><div class="line"><span class="comment">--查询字段为空</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 列名 <span class="keyword">IS</span> <span class="literal">NULL</span></div><div class="line"><span class="comment">--查询列中不重复的值</span></div><div class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> 列名 <span class="keyword">FROM</span> 表名</div><div class="line"><span class="comment">--模糊查询</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 列名 <span class="keyword">like</span> <span class="string">'李%'</span>; (任意匹配多个字符)</div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 列名 <span class="keyword">like</span> <span class="string">'李_'</span>; (任意匹配单个字符)</div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 列名 <span class="keyword">BETWEEN</span> 数值 <span class="keyword">AND</span> 数值; (在之间的数值)</div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 列名 <span class="keyword">IN</span>（<span class="string">'数值'</span>,<span class="string">'数值'</span>,<span class="string">'数值'</span>）;(查询指定)</div><div class="line"><span class="comment">--对表和列指定别名</span></div><div class="line"><span class="keyword">SELECT</span> 列名 <span class="keyword">AS</span> 别名,列名 <span class="keyword">AS</span> 别名 <span class="keyword">FROM</span> 表名 <span class="keyword">AS</span> 别名; (AS可以不写)</div><div class="line"><span class="comment">--排序</span></div><div class="line">ORDER BY 依据字段 ASC|DESC;升序|降序排列 (默认就是升序)</div></pre></td></tr></table></figure>
+</li>
+<li><p>DCL：数据控制语言，用户角色授权，事务控制</p>
+</li>
+<li>Oracle常用函数<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--字符函数</span></div><div class="line">CONCAT(参数1，参数2)函数</div><div class="line"><span class="comment">--接收两个参数，将第一个参数连接到第一个参数末尾，也可以是使用'||'符号表示。</span></div><div class="line"><span class="comment">--第一个参数为null则返回第二个，第二个参数为null则返回第一个，都为null则返回null。</span></div><div class="line">例：<span class="keyword">SELECT</span> <span class="keyword">NAME</span>,<span class="keyword">CONCAT</span>(PRICE,<span class="string">'元'</span>) <span class="keyword">FROM</span> 表;</div><div class="line"></div><div class="line"></div><div class="line">NVL(参数1，参数2)函数</div><div class="line"><span class="comment">--第一个个参数为空时，返回第二个参数</span></div><div class="line">例：<span class="keyword">SELECT</span> <span class="keyword">NAME</span>,NVL(<span class="keyword">CONTENT</span><span class="string">'暂无信息'</span>) <span class="keyword">FROM</span> 表;</div><div class="line"></div><div class="line"><span class="comment">--数字函数</span></div><div class="line">TRUNC(数值，截取的位数)函数</div><div class="line"><span class="comment">--截取为负时往小数点前截取 为正往小数点后截取,可以只有数值参数，且截取位数为0。</span></div><div class="line">例：<span class="keyword">SELECT</span> TRUNC(<span class="number">45.926</span>,<span class="number">2</span>) <span class="keyword">FROM</span> 表;</div><div class="line">返回结果45.92</div><div class="line"></div><div class="line">ROUND(参数，位数)函数</div><div class="line"><span class="comment">--四舍五入 不设位数取整</span></div><div class="line">例：<span class="keyword">SELECT</span> <span class="keyword">ROUND</span>(<span class="number">45.926</span>,<span class="number">2</span>) <span class="keyword">FROM</span> 表;</div><div class="line">返回结果45.93</div><div class="line"></div><div class="line"><span class="comment">--日期函数</span></div><div class="line">SYSDATE函数</div><div class="line"><span class="comment">--返回当前系统时间</span></div><div class="line">例：<span class="keyword">SELECT</span> <span class="keyword">SYSDATE</span> <span class="keyword">FROM</span> 表</div><div class="line">返回结果：当前时间</div><div class="line"></div><div class="line"><span class="keyword">EXTRACT</span>(<span class="keyword">YEAR</span> <span class="keyword">FROM</span> <span class="keyword">SYSDATE</span>)函数</div><div class="line"><span class="comment">--返回日期中的部分日期值</span></div><div class="line">例：<span class="keyword">SELECT</span> <span class="keyword">EXTRACT</span>(DAT <span class="keyword">FROM</span> 列)<span class="keyword">FORM</span> 表;</div><div class="line">返回结果：列中日期中的日</div><div class="line"></div><div class="line"><span class="comment">--转换函数</span></div><div class="line">TO_CHAR(日期数据,日期格式)函数</div><div class="line"><span class="comment">--转换日期为字符串</span></div><div class="line"></div><div class="line">TO_DATE(日期类型日期，日期类型)函数</div><div class="line"><span class="comment">--日期字符串转日期格式</span></div><div class="line">例：<span class="keyword">SELECT</span> TO_CHAR(列,<span class="string">'YYYY-MM-DD'</span>)<span class="keyword">FORM</span> 表；</div><div class="line">返回结果：格式化的日期字符串</div><div class="line"></div><div class="line"><span class="keyword">TO_DATE</span>(字符串类型日期,<span class="string">'日期类型'</span>)</div><div class="line"><span class="comment">--日期字符串转为日期类型</span></div><div class="line">例：<span class="keyword">SELECT</span> TO_CHAR(日期,<span class="string">'YYYY-MM-DD'</span>)<span class="keyword">FORM</span> 表；</div><div class="line">返回结果：日期类型日期</div><div class="line"></div><div class="line"><span class="comment">--分组(以指定列分组，分组单独使用无实际意义，一般搭配聚合函数使用)</span></div><div class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> 列名 </div><div class="line"></div><div class="line"><span class="comment">--聚合函数</span></div><div class="line"><span class="keyword">sum</span>(列名)函数</div><div class="line"><span class="comment">--求和</span></div><div class="line"><span class="keyword">count</span>(列名)函数</div><div class="line"><span class="comment">--列总行数</span></div><div class="line"><span class="keyword">MAX</span>(列名)</div><div class="line"><span class="comment">--列中最大值</span></div><div class="line"></div><div class="line">例：<span class="keyword">SELECT</span> <span class="keyword">SUM</span>(PRICE),<span class="keyword">ID</span> <span class="keyword">FORM</span> 表 <span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">ID</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="高级查询"><a href="#高级查询" class="headerlink" title="高级查询"></a>高级查询</h3><ol>
+<li><p>子查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--单行子查询</span></div><div class="line"><span class="keyword">SELECT</span> UNAME,SEX <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> PHONE = (<span class="keyword">SELECT</span> PHONE <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> CITY=‘<span class="keyword">NEW</span> YORK’);</div><div class="line"><span class="comment">--多行子查询</span></div><div class="line"><span class="keyword">SELECT</span> UNAME,SEX <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> PHONE <span class="keyword">IN</span> (<span class="keyword">SELECT</span> PHONE <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> CITY <span class="keyword">LIKE</span> ‘A%’)；</div><div class="line"><span class="comment">--多列子查询</span></div><div class="line"><span class="keyword">SELECT</span> UNAME,SEX <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> PHONE <span class="keyword">WHERE</span> (DEPTNO,SAL) <span class="keyword">IN</span> (<span class="keyword">SELECT</span> DEPTNO,<span class="keyword">MAX</span>(SAL) <span class="keyword">FROM</span> 表 <span class="keyword">GROUP</span> <span class="keyword">BY</span> DEPTNO);</div><div class="line"><span class="comment">--1.内联视图子查询</span></div><div class="line"><span class="keyword">SELECT</span> UNAME,SEX <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> UNAME,JOB,SAL <span class="keyword">FROM</span> 表 <span class="keyword">ORDER</span> <span class="keyword">BY</span> SAL)</div><div class="line"><span class="comment">--2.内联视图子查询</span></div><div class="line"><span class="keyword">SELECT</span> UNAME,SEX <span class="keyword">FROM</span> (<span class="keyword">SELECT</span> UNAME,JOB,SAL <span class="keyword">FROM</span> 表 <span class="keyword">ORDER</span> <span class="keyword">BY</span> SAL <span class="keyword">WHERE</span> <span class="keyword">ROWNUM</span>==<span class="number">5</span>);</div><div class="line"><span class="comment">--在HAVING子句中使用子查询</span></div><div class="line"><span class="keyword">SELECT</span> UNAME,JOB,<span class="keyword">AVG</span>(SAL) <span class="keyword">FROM</span> 表 <span class="keyword">GROUP</span> <span class="keyword">BY</span> JOB <span class="keyword">HAVING</span> <span class="keyword">AVG</span>(SAL)=(<span class="keyword">SELECT</span> SAL <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> <span class="keyword">NAME</span>=‘MARTIN’);   </div><div class="line"><span class="comment">--使用ROWNUM查询</span></div><div class="line"><span class="keyword">SELECT</span> UNAME,JOB <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> <span class="keyword">ROWNUM</span>=<span class="number">6</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>分页查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--使用内连接查询</span></div><div class="line"><span class="keyword">SELECT</span> A.UID,A.UNAME,B.UNAME <span class="keyword">FROM</span> 表 A,表<span class="number">2</span> B <span class="keyword">WHERE</span> A.UID=B.UID <span class="keyword">AND</span> B.UNAME=<span class="string">'图书'</span>;</div><div class="line"></div><div class="line"><span class="comment">--使用外连接查询</span></div><div class="line"><span class="comment">--左外连接(以左表记录为基准，右表记录和左表记录根据连接条件匹配，匹配上追加右表记录，匹配不上右边为空填充)</span></div><div class="line"><span class="keyword">SELECT</span> A.UNAME,.B.TEL,B.UID,CREATEETIME <span class="keyword">FROM</span> 表 A <span class="keyword">LEFT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> 表<span class="number">2</span> B <span class="keyword">ON</span> A.UID=B.UID;</div><div class="line"><span class="comment">--左外连接用'+'符号代替关键字Oracle写法</span></div><div class="line"><span class="keyword">SELECT</span> A.UNAME,.B.TEL,B.UID,CREATEETIME <span class="keyword">FROM</span> 表 A,表<span class="number">2</span> B <span class="keyword">WHERE</span> A.UID=B.UID(+);</div><div class="line"><span class="comment">--右外连接</span></div><div class="line"><span class="keyword">SELECT</span> A.UNAME,.B.TEL,B.UID,CREATEETIME <span class="keyword">FROM</span> 表 A <span class="keyword">RIGHT</span> <span class="keyword">OUTER</span> <span class="keyword">JOIN</span> 表<span class="number">2</span> B <span class="keyword">ON</span> A.UID=B.UID;</div><div class="line"><span class="comment">--右外连接用'+'符号代替关键字Oracle写法</span></div><div class="line"><span class="keyword">SELECT</span> A.UNAME,.B.TEL,B.UID,CREATEETIME <span class="keyword">FROM</span> 表 A,表<span class="number">2</span> B <span class="keyword">WHERE</span> A.UID(+)=B.UID;</div></pre></td></tr></table></figure>
+</li>
+<li><p>集合查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--交集（返回俩个查询共有的记录）</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">WHERE</span> 表 <span class="built_in">NUMBER</span>&gt;<span class="number">200</span> </div><div class="line"><span class="keyword">INTERSECT</span> </div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表 <span class="keyword">GROUP</span> <span class="keyword">BY</span> USER_ID <span class="keyword">HAVING</span> <span class="keyword">SUM</span>(<span class="built_in">NUMBER</span>)&gt;<span class="number">500</span>;</div><div class="line"><span class="comment">--并集（返回查询的所有记录，UNION会去除重复同时按第一个查询第一列升序排列，而UNION ALL则没有）</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">WHERE</span> 表 <span class="built_in">NUMBER</span>&gt;<span class="number">200</span> </div><div class="line"><span class="keyword">UNION</span> ALL</div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表 <span class="keyword">GROUP</span> <span class="keyword">BY</span> USER_ID <span class="keyword">HAVING</span> <span class="keyword">SUM</span>(<span class="built_in">NUMBER</span>)&gt;<span class="number">500</span>;</div><div class="line"><span class="comment">--补给（返回第一个查询减速出的记录减去第二个查询检索出的记录之后所剩余的记录）</span></div><div class="line"><span class="keyword">SELECT</span> UID <span class="keyword">FROM</span> 表</div><div class="line"><span class="keyword">MINUS</span></div><div class="line"><span class="keyword">SELECT</span> PROD_ID <span class="keyword">FROM</span> 表<span class="number">2</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="游标"><a href="#游标" class="headerlink" title="游标"></a>游标</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--显式游标</span></div><div class="line">CURSOR 游标名 IS <span class="keyword">SELECT</span>语句;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">    <span class="comment">--打开游标</span></div><div class="line">    <span class="keyword">OPEN</span> 游标名</div><div class="line">    <span class="comment">--提取游标</span></div><div class="line">    <span class="keyword">FETCH</span> 游标名 <span class="keyword">INTO</span> 变量列表</div><div class="line">    <span class="comment">--关闭游标</span></div><div class="line">    <span class="keyword">CLOSE</span> 游标名</div><div class="line"><span class="keyword">END</span>;</div><div class="line"><span class="comment">--使用循环游标简化游标读取</span></div><div class="line"><span class="keyword">DECLARE</span> <span class="comment">--1.声明</span></div><div class="line">	<span class="keyword">CURSOR</span> 游标名 <span class="keyword">IS</span> <span class="keyword">SELECT</span>语句; <span class="comment">--2.定义游标绑定结果集</span></div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">FOR</span> 自定变量 <span class="keyword">IN</span> 游标名 <span class="keyword">LOOP</span> <span class="comment">--3.自定义记录类型的变量</span></div><div class="line">    DBMS_OUTPUT.PUT_LINE(变量.字段名) <span class="comment">--4.输出显示</span></div><div class="line">	<span class="keyword">END</span> <span class="keyword">LOOP</span>;</div><div class="line"><span class="keyword">END</span>;</div><div class="line"></div><div class="line"><span class="comment">--隐式游标</span></div><div class="line"><span class="comment">--(和显式相比</span></div><div class="line"><span class="comment">--1.不用声明游标 </span></div><div class="line"><span class="comment">--2.不用打开和关闭游标 </span></div><div class="line"><span class="comment">--3.必须使用INTO子句，</span></div><div class="line"><span class="comment">--4.结果只能是一条)</span></div><div class="line">例：</div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">	uname VARCHAR2(<span class="number">20</span>) <span class="comment">--定义变量</span></div><div class="line">	department_name VARCHAR2(<span class="number">20</span>);</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">SELECT</span> uname,department_name <span class="keyword">into</span> uname,department_name <span class="keyword">FROM</span> 表<span class="number">1</span> e,表<span class="number">2</span> d <span class="keyword">WHERE</span> e.dep_id=a.dep_id <span class="keyword">AND</span> e.id=<span class="number">1</span>;</div><div class="line">	DBMS_OUTPUT.PUT_LINE(uname||'在'||department_name); <span class="comment">--输出</span></div><div class="line"><span class="keyword">END</span>;</div><div class="line"></div><div class="line"><span class="comment">--强类型REF动态游标(关联的查询必须与返回相同)</span></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">	<span class="keyword">TYPE</span> 类型名 <span class="keyword">IS</span> <span class="keyword">REF</span> <span class="keyword">CURSOR</span>; <span class="comment">--1.定义动态游标类型</span></div><div class="line">	RETURN 返回类型%ROWTYPE; <span class="comment">--2.返回表结构类型</span></div><div class="line">	游标名 游标类型名 <span class="comment">--3.根号有动态游标类型定义动态游标</span></div><div class="line">	变量 返回类型%ROWTYPE; <span class="comment">--4.定义变量设为表结构类型</span></div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">OPEN</span> 游标名 <span class="keyword">FOR</span> <span class="keyword">SELECT</span>语句; <span class="comment">--5.关联查询语句</span></div><div class="line">	LOOP</div><div class="line">		FETCH 游标名 INTO 变量; <span class="comment">--6.提取游标数据并逐条赋值,游标指针向后移动给变量</span></div><div class="line">		EXIT WHEN 游标名%NOTFOUND;<span class="comment">--7.设置退出循环条件</span></div><div class="line">		DBMS_OUTPUT.PUT_LINE(游标名%ROWCOUNT||''||变量.字段名); <span class="comment">--8.如果不为空则输出</span></div><div class="line">	<span class="keyword">END</span> <span class="keyword">LOOP</span>;</div><div class="line"><span class="keyword">END</span>;</div><div class="line"><span class="comment">--弱类型REF动态游标(可以为任何查询语句所打开)    </span></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">	<span class="keyword">TYPE</span> 类型名 <span class="keyword">IS</span> <span class="keyword">REF</span> <span class="keyword">CURSOR</span>; <span class="comment">--定义动态游标类型</span></div><div class="line">	游标名 游标类型名; <span class="comment">--根号有动态游标类型定义动态游标</span></div><div class="line">	变量 VARCHAR2(20);</div><div class="line">	变量 NUMBER;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">OPEN</span> 游标名 <span class="keyword">FOR</span> <span class="keyword">SELECT</span> uid,uname <span class="keyword">FROM</span> 表;</div><div class="line">	FETCH 游标名 INTO 变量1,变量2;    </div><div class="line">	WHILE 游标名%FOUND LOOP <span class="comment">--循环读取游标</span></div><div class="line">	DBMS_OUTPUT.PUT_LINE('#'||变量1||':'||变量2); --输出</div><div class="line">	FETCH  游标名 INTO 变量1,变量2; <span class="comment">--提取第二条内容</span></div><div class="line">	<span class="keyword">END</span> <span class="keyword">LOOP</span>;</div><div class="line">	CLOSE 游标名;</div><div class="line"><span class="keyword">END</span>;</div></pre></td></tr></table></figure>
+<h3 id="动态SQL"><a href="#动态SQL" class="headerlink" title="动态SQL"></a>动态SQL</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--动态查询</span></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">	sql_stmt VARCHAR2(<span class="number">200</span>); <span class="comment">--定义变量存储查询语句</span></div><div class="line">	emp_id NUMBER(10):='&amp;emp_id';</div><div class="line">	emp_rec employees%ROWTYPE;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	sql_stmt:=<span class="string">'SELECT * FROM employees WHERE id=:id'</span>;</div><div class="line">	<span class="keyword">EXECUTE</span> <span class="keyword">IMMEDIATE</span> sql_stmt <span class="keyword">INTO</span> emp_rec <span class="keyword">USING</span> emp_id; <span class="comment">--执行查询语句</span></div><div class="line">	DBMS_OUTPUT.PUT_LINE(emp_rec.字段); <span class="comment">--输出</span></div><div class="line"><span class="keyword">END</span>;</div><div class="line"><span class="comment">--动态插入</span></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">	sql_stmt VARCHAR2(<span class="number">200</span>);</div><div class="line">	emp_id NUMBER(10):='&amp;emp_id';</div><div class="line">	emp_rec employees%ROWTYPE;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	sql_stmt:=<span class="string">'INSERT INTO employees(id) values(:id)'</span>;</div><div class="line">	<span class="keyword">EXECUTE</span> <span class="keyword">IMMEDIATE</span> sql_stmt <span class="keyword">USING</span> emp_id; <span class="comment">--执行查询语句</span></div><div class="line"><span class="keyword">END</span>;</div><div class="line"></div><div class="line"><span class="comment">--使用动态游标使用动态SQL,返回多条记录</span></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">	e_id <span class="built_in">NUMBER</span>(<span class="number">10</span>);<span class="comment">--定义变量</span></div><div class="line">    e_name VARCHARE2(50);</div><div class="line">    S_SALARY NUMBER(8);</div><div class="line">    type c_type IS REF CURSOR; <span class="comment">--定义游标类型</span></div><div class="line">    cur c_type; <span class="comment">--定义游标</span></div><div class="line">    p_salary NUMBER;='&amp;p_salary';</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">OPEN</span> cur <span class="keyword">FOR</span></div><div class="line">	<span class="string">'SELECT e.id,e.name,e.salaryvalue FROM employees e,salary s WHERE e.id=s.employeeid AND s.salaryvalue&gt;:sal ORDER BY id ASC'</span> </div><div class="line">	<span class="keyword">USING</span> p_salary;</div><div class="line">	DBMS_OUTPUT.PUT_LINE('薪水大于'||p_salary||'的员工有:');</div><div class="line">	LOOP</div><div class="line">	FETCH cur INTO e_id,e_name,s_salary;</div><div class="line">	EXIT WHEN cur%NOTFOUND;</div><div class="line">	DBMS_OUTPUT.PUT_LINE('编号:'||e_id||'姓名'||e_name||'薪水'||s_salary);</div><div class="line">	<span class="keyword">END</span> <span class="keyword">LOOP</span>;</div><div class="line">	CLOSE cur;</div><div class="line"><span class="keyword">END</span>;</div><div class="line"><span class="comment">--动态创建返回多行的SQL语句</span></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">	t_name VARCHAR2(<span class="number">10</span>);</div><div class="line">	t_course1 NUMBER;</div><div class="line">	t_course2 NUMBER;</div><div class="line">	t_course3 NUMBER;</div><div class="line">	type c_type IS REF CURSOR;</div><div class="line">	cur c_type;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">OPEN</span> cur <span class="keyword">FOR</span></div><div class="line">	<span class="string">'SELECT t_name,</span></div><div class="line"><span class="string">	sum(case t_course WHEN'''</span>||<span class="string">'语文'</span>||<span class="string">''' THEN t_score ELSE 0 END);</span></div><div class="line"><span class="string">	sum(case t_course WHEN'''</span>||<span class="string">'数学'</span>||<span class="string">''' THEN t_score ELSE 0 END);</span></div><div class="line"><span class="string">	sum(case t_course WHEN'''</span>||<span class="string">'物理'</span>||<span class="string">''' THEN t_score ELSE 0 END)</span></div><div class="line"><span class="string">	FROM tb GROUP BY t_name'</span>;</div><div class="line">	LOOP</div><div class="line">		FETCH cur INTO t_name,t_course1,t_course2,t_course3;</div><div class="line">		EXIT WHEN cur%NOTFOUND;</div><div class="line">		DBMS_OUTPUT.PUT_LINE(t_name||'语文't_course1||'数学't_course2||'物理'||t_course3);</div><div class="line">	<span class="keyword">END</span> <span class="keyword">LOOP</span>;</div><div class="line">	CLOSE cur;</div><div class="line"><span class="keyword">END</span>;</div></pre></td></tr></table></figure>
+<h3 id="事务处理"><a href="#事务处理" class="headerlink" title="事务处理"></a>事务处理</h3><ol>
+<li><p>ACID<br>事务处理是指作为单个逻辑工作单元执行的一系列操作，要么完全地执行，要么完全地不执行，一个逻辑工作单元要成为事务，必须满足所谓的ACID（原子性、一致性、隔离性和持久性）属性。</p>
+<ul>
+<li><strong>原子性(Atomicity)</strong>：事务是一个完整的操作，事务的各步骤操作是不可分的，要么都执行要么都不执行。</li>
+<li><strong>一致性(Consistency)</strong>：在事务操作前后，数据必须处于一致状态。</li>
+<li><strong>隔离性(Isolation)</strong>：对数据进行修改的所有并发事务是彼此隔离的，这表明事务必须是独立的，它不应该以任何方式依赖于或影响其他事务</li>
+<li><strong>持久性(Durability)</strong>：事务完成后，它对数据库的修改被永久保持。<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">例：</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">UPDATE</span> 表 <span class="keyword">SET</span> 列=列+<span class="number">1000</span> <span class="keyword">WHERE</span> UID=<span class="string">'1001'</span>;</div><div class="line">	<span class="keyword">UPDATE</span> 表 <span class="keyword">SET</span> 列=列<span class="number">-1000</span> <span class="keyword">WHERE</span> UID=<span class="string">'1002'</span>;</div><div class="line"><span class="keyword">COMMIT</span>; <span class="comment">--提交事务</span></div><div class="line">	EXCEPTION <span class="comment">--处理异常</span></div><div class="line">	WHEN OTHERS THEN </div><div class="line">	DBMS_OUTPUT.PUT.LINE('转账异常,停止转账'); <span class="comment">--输出提示</span></div><div class="line">	<span class="keyword">ROLLBACK</span>; <span class="comment">--事务回滚</span></div><div class="line"><span class="keyword">END</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>读取异常情况</p>
+<ul>
+<li><strong>脏读</strong>：一个事务读取了另一个事务未提交的数据。<br>不可重复读：一个事务再次读取之前曾读取过的数据时，发现数据已经被另一个已提交的事务修改。</li>
+<li><strong>幻读</strong>：一个事务根据相同德尔查询条件，重新执行查询，返回的记录中包含前一次执行查询的返回的记录不同的行。<br><img src="/img/oracle_001001.jpg" alt="这里写图片描述"><br>Oracle数据库支持Read Committed和Serializable两种隔离级别</li>
+</ul>
+</li>
+<li><p>事务控制语句</p>
+<ul>
+<li><strong>COMMIT</strong> ：提交事务，既把事务中对数据库的修改进行永久保存。</li>
+<li><strong>ROLLBACK</strong> ：回滚事务，既取消对数据库所做的任何修改</li>
+<li><strong>SAVEPOINT</strong> ：在事务中创建存储点</li>
+<li><strong>ROLLBACK TO</strong> ：将事务回滚到存储点。</li>
+<li><strong>SET TRANSACTION</strong> ：设置事务的属性,设置事务属性只能在第一行<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--设置事务隔离级别属性</span></div><div class="line"><span class="keyword">SET</span> <span class="keyword">TRANSACTION</span> <span class="keyword">READ</span> <span class="keyword">ONLY</span></div><div class="line"><span class="keyword">SET</span> <span class="keyword">TRANSACTION</span> <span class="keyword">ISOLATION</span> <span class="keyword">LEVEL</span> <span class="keyword">READ</span> COMMITTED</div><div class="line"><span class="keyword">SET</span> <span class="keyword">TRANSACTION</span> <span class="keyword">ISOLATION</span> <span class="keyword">LEVEL</span> <span class="keyword">SERIALIZABLE</span></div><div class="line"></div><div class="line">例：</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">UPDATE</span> 表 <span class="keyword">SET</span> 列=列+<span class="number">1000</span> <span class="keyword">WHERE</span> UID=<span class="string">'1001'</span>;</div><div class="line">	<span class="keyword">SAVEPOINT</span> add_account_a; <span class="comment">--创建存储点</span></div><div class="line">	<span class="keyword">UPDATE</span> 表 <span class="keyword">SET</span> 列=列<span class="number">-1000</span> <span class="keyword">WHERE</span> UID=<span class="string">'1002'</span>;</div><div class="line"><span class="keyword">COMMIT</span>; <span class="comment">--提交事务</span></div><div class="line">	EXCEPTION <span class="comment">--处理异常</span></div><div class="line">	WHEN OTHERS THEN </div><div class="line">	DBMS_OUTPUT.PUT.LINE('转账异常,停止转账'); <span class="comment">--输出提示</span></div><div class="line">	<span class="keyword">ROLLBACK</span> <span class="keyword">TO</span> add_account_a; <span class="comment">--事务回滚到存储点</span></div><div class="line"><span class="keyword">END</span>;</div><div class="line"></div><div class="line">例：</div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">PROCEDURE</span> 存储过程名(参数<span class="number">1</span> <span class="keyword">IN</span> VARCHAR2,参数<span class="number">2</span> <span class="keyword">IN</span> VARCHAR2,参数<span class="number">3</span> <span class="keyword">IN</span> <span class="built_in">NUMBER</span>);</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	DBMS_OUTPUT.PUT.LINE(<span class="string">'转账开始'</span>);</div><div class="line">	<span class="keyword">UPDATE</span> 表 <span class="keyword">SET</span> 列=列-参数<span class="number">3</span> <span class="keyword">WHERE</span> UID=参数<span class="number">1</span>;</div><div class="line">	<span class="keyword">UPDATE</span> 表 <span class="keyword">SET</span> 列=列+参数<span class="number">3</span> <span class="keyword">WHERE</span> UID=参数<span class="number">2</span>;</div><div class="line">	<span class="keyword">COMMIT</span>;</div><div class="line">	DBMS_OUTPUT.PUT.LINE('转账成功');</div><div class="line">	EXCEPTION <span class="comment">--处理异常</span></div><div class="line">	WHEN OTHERS THEN </div><div class="line">	DBMS_OUTPUT.PUT.LINE('转账异常,停止转账');</div><div class="line">	<span class="keyword">ROLLBACK</span>;</div><div class="line"><span class="keyword">END</span> 存储过程名;</div><div class="line"></div><div class="line"><span class="comment">--调用存储过程</span></div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	存储过程名(<span class="string">'参数1'</span>,<span class="string">'参数2'</span>,参数<span class="number">3</span>);</div><div class="line"><span class="keyword">END</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><p>1.Oracle锁的基本分为两类：</p>
+<ul>
+<li><strong>共享锁(也称读锁,s锁)</strong></li>
+<li><strong>排他锁(也称写锁,x锁)</strong> : 按保护内容来分分为DDL锁和DML锁以及内部所和闩</li>
+<li><strong>DML</strong> : 锁用来保护数据的完整性和一致性，包括TX锁,和TM锁，</li>
+<li><strong>TX锁(事务锁)</strong> ：事务发起第一个修改数据的语句时会自动获得TX锁，而且会一直持续这个锁，直到书屋执行提交或回滚，TX锁用作一种排队机制，使得其他会话可以等待这个事务执行，事务中修改或通过悲观锁选择的每一行都会指向该事务的一个相关TX锁。</li>
+<li><strong>TM锁(表级锁)</strong> ： TM锁用于确保在修改表的内容时，表的结构不会改变当一个会话开始更新一个表时，会自动获得这个表的TM锁，这样能防止另一个会话在该表上执行DROP或者ALTER语句，删除该表或更改表的结构。</li>
+<li><strong>DDL锁</strong> : 用来保护数据对象结构定义,在Oracle中DDL语句包装在隐式提交中来执行<br>内部所用来保护数据库内部数据结构，闩是一种锁，设计为只保持极短的时间，用于保护某些内存结构<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--悲观锁使用(本次事务提交之前，外界无法修改这些记录)。</span></div><div class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> UID=<span class="string">'101'</span> <span class="keyword">FOR</span> <span class="keyword">UPDATE</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="存储过程和函数"><a href="#存储过程和函数" class="headerlink" title="存储过程和函数"></a>存储过程和函数</h3><ol>
+<li><p><strong>创建储存过程</strong><br>存储过程是一个预编译的SQL语句，是执行特定任务的子程序，优点是模块化，重用性，可维护性，安全性，执行速度要比单纯SQL语句快。<br>调用程序是通过参数向被调用存储程序传值的，参数模式有三种<code>IN</code>、<code>OUT</code>、<code>IN OUT</code>。默认是IN未指定则为IN模式，返回调用环境之前必须先给OUT或IN OUT赋值，可以在参数列表给IN赋默认值，但是不能给OUT和IN OUT赋默认值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--创建存储过程</span></div><div class="line"><span class="comment">--IN参数模式</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">PROCEDURE</span> </div><div class="line">	存储过程名(参数 <span class="built_in">NUMBER</span>)</div><div class="line"><span class="keyword">AS</span></div><div class="line">	变量 VARCHAR2(<span class="number">20</span>);</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">SELECT</span> UNAME <span class="keyword">INTO</span> 变量 <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> UID=<span class="number">1</span>; <span class="comment">--找到的信息存入变量中</span></div><div class="line">	DBMS_OUTPUT.PUT_LINE('员工的姓名是'||变量);</div><div class="line">	EXCEPTION <span class="comment">--异常处理</span></div><div class="line">	WHEN NO_DATA_FOUND THEN <span class="comment">--如果未找到记录</span></div><div class="line">	DBMS_OUTPUT.PUT_LINE('员工编号未找到');</div><div class="line"><span class="keyword">END</span> 存储过程名;</div><div class="line"></div><div class="line"><span class="comment">--OUT参数模式</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">PROCEDURE</span> </div><div class="line">	存储过程名(参数 <span class="keyword">OUT</span> <span class="built_in">NUMBER</span>)</div><div class="line"><span class="keyword">AS</span></div><div class="line">	变量 VARCHAR2(<span class="number">20</span>);</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	参数:=<span class="number">0</span>;</div><div class="line">	<span class="keyword">SELECT</span> UNAME <span class="keyword">INTO</span> 变量 <span class="keyword">FROM</span> 表 <span class="keyword">WHERE</span> UID=<span class="number">1</span>;</div><div class="line">	参数:=1+参数;</div><div class="line"><span class="keyword">END</span> 存储过程名;</div><div class="line"><span class="comment">--调用</span></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">aa <span class="built_in">NUMBER</span>;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	aa:=<span class="number">0</span>;</div><div class="line">	存储过程(aa);</div><div class="line">	DEMS_OUTPUT.PUT_LINE(aa);</div><div class="line"><span class="keyword">END</span>;</div><div class="line"></div><div class="line"><span class="comment">--IN OUT参数模式</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">PROCEDURE</span> </div><div class="line">	存储过程名(参数 <span class="built_in">NUMBER</span>,参数<span class="number">2</span> <span class="keyword">OUT</span> <span class="built_in">NUMBER</span>)</div><div class="line"><span class="keyword">AS</span></div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">SELECT</span> <span class="keyword">SUM</span>(参数<span class="number">2</span>) <span class="keyword">INTO</span> 参数<span class="number">2</span> <span class="keyword">FROM</span> 表；</div><div class="line">	DBMS_OUTPUT.PUT_LINE(<span class="string">'总数为:'</span>||参数<span class="number">2</span>);</div><div class="line"><span class="keyword">END</span> 存储过程名;</div><div class="line"><span class="comment">--调用</span></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">x <span class="built_in">NUMBER</span>;<span class="comment">--定义变量获取存储过程输出参数</span></div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	x:=<span class="number">0</span>;</div><div class="line">	存储过程(输入参数,x(出处参数));</div><div class="line">	DBMS_OUTPUT.OUT_LINE(t);</div><div class="line"><span class="keyword">END</span>;</div><div class="line"></div><div class="line"><span class="comment">--在窗口显示服务器输出结果    </span></div><div class="line"><span class="keyword">SET</span> SERVEROUTPUT <span class="keyword">ON</span>;</div><div class="line"><span class="comment">--调用存储过程</span></div><div class="line"><span class="keyword">EXECUTE</span> 存储过程名(参数);</div><div class="line"><span class="comment">--存储过程的授权</span></div><div class="line"><span class="keyword">GRANT</span> <span class="keyword">EXECUTE</span> <span class="keyword">ON</span> 存储过程名 <span class="keyword">TO</span> 用户; <span class="comment">--被授权用户无权授予别人</span></div><div class="line"><span class="keyword">GRANT</span> <span class="keyword">EXECUTE</span> <span class="keyword">ON</span> 存储过程名 <span class="keyword">TO</span> 用户 <span class="keyword">WITH</span> <span class="keyword">GRANT</span> <span class="keyword">OPTION</span>; <span class="comment">--被授权用户有权授予别人</span></div><div class="line"><span class="comment">--跟踪调试存储过程</span></div><div class="line"><span class="keyword">SHOW</span> <span class="keyword">ERRORS</span> <span class="keyword">PROCEDURE</span>(模块类型) 模块名称;</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>创建函数</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--无参函数创建</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> 函数名</div><div class="line"><span class="keyword">RETURN</span> VARCHAR2 <span class="comment">--指定输出参数类型</span></div><div class="line"><span class="keyword">IS</span></div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">RETURN</span> TO_CHAR(<span class="keyword">sysdate</span>,<span class="string">'yyyy"年"MM"月"DD"日"'</span>);</div><div class="line"><span class="keyword">END</span></div><div class="line"><span class="comment">--无参数函数调用</span></div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	函数名;</div><div class="line"><span class="keyword">END</span>;</div><div class="line"><span class="comment">--无参数函数调用</span></div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	函数名;</div><div class="line"><span class="keyword">END</span>;</div><div class="line"></div><div class="line"><span class="comment">--创建有输入参数函数</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> 函数名(参数 <span class="built_in">DATE</span>)</div><div class="line"><span class="keyword">RETURN</span> <span class="built_in">INTEGER</span></div><div class="line"><span class="keyword">AS</span></div><div class="line">	<span class="keyword">weekday</span> <span class="built_in">INTEGER</span>:=<span class="number">-1</span>;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">SELECT</span> TO_CHAR(p_date,<span class="string">'D'</span>) <span class="keyword">INTO</span> <span class="keyword">weekday</span> <span class="keyword">FROM</span> DUAL;</div><div class="line">    IF weekday=1 OR weekday=7 THEN</div><div class="line">		RETURN 1;</div><div class="line">	ELSE</div><div class="line">    	RETURN 0;</div><div class="line">	<span class="keyword">END</span> <span class="keyword">IF</span>;</div><div class="line"><span class="keyword">END</span></div><div class="line"><span class="comment">--有输入参数函数调用</span></div><div class="line"><span class="keyword">DECLARE</span> </div><div class="line">	vday <span class="built_in">DATE</span>:=<span class="built_in">DATE</span> <span class="string">'2010-11-12'</span>;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	DBMS_OUTPUT.PUT_LINE(func_isholiday(vday));</div><div class="line"><span class="keyword">END</span>;</div><div class="line"></div><div class="line"><span class="comment">--创建输出参数函数</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> 函数名(参数 <span class="built_in">NUMBER</span>,参数<span class="number">2</span> <span class="keyword">OUT</span> VARCHAR2)</div><div class="line">	<span class="keyword">RETURN</span> VARCHAR2</div><div class="line"><span class="keyword">AS</span></div><div class="line">	uname employees.uname%<span class="keyword">type</span>;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	<span class="keyword">SELECT</span> uname,postname <span class="keyword">INTO</span> uname,postname <span class="keyword">FROM</span> 表;</div><div class="line">    RETURN uname;</div><div class="line"><span class="keyword">END</span>;</div><div class="line"><span class="comment">--输入参数函数调用</span></div><div class="line"><span class="keyword">DECLARE</span></div><div class="line">	v_name employees.uname%<span class="keyword">type</span>;</div><div class="line">    v_post post.postname%type;</div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	v_name:=FUNC_GETINFO(<span class="number">2</span>,v_post);</div><div class="line">    DBMS_OUTPUT.PUT_LINE('姓名:'||v_name);</div><div class="line"><span class="keyword">END</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>存储过程和函数的区别:<br><img src="/img/oracle_001002.jpg" alt="这里写图片描述"><br>存储过程使用限制少，功能强大，不能直接引用返回值 函数限制多，功能少，可以直接引用返回值， 函数用于负责的数据计算，函数则更为模块化</p>
+<h3 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">TRIGGER</span> 触发器名</div><div class="line"><span class="comment">--↓ 触发器语句</span></div><div class="line"><span class="keyword">BEFORE</span> <span class="comment">--(BEFORE | AFTER | INSTEAD OF)事件发生之前还是之后触发</span></div><div class="line"><span class="keyword">INSERT</span> <span class="comment">--(INSERT | DELETE | UPDATE)指定构成触发器事件的数据库操作类型 </span></div><div class="line"><span class="keyword">OR</span> <span class="keyword">UPDATE</span> <span class="keyword">OF</span> 字段 <span class="keyword">ON</span> employees</div><div class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span> <span class="comment">--行级触发器(指定是否对受影响的每行都执行触发器,不使用则为语句触发器)</span></div><div class="line"><span class="comment">--↑ 触发器语句</span></div><div class="line"><span class="comment">--↓ 限制条件</span></div><div class="line"><span class="keyword">WHEN</span> (New.字段 &lt;&gt;<span class="number">5</span>) <span class="comment">--条件</span></div><div class="line"><span class="comment">--↓ 触发器操作</span></div><div class="line"><span class="keyword">BEGIN</span></div><div class="line">	:New.manager_id:=<span class="number">2</span>;</div><div class="line"><span class="keyword">END</span> 触发器名;</div></pre></td></tr></table></figure>
+<ol>
+<li><p>触发器的类型</p>
+<ul>
+<li><strong>行级触发器</strong> ： 对DML语句影响的每一行执行一次</li>
+<li><strong>语句级触发器</strong> ： 对每个DML语句执行一次</li>
+<li><strong>INSTEAD OF触发器</strong> ： 是在视图上定义的触发器而不是表上，是用来替换所使用实际语句的触发器，可以允许用户修改不能直接使用DML语句修改的视图</li>
+<li><strong>模式触发器</strong> ： 是在模式级的操作上建立的触发器，如CREATE、ALTER、DROP、GRANT、REVOKE和RUNCATE等DDL语句</li>
+<li><strong>数据库触发器</strong> ： 创建在数据库事件上的触发器，包括启动、关闭、服务器错误、登陆和主线等。这些事件都是实例范围的，不予特定的表或视图关联</li>
+</ul>
+</li>
+<li><p>触发器的管理<br>Oracle的触发器有两种状态<code>DISABLED</code>为非启用状态，<code>ENABLED</code>已启用状态，触发器创建会立即生效</p>
+</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">--启动关闭触发器</span></div><div class="line"><span class="keyword">ALTER</span> <span class="keyword">TRIGGER</span> 触发器名称 触发器状态(<span class="keyword">ENABLE</span> | <span class="keyword">DISABLE</span>);</div><div class="line"><span class="comment">--触发器删除</span></div><div class="line"><span class="keyword">DROP</span> <span class="keyword">TRIGGER</span> 触发器名称</div><div class="line"><span class="comment">--查看触发器信息</span></div><div class="line"><span class="keyword">DESC</span> USER_TRIGGERS;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/使用JavaScript的HTML特殊符号转义/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -391,6 +628,360 @@ var _hmt = _hmt || [];
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/JS判断单、多张图片加载完成/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/12/08/JS判断单、多张图片加载完成/" itemprop="url">JS判断单、多张图片加载完成</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-08T15:15:12+08:00">
+                2015-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在实际的运用中有这样一种场景，某资源加载完成后再执行某个操作，例如在做导出时，后端通过打开模板页生成PDF，并返回下载地址。这时前后端通常需要约定一个flag，用以标识模板准备就绪，可以生成PDF了。</p>
+<p>试想，如果模板中有图片，此时如何判断图片是否加载完成？</p>
+<p>在此之前来了解一下jquery的ready与window.onload的区别，ready只是dom结构加载完毕，便视为加载完成。(此时图片没有加载完毕)，onload是指dom的生成和资源完全加载（比如flash、图片）出来后才执行。接下来回到正题，先从单张图片说起。</p>
+<h3 id="单张图片（图片在文档中）"><a href="#单张图片（图片在文档中）" class="headerlink" title="单张图片（图片在文档中）"></a>单张图片（图片在文档中）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML</span></div><div class="line">&lt;img id=<span class="string">'xiu'</span> src=<span class="string">"http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg"</span>&gt;  </div><div class="line"></div><div class="line"><span class="comment">//js</span></div><div class="line"> $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//jquery</span></div><div class="line">    $(<span class="string">'#xiu'</span>).load(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">// 加载完成 </span></div><div class="line">    &#125;);</div><div class="line"></div><div class="line">   <span class="comment">//原生  onload</span></div><div class="line">    <span class="keyword">var</span> xiu = <span class="built_in">document</span>.getElementById(<span class="string">'xiu'</span>)</div><div class="line">    xiu.onload = xiu.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">if</span>(!<span class="keyword">this</span>.readyState||<span class="keyword">this</span>.readyState==<span class="string">'loaded'</span>||<span class="keyword">this</span>.readyState==<span class="string">'complete'</span>)&#123;</div><div class="line">           <span class="comment">// 加载完成 </span></div><div class="line">       &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>注：</p>
+<ul>
+<li>IE8及以下版本不支持onload事件，但支持onreadystatechange事件；</li>
+<li>readyState是onreadystatechange事件的一个状态，值为loaded或complete的时候，表示已经加载完毕。</li>
+<li>以下内容省略兼容</li>
+</ul>
+<h3 id="单张图片（图片动态生成）"><a href="#单张图片（图片动态生成）" class="headerlink" title="单张图片（图片动态生成）"></a>单张图片（图片动态生成）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//js</span></div><div class="line"> <span class="keyword">var</span> xiu = <span class="keyword">new</span> Image()</div><div class="line"> xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></div><div class="line"> xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 加载完成 </span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="单张图片（结合ES6-Promise）"><a href="#单张图片（结合ES6-Promise）" class="headerlink" title="单张图片（结合ES6 Promise）"></a>单张图片（结合ES6 Promise）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//js</span></div><div class="line"> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">let</span> xiu = <span class="keyword">new</span> Image()</div><div class="line">    xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></div><div class="line">    xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">// 加载完成 </span></div><div class="line">       resolve(xiu)</div><div class="line">    &#125;</div><div class="line"> &#125;).then(<span class="function">(<span class="params">xiu</span>)=&gt;</span>&#123;</div><div class="line"> <span class="comment">//code</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
+<h3 id="多张图片"><a href="#多张图片" class="headerlink" title="多张图片"></a>多张图片</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> img = [],  </div><div class="line">    flag = <span class="number">0</span>, </div><div class="line">    mulitImg = [</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line"> ];</div><div class="line"> <span class="keyword">var</span> imgTotal = mulitImg.length;</div><div class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line">    img[i] = <span class="keyword">new</span> Image()</div><div class="line">    img[i].src = mulitImg[i]</div><div class="line">    img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">//第i张图片加载完成</span></div><div class="line">       flag++</div><div class="line">       <span class="keyword">if</span>( flag == imgTotal )&#123;</div><div class="line">          <span class="comment">//全部加载完成</span></div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="多张图片（结合ES6-Promise-all-）"><a href="#多张图片（结合ES6-Promise-all-）" class="headerlink" title="多张图片（结合ES6 Promise.all()）"></a>多张图片（结合ES6 Promise.all()）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> mulitImg = [</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line">];</div><div class="line"><span class="keyword">let</span> promiseAll = [], img = [], imgTotal = mulitImg.length;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line"> promiseAll[i] = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">	 img[i] = <span class="keyword">new</span> Image()</div><div class="line">	 img[i].src = mulitImg[i]</div><div class="line">	 img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		  <span class="comment">//第i张加载完成</span></div><div class="line">		  resolve(img[i])</div><div class="line">	 &#125;</div><div class="line"> &#125;)</div><div class="line">&#125;</div><div class="line"><span class="built_in">Promise</span>.all(promiseAll).then(<span class="function">(<span class="params">img</span>)=&gt;</span>&#123;</div><div class="line"> <span class="comment">//全部加载完成</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2014/07/11/css中的性能/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/07/11/css中的性能/" itemprop="url">css中的性能</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-07-11T13:00:00+08:00">
+                2014-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="CSS-优化主要是四个方面"><a href="#CSS-优化主要是四个方面" class="headerlink" title="CSS 优化主要是四个方面"></a>CSS 优化主要是四个方面</h3><ol>
+<li>加载性能<br>这个方面相关的 best practice 太多了，网上随便找一找就是一堆资料，比如不要用 import 啊，压缩啊等等，主要是从减少文件体积、减少阻塞加载、提高并发方面入手的，任何 hint 都逃不出这几个大方向。</li>
+<li>选择器性能<br>可以参考 GitHub 的这个分享 <a href="https://speakerdeck.com/jonrohan/githubs-css-performance，但" target="_blank" rel="external">https://speakerdeck.com/jonrohan/githubs-css-performance，但</a> selector 的对整体性能的影响可以忽略不计了，selector 的考察更多是规范化和可维护性、健壮性方面，很少有人在实际工作当中会把选择器性能作为重点关注对象的，但也像 GitHub 这个分享里面说的一样——知道总比不知道好。</li>
+<li>渲染性能<br>渲染性能是 CSS 优化最重要的关注对象。页面渲染 junky 过多？看看是不是大量使用了 text-shadow？是不是开了字体抗锯齿？CSS 动画怎么实现的？合理利用 GPU 加速了吗？什么你用了 Flexible Box Model？有没有测试换个 layout 策略对 render performance 的影响？这个方面搜索一下 CSS render performance 或者 CSS animation performance 也会有一堆一堆的资料可供参考。</li>
+<li>可维护性、健壮性<br>命名合理吗？结构层次设计是否足够健壮？对样式进行抽象复用了吗？优雅的 CSS 不仅仅会影响后期的维护成本，也会对加载性能等方面产生影响。这方面可以多找一些 OOCSS（不是说就要用 OOCSS，而是说多了解一下）等等不同 CSS Strategy 的信息，取长补短。</li>
+</ol>
+<h3 id="提高CSS性能的手段"><a href="#提高CSS性能的手段" class="headerlink" title="提高CSS性能的手段"></a>提高CSS性能的手段</h3><p>首先说说如何提高CSS性能，根据页面的加载性能和CSS代码性能，主要总结有下面几点：</p>
+<ol>
+<li>尽量将样式写在单独的css文件里面，在head元素中引用　　有时候为了图方便或者快速搞定功能，我们可能会直接将样式写在页面的style标签或者直接内联在元素上，这样虽然简单方便，但是非常不利于日后的维护。将代码写成单独的css文件有几点好处：　　(1)内容和样式分离，易于管理和维护　　(2)减少页面体积　　(3)css文件可以被缓存、重用，维护成本降低</li>
+<li>不使用@import　　这条手段已经是众所周知，这里简单提一下，@import影响css文件的加载速度</li>
+<li>避免使用复杂的选择器，层级越少越好　　有时候项目的模块越来越多，功能越来越复杂，我们写的CSS选择器会内套多层，越来越复杂。　　建议选择器的嵌套最好不要超过三层，比如：.header .logo .text{}　　可以优化成.haeder .logo-text{}　　简洁的选择器不仅可以减少css文件大小，提高页面的加载性能，浏览器解析时也会更加高效，也会提高开发人员的开发效率，降低了维护成本。</li>
+<li>精简页面的样式文件，去掉不用的样式　　很多时候，我们会把所有的样式文件合并成一个文件，但是这样有一个问题：很多其他页面的CSS同时引用到当前页面中，而当前页面并没有用到它们，这种情况会造成两个问题：　　(1)样式文件偏大，影响加载速度　　(2)浏览器会进行多余的样式匹配，影响渲染时间。　　正确的处理方法是根据当前页面需要的css去合并那些当前页面用到的CSS文件。　　PS：合并成一个文件有一个优点：样式文件会被浏览器缓存，进入到其他页面样式文件不用再去下载。这条规则应根据场景来区别对待，如果是大项目，应该合并成不同的样式文件，如果是简单的项目，建议合并成一个文件即可。如果无法确认项目规模，建议分开成不同的样式文件，日后要合并也比较方便。</li>
+<li>利用CSS继承减少代码量　　我们知道有一部分CSS代码是可以继承的，如果父元素已经设置了该样式，子元素就不需要去设置该样式，这个也是提高性能的行之有效的方法。　　常见的可以继承的属性比如：　　color，font-size，font-family等等　　不可继承的比如：　　position，display，float等</li>
+</ol>
+<h3 id="提高可维护性的方法"><a href="#提高可维护性的方法" class="headerlink" title="提高可维护性的方法"></a>提高可维护性的方法</h3><p>提高CSS代码的可维护性，简单说就是要让开发人员易于理解CSS代码，容易去修改它，不会破坏原有功能。下面说说一些常用手段。</p>
+<ol>
+<li><p>命名与备注<br>命名是提高代码可读性的第一步，也是及其重要的一步。很多人都有这样的体会：命名是写代码中最让程序员头疼的事情之一，尤其是对母语非英语的开发人员来说，要找一个合适贴切的名字并不容易。提高自己命名的能力，可以多看看别人的代码。下面是CSS中的一些命名相关的建议：</p>
+<div class="note default"><p>头：header<br>内容：content/container<br>尾：footer<br>导航：nav<br>侧栏：sidebar<br>栏目：column　<br>页面外围控制整体佈局宽度：wrapper<br>左右中：left right center<br>登录条：loginbar<br>标志：logo<br>广告：banner　<br>页面主体：main<br>热点：hot<br>新闻：news<br>下载：download<br>子导航：subnav<br>菜单：menu<br>子菜单：submenu<br>搜索：search<br>友情链接：friendlink<br>页脚：footer<br>版权：copyright<br>滚动：scroll<br>内容：content<br>标签：tags<br>文章列表：list<br>提示信息：msg<br>小技巧：tips<br>栏目标题：title<br>加入：joinus<br>指南：guide<br>服务：service<br>注册：regsiter<br>状态：status<br>投票：vote<br>合作伙伴：partner<br>导航：nav<br>主导航：mainnav<br>子导航：subnav<br>顶导航：topnav<br>边导航：sidebar<br>左导航：leftsidebar<br>右导航：rightsidebar<br>菜单：menu<br>子菜单：submenu<br>标题: title<br>摘要: summary<br>(md partial supported) </p></div>
+</li>
+<li><p>提取重复样式<br> 简单说就是提取相同的样式成为一个单独的类再引用，这样不仅可以精简CSS文件大小，而且CSS代码变少，更易于重用和维护。</p>
+</li>
+<li>书写顺序<br>下面是推荐的CSS书写顺序<br>(1)位置属性(position, top, right, z-index, display, float等)<br>(2)大小(width, height, padding, margin)<br>(3)文字系列(font, line-height, letter-spacing, color- text-align等)<br>(4)背景(background, border等)<br>(5)其他(animation, transition等)</li>
+</ol>
+<h3 id="CSS方法论"><a href="#CSS方法论" class="headerlink" title="CSS方法论"></a>CSS方法论</h3><p>什么是CSS方法论呢?简单地说就是一些同行为了提高CSS可维护性、提出的一些编写CSS代码的规范和方法。他们提出了一些概念，这些概念可能听起来很高大上，但是实际你平时可能不知不觉也会用到这些所谓的CSS方法论。下面我简单地介绍下几个比较常见的CSS方法论。</p>
+<h4 id="OOCSS"><a href="#OOCSS" class="headerlink" title="OOCSS"></a>OOCSS</h4><p>OOCSS是(Object Oriented CSS)，顾名思义就是面向对象的CSS。<br>OOCSS主要有两个原则：</p>
+<ul>
+<li>结构和样式分离<br>我们平时一定遇到过这种情况，比如一个页面存在着多个不同功能的按钮，这些按钮的形状大小都差不多，但是根据不同的功能会有不同的颜色或背景来加以区分。如果不进行结构和样式分离，我们的CSS代码可能是这样的</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.btn-primary</span>&#123;</div><div class="line">	<span class="attribute">width</span>:<span class="number">100px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">50px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">5px</span> <span class="number">3px</span>;</div><div class="line">	<span class="attribute">background</span>:<span class="number">#ccc</span>;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#000</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.btn-delete</span>&#123;</div><div class="line">	<span class="attribute">width</span>:<span class="number">100px</span>;</div><div class="line">	<span class="attribute">height</span>:<span class="number">50px</span>;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">5px</span> <span class="number">3px</span>;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#fff</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这两个或者可能更多的按钮拥有一些不同的样式，但是它们同时拥有相同的大小样式等，我们将其抽象的部分提取出来，结果如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.btn</span>&#123;</div><div class="line">	<span class="attribute">width</span>:<span class="number">100px</span>;　　<span class="attribute">height</span>:<span class="number">50px</span>;　　<span class="attribute">padding</span>:<span class="number">5px</span> <span class="number">3px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.primary</span>&#123;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#fff</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.delete</span>&#123;</div><div class="line">	<span class="attribute">background</span>:red;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#fff</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样提取公用的样式出来，然后按钮同时引用btn和primary等。这种做法除了减少重复的代码精简CSS之外，还有一个好处是复用性，如果需要增加其他额外的按钮，只需要编写不同的样式，和btn配合使用即可。</p>
+<ul>
+<li>容器和内容分离　　我们平时写代码一定写过这样代码</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.content</span> <span class="selector-tag">h3</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>:<span class="number">20px</span>;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#333</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样的代码就是内容依赖于容器，没有分离的代码，也就是说h3的样式依赖于.content容器，如果其他地方要用到相同的样式，但是它的容器却不是.content，那你可能就是要再写一遍.something<br>h3。<br>所以OOCSS推荐分离容器和内容，可以修改成：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.title</span>&#123;</div><div class="line">　　<span class="attribute">font-size</span>:<span class="number">20px</span>;</div><div class="line">　　<span class="attribute">color</span>:<span class="number">#333</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>　关于这一点，我个人建议要分情况来看，像前面这个例子，它适合样式和容器分离。但是比如下面这种情况：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.menu</span> <span class="selector-tag">li</span>&#123;</div><div class="line">　　<span class="attribute">font-size</span>:<span class="number">12px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种ul，li列表的样式，我觉的就按照我们原先的做法就可以，不一定非得给一个类给li来设定样式，即<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.menu-item</span>&#123;</div><div class="line">　　<span class="attribute">font-size</span>:<span class="number">12px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这样页面的li标签需要引用menu-item类。<br>当然采用哪一种方式更好我也不却确定，我自己比较喜欢.menu li的写法，大家自行思考。<br>这就是OOCSS的两个基本原则，这里只是简单介绍OOCSS，各位如果有兴趣的话请自行Google查找相关资料。</p>
+<h4 id="SMACSS"><a href="#SMACSS" class="headerlink" title="SMACSS"></a>SMACSS</h4><p>SMACSS是什么呢，它的全称是Scalable and Modular Architecture forCSS。<br>简单说就是可扩展和模块化的CSS架构。<br>SMACSS将样式分成5种类型：Base，Layout，Module，State，Theme，我们简单来说说每一种类型分别指什么。</p>
+<ul>
+<li>Base基础样式表，定义了基本的样式，我们平时写CSS比如reset.css就是属于基础样式表，另外我认为清除浮动，一些动画也可以归类为基础样式。</li>
+<li>Layout布局样式，用于实现网页的基本布局，搭起整个网页的基本骨架。</li>
+<li>Module网页中不同的区域有这个不同的功能，这些功能是相对独立的，我们可以称其为模块。模块是独立的，可重用的组件，它们不依赖于布局组件，可以安全的删除修改而不影响其他模块。</li>
+<li>State状态样式，通常和js一起配合使用，表示某个组件或功能不同的状态，比如菜单选中状态，按钮不可用状态等。　　关于状态样式，我个人觉得要分情况进行讨论：　　(1)不同组件的同一状态的样式是一样的，比如头部的导航菜单的选中状态样式和侧栏的菜单选中状态样式是一样的，我认为这部分状态样式可以归类为State　　(2)不同组件的统一状态的样式是不一样的，即两个地方的菜单虽然都是选中状态，但是他们却又不同的选中样式，这部分样式不应该被认为是State类型，而是应该放在其组件对应的Module中。　　</li>
+<li>Theme皮肤样式，对于可更换皮肤的站点来说，这个是很有必要的，分离了结构和皮肤，根据不同的皮肤应用不同的样式文件。</li>
+</ul>
+<h4 id="BEM"><a href="#BEM" class="headerlink" title="BEM　　"></a>BEM　　</h4><p>BEM是Block，Element，Modifier的缩写。<br>下面分别来介绍一下这三个概念：　　(1)Block：在BEM的理论中，一个网页是由block组成的，比如头部是个block，内容是block，logo也是block，一个block可能由几个子block组成。　　(2)Element：element是block的一部分，具有某种功能，element依赖于block，比如在logo中，img是logo的一个element，在菜单中，菜单项是菜单的一个element　　(3)Modifier：modifier是用来修饰block或者element的，它表示block或者element在外观或行为上的改变　　我们通过BEM命名法写样式如下：　　.block{}　　.block-element{}　　.block-modifier{}　　.block-element-modifier{}　　BEM将页面解析为block和element，然后根据不同的状态使用modifier来设置样式。　　我对BEM的思想理解可能不到位，对BEM的看法主要是由两点：　　(1)页面CSS模块化，每个block就是一个模块，模块间相互独立　　(2)多级的class命名，避免选择器的嵌套结构</p>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><h4 id="CSS-Lint规则"><a href="#CSS-Lint规则" class="headerlink" title="CSS Lint规则"></a>CSS Lint规则</h4><p><a href="http://csslint.net/" target="_blank" rel="external">CSS Lint</a></p>
+<ul>
+<li>修复解析错误（Parsing errors should be fixed）</li>
+<li>避免使用多类选择符（Don’t use adjoining classes）<br>IE6以及更古老的浏览器对类似.foo.bar的多类选择符解析不正确，参考IE6下的多类选择符一文。</li>
+<li><p>移除空的css规则（Remove empty rules）<br>这个规则不包含任何属性，类似：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"> <span class="selector-class">.foo</span> &#123; &#125;</div><div class="line">``` </div><div class="line">空规则的产生原因一般来说是为了预留样式。去除这些空规则无疑能减少<span class="selector-tag">css</span>文档体积。</div><div class="line"></div><div class="line"><span class="selector-tag">-</span> 正确使用<span class="selector-tag">display</span>的属性（<span class="selector-tag">Use</span> <span class="selector-tag">correct</span> <span class="selector-tag">properties</span> <span class="selector-tag">for</span> <span class="selector-tag">a</span> <span class="selector-tag">display</span>）</div><div class="line">由于<span class="selector-tag">display</span>的作用，某些样式组合会无效，徒增样式体积的同时也影响解析性能。<span class="selector-tag">CSS</span> <span class="selector-tag">Lint</span>会检查一下几点：</div><div class="line"><span class="selector-tag">display</span><span class="selector-pseudo">:inline</span>后不应该再使用<span class="selector-tag">width</span>、<span class="selector-tag">height</span>、<span class="selector-tag">margin</span>、<span class="selector-tag">padding</span>以及<span class="selector-tag">float</span>。</div><div class="line"><span class="selector-tag">display</span><span class="selector-pseudo">:inline-block</span>后不应该再使用<span class="selector-tag">float</span>。</div><div class="line"><span class="selector-tag">display</span><span class="selector-pseudo">:block</span>后不应该再使用<span class="selector-tag">vertical-align</span>。</div><div class="line"><span class="selector-tag">display</span><span class="selector-pseudo">:table-</span>*后不应该再使用<span class="selector-tag">margin</span>或者<span class="selector-tag">float</span>。</div><div class="line"></div><div class="line">- 不滥用浮动（Don't use too many floats）</div><div class="line">虽然浮动不可避免，但不可否认很多<span class="selector-tag">css</span> <span class="selector-tag">bug</span>是由于浮动而引起。<span class="selector-tag">CSS</span> <span class="selector-tag">Lint</span>一旦检测出样式文件中有超过10次的浮动便会提示警告。</div><div class="line"></div><div class="line">- 不滥用web字体（Don't use too many web fonts）</div><div class="line">对于中文网站来说<span class="selector-tag">Web</span> <span class="selector-tag">Fonts</span>可能很陌生，国外却很流行。<span class="selector-tag">web</span> <span class="selector-tag">fonts</span>通常体积庞大，而且一些浏览器在下载<span class="selector-tag">web</span> <span class="selector-tag">fonts</span>时会阻塞页面渲染损伤性能。</div><div class="line"></div><div class="line">- 不声明过多的font-size（Don't use too may font-size declarations）</div><div class="line">这是设计层面的问题，设计精良的页面不会有过多的<span class="selector-tag">font-size</span>声明。</div><div class="line"></div><div class="line">- 不在选择符中使用ID标识符（Don't use IDs in selectors）</div><div class="line">主要考虑到样式重用性以及与页面的耦合性。</div><div class="line"></div><div class="line">- 不给h1~h6元素定义过多的样式（Don't qualify headings）</div><div class="line">全站统一定义一遍<span class="selector-tag">heading</span>元素即可，若需额外定制样式，可使用其他选择符作为代替。</div><div class="line"></div><div class="line"><span class="selector-tag">-</span> 不重复定义<span class="selector-tag">h1</span>~<span class="selector-tag">h6</span>元素（<span class="selector-tag">Heading</span> <span class="selector-tag">styles</span> <span class="selector-tag">should</span> <span class="selector-tag">only</span> <span class="selector-tag">be</span> <span class="selector-tag">defined</span> <span class="selector-tag">once</span>）</div><div class="line">值为0时不需要任何单位（Zero values don't need units）</div><div class="line"></div><div class="line"><span class="selector-tag">-</span> 标准化各种浏览器前缀（<span class="selector-tag">Vendor</span> <span class="selector-tag">prefixed</span> <span class="selector-tag">properties</span> <span class="selector-tag">should</span> <span class="selector-tag">also</span> <span class="selector-tag">have</span> <span class="selector-tag">the</span> <span class="selector-tag">standard</span>）</div><div class="line">通常将浏览器前缀置于前面，将标准样式属性置于最后，类似：</div><div class="line">``` <span class="selector-tag">css</span></div><div class="line"><span class="selector-class">.foo</span> &#123;<span class="attribute">-moz-border-radius</span>: <span class="number">5px</span>;<span class="attribute">border-radius</span>: <span class="number">5px</span>; &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用CSS渐变等高级特性，需指定所有浏览器的前缀（CSS gradients require all browser prefixes）</p>
+</li>
+<li><p>避免让选择符看起来像正则表达式（Avoid selectors that look like regular expressions）<br>CSS3添加了一些类似~=等复杂属性，也不是所有浏览器都支持，需谨慎使用。</p>
+</li>
+<li><p>遵守盒模型规则（Beware of broken box models）</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
   
   <nav class="pagination">
@@ -446,7 +1037,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
