@@ -83,14 +83,14 @@
 <meta name="description" content="HTML  Q：http码，url输入后发生些什么  A：1、用户输入URL地址，浏览器会去解析URL地址，得到请求服务器地址，请求页面文件路径，以及请求参数，2、DNS解析：从浏览器DNS缓存，找域名相对应的IP没有找到，则从系统缓存寻找没有找到，从系统的host文件里面找没有找到，从路由器上找DNS服务器找3、浏览器发送HTTP请求找到域名对应的IP地址浏览器发出一个 HTTP协议的请求，组织">
 <meta name="keywords" content="JavaScript,Css,Html">
 <meta property="og:type" content="article">
-<meta property="og:title" content="前端基础 Q&amp;A">
+<meta property="og:title" content="前端 Q &amp; A">
 <meta property="og:url" content="http://yoursite.com/2016/05/06/前端Q&A/index.html">
 <meta property="og:site_name" content="hanx の 碎片栈">
 <meta property="og:description" content="HTML  Q：http码，url输入后发生些什么  A：1、用户输入URL地址，浏览器会去解析URL地址，得到请求服务器地址，请求页面文件路径，以及请求参数，2、DNS解析：从浏览器DNS缓存，找域名相对应的IP没有找到，则从系统缓存寻找没有找到，从系统的host文件里面找没有找到，从路由器上找DNS服务器找3、浏览器发送HTTP请求找到域名对应的IP地址浏览器发出一个 HTTP协议的请求，组织">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-07T15:05:01.791Z">
+<meta property="og:updated_time" content="2017-11-12T09:59:11.394Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="前端基础 Q&amp;A">
+<meta name="twitter:title" content="前端 Q &amp; A">
 <meta name="twitter:description" content="HTML  Q：http码，url输入后发生些什么  A：1、用户输入URL地址，浏览器会去解析URL地址，得到请求服务器地址，请求页面文件路径，以及请求参数，2、DNS解析：从浏览器DNS缓存，找域名相对应的IP没有找到，则从系统缓存寻找没有找到，从系统的host文件里面找没有找到，从路由器上找DNS服务器找3、浏览器发送HTTP请求找到域名对应的IP地址浏览器发出一个 HTTP协议的请求，组织">
 
 
@@ -137,7 +137,7 @@ var _hmt = _hmt || [];
 
 
 
-  <title>前端基础 Q&A | hanx の 碎片栈</title>
+  <title>前端 Q & A | hanx の 碎片栈</title>
   
 
 
@@ -281,7 +281,7 @@ var _hmt = _hmt || [];
 
         
         
-          <h1 class="post-title" itemprop="name headline">前端基础 Q&A</h1>
+          <h1 class="post-title" itemprop="name headline">前端 Q & A</h1>
         
 
         <div class="post-meta">
@@ -448,9 +448,10 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：cookie安全方面的深入</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> Q：cookie安全方面</strong></li>
+<li>**A：<br>1.cookie 值通过算法加密 推荐 AES + Hash结合；<br>2.使用使用SSL，使表单信息在传输过程中为密文状态，被截获时仍然难以破解利用；<br>3.使用SSL也应该设置HTTPS提高安全性；<br>4.使用安全控件，比如银行的网页和一些大型电商的网页，在客户端加密了再传输；<br>5.cookie包含用户验证的原始信息如，用户ID，浏览器信息，MAC地址&amp;手机序列号；<br>6.业务cookie都应该设置为httpOnly；<br>7.设置有效期一个是“即使一直在活动，也要失效”的时间，一个是“长时间不活动的失效时间”<br>8.和钱有关的不使用cookie；</li>
 </ul>
+<p>**</p>
 <h1 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h1><ul>
 <li><strong> Q：css中的性能</strong></li>
 <li><strong>A：<a href="../../../../2014/07/11/css中的性能">css中的性能</a> </strong></li>
@@ -519,7 +520,7 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：手写Function.bind函数问题</strong></li>
+<li><strong> Q：Function.bind函数问题</strong></li>
 <li><strong>A：xxxxxxxxxx </strong></li>
 </ul>
 <hr>
@@ -565,8 +566,8 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：设计模式问题</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> Q：JS设计模式问题</strong></li>
+<li><strong>A：<a href="../../../../2016/10/10/JavaScript常见设计模式">JS常见设计模式</a> </strong></li>
 </ul>
 <hr>
 <ul>
@@ -602,16 +603,6 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：简单说下双向绑定，脏治检测</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
-</ul>
-<hr>
-<ul>
-<li><strong> Q：简述JQ源码，自定义个事件怎么实现</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
-</ul>
-<hr>
-<ul>
 <li><strong> Q：es6箭头函数，promise</strong></li>
 <li><strong>A：xxxxxxxxxx </strong></li>
 </ul>
@@ -622,8 +613,10 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：简述JQ实现原理（</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> Q：简述JQ实现原理</strong></li>
+<li><p>**A：<br>jQuery是为了改变javascript的编码方式而设计的,<br>1、查找(创建)jQuery对象：$(“selector”);<br>2、调用jQuery对象的方法完成我们需要完成的工作：$(“selector”).doOurWork();<br>jQuery给我们带来了一个简洁方便的编码模型(1&gt;创建jQuery对象;2&gt;直接使用jQuery对象的属性/方法/事件),一个强悍的dom元素查找器($),插件式编程接口(jQuery.fn),以及插件初始化的”配置”对象思想.</p>
+<p>**</p>
+</li>
 </ul>
 <hr>
 <ul>
@@ -637,21 +630,18 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：js中num在底层的实现</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
-</ul>
-<hr>
-<ul>
 <li><strong> Q：红黑树</strong></li>
 <li><strong>A：xxxxxxxxxx </strong></li>
 </ul>
 <hr>
 <ul>
-<li><strong> Q：队列，栈存储什么的</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> Q：队列，栈存</strong></li>
+<li>**A：</li>
 </ul>
-<hr>
-<ul>
+<p>队列:是一种支持先进先出(FIFO)的集合,即先被插入的数据,先被取出!<br>队列是一种特殊的线性表，特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，队列是一种操作受限制的线性表。进行插入操作的端称为队尾，进行删除操作的端称为队头。</p>
+<p>堆栈:是一种支持后进先出(LIFO)的集合,即后被插入的数据,先被取出!<br>栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">队列：</div><div class="line"></div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.unshift(<span class="number">1</span>);</div><div class="line">a.unshift(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"先进先出"</span>)</div><div class="line">a.pop()</div><div class="line"></div><div class="line">栈：</div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.push(<span class="number">1</span>);</div><div class="line">a.push(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"后进先出"</span>)</div><div class="line">a.pop()</div></pre></td></tr></table></figure>
+<h2 id=""><a href="#" class="headerlink" title="**"></a>**</h2><ul>
 <li><strong> Q：希尔排序</strong></li>
 <li><strong>A：xxxxxxxxxx </strong></li>
 </ul>
@@ -909,7 +899,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -931,7 +921,7 @@ var _hmt = _hmt || [];
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -973,7 +963,7 @@ var _hmt = _hmt || [];
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML"><span class="nav-number">1.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS"><span class="nav-number">2.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Javascript"><span class="nav-number">3.</span> <span class="nav-text">Javascript</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML"><span class="nav-number">1.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS"><span class="nav-number">2.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Javascript"><span class="nav-number">3.</span> <span class="nav-text">Javascript</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">3.1.</span> <span class="nav-text">**</span></a></li></ol></li></ol></div>
             
 
           </div>
