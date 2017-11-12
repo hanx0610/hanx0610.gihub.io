@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://yoursite.com/2016/01/22/CSS%E5%AE%9E%E7%8E%B0%E5%90%84%E7%A7%8D%E5%BD%A2%E7%8A%B6/</loc>
+    <lastmod>2017-11-12T15:33:09.721Z</lastmod>
+    <data>
+        <display>
+        <title>CSS实现各种形状</title>
+        <pubTime>2016-01-22T07:15:12.000Z</pubTime>
+        
+        <tag>Css</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2016/05/06/%E5%89%8D%E7%AB%AFQ&A/</loc>
     <lastmod>2017-11-12T15:24:05.691Z</lastmod>
     <data>
@@ -646,28 +666,6 @@
         <tag>插件</tag>
          
         <tag>JavaScript</tag>
-         
-         
-           
-             
-              <breadCrumb title="前端" url="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2016/01/22/CSS%E5%AE%9E%E7%8E%B0%E5%90%84%E7%A7%8D%E5%BD%A2%E7%8A%B6/</loc>
-    <lastmod>2017-10-22T08:40:29.714Z</lastmod>
-    <data>
-        <display>
-        <title>CSS实现各种形状</title>
-        <pubTime>2016-01-22T07:15:12.000Z</pubTime>
-        
-        <tag>css</tag>
-         
-        <tag>html</tag>
          
          
            
