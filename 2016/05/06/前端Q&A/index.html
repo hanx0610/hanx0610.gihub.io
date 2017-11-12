@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="hanx の 碎片栈">
 <meta property="og:description" content="HTML  Q：http码，url输入后发生些什么  A：1、用户输入URL地址，浏览器会去解析URL地址，得到请求服务器地址，请求页面文件路径，以及请求参数，2、DNS解析：从浏览器DNS缓存，找域名相对应的IP没有找到，则从系统缓存寻找没有找到，从系统的host文件里面找没有找到，从路由器上找DNS服务器找3、浏览器发送HTTP请求找到域名对应的IP地址浏览器发出一个 HTTP协议的请求，组织">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-12T09:59:11.394Z">
+<meta property="og:updated_time" content="2017-11-12T14:20:13.107Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端 Q &amp; A">
 <meta name="twitter:description" content="HTML  Q：http码，url输入后发生些什么  A：1、用户输入URL地址，浏览器会去解析URL地址，得到请求服务器地址，请求页面文件路径，以及请求参数，2、DNS解析：从浏览器DNS缓存，找域名相对应的IP没有找到，则从系统缓存寻找没有找到，从系统的host文件里面找没有找到，从路由器上找DNS服务器找3、浏览器发送HTTP请求找到域名对应的IP地址浏览器发出一个 HTTP协议的请求，组织">
@@ -437,35 +437,35 @@ var _hmt = _hmt || [];
 <hr>
 <ul>
 <li><strong> Q：iframe有那些缺点问题</strong></li>
-<li><strong>A：<br>缺点：1、Iframes 阻塞页面加载 2、样式/脚本需要额外链入，会增加请求。3、会被盗链4、影响搜索引擎排名5、浏览器的后退按钮失效 6、必须正确设定链接导航<br>现在使用场景<br>1、沙箱隔离。 2、引用第三方内容。3、独立的带有交互的内容，比如幻灯片。4、需要保持独立焦点和历史管理的子窗口，如复杂的Web应用。
+<li><strong> A：<br>缺点：1、Iframes 阻塞页面加载 2、样式/脚本需要额外链入，会增加请求。3、会被盗链4、影响搜索引擎排名5、浏览器的后退按钮失效 6、必须正确设定链接导航<br>现在使用场景<br>1、沙箱隔离。 2、引用第三方内容。3、独立的带有交互的内容，比如幻灯片。4、需要保持独立焦点和历史管理的子窗口，如复杂的Web应用。
 </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：HTML5的离线储存怎么使用，工作原理能不能解释一下？问题</strong></li>
-<li><strong>A：<br>在用户没有与因特网连接时，可以正常访问站点或应用，在用户与因特网连接时，更新用户机器上的缓存文件。<br>HTML5的离线存储是基于一个新建的.appcache文件的缓存机制，通过这个文件上的解析清单离线存储资源，这些资源就会像cookie一样被存储了下来。之后当网络在处于离线状态下时，浏览器会通过被离线存储的数据进行页面展示。<br>在线的情况下，浏览器发现html头部有manifest属性，它会请求manifest文件，如果是第一次访问app，那么浏览器就会根 据manifest文件的内容下载相应的资源并且进行离线存储。如果已经访问过app并且资源已经离线存储了，那么浏览器就会使用离线的资源加载页面，然后浏览器会对比新的manifest文件与旧的manifest文件，如果文件没有发生改变，就不做任何操作，如果文件改变了，那么就会重新下载文件中的 资源并进行离线存储。<br>离线的情况下，浏览器就直接使用离线存储的资源。<br>这个过程中有几个问题需要注意。<br>如果服务器对离线的资源进行了更新，那么必须更新manifest文件之后这些资源才能被浏览器重新下载，如果只是更新了资源而没有更新manifest文件的话，浏览器并不会重新下载资源，也就是说还是使用原来离线存储的资源。<br>对于manifest文件进行缓存的时候需要十分小心，因为可能出现一种情况就是你对manifest文件进行了更新，但是http的缓存 规则告诉浏览器本地缓存的manifest文件还没过期，这个情况下浏览器还是使用原来的manifest文件，所以对于manifest文件最好不要设置缓存。<br>浏览器在下载manifest文件中的资源的时候，它会一次性下载所有资源，如果某个资源由于某种原因下载失败，那么这次的所有更新就算是失败的，浏览器还是会使用原来的资源。<br>在更新了资源之后，新的资源需要到下次再打开app才会生效，如果需要资源马上就能生效，那么可以使用window.applicationCache.swapCache()方法来使之生效，出现这种现象的原因是浏览器会先使用离线资源加载页面，然后再去检查manifest是否有更新，所以需要到下次打开页面才能生效。
+<li><strong> A：<br>在用户没有与因特网连接时，可以正常访问站点或应用，在用户与因特网连接时，更新用户机器上的缓存文件。<br>HTML5的离线存储是基于一个新建的.appcache文件的缓存机制，通过这个文件上的解析清单离线存储资源，这些资源就会像cookie一样被存储了下来。之后当网络在处于离线状态下时，浏览器会通过被离线存储的数据进行页面展示。<br>在线的情况下，浏览器发现html头部有manifest属性，它会请求manifest文件，如果是第一次访问app，那么浏览器就会根 据manifest文件的内容下载相应的资源并且进行离线存储。如果已经访问过app并且资源已经离线存储了，那么浏览器就会使用离线的资源加载页面，然后浏览器会对比新的manifest文件与旧的manifest文件，如果文件没有发生改变，就不做任何操作，如果文件改变了，那么就会重新下载文件中的 资源并进行离线存储。<br>离线的情况下，浏览器就直接使用离线存储的资源。<br>这个过程中有几个问题需要注意。<br>如果服务器对离线的资源进行了更新，那么必须更新manifest文件之后这些资源才能被浏览器重新下载，如果只是更新了资源而没有更新manifest文件的话，浏览器并不会重新下载资源，也就是说还是使用原来离线存储的资源。<br>对于manifest文件进行缓存的时候需要十分小心，因为可能出现一种情况就是你对manifest文件进行了更新，但是http的缓存 规则告诉浏览器本地缓存的manifest文件还没过期，这个情况下浏览器还是使用原来的manifest文件，所以对于manifest文件最好不要设置缓存。<br>浏览器在下载manifest文件中的资源的时候，它会一次性下载所有资源，如果某个资源由于某种原因下载失败，那么这次的所有更新就算是失败的，浏览器还是会使用原来的资源。<br>在更新了资源之后，新的资源需要到下次再打开app才会生效，如果需要资源马上就能生效，那么可以使用window.applicationCache.swapCache()方法来使之生效，出现这种现象的原因是浏览器会先使用离线资源加载页面，然后再去检查manifest是否有更新，所以需要到下次打开页面才能生效。
 </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：cookie安全方面</strong></li>
-<li>**A：<br>1.cookie 值通过算法加密 推荐 AES + Hash结合；<br>2.使用使用SSL，使表单信息在传输过程中为密文状态，被截获时仍然难以破解利用；<br>3.使用SSL也应该设置HTTPS提高安全性；<br>4.使用安全控件，比如银行的网页和一些大型电商的网页，在客户端加密了再传输；<br>5.cookie包含用户验证的原始信息如，用户ID，浏览器信息，MAC地址&amp;手机序列号；<br>6.业务cookie都应该设置为httpOnly；<br>7.设置有效期一个是“即使一直在活动，也要失效”的时间，一个是“长时间不活动的失效时间”<br>8.和钱有关的不使用cookie；</li>
+<li>** A：<br>1.cookie 值通过算法加密 推荐 AES + Hash结合；<br>2.使用使用SSL，使表单信息在传输过程中为密文状态，被截获时仍然难以破解利用；<br>3.使用SSL也应该设置HTTPS提高安全性；<br>4.使用安全控件，比如银行的网页和一些大型电商的网页，在客户端加密了再传输；<br>5.cookie包含用户验证的原始信息如，用户ID，浏览器信息，MAC地址&amp;手机序列号；<br>6.业务cookie都应该设置为httpOnly；<br>7.设置有效期一个是“即使一直在活动，也要失效”的时间，一个是“长时间不活动的失效时间”<br>8.和钱有关的不使用cookie；</li>
 </ul>
 <p>**</p>
 <h1 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h1><ul>
 <li><strong> Q：css中的性能</strong></li>
-<li><strong>A：<a href="../../../../2014/07/11/css中的性能">css中的性能</a> </strong></li>
+<li><strong> A：<a href="../../../../2014/07/11/css中的性能">css中的性能</a> </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：hack</strong></li>
-<li><strong>A：不同的浏览器商对CSS支持解析不一致，导致呈现效果不同，为了获取一致的效果，需要针对不同浏览器写相应CSS 这个过程叫做CSS hack。大致有3种表现形式，CSS属性前缀法、选择器前缀法以及IE条件注释法。
+<li><strong> A：不同的浏览器商对CSS支持解析不一致，导致呈现效果不同，为了获取一致的效果，需要针对不同浏览器写相应CSS 这个过程叫做CSS hack。大致有3种表现形式，CSS属性前缀法、选择器前缀法以及IE条件注释法。
 </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：自适应布局问题</strong></li>
-<li><strong>A：<a href="../../../../2016/03/06/CSS自适应布局">CSS自适应布局</a> </strong></li>
+<li><strong> A：<a href="../../../../2016/03/06/CSS自适应布局">CSS自适应布局</a> </strong></li>
 </ul>
 <hr>
 <ul>
@@ -516,32 +516,32 @@ var _hmt = _hmt || [];
 </ul>
 <h1 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h1><ul>
 <li><strong> Q：手写事件模型及事件代理/委托问题</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> A：xxxxxxxxxx </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：Function.bind函数问题</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> A：xxxxxxxxxx </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：手写数组快速排序/去重问题</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> A：xxxxxxxxxx </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：JS的变量提升</strong></li>
-<li><strong>A：变量声明提升的作用，在一个函数体内声明的变量，JS解析器都会将其移动到函数体的顶部 </strong></li>
+<li><strong> A：变量声明提升的作用，在一个函数体内声明的变量，JS解析器都会将其移动到函数体的顶部 </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：跨域问题</strong></li>
-<li><strong>A： 跨域，指的是浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的，是浏览器对javascript施加的安全限制。解决方法：JSONP、服务器代理、document.domain、window.postMessage、window.name </strong></li>
+<li><strong> A： 跨域，指的是浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的，是浏览器对javascript施加的安全限制。解决方法：JSONP、服务器代理、document.domain、window.postMessage、window.name </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：JSONP原理</strong></li>
-<li><strong>A：ajax请求受同源策略影响，不允许进行跨域请求，而script标签src属性中的链接却可以访问跨域的js脚本，利用这个特性，服务端不再返回JSON格式的数据，而是返回一段调用某个函数的js代码，在src中进行了调用，这样实现了跨域。</strong></li>
+<li><strong> A：ajax请求受同源策略影响，不允许进行跨域请求，而script标签src属性中的链接却可以访问跨域的js脚本，利用这个特性，服务端不再返回JSON格式的数据，而是返回一段调用某个函数的js代码，在src中进行了调用，这样实现了跨域。</strong></li>
 </ul>
 <hr>
 <ul>
@@ -551,7 +551,7 @@ var _hmt = _hmt || [];
 <hr>
 <ul>
 <li><strong> Q：null，undefined的区别问题</strong></li>
-<li><strong>A：null表示”没有对象”，即该处不应该有值（作为对象原型链的终点，作为函数的参数，表示该函数的参数不是对象）；undefined表示”缺少值”，就是此处应该有一个值，但是还没有定义（例如变量被声明了，但没有赋值时，调用函数时，应该提供的参数没有提供） </strong></li>
+<li><strong> A：null表示”没有对象”，即该处不应该有值（作为对象原型链的终点，作为函数的参数，表示该函数的参数不是对象）；undefined表示”缺少值”，就是此处应该有一个值，但是还没有定义（例如变量被声明了，但没有赋值时，调用函数时，应该提供的参数没有提供） </strong></li>
 </ul>
 <hr>
 <ul>
@@ -562,89 +562,86 @@ var _hmt = _hmt || [];
 <hr>
 <ul>
 <li><strong> Q：函数节流问题</strong></li>
-<li><strong>A：函数节流基本思想是：某些代码不可以在没有间断的情况下连续重复执行 </strong></li>
+<li><strong> A：函数节流基本思想是：某些代码不可以在没有间断的情况下连续重复执行 </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：JS设计模式问题</strong></li>
-<li><strong>A：<a href="../../../../2016/10/10/JavaScript常见设计模式">JS常见设计模式</a> </strong></li>
+<li><strong> A：<a href="../../../../2016/10/10/JavaScript常见设计模式">JS常见设计模式</a> </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：谈谈对前端模块化的理解问题</strong></li>
-<li><strong>A：所谓的模块化开发就是封装细节，提供使用接口，彼此之间互不影响，每个模块都是实现某一特定的功能。模块化开发的基础就是函数<br>1、使用函数封装 2、使用对象封装 3、立即执行函数写法 4、放大模式5、宽放大模式6、输入全局变量<br>通行的JavaScript模块规范共有两种：CommonJS和AMD
+<li><strong> A：所谓的模块化开发就是封装细节，提供使用接口，彼此之间互不影响，每个模块都是实现某一特定的功能。模块化开发的基础就是函数<br>1、使用函数封装 2、使用对象封装 3、立即执行函数写法 4、放大模式5、宽放大模式6、输入全局变量<br>通行的JavaScript模块规范共有两种：CommonJS和AMD
 </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：异步和同步问题</strong></li>
-<li><strong>A：同步指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步指的是，不进入主线程、而进入”任务队列”（task queue）的任务，只有”任务队列”通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行<br>（1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。<br>（2）主线程之外，还存在一个”任务队列”（task queue）。只要异步任务有了运行结果，就在”任务队列”之中放置一个事件。<br>（3）一旦”执行栈”中的所有同步任务执行完毕，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>（4）主线程不断重复上面的第三步。<br>只要主线程空了，就会去读取”任务队列”，这就是JavaScript的运行机制。这个过程会不断重复。  
+<li><strong> A：同步指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步指的是，不进入主线程、而进入”任务队列”（task queue）的任务，只有”任务队列”通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行<br>（1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。<br>（2）主线程之外，还存在一个”任务队列”（task queue）。只要异步任务有了运行结果，就在”任务队列”之中放置一个事件。<br>（3）一旦”执行栈”中的所有同步任务执行完毕，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>（4）主线程不断重复上面的第三步。<br>只要主线程空了，就会去读取”任务队列”，这就是JavaScript的运行机制。这个过程会不断重复。  
 </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：js监听css3动画怎么实现，具体到每一帧（gg）</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> A：xxxxxxxxxx </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：如何应对双边距的兼容问题</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> A：xxxxxxxxxx </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：CMD，AMD应用场景，原理，区别</strong></li>
-<li><strong>A：<a href="../../../../2017/02/10/AMD与CMD">AMD与CMD</a> </strong></li>
+<li><strong> A：<a href="../../../../2017/02/10/AMD与CMD">AMD与CMD</a> </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：闭包原理，优势</strong></li>
-<li><strong>A：<a href="../../../05/10/JavaScript的闭包">JavaScript的闭包</a> </strong></li>
+<li><strong> A：<a href="../../../05/10/JavaScript的闭包">JavaScript的闭包</a> </strong></li>
 </ul>
 <hr>
 <ul>
-<li><strong> Q：es6箭头函数，promise</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> Q：promise </strong></li>
+<li>** A：<br>所谓 Promise，就是一个对象，用来传递异步操作的消息。它代表了某个未来才会知道结果的事件（通常是一个异步操作），并且这个事件提供统一的 API，可供进一步处理<br>Promise 对象有以下两个特点。</li>
 </ul>
+<p>（1）对象的状态不受外界影响。Promise 对象代表一个异步操作，有三种状态：Pending（进行中）、Resolved（已完成，又称 Fulfilled）和 Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。这也是 Promise 这个名字的由来，它的英语意思就是「承诺」，表示其他手段无法改变。<br>（2）一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise 对象的状态改变，只有两种可能：从 Pending 变为 Resolved 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果。就算改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。</p>
+<p>有了 Promise 对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise 对象提供统一的接口，使得控制异步操作更加容易。<br>Promise 也有一些缺点。首先，无法取消 Promise，一旦新建它就会立即执行，无法中途取消。其次，如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。第三，当处于 Pending 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。<br>**</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line"> <span class="keyword">if</span> (<span class="comment">/* 异步操作成功 */</span>)&#123;</div><div class="line"> resolve(value);</div><div class="line"> &#125; <span class="keyword">else</span> &#123;</div><div class="line"> reject(error);</div><div class="line"> &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">promise.then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line"> <span class="comment">// success</span></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line"> <span class="comment">// failure</span></div><div class="line">&#125;);</div><div class="line"><span class="string">``</span><span class="string">` </span></div><div class="line"><span class="string"> </span></div><div class="line"><span class="string">---</span></div><div class="line"><span class="string">- ** Q：es6箭头函数**</span></div><div class="line"><span class="string">- ** A：箭头函数是es6的一种函数的简写方法。 **</span></div><div class="line"><span class="string">`</span><span class="string">``</span> javascript</div><div class="line"><span class="keyword">var</span> f = v = &gt; v;</div><div class="line"><span class="comment">//等同于</span></div><div class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> v;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> sum = <span class="function">(<span class="params">num1,num2</span>) =&gt;</span> num1+num2 ;</div><div class="line"><span class="comment">//等同于</span></div><div class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1,num2</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> num1+num2</div><div class="line">&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].map(<span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> x * x;</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 箭头函数写法</span></div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].map(<span class="function"><span class="params">x</span> =&gt;</span> x * x);<span class="comment">//简洁了许多</span></div></pre></td></tr></table></figure>
 <hr>
 <ul>
-<li><strong> Q：简述XXS，如何防范呢？</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> Q：简述XSS，如何防范呢？</strong></li>
+<li><strong> A：<a href="../../../../2017/01/03/防御XSS攻击的七条原则">防御XSS攻击的七条原则</a></strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：简述JQ实现原理</strong></li>
-<li><p>**A：<br>jQuery是为了改变javascript的编码方式而设计的,<br>1、查找(创建)jQuery对象：$(“selector”);<br>2、调用jQuery对象的方法完成我们需要完成的工作：$(“selector”).doOurWork();<br>jQuery给我们带来了一个简洁方便的编码模型(1&gt;创建jQuery对象;2&gt;直接使用jQuery对象的属性/方法/事件),一个强悍的dom元素查找器($),插件式编程接口(jQuery.fn),以及插件初始化的”配置”对象思想.</p>
-<p>**</p>
-</li>
+<li><strong> A：<br>jQuery是为了改变javascript的编码方式而设计的,<br>1、查找(创建)jQuery对象：$(“selector”);<br>2、调用jQuery对象的方法完成我们需要完成的工作：$(“selector”).doOurWork();<br>jQuery给我们带来了一个简洁方便的编码模型(1&gt;创建jQuery对象;2&gt;直接使用jQuery对象的属性/方法/事件),一个强悍的dom元素查找器($),插件式编程接口(jQuery.fn),以及插件初始化的”配置”对象思想.
+</strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：安全加密</strong></li>
-<li><strong>A：1、base64 2、md5加密、3、sha1加密</strong></li>
+<li><strong> A：1、base64 2、md5加密、3、sha1加密</strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：如何判断自己的页面被iframe引用</strong></li>
-<li><strong>A：方法一 设置http请求头的X-Frame-Options，可以设置三个值1、DENY  代表页面不会能被嵌入到iframe或者frame里 2、SAMEORIGIN 页面只能被本站页面嵌入到iframe或者frame中 3、ALLOW-FROM uri 页面只能被制定的uri嵌入到iframe 或 frame中 方法二JS判断父级存在则在父级跳转</strong></li>
+<li><strong> A：方法一 设置http请求头的X-Frame-Options，可以设置三个值1、DENY  代表页面不会能被嵌入到iframe或者frame里 2、SAMEORIGIN 页面只能被本站页面嵌入到iframe或者frame中 3、ALLOW-FROM uri 页面只能被制定的uri嵌入到iframe 或 frame中 方法二JS判断父级存在则在父级跳转</strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：红黑树</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
+<li><strong> A：xxxxxxxxxx </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：队列，栈存</strong></li>
-<li>**A：</li>
+<li>** A：<br>队列:是一种支持先进先出(FIFO)的集合,即先被插入的数据,先被取出!<br>队列是一种特殊的线性表，特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，队列是一种操作受限制的线性表。进行插入操作的端称为队尾，进行删除操作的端称为队头。</li>
 </ul>
-<p>队列:是一种支持先进先出(FIFO)的集合,即先被插入的数据,先被取出!<br>队列是一种特殊的线性表，特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，队列是一种操作受限制的线性表。进行插入操作的端称为队尾，进行删除操作的端称为队头。</p>
-<p>堆栈:是一种支持后进先出(LIFO)的集合,即后被插入的数据,先被取出!<br>栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。</p>
+<p>堆栈:是一种支持后进先出(LIFO)的集合,即后被插入的数据,先被取出!<br>栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。<br>**</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">队列：</div><div class="line"></div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.unshift(<span class="number">1</span>);</div><div class="line">a.unshift(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"先进先出"</span>)</div><div class="line">a.pop()</div><div class="line"></div><div class="line">栈：</div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.push(<span class="number">1</span>);</div><div class="line">a.push(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"后进先出"</span>)</div><div class="line">a.pop()</div></pre></td></tr></table></figure>
-<h2 id=""><a href="#" class="headerlink" title="**"></a>**</h2><ul>
-<li><strong> Q：希尔排序</strong></li>
-<li><strong>A：xxxxxxxxxx </strong></li>
-</ul>
 <hr>
 <ul>
 <li><strong> Q：谈一谈JavaScript作用域链</strong></li>
@@ -693,8 +690,11 @@ var _hmt = _hmt || [];
 <hr>
 <ul>
 <li><strong> Q：ajax请求的时候get 和post方式的区别</strong></li>
-<li><strong> A：<br>一个在url后面 一个放在虚拟载体里面<br>有大小限制<br>安全问题<br>应用不同 一个是论坛等只需要请求的，一个是类似修改密码的
-</strong></li>
+<li>** A：</li>
+<li>一个在url后面 一个放在虚拟载体里面</li>
+<li>有大小限制</li>
+<li>安全问题</li>
+<li>应用不同 一个是论坛等只需要请求的，一个是类似修改密码的<br>**</li>
 </ul>
 <hr>
 <ul>
@@ -899,7 +899,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -921,7 +921,7 @@ var _hmt = _hmt || [];
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -963,7 +963,7 @@ var _hmt = _hmt || [];
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML"><span class="nav-number">1.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS"><span class="nav-number">2.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Javascript"><span class="nav-number">3.</span> <span class="nav-text">Javascript</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">3.1.</span> <span class="nav-text">**</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTML"><span class="nav-number">1.</span> <span class="nav-text">HTML</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS"><span class="nav-number">2.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Javascript"><span class="nav-number">3.</span> <span class="nav-text">Javascript</span></a></li></ol></div>
             
 
           </div>
