@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="hanx の 碎片栈">
 <meta property="og:description" content="HTML  Q：http码，url输入后发生些什么  A：1、用户输入URL地址，浏览器会去解析URL地址，得到请求服务器地址，请求页面文件路径，以及请求参数，2、DNS解析：从浏览器DNS缓存，找域名相对应的IP没有找到，则从系统缓存寻找没有找到，从系统的host文件里面找没有找到，从路由器上找DNS服务器找3、浏览器发送HTTP请求找到域名对应的IP地址浏览器发出一个 HTTP协议的请求，组织">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-12T15:24:05.691Z">
+<meta property="og:updated_time" content="2017-11-12T15:38:24.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端 Q &amp; A">
 <meta name="twitter:description" content="HTML  Q：http码，url输入后发生些什么  A：1、用户输入URL地址，浏览器会去解析URL地址，得到请求服务器地址，请求页面文件路径，以及请求参数，2、DNS解析：从浏览器DNS缓存，找域名相对应的IP没有找到，则从系统缓存寻找没有找到，从系统的host文件里面找没有找到，从路由器上找DNS服务器找3、浏览器发送HTTP请求找到域名对应的IP地址浏览器发出一个 HTTP协议的请求，组织">
@@ -633,9 +633,8 @@ var _hmt = _hmt || [];
 <hr>
 <ul>
 <li><strong> Q：队列，栈存</strong></li>
-<li>** A：<br>队列:是一种支持先进先出(FIFO)的集合,即先被插入的数据,先被取出!<br>队列是一种特殊的线性表，特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，队列是一种操作受限制的线性表。进行插入操作的端称为队尾，进行删除操作的端称为队头。</li>
+<li><strong> A：队列:是一种支持先进先出(FIFO)的集合,即先被插入的数据,先被取出!<br>队列是一种特殊的线性表，特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，队列是一种操作受限制的线性表。进行插入操作的端称为队尾，进行删除操作的端称为队头。<br>堆栈:是一种支持后进先出(LIFO)的集合,即后被插入的数据,先被取出!<br>栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。</strong></li>
 </ul>
-<p>堆栈:是一种支持后进先出(LIFO)的集合,即后被插入的数据,先被取出!<br>栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。**</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">队列：</div><div class="line"></div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.unshift(<span class="number">1</span>);</div><div class="line">a.unshift(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"先进先出"</span>)</div><div class="line">a.pop()</div><div class="line"></div><div class="line">栈：</div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.push(<span class="number">1</span>);</div><div class="line">a.push(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"后进先出"</span>)</div><div class="line">a.pop()</div></pre></td></tr></table></figure>
 <hr>
 <ul>
