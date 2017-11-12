@@ -4,6 +4,50 @@
 
     
   <url>
+    <loc>http://yoursite.com/2016/05/06/%E5%89%8D%E7%AB%AFQ&A/</loc>
+    <lastmod>2017-11-12T15:24:05.691Z</lastmod>
+    <data>
+        <display>
+        <title>前端 Q & A</title>
+        <pubTime>2016-05-06T14:15:00.000Z</pubTime>
+        
+        <tag>JavaScript</tag>
+         
+        <tag>Css</tag>
+         
+        <tag>Html</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://yoursite.com/2016/10/10/JavaScript%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2017-11-12T15:19:42.857Z</lastmod>
+    <data>
+        <display>
+        <title>JavaScript常见设计模式</title>
+        <pubTime>2016-10-10T10:20:20.000Z</pubTime>
+        
+        <tag>JavaScript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2016/12/20/%E7%AE%97%E6%B3%95%E5%A4%A7%E5%85%A8JavaScript%E5%AE%9E%E7%8E%B0/</loc>
     <lastmod>2017-11-12T15:15:42.202Z</lastmod>
     <data>
@@ -41,30 +85,6 @@
            
              
               <breadCrumb title="其他" url="http://yoursite.com/categories/%E5%85%B6%E4%BB%96/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2016/05/06/%E5%89%8D%E7%AB%AFQ&A/</loc>
-    <lastmod>2017-11-12T14:20:13.107Z</lastmod>
-    <data>
-        <display>
-        <title>前端 Q & A</title>
-        <pubTime>2016-05-06T14:15:00.000Z</pubTime>
-        
-        <tag>JavaScript</tag>
-         
-        <tag>Css</tag>
-         
-        <tag>Html</tag>
-         
-         
-           
-             
-              <breadCrumb title="前端" url="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
           
         </display>
     </data>
@@ -171,26 +191,6 @@
            
              
               <breadCrumb title="数据库" url="http://yoursite.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://yoursite.com/2016/10/10/JavaScript%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2017-11-12T13:52:06.872Z</lastmod>
-    <data>
-        <display>
-        <title>JavaScript常见设计模式</title>
-        <pubTime>2016-10-10T10:20:20.000Z</pubTime>
-        
-        <tag>JavaScript</tag>
-         
-         
-           
-             
-              <breadCrumb title="前端" url="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
           
         </display>
     </data>
