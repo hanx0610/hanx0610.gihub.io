@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="hanx の 碎片栈" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="很多时候我们需要对文件夹或者文件进行监控，已观察其是否被删除、创建或者修改，然后根据文件的行为进行相应的后续处理，以往的话多数是通过轮询去观察文件夹或者文件的变动，这样肯定会经过磁盘的I/O的操作，大大的降低了效率，而且不能及时的响应，如果要提升响应速度必定会增加磁盘的占用，不是明智之举。 以往的文件夹监控流程如下: JavaSE 1.7提供了相关的API，去监视文件或者文件夹的变动，主要的API">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java监控文件夹或文件的变动">
+<meta property="og:url" content="http://yoursite.com/2017/05/25/Java监控文件夹或文件的变动/index.html">
+<meta property="og:site_name" content="hanx の 碎片栈">
+<meta property="og:description" content="很多时候我们需要对文件夹或者文件进行监控，已观察其是否被删除、创建或者修改，然后根据文件的行为进行相应的后续处理，以往的话多数是通过轮询去观察文件夹或者文件的变动，这样肯定会经过磁盘的I/O的操作，大大的降低了效率，而且不能及时的响应，如果要提升响应速度必定会增加磁盘的占用，不是明智之举。 以往的文件夹监控流程如下: JavaSE 1.7提供了相关的API，去监视文件或者文件夹的变动，主要的API">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.xdemo.org//qiniu/520/image/d54d7440d2320f3beb1668549bdc0734.png">
+<meta property="og:image" content="http://www.xdemo.org//qiniu/520/image/26f575315ce7d4d95fc71a994ab05fd0.png">
+<meta property="og:updated_time" content="2017-11-27T13:44:34.044Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java监控文件夹或文件的变动">
+<meta name="twitter:description" content="很多时候我们需要对文件夹或者文件进行监控，已观察其是否被删除、创建或者修改，然后根据文件的行为进行相应的后续处理，以往的话多数是通过轮询去观察文件夹或者文件的变动，这样肯定会经过磁盘的I/O的操作，大大的降低了效率，而且不能及时的响应，如果要提升响应速度必定会增加磁盘的占用，不是明智之举。 以往的文件夹监控流程如下: JavaSE 1.7提供了相关的API，去监视文件或者文件夹的变动，主要的API">
+<meta name="twitter:image" content="http://www.xdemo.org//qiniu/520/image/d54d7440d2320f3beb1668549bdc0734.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e7cd7543c04aa55f06761709bc920324";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/05/25/Java监控文件夹或文件的变动/"/>
+
+
+
+
+
+  <title>Java监控文件夹或文件的变动 | hanx の 碎片栈</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hanx の 碎片栈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Time waits for no one</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-collection">
+          <a href="/me/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            收藏
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/Java监控文件夹或文件的变动/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java监控文件夹或文件的变动</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-25T10:33:45+08:00">
+                2017-05-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>很多时候我们需要对文件夹或者文件进行监控，已观察其是否被删除、创建或者修改，然后根据文件的行为进行相应的后续处理，以往的话多数是通过轮询去观察文件夹或者文件的变动，这样肯定会经过磁盘的I/O的操作，大大的降低了效率，而且不能及时的响应，如果要提升响应速度必定会增加磁盘的占用，不是明智之举。</p>
+<p>以往的文件夹监控流程如下:<br><img src="http://www.xdemo.org//qiniu/520/image/d54d7440d2320f3beb1668549bdc0734.png" alt="这里写图片描述"></p>
+<p>JavaSE 1.7提供了相关的API，去监视文件或者文件夹的变动，主要的API都在java.nio.file下面，其大概流程如下：<br><img src="http://www.xdemo.org//qiniu/520/image/26f575315ce7d4d95fc71a994ab05fd0.png" alt="这里写图片描述"></p>
+<h3 id="监控主类"><a href="#监控主类" class="headerlink" title="监控主类"></a>监控主类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.xdemo.superutil.j2se.filewatch;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.nio.file.LinkOption.NOFOLLOW_LINKS;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.nio.file.FileSystems;</div><div class="line"><span class="keyword">import</span> java.nio.file.FileVisitResult;</div><div class="line"><span class="keyword">import</span> java.nio.file.Files;</div><div class="line"><span class="keyword">import</span> java.nio.file.Path;</div><div class="line"><span class="keyword">import</span> java.nio.file.Paths;</div><div class="line"><span class="keyword">import</span> java.nio.file.SimpleFileVisitor;</div><div class="line"><span class="keyword">import</span> java.nio.file.StandardWatchEventKinds;</div><div class="line"><span class="keyword">import</span> java.nio.file.WatchEvent;</div><div class="line"><span class="keyword">import</span> java.nio.file.WatchEvent.Kind;</div><div class="line"><span class="keyword">import</span> java.nio.file.WatchKey;</div><div class="line"><span class="keyword">import</span> java.nio.file.WatchService;</div><div class="line"><span class="keyword">import</span> java.nio.file.attribute.BasicFileAttributes;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"> </div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 文件夹监控</span></div><div class="line"><span class="comment"> * </span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> Goofy &lt;a href="http://www.xdemo.org/"&gt;http://www.xdemo.org/&lt;/a&gt;</span></div><div class="line"><span class="comment"> * <span class="doctag">@Date</span> 2015年7月3日 上午9:21:33</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WatchDir</span> </span>&#123;</div><div class="line"> </div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> WatchService watcher;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;WatchKey, Path&gt; keys;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> subDir;</div><div class="line"> </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 构造方法</span></div><div class="line"><span class="comment">     * </span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> file</span></div><div class="line"><span class="comment">     *            文件目录，不可以是文件</span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> subDir</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> Exception</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WatchDir</span><span class="params">(File file, <span class="keyword">boolean</span> subDir, FileActionCallback callback)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!file.isDirectory())</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(file.getAbsolutePath() + <span class="string">"is not a directory!"</span>);</div><div class="line"> </div><div class="line">        <span class="keyword">this</span>.watcher = FileSystems.getDefault().newWatchService();</div><div class="line">        <span class="keyword">this</span>.keys = <span class="keyword">new</span> HashMap&lt;WatchKey, Path&gt;();</div><div class="line">        <span class="keyword">this</span>.subDir = subDir;</div><div class="line"> </div><div class="line">        Path dir = Paths.get(file.getAbsolutePath());</div><div class="line"> </div><div class="line">        <span class="keyword">if</span> (subDir) &#123;</div><div class="line">            registerAll(dir);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            register(dir);</div><div class="line">        &#125;</div><div class="line">        processEvents(callback);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">    <span class="keyword">static</span> &lt;T&gt; <span class="function">WatchEvent&lt;T&gt; <span class="title">cast</span><span class="params">(WatchEvent&lt;?&gt; event)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (WatchEvent&lt;T&gt;) event;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 观察指定的目录</span></div><div class="line"><span class="comment">     * </span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> dir</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> IOException</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(Path dir)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        WatchKey key = dir.register(watcher, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);</div><div class="line">        keys.put(key, dir);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 观察指定的目录，并且包括子目录</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">registerAll</span><span class="params">(<span class="keyword">final</span> Path start)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        Files.walkFileTree(start, <span class="keyword">new</span> SimpleFileVisitor&lt;Path&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> FileVisitResult <span class="title">preVisitDirectory</span><span class="params">(Path dir, BasicFileAttributes attrs)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">                register(dir);</div><div class="line">                <span class="keyword">return</span> FileVisitResult.CONTINUE;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 发生文件变化的回调函数</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"rawtypes"</span>)</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">processEvents</span><span class="params">(FileActionCallback callback)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            WatchKey key;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                key = watcher.take();</div><div class="line">            &#125; <span class="keyword">catch</span> (InterruptedException x) &#123;</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            Path dir = keys.get(key);</div><div class="line">            <span class="keyword">if</span> (dir == <span class="keyword">null</span>) &#123;</div><div class="line">                System.err.println(<span class="string">"操作未识别"</span>);</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line"> </div><div class="line">            <span class="keyword">for</span> (WatchEvent&lt;?&gt; event : key.pollEvents()) &#123;</div><div class="line">                Kind kind = event.kind();</div><div class="line"> </div><div class="line">                <span class="comment">// 事件可能丢失或遗弃</span></div><div class="line">                <span class="keyword">if</span> (kind == StandardWatchEventKinds.OVERFLOW) &#123;</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                &#125;</div><div class="line"> </div><div class="line">                <span class="comment">// 目录内的变化可能是文件或者目录</span></div><div class="line">                WatchEvent&lt;Path&gt; ev = cast(event);</div><div class="line">                Path name = ev.context();</div><div class="line">                Path child = dir.resolve(name);</div><div class="line">                File file = child.toFile();</div><div class="line">                <span class="keyword">if</span> (kind.name().equals(FileAction.DELETE.getValue())) &#123;</div><div class="line">                    callback.delete(file);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (kind.name().equals(FileAction.CREATE.getValue())) &#123;</div><div class="line">                    callback.create(file);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (kind.name().equals(FileAction.MODIFY.getValue())) &#123;</div><div class="line">                    callback.modify(file);</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                &#125;</div><div class="line"> </div><div class="line">                <span class="comment">// if directory is created, and watching recursively, then</span></div><div class="line">                <span class="comment">// register it and its sub-directories</span></div><div class="line">                <span class="keyword">if</span> (subDir &amp;&amp; (kind == StandardWatchEventKinds.ENTRY_CREATE)) &#123;</div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        <span class="keyword">if</span> (Files.isDirectory(child, NOFOLLOW_LINKS)) &#123;</div><div class="line">                            registerAll(child);</div><div class="line">                        &#125;</div><div class="line">                    &#125; <span class="keyword">catch</span> (IOException x) &#123;</div><div class="line">                        <span class="comment">// ignore to keep sample readbale</span></div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line"> </div><div class="line">            <span class="keyword">boolean</span> valid = key.reset();</div><div class="line">            <span class="keyword">if</span> (!valid) &#123;</div><div class="line">                <span class="comment">// 移除不可访问的目录</span></div><div class="line">                <span class="comment">// 因为有可能目录被移除，就会无法访问</span></div><div class="line">                keys.remove(key);</div><div class="line">                <span class="comment">// 如果待监控的目录都不存在了，就中断执行</span></div><div class="line">                <span class="keyword">if</span> (keys.isEmpty()) &#123;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="文件变更行为枚举"><a href="#文件变更行为枚举" class="headerlink" title="文件变更行为枚举"></a>文件变更行为枚举</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.xdemo.superutil.j2se.filewatch;</div><div class="line"> </div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 文件变动行为枚举</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> Goofy &lt;a href="http://www.xdemo.org/"&gt;http://www.xdemo.org/&lt;/a&gt;</span></div><div class="line"><span class="comment"> * <span class="doctag">@Date</span> 2015年7月3日 上午10:40:04</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">enum</span> FileAction &#123;</div><div class="line">    DELETE(<span class="string">"ENTRY_DELETE"</span>), CREATE(<span class="string">"ENTRY_CREATE"</span>), MODIFY(<span class="string">"ENTRY_MODIFY"</span>);</div><div class="line">    <span class="keyword">private</span> String value;</div><div class="line"> </div><div class="line">    FileAction(String value) &#123;</div><div class="line">        <span class="keyword">this</span>.value = value;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getValue</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> value;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="文件变动回调方法"><a href="#文件变动回调方法" class="headerlink" title="文件变动回调方法"></a>文件变动回调方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"> </div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 文件操作的回调方法</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> Goofy &lt;a href="http://www.xdemo.org/"&gt;http://www.xdemo.org/&lt;/a&gt;</span></div><div class="line"><span class="comment"> * <span class="doctag">@Date</span> 2015年7月6日 上午11:11:34</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">FileActionCallback</span> </span>&#123;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(File file)</span> </span>&#123;</div><div class="line">    &#125;;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">modify</span><span class="params">(File file)</span> </span>&#123;</div><div class="line">    &#125;;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">(File file)</span> </span>&#123;</div><div class="line">    &#125;;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.xdemo.superutil.j2se.filewatch;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"> </div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * </span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> Goofy</span></div><div class="line"><span class="comment"> * <span class="doctag">@Date</span> 2015年7月6日 上午11:22:32</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Usage</span> </span>&#123;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">final</span> File file = <span class="keyword">new</span> File(<span class="string">"D:\\upload"</span>);</div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="keyword">new</span> WatchDir(file, <span class="keyword">true</span>, <span class="keyword">new</span> FileActionCallback() &#123;</div><div class="line">                        <span class="meta">@Override</span></div><div class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">create</span><span class="params">(File file)</span> </span>&#123;</div><div class="line">                            System.out.println(<span class="string">"文件已创建\t"</span> + file.getAbsolutePath());</div><div class="line">                        &#125;</div><div class="line"> </div><div class="line">                        <span class="meta">@Override</span></div><div class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">delete</span><span class="params">(File file)</span> </span>&#123;</div><div class="line">                            System.out.println(<span class="string">"文件已删除\t"</span> + file.getAbsolutePath());</div><div class="line">                        &#125;</div><div class="line"> </div><div class="line">                        <span class="meta">@Override</span></div><div class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">modify</span><span class="params">(File file)</span> </span>&#123;</div><div class="line">                            System.out.println(<span class="string">"文件已修改\t"</span> + file.getAbsolutePath());</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line"> </div><div class="line">        System.out.println(<span class="string">"正在监视文件夹:"</span> + file.getAbsolutePath() + <span class="string">"的变化"</span>);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>修改文件名称会产生多个事件<br>待修改文件–&gt;删除该文件-&gt;创建该文件-&gt;修改该文件<br>对于子文件夹的内容变动，也会引起该子文件夹的修改事件</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/10/AMD与CMD/" rel="next" title="AMD与CMD">
+                <i class="fa fa-chevron-left"></i> AMD与CMD
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/10/Github 安全类Repo收集整理/" rel="prev" title="Github 安全类Repo收集整理">
+                Github 安全类Repo收集整理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/20171022140737.png"
+                alt="hanx" />
+            
+              <p class="site-author-name" itemprop="name">hanx</p>
+              <p class="site-description motion-element" itemprop="description">向死而生</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#监控主类"><span class="nav-number">1.</span> <span class="nav-text">监控主类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件变更行为枚举"><span class="nav-number">2.</span> <span class="nav-text">文件变更行为枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件变动回调方法"><span class="nav-number">3.</span> <span class="nav-text">文件变动回调方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用法"><span class="nav-number">4.</span> <span class="nav-text">用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">5.</span> <span class="nav-text">说明</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    ❤
+  </span>
+  <span class="author" itemprop="copyrightHolder">hanx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  1052685403@qq.com
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

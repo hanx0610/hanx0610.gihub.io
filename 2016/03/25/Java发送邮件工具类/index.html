@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="hanx の 碎片栈" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="支持多附件 支持多收件人 支持富文本 暂不支持SSL加密传输，暂不支持抄送和暗送，需要的稍微添加几行代码即可。  Maven依赖12345678910&amp;lt;dependency&amp;gt;	&amp;lt;groupId&amp;gt;javax.mail&amp;lt;/groupId&amp;gt;	&amp;lt;artifactId&amp;gt;javax.mail-api&amp;lt;/artifactId&amp;gt;	&amp;lt;version">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java性能调优随记">
+<meta property="og:url" content="http://yoursite.com/2016/03/25/Java发送邮件工具类/index.html">
+<meta property="og:site_name" content="hanx の 碎片栈">
+<meta property="og:description" content="支持多附件 支持多收件人 支持富文本 暂不支持SSL加密传输，暂不支持抄送和暗送，需要的稍微添加几行代码即可。  Maven依赖12345678910&amp;lt;dependency&amp;gt;	&amp;lt;groupId&amp;gt;javax.mail&amp;lt;/groupId&amp;gt;	&amp;lt;artifactId&amp;gt;javax.mail-api&amp;lt;/artifactId&amp;gt;	&amp;lt;version">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-27T13:40:04.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java性能调优随记">
+<meta name="twitter:description" content="支持多附件 支持多收件人 支持富文本 暂不支持SSL加密传输，暂不支持抄送和暗送，需要的稍微添加几行代码即可。  Maven依赖12345678910&amp;lt;dependency&amp;gt;	&amp;lt;groupId&amp;gt;javax.mail&amp;lt;/groupId&amp;gt;	&amp;lt;artifactId&amp;gt;javax.mail-api&amp;lt;/artifactId&amp;gt;	&amp;lt;version">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e7cd7543c04aa55f06761709bc920324";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/03/25/Java发送邮件工具类/"/>
+
+
+
+
+
+  <title>Java性能调优随记 | hanx の 碎片栈</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hanx の 碎片栈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Time waits for no one</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-collection">
+          <a href="/me/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            收藏
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/25/Java发送邮件工具类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java性能调优随记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-25T13:22:30+08:00">
+                2016-03-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>支持多附件</li>
+<li>支持多收件人</li>
+<li>支持富文本</li>
+<li>暂不支持SSL加密传输，暂不支持抄送和暗送，需要的稍微添加几行代码即可。</li>
+</ul>
+<h3 id="Maven依赖"><a href="#Maven依赖" class="headerlink" title="Maven依赖"></a>Maven依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.mail<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.mail-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.sun.mail<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>dsn<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="Email"><a href="#Email" class="headerlink" title="Email"></a>Email</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.xdemo.superutil.thirdparty.mail;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.security.GeneralSecurityException;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Properties;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> com.sun.mail.util.MailSSLSocketFactory;</div><div class="line"> </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Email</span> </span>&#123;</div><div class="line">    <span class="comment">// 发送邮件的服务器的IP和端口</span></div><div class="line">    <span class="keyword">private</span> String mailServerHost;</div><div class="line">    <span class="keyword">private</span> String mailServerPort;</div><div class="line">    <span class="comment">// 邮件发送者的地址</span></div><div class="line">    <span class="keyword">private</span> String fromAddress;</div><div class="line">    <span class="comment">//邮件发送者名称</span></div><div class="line">    <span class="keyword">private</span> String fromNickName;</div><div class="line">    <span class="comment">// 邮件接收者的地址</span></div><div class="line">    <span class="keyword">private</span> String toAddress;</div><div class="line">    <span class="comment">// 登陆邮件发送服务器的用户名和密码</span></div><div class="line">    <span class="keyword">private</span> String userName;</div><div class="line">    <span class="keyword">private</span> String password;</div><div class="line">    <span class="comment">// 是否需要身份验证</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> validate = <span class="keyword">false</span>;</div><div class="line">    <span class="comment">// 邮件主题</span></div><div class="line">    <span class="keyword">private</span> String subject;</div><div class="line">    <span class="comment">// 邮件的文本内容</span></div><div class="line">    <span class="keyword">private</span> String content;</div><div class="line">    <span class="comment">// 邮件附件的文件名</span></div><div class="line">    <span class="keyword">private</span> List&lt;File&gt; attachments;</div><div class="line"> </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 获得邮件会话属性</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> GeneralSecurityException </span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Properties <span class="title">getProperties</span><span class="params">()</span> <span class="keyword">throws</span> GeneralSecurityException </span>&#123;</div><div class="line">        Properties props = <span class="keyword">new</span> Properties();</div><div class="line">        props.put(<span class="string">"mail.smtp.host"</span>, <span class="keyword">this</span>.mailServerHost);</div><div class="line">        props.put(<span class="string">"mail.smtp.port"</span>, <span class="keyword">this</span>.mailServerPort);</div><div class="line">        props.put(<span class="string">"mail.smtp.auth"</span>, validate ? <span class="string">"true"</span> : <span class="string">"false"</span>);</div><div class="line">        <span class="comment">//SSL</span></div><div class="line">        <span class="comment">/*MailSSLSocketFactory sf = new MailSSLSocketFactory();</span></div><div class="line"><span class="comment">        sf.setTrustAllHosts(true);</span></div><div class="line"><span class="comment">        props.put("mail.smtp.ssl.enable", "true");</span></div><div class="line"><span class="comment">        props.put("mail.smtp.ssl.socketFactory", sf);</span></div><div class="line"><span class="comment">        props.put("mail.smtp.socketFactory.fallback", "false");</span></div><div class="line"><span class="comment">        props.setProperty("mail.transport.protocol", "smtps");</span></div><div class="line"><span class="comment">        props.put("mail.smtp.starttls.enable", "true");*/</span></div><div class="line">        <span class="keyword">return</span> props;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMailServerHost</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mailServerHost;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMailServerHost</span><span class="params">(String mailServerHost)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mailServerHost = mailServerHost;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMailServerPort</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mailServerPort;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMailServerPort</span><span class="params">(String mailServerPort)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mailServerPort = mailServerPort;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValidate</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> validate;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValidate</span><span class="params">(<span class="keyword">boolean</span> validate)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.validate = validate;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;File&gt; <span class="title">getAttachments</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> attachments;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAttachments</span><span class="params">(List&lt;File&gt; attachments)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.attachments = attachments;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFromAddress</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> fromAddress;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFromAddress</span><span class="params">(String fromAddress)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.fromAddress = fromAddress;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> password;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPassword</span><span class="params">(String password)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.password = password;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getToAddress</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> toAddress;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setToAddress</span><span class="params">(String toAddress)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.toAddress = toAddress;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUserName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> userName;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserName</span><span class="params">(String userName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.userName = userName;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getSubject</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> subject;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSubject</span><span class="params">(String subject)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.subject = subject;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> content;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContent</span><span class="params">(String textContent)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.content = textContent;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFromNickName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> fromNickName;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFromNickName</span><span class="params">(String fromNickName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.fromNickName = fromNickName;</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="自定义认证MailAuthenticator"><a href="#自定义认证MailAuthenticator" class="headerlink" title="自定义认证MailAuthenticator"></a>自定义认证MailAuthenticator</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.xdemo.superutil.thirdparty.mail;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> javax.mail.Authenticator;</div><div class="line"><span class="keyword">import</span> javax.mail.PasswordAuthentication;</div><div class="line"> </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MailAuthenticator</span> <span class="keyword">extends</span> <span class="title">Authenticator</span></span>&#123;</div><div class="line">     </div><div class="line">    String userName = <span class="keyword">null</span>;  </div><div class="line">    String password = <span class="keyword">null</span>;  </div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MailAuthenticator</span><span class="params">()</span> </span>&#123;  </div><div class="line">    &#125;  </div><div class="line">   </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MailAuthenticator</span><span class="params">(String userName, String password)</span> </span>&#123;  </div><div class="line">        <span class="keyword">this</span>.userName = userName;  </div><div class="line">        <span class="keyword">this</span>.password = password;  </div><div class="line">    &#125;  </div><div class="line">   </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> PasswordAuthentication <span class="title">getPasswordAuthentication</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> PasswordAuthentication(userName, password);  </div><div class="line">    &#125;  </div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="MailSender，邮件发送主要的类，含有Main测试方法"><a href="#MailSender，邮件发送主要的类，含有Main测试方法" class="headerlink" title="MailSender，邮件发送主要的类，含有Main测试方法"></a>MailSender，邮件发送主要的类，含有Main测试方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.xdemo.superutil.thirdparty.mail;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.UnsupportedEncodingException;</div><div class="line"><span class="keyword">import</span> java.security.GeneralSecurityException;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"><span class="keyword">import</span> java.util.Properties;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> javax.activation.DataHandler;</div><div class="line"><span class="keyword">import</span> javax.activation.FileDataSource;</div><div class="line"><span class="keyword">import</span> javax.mail.Address;</div><div class="line"><span class="keyword">import</span> javax.mail.Message;</div><div class="line"><span class="keyword">import</span> javax.mail.MessagingException;</div><div class="line"><span class="keyword">import</span> javax.mail.Multipart;</div><div class="line"><span class="keyword">import</span> javax.mail.Session;</div><div class="line"><span class="keyword">import</span> javax.mail.Transport;</div><div class="line"><span class="keyword">import</span> javax.mail.internet.InternetAddress;</div><div class="line"><span class="keyword">import</span> javax.mail.internet.MimeBodyPart;</div><div class="line"><span class="keyword">import</span> javax.mail.internet.MimeMessage;</div><div class="line"><span class="keyword">import</span> javax.mail.internet.MimeMultipart;</div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * 邮件发送</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> &lt;a href="http://www.xdemo.org"&gt;xdemo.org&lt;/a&gt;</span></div><div class="line"><span class="comment"> *</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MailSender</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 以文本格式发送邮件</span></div><div class="line"><span class="comment">     * </span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> mail</span></div><div class="line"><span class="comment">     * 待发送的邮件的信息</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> GeneralSecurityException </span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">sendTextMail</span><span class="params">(Email mail)</span> <span class="keyword">throws</span> GeneralSecurityException </span>&#123;</div><div class="line">        <span class="comment">// 判断是否需要身份认证</span></div><div class="line">        MailAuthenticator authenticator = <span class="keyword">null</span>;</div><div class="line">        Properties pro = mail.getProperties();</div><div class="line">        <span class="keyword">if</span> (mail.isValidate()) &#123;</div><div class="line">            <span class="comment">// 如果需要身份认证，则创建一个密码验证器</span></div><div class="line">            authenticator = <span class="keyword">new</span> MailAuthenticator(mail.getUserName(), mail.getPassword());</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 根据邮件会话属性和密码验证器构造一个发送邮件的session</span></div><div class="line">        Session sendMailSession = Session.getDefaultInstance(pro, authenticator);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// 根据session创建一个邮件消息</span></div><div class="line">            Message mailMessage = <span class="keyword">new</span> MimeMessage(sendMailSession);</div><div class="line">            <span class="comment">// 创建邮件发送者地址</span></div><div class="line">            Address from = <span class="keyword">new</span> InternetAddress(mail.getFromAddress());</div><div class="line">            <span class="comment">// 设置邮件消息的发送者</span></div><div class="line">            mailMessage.setFrom(from);</div><div class="line">            <span class="comment">// 创建邮件的接收者地址，并设置到邮件消息中</span></div><div class="line">            Address to = <span class="keyword">new</span> InternetAddress(mail.getToAddress());</div><div class="line">            mailMessage.setRecipient(Message.RecipientType.TO, to);</div><div class="line">            <span class="comment">// 设置邮件消息的主题</span></div><div class="line">            mailMessage.setSubject(mail.getSubject());</div><div class="line">            <span class="comment">// 设置邮件消息发送的时间</span></div><div class="line">            mailMessage.setSentDate(<span class="keyword">new</span> Date());</div><div class="line">            <span class="comment">// 设置邮件消息的主要内容</span></div><div class="line">            String mailContent = mail.getContent();</div><div class="line">            mailMessage.setText(mailContent);</div><div class="line">            <span class="comment">// 发送邮件</span></div><div class="line">            Transport.send(mailMessage);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125; <span class="keyword">catch</span> (MessagingException ex) &#123;</div><div class="line">            ex.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="comment">/**</span></div><div class="line"><span class="comment">     * 以HTML格式发送邮件</span></div><div class="line"><span class="comment">     * </span></div><div class="line"><span class="comment">     * <span class="doctag">@param</span> mail</span></div><div class="line"><span class="comment">     *            待发送的邮件信息</span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> GeneralSecurityException </span></div><div class="line"><span class="comment">     * <span class="doctag">@throws</span> UnsupportedEncodingException </span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">sendHtmlMail</span><span class="params">(Email mail)</span> <span class="keyword">throws</span> GeneralSecurityException, UnsupportedEncodingException </span>&#123;</div><div class="line">        <span class="comment">// 判断是否需要身份认证</span></div><div class="line">        MailAuthenticator authenticator = <span class="keyword">null</span>;</div><div class="line">        Properties props = mail.getProperties();</div><div class="line">        <span class="comment">// 如果需要身份认证，则创建一个密码验证器</span></div><div class="line">        <span class="keyword">if</span> (mail.isValidate()) &#123;</div><div class="line">            authenticator = <span class="keyword">new</span> MailAuthenticator(mail.getUserName(), mail.getPassword());</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 根据邮件会话属性和密码验证器构造一个发送邮件的session</span></div><div class="line">        Session sendMailSession = Session.getDefaultInstance(props, authenticator);</div><div class="line">        sendMailSession.setDebug(<span class="keyword">true</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// 根据session创建一个邮件消息</span></div><div class="line">            Message mailMessage = <span class="keyword">new</span> MimeMessage(sendMailSession);</div><div class="line">            <span class="comment">// 创建邮件发送者地址</span></div><div class="line">            Address from = <span class="keyword">new</span> InternetAddress(mail.getFromAddress(),mail.getFromNickName()==<span class="keyword">null</span>?<span class="string">""</span>:mail.getFromNickName());</div><div class="line">            <span class="comment">// 设置邮件消息的发送者</span></div><div class="line">            mailMessage.setFrom(from);</div><div class="line">            <span class="comment">// 创建邮件的接收者地址，并设置到邮件消息中,可以设置多个收件人，逗号隔开</span></div><div class="line">            <span class="comment">// Message.RecipientType.TO属性表示接收者的类型为TO,CC表示抄送,BCC暗送</span></div><div class="line">            mailMessage.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getToAddress()));</div><div class="line">            <span class="comment">// 设置邮件消息的主题</span></div><div class="line">            mailMessage.setSubject(mail.getSubject());</div><div class="line">            <span class="comment">// 设置邮件消息发送的时间</span></div><div class="line">            mailMessage.setSentDate(<span class="keyword">new</span> Date());</div><div class="line"> </div><div class="line">            <span class="comment">// MiniMultipart类是一个容器类，包含MimeBodyPart类型的对象</span></div><div class="line">            Multipart mainPart = <span class="keyword">new</span> MimeMultipart();</div><div class="line">            <span class="comment">// 创建一个包含HTML内容的MimeBodyPart</span></div><div class="line">            MimeBodyPart html = <span class="keyword">new</span> MimeBodyPart();</div><div class="line">            <span class="comment">// 设置HTML内容</span></div><div class="line">            html.setContent(mail.getContent(), <span class="string">"text/html; charset=utf-8"</span>);</div><div class="line">            mainPart.addBodyPart(html);</div><div class="line"> </div><div class="line">            <span class="comment">// 设置信件的附件(用本地上的文件作为附件)</span></div><div class="line">            FileDataSource fds=<span class="keyword">null</span>;</div><div class="line">            DataHandler dh=<span class="keyword">null</span>;</div><div class="line">            <span class="keyword">for</span>(File file:mail.getAttachments())&#123;</div><div class="line">                html = <span class="keyword">new</span> MimeBodyPart();</div><div class="line">                fds= <span class="keyword">new</span> FileDataSource(file);</div><div class="line">                dh= <span class="keyword">new</span> DataHandler(fds);</div><div class="line">                html.setFileName(file.getName());</div><div class="line">                html.setDataHandler(dh);</div><div class="line">                mainPart.addBodyPart(html);</div><div class="line">            &#125;</div><div class="line"> </div><div class="line">            <span class="comment">// 将MiniMultipart对象设置为邮件内容</span></div><div class="line">            mailMessage.setContent(mainPart);</div><div class="line">            mailMessage.saveChanges();</div><div class="line"> </div><div class="line">            <span class="comment">// 发送邮件</span></div><div class="line">            Transport.send(mailMessage);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        &#125; <span class="keyword">catch</span> (MessagingException ex) &#123;</div><div class="line">            ex.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> GeneralSecurityException, UnsupportedEncodingException </span>&#123;</div><div class="line">        <span class="comment">// 这个类主要是设置邮件  </span></div><div class="line">        Email mailInfo = <span class="keyword">new</span> Email();  </div><div class="line">        mailInfo.setMailServerHost(SmtpServer.smtp_sina.get(<span class="string">"smtp"</span>));  </div><div class="line">        mailInfo.setMailServerPort(SmtpServer.smtp_sina.get(<span class="string">"port"</span>));</div><div class="line">        mailInfo.setValidate(<span class="keyword">true</span>);</div><div class="line">        mailInfo.setFromNickName(<span class="string">"xdemo网站"</span>);</div><div class="line">        mailInfo.setUserName(<span class="string">"xxx@sina.com"</span>); <span class="comment">// 实际发送者  </span></div><div class="line">        mailInfo.setPassword(<span class="string">"xxx"</span>);<span class="comment">// 您的邮箱密码  </span></div><div class="line">        mailInfo.setFromAddress(<span class="string">"xxx@sina.com"</span>); <span class="comment">// 设置发送人邮箱地址  </span></div><div class="line">        mailInfo.setToAddress(<span class="string">"zzz@qq.com,ccc@163.com"</span>); <span class="comment">// 设置接受者邮箱地址  </span></div><div class="line">        mailInfo.setSubject(<span class="string">"Ant测试"</span>);  </div><div class="line">        mailInfo.setContent(<span class="string">"&lt;a href='http://www.xdemo.org'&gt;xdemo&lt;/a&gt;&lt;img src='http://www.xdemo.org.img.800cdn.com/wp-content/uploads/2014/03/logo1.png'&gt;&lt;/img&gt;"</span>);</div><div class="line">        mailInfo.setAttachments(<span class="keyword">new</span> ArrayList&lt;File&gt;()&#123;</div><div class="line">            &#123;</div><div class="line">                add(<span class="keyword">new</span> File(<span class="string">"D:\\libs\\json-1.0.jar"</span>));</div><div class="line">                add(<span class="keyword">new</span> File(<span class="string">"D:\\libs\\ueditor-1.1.1.jar"</span>));</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        <span class="comment">// 这个类主要来发送邮件  </span></div><div class="line">        MailSender sms = <span class="keyword">new</span> MailSender();  </div><div class="line"><span class="comment">//        sms.sendTextMail(mailInfo); // 发送文体格式  </span></div><div class="line">        sms.sendHtmlMail(mailInfo); <span class="comment">// 发送html格式</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/06/用CSS开启硬件加速来提高性能/" rel="next" title="用CSS开启硬件加速来提高性能">
+                <i class="fa fa-chevron-left"></i> 用CSS开启硬件加速来提高性能
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/28/如何优雅的设计java异常 /" rel="prev" title="如何优雅的设计java异常">
+                如何优雅的设计java异常 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/20171022140737.png"
+                alt="hanx" />
+            
+              <p class="site-author-name" itemprop="name">hanx</p>
+              <p class="site-description motion-element" itemprop="description">向死而生</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Maven依赖"><span class="nav-number">1.</span> <span class="nav-text">Maven依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Email"><span class="nav-number">2.</span> <span class="nav-text">Email</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义认证MailAuthenticator"><span class="nav-number">3.</span> <span class="nav-text">自定义认证MailAuthenticator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MailSender，邮件发送主要的类，含有Main测试方法"><span class="nav-number">4.</span> <span class="nav-text">MailSender，邮件发送主要的类，含有Main测试方法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    ❤
+  </span>
+  <span class="author" itemprop="copyrightHolder">hanx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  1052685403@qq.com
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
