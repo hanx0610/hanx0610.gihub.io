@@ -1254,6 +1254,164 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/用CSS开启硬件加速来提高性能/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/03/06/用CSS开启硬件加速来提高性能/" itemprop="url">用CSS开启硬件加速来提高性能</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
+                2016-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>现在大多数电脑的显卡都支持硬件加速。鉴于此，我们可以发挥GPU的力量，从而使我们的网站或应用表现的更为流畅。</p>
+<h3 id="在桌面端和移动端用CSS开启硬件加速"><a href="#在桌面端和移动端用CSS开启硬件加速" class="headerlink" title="在桌面端和移动端用CSS开启硬件加速"></a>在桌面端和移动端用CSS开启硬件加速</h3><p>CSS animations, transforms 以及 transitions 不会自动开启GPU加速，而是由浏览器的缓慢的软件渲染引擎来执行。那我们怎样才可以切换到GPU模式呢，很多浏览器提供了某些触发的CSS规则。<br>现在，像Chrome, FireFox, Safari, IE9+和最新版本的Opera都支持硬件加速，当它们检测到页面中某个DOM元素应用了某些CSS规则时就会开启，最显著的特征的元素的3D变换。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cube</span> &#123;</div><div class="line">   <span class="attribute">-webkit-transform</span>: <span class="built_in">translate3d</span>(250px,250px,250px)</div><div class="line">   <span class="built_in">rotate3d</span>(250px,250px,250px,-120deg)</div><div class="line">   <span class="built_in">scale3d</span>(0.5, 0.5, 0.5);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可是在一些情况下，我们并不需要对元素应用3D变换的效果，那怎么办呢？这时候我们可以使用个小技巧“欺骗”浏览器来开启硬件加速。<br>虽然我们可能不想对元素应用3D变换，可我们一样可以开启3D引擎。例如我们可以用transform: translateZ(0); 来开启硬件加速 。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cube</span> &#123;</div><div class="line">   <span class="attribute">-webkit-transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="attribute">-moz-transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="attribute">-ms-transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="attribute">-o-transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="attribute">transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="comment">/* Other transform properties here */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在 Chrome and Safari中，当我们使用CSS transforms 或者 animations时可能会有页面闪烁的效果，下面的代码可以修复此情况：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cube</span> &#123;</div><div class="line">   <span class="attribute">-webkit-backface-visibility</span>: hidden;</div><div class="line">   <span class="attribute">-moz-backface-visibility</span>: hidden;</div><div class="line">   <span class="attribute">-ms-backface-visibility</span>: hidden;</div><div class="line">   <span class="attribute">backface-visibility</span>: hidden;</div><div class="line"> </div><div class="line">   <span class="attribute">-webkit-perspective</span>: <span class="number">1000</span>;</div><div class="line">   <span class="attribute">-moz-perspective</span>: <span class="number">1000</span>;</div><div class="line">   <span class="attribute">-ms-perspective</span>: <span class="number">1000</span>;</div><div class="line">   <span class="attribute">perspective</span>: <span class="number">1000</span>;</div><div class="line">   <span class="comment">/* Other transform properties here */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在webkit内核的浏览器中，另一个行之有效的方法是</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cube</span> &#123;</div><div class="line">   <span class="attribute">-webkit-transform</span>: <span class="built_in">translate3d</span>(0, 0, 0);</div><div class="line">   <span class="attribute">-moz-transform</span>: <span class="built_in">translate3d</span>(0, 0, 0);</div><div class="line">   <span class="attribute">-ms-transform</span>: <span class="built_in">translate3d</span>(0, 0, 0);</div><div class="line">   <span class="attribute">transform</span>: <span class="built_in">translate3d</span>(0, 0, 0);</div><div class="line">  <span class="comment">/* Other transform properties here */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>原生的移动端应用(Native mobile applications)总是可以很好的运用GPU，这是为什么它比网页应用(Web apps)表现更好的原因。硬件加速在移动端尤其有用，因为它可以有效的减少资源的利用(麦时注：移动端本身资源有限)。</p>
+<h3 id="通过-webkit-transform-transition3d-translateZ开启GPU硬件加速的适用范围："><a href="#通过-webkit-transform-transition3d-translateZ开启GPU硬件加速的适用范围：" class="headerlink" title="通过-webkit-transform:transition3d/translateZ开启GPU硬件加速的适用范围："></a>通过-webkit-transform:transition3d/translateZ开启GPU硬件加速的适用范围：</h3><ul>
+<li>使用很多大尺寸图片(尤其是PNG24图)进行动画的页面。</li>
+<li>页面有很多大尺寸图片并且进行了css缩放处理，页面可以滚动时。</li>
+<li>使用background-size:cover设置大尺寸背景图，并且页面可以滚动时。(详见:<a href="https://coderwall.com/p/j5udlw" target="_blank" rel="external">https://coderwall.com/p/j5udlw</a>)</li>
+<li>编写大量DOM元素进行CSS3动画时(transition/transform/keyframes/absTop&amp;Left)</li>
+<li>使用很多PNG图片拼接成CSS Sprite时</li>
+</ul>
+<h3 id="如何监测动画帧速率"><a href="#如何监测动画帧速率" class="headerlink" title="如何监测动画帧速率"></a>如何监测动画帧速率</h3><p>推荐两种实时监测网页渲染帧速率的方法：</p>
+<ol>
+<li>Chrome的DevTool中TimeLine的Frame模块<br><img src="/img/timeline-500x303.jpg" alt="这里写图片描述"><br>2.地址栏输入”chrome:flags”搜索”fps”，将”FPS计数器”开启，浏览器重启后右上角会实时显示帧速率。<br><img src="/img/FPS_counter.png" alt="这里写图片描述"></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/Spring Cloud概述/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1365,6 +1523,145 @@ var _hmt = _hmt || [];
 <li>Chrome的DevTool中TimeLine的Frame模块<br><img src="/img/timeline-500x303.jpg" alt="这里写图片描述"><br>2.地址栏输入”chrome:flags”搜索”fps”，将”FPS计数器”开启，浏览器重启后右上角会实时显示帧速率。<br><img src="/img/FPS_counter.png" alt="这里写图片描述"></li>
 </ol>
 
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/JavaScript中Ajax的简单封装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/03/06/JavaScript中Ajax的简单封装/" itemprop="url">Javascript中Ajax的简单封装</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
+                2016-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1、封裝AJAX函數</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">nativeAjax</span>(<span class="params">option,success,error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 定义domain,方便环境切换</span></div><div class="line">    <span class="keyword">var</span> domain=<span class="string">'https://'</span> + <span class="built_in">window</span>.location.host + <span class="string">'/'</span>;</div><div class="line">    <span class="keyword">var</span> url=domain+option.urlStr;</div><div class="line">    <span class="keyword">var</span> type=option.ajaxType;</div><div class="line">    <span class="keyword">var</span> data=option.ajaxData;</div><div class="line">    <span class="keyword">var</span> xhrRequest=<span class="literal">null</span>;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.XMLHttpRequest)&#123;</div><div class="line">        xhrRequest = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        xhrRequest = <span class="keyword">new</span> ActiveXObject(<span class="string">'Microsoft.XMLHTTP'</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> str=<span class="string">""</span>;</div><div class="line">    xhrRequest.open(type,url,<span class="literal">true</span>);</div><div class="line">    <span class="keyword">if</span>(type===<span class="string">"POST"</span>&amp;&amp;data!=<span class="literal">null</span>)&#123;</div><div class="line">        xhrRequest.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded;charset=utf-8"</span>);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> data)&#123;</div><div class="line">            str+=<span class="string">'&amp;'</span>+key+<span class="string">'='</span>+data[key];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">str=str.slice(<span class="number">1</span>);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line"></div><div class="line">str=<span class="literal">null</span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line">    xhrRequest.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(xhrRequest.readyState==<span class="number">4</span>)&#123;</div><div class="line">            <span class="keyword">if</span>(xhrRequest.status==<span class="number">200</span>)&#123;</div><div class="line">                <span class="comment">// 1.1、格式化返回的数据</span></div><div class="line">                <span class="keyword">var</span> responseData=<span class="built_in">JSON</span>.parse(xhrRequest.responseText);</div><div class="line">                <span class="comment">// 1.2、这里操作数据--------</span></div><div class="line">                success(responseData);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="comment">// 1.3、没成功返回HTTP状态码</span></div><div class="line">                error(xhrRequest.status);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    xhrRequest.send(str);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 2、POST：定義請求參數</span></div><div class="line"><span class="keyword">var</span> postOption=&#123;</div><div class="line">    ajaxType:<span class="string">"POST"</span>,</div><div class="line">    urlStr:<span class="string">"v2/html/broke/get_broke_ranked_info"</span>,</div><div class="line">    ajaxData:&#123;                                        </div><div class="line">        <span class="string">"HTTP_USER_TOKEN"</span>:token,</div><div class="line">        <span class="string">"HTTP_USER_UID"</span>:pfid, </div><div class="line">        <span class="string">"anchor_pfid"</span>:anchor_pfid,</div><div class="line">        <span class="string">"broke_pfid"</span>:pfid,</div><div class="line">        <span class="string">"date"</span>:date</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 3、调用AJAX</span></div><div class="line">nativeAjax(postOption,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">// 3.1、请求成功回调</span></div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 3.2、请求失败回调,返回HTTP状态码</span></div><div class="line">    <span class="built_in">console</span>.log(error);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//4、GET：定义请求参数</span></div><div class="line"><span class="keyword">var</span> getOption=&#123;</div><div class="line">    ajaxType:<span class="string">"GET"</span>,    </div><div class="line">    urlStr:<span class="string">"v2/html/broke/get_broke_ranked_info"</span>,</div><div class="line">    ajaxData:<span class="literal">null</span>        </div><div class="line">&#125;</div><div class="line">Ajax(getOption,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">// 成功函数</span></div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 失败返回HTTP状态码</span></div><div class="line">    <span class="built_in">console</span>.log(error);</div><div class="line"></div><div class="line">&#125;);</div><div class="line"><span class="comment">// 使用说明</span></div><div class="line"><span class="comment">// 一、option必须</span></div><div class="line">option=&#123;</div><div class="line">    <span class="comment">//1、ajaxType必须："GET"或者"POST"</span></div><div class="line">    ajaxType:<span class="string">""</span>,</div><div class="line">    <span class="comment">//2、urlStr必须："string类型"</span></div><div class="line">    urlStr:<span class="string">""</span>,</div><div class="line">    <span class="comment">//3、必须：POST时候为object&#123;key:value&#125;，GET的时候直接为：null</span></div><div class="line">    ajaxData:<span class="literal">null</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// 二、success请求成功回调必须</span></div><div class="line"><span class="comment">// 三：error请求失败回调必须</span></div></pre></td></tr></table></figure>
           
         
       
@@ -1685,303 +1982,6 @@ var _hmt = _hmt || [];
 <p>但是上面的教程没有给出各个属性的详细解释，建议看看阮一峰的博文，详细易懂而且配图超漂亮的有木有：<br><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html</a></p>
 <p>总结：弹性盒子在移动端的应用会越来越普遍，这套模型值得去好好研究。语法规则都是非常贴近人性，非常灵活，浏览器兼容性也非常好，当然国内百花齐放的移动浏览器会有哪些大坑呢？我们拭目以待~</p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>其他包括position：relative和CSS3中的transform都可以实现定位，但是由于他们在原来的普通流中还占着一个坑，所以很少用来布局啥的。transform是个很酷炫的东西，可以用平面的素材做出很多3D的效果，而且不需要js就可以做，非常好玩。此文已经很长，就不多说了，以后会写一篇文章来专门说说她的故事。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/JavaScript中Ajax的简单封装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/03/06/JavaScript中Ajax的简单封装/" itemprop="url">Javascript中Ajax的简单封装</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
-                2016-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1、封裝AJAX函數</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">nativeAjax</span>(<span class="params">option,success,error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 定义domain,方便环境切换</span></div><div class="line">    <span class="keyword">var</span> domain=<span class="string">'https://'</span> + <span class="built_in">window</span>.location.host + <span class="string">'/'</span>;</div><div class="line">    <span class="keyword">var</span> url=domain+option.urlStr;</div><div class="line">    <span class="keyword">var</span> type=option.ajaxType;</div><div class="line">    <span class="keyword">var</span> data=option.ajaxData;</div><div class="line">    <span class="keyword">var</span> xhrRequest=<span class="literal">null</span>;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.XMLHttpRequest)&#123;</div><div class="line">        xhrRequest = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        xhrRequest = <span class="keyword">new</span> ActiveXObject(<span class="string">'Microsoft.XMLHTTP'</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> str=<span class="string">""</span>;</div><div class="line">    xhrRequest.open(type,url,<span class="literal">true</span>);</div><div class="line">    <span class="keyword">if</span>(type===<span class="string">"POST"</span>&amp;&amp;data!=<span class="literal">null</span>)&#123;</div><div class="line">        xhrRequest.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded;charset=utf-8"</span>);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> data)&#123;</div><div class="line">            str+=<span class="string">'&amp;'</span>+key+<span class="string">'='</span>+data[key];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">str=str.slice(<span class="number">1</span>);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line"></div><div class="line">str=<span class="literal">null</span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line">    xhrRequest.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(xhrRequest.readyState==<span class="number">4</span>)&#123;</div><div class="line">            <span class="keyword">if</span>(xhrRequest.status==<span class="number">200</span>)&#123;</div><div class="line">                <span class="comment">// 1.1、格式化返回的数据</span></div><div class="line">                <span class="keyword">var</span> responseData=<span class="built_in">JSON</span>.parse(xhrRequest.responseText);</div><div class="line">                <span class="comment">// 1.2、这里操作数据--------</span></div><div class="line">                success(responseData);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="comment">// 1.3、没成功返回HTTP状态码</span></div><div class="line">                error(xhrRequest.status);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    xhrRequest.send(str);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 2、POST：定義請求參數</span></div><div class="line"><span class="keyword">var</span> postOption=&#123;</div><div class="line">    ajaxType:<span class="string">"POST"</span>,</div><div class="line">    urlStr:<span class="string">"v2/html/broke/get_broke_ranked_info"</span>,</div><div class="line">    ajaxData:&#123;                                        </div><div class="line">        <span class="string">"HTTP_USER_TOKEN"</span>:token,</div><div class="line">        <span class="string">"HTTP_USER_UID"</span>:pfid, </div><div class="line">        <span class="string">"anchor_pfid"</span>:anchor_pfid,</div><div class="line">        <span class="string">"broke_pfid"</span>:pfid,</div><div class="line">        <span class="string">"date"</span>:date</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 3、调用AJAX</span></div><div class="line">nativeAjax(postOption,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">// 3.1、请求成功回调</span></div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 3.2、请求失败回调,返回HTTP状态码</span></div><div class="line">    <span class="built_in">console</span>.log(error);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//4、GET：定义请求参数</span></div><div class="line"><span class="keyword">var</span> getOption=&#123;</div><div class="line">    ajaxType:<span class="string">"GET"</span>,    </div><div class="line">    urlStr:<span class="string">"v2/html/broke/get_broke_ranked_info"</span>,</div><div class="line">    ajaxData:<span class="literal">null</span>        </div><div class="line">&#125;</div><div class="line">Ajax(getOption,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">// 成功函数</span></div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 失败返回HTTP状态码</span></div><div class="line">    <span class="built_in">console</span>.log(error);</div><div class="line"></div><div class="line">&#125;);</div><div class="line"><span class="comment">// 使用说明</span></div><div class="line"><span class="comment">// 一、option必须</span></div><div class="line">option=&#123;</div><div class="line">    <span class="comment">//1、ajaxType必须："GET"或者"POST"</span></div><div class="line">    ajaxType:<span class="string">""</span>,</div><div class="line">    <span class="comment">//2、urlStr必须："string类型"</span></div><div class="line">    urlStr:<span class="string">""</span>,</div><div class="line">    <span class="comment">//3、必须：POST时候为object&#123;key:value&#125;，GET的时候直接为：null</span></div><div class="line">    ajaxData:<span class="literal">null</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// 二、success请求成功回调必须</span></div><div class="line"><span class="comment">// 三：error请求失败回调必须</span></div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/用CSS开启硬件加速来提高性能/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/03/06/用CSS开启硬件加速来提高性能/" itemprop="url">用CSS开启硬件加速来提高性能</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
-                2016-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>现在大多数电脑的显卡都支持硬件加速。鉴于此，我们可以发挥GPU的力量，从而使我们的网站或应用表现的更为流畅。</p>
-<h3 id="在桌面端和移动端用CSS开启硬件加速"><a href="#在桌面端和移动端用CSS开启硬件加速" class="headerlink" title="在桌面端和移动端用CSS开启硬件加速"></a>在桌面端和移动端用CSS开启硬件加速</h3><p>CSS animations, transforms 以及 transitions 不会自动开启GPU加速，而是由浏览器的缓慢的软件渲染引擎来执行。那我们怎样才可以切换到GPU模式呢，很多浏览器提供了某些触发的CSS规则。<br>现在，像Chrome, FireFox, Safari, IE9+和最新版本的Opera都支持硬件加速，当它们检测到页面中某个DOM元素应用了某些CSS规则时就会开启，最显著的特征的元素的3D变换。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cube</span> &#123;</div><div class="line">   <span class="attribute">-webkit-transform</span>: <span class="built_in">translate3d</span>(250px,250px,250px)</div><div class="line">   <span class="built_in">rotate3d</span>(250px,250px,250px,-120deg)</div><div class="line">   <span class="built_in">scale3d</span>(0.5, 0.5, 0.5);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>可是在一些情况下，我们并不需要对元素应用3D变换的效果，那怎么办呢？这时候我们可以使用个小技巧“欺骗”浏览器来开启硬件加速。<br>虽然我们可能不想对元素应用3D变换，可我们一样可以开启3D引擎。例如我们可以用transform: translateZ(0); 来开启硬件加速 。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cube</span> &#123;</div><div class="line">   <span class="attribute">-webkit-transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="attribute">-moz-transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="attribute">-ms-transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="attribute">-o-transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="attribute">transform</span>: <span class="built_in">translateZ</span>(0);</div><div class="line">   <span class="comment">/* Other transform properties here */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>在 Chrome and Safari中，当我们使用CSS transforms 或者 animations时可能会有页面闪烁的效果，下面的代码可以修复此情况：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cube</span> &#123;</div><div class="line">   <span class="attribute">-webkit-backface-visibility</span>: hidden;</div><div class="line">   <span class="attribute">-moz-backface-visibility</span>: hidden;</div><div class="line">   <span class="attribute">-ms-backface-visibility</span>: hidden;</div><div class="line">   <span class="attribute">backface-visibility</span>: hidden;</div><div class="line"> </div><div class="line">   <span class="attribute">-webkit-perspective</span>: <span class="number">1000</span>;</div><div class="line">   <span class="attribute">-moz-perspective</span>: <span class="number">1000</span>;</div><div class="line">   <span class="attribute">-ms-perspective</span>: <span class="number">1000</span>;</div><div class="line">   <span class="attribute">perspective</span>: <span class="number">1000</span>;</div><div class="line">   <span class="comment">/* Other transform properties here */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>在webkit内核的浏览器中，另一个行之有效的方法是</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cube</span> &#123;</div><div class="line">   <span class="attribute">-webkit-transform</span>: <span class="built_in">translate3d</span>(0, 0, 0);</div><div class="line">   <span class="attribute">-moz-transform</span>: <span class="built_in">translate3d</span>(0, 0, 0);</div><div class="line">   <span class="attribute">-ms-transform</span>: <span class="built_in">translate3d</span>(0, 0, 0);</div><div class="line">   <span class="attribute">transform</span>: <span class="built_in">translate3d</span>(0, 0, 0);</div><div class="line">  <span class="comment">/* Other transform properties here */</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>原生的移动端应用(Native mobile applications)总是可以很好的运用GPU，这是为什么它比网页应用(Web apps)表现更好的原因。硬件加速在移动端尤其有用，因为它可以有效的减少资源的利用(麦时注：移动端本身资源有限)。</p>
-<h3 id="通过-webkit-transform-transition3d-translateZ开启GPU硬件加速的适用范围："><a href="#通过-webkit-transform-transition3d-translateZ开启GPU硬件加速的适用范围：" class="headerlink" title="通过-webkit-transform:transition3d/translateZ开启GPU硬件加速的适用范围："></a>通过-webkit-transform:transition3d/translateZ开启GPU硬件加速的适用范围：</h3><ul>
-<li>使用很多大尺寸图片(尤其是PNG24图)进行动画的页面。</li>
-<li>页面有很多大尺寸图片并且进行了css缩放处理，页面可以滚动时。</li>
-<li>使用background-size:cover设置大尺寸背景图，并且页面可以滚动时。(详见:<a href="https://coderwall.com/p/j5udlw" target="_blank" rel="external">https://coderwall.com/p/j5udlw</a>)</li>
-<li>编写大量DOM元素进行CSS3动画时(transition/transform/keyframes/absTop&amp;Left)</li>
-<li>使用很多PNG图片拼接成CSS Sprite时</li>
-</ul>
-<h3 id="如何监测动画帧速率"><a href="#如何监测动画帧速率" class="headerlink" title="如何监测动画帧速率"></a>如何监测动画帧速率</h3><p>推荐两种实时监测网页渲染帧速率的方法：</p>
-<ol>
-<li>Chrome的DevTool中TimeLine的Frame模块<br><img src="/img/timeline-500x303.jpg" alt="这里写图片描述"><br>2.地址栏输入”chrome:flags”搜索”fps”，将”FPS计数器”开启，浏览器重启后右上角会实时显示帧速率。<br><img src="/img/FPS_counter.png" alt="这里写图片描述"></li>
-</ol>
 
           
         
@@ -2389,7 +2389,7 @@ var _hmt = _hmt || [];
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
