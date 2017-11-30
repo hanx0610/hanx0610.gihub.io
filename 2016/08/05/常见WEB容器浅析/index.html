@@ -83,14 +83,14 @@
 <meta name="description" content="Tomcat支持部分j2ee，免费，出自 apache基金组织Tomcat是一个小型的轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP 程序的首选。 实际上Tomcat部分是Apache服务器的扩展，但它是独立运行的，所以当你运行Tomcat时，它实际上作为一个与Apache 独立的进程单独运行的。 Tomcat不仅仅是一个Servlet容器，它也具有传统">
 <meta name="keywords" content="服务器,Server">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常见Web服务器浅析">
-<meta property="og:url" content="http://yoursite.com/2016/08/05/常见Web服务器浅析/index.html">
+<meta property="og:title" content="常见WEB容器浅析">
+<meta property="og:url" content="http://yoursite.com/2016/08/05/常见WEB容器浅析/index.html">
 <meta property="og:site_name" content="hanx の 碎片栈">
 <meta property="og:description" content="Tomcat支持部分j2ee，免费，出自 apache基金组织Tomcat是一个小型的轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP 程序的首选。 实际上Tomcat部分是Apache服务器的扩展，但它是独立运行的，所以当你运行Tomcat时，它实际上作为一个与Apache 独立的进程单独运行的。 Tomcat不仅仅是一个Servlet容器，它也具有传统">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-30T15:42:40.787Z">
+<meta property="og:updated_time" content="2017-11-30T15:48:22.706Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="常见Web服务器浅析">
+<meta name="twitter:title" content="常见WEB容器浅析">
 <meta name="twitter:description" content="Tomcat支持部分j2ee，免费，出自 apache基金组织Tomcat是一个小型的轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP 程序的首选。 实际上Tomcat部分是Apache服务器的扩展，但它是独立运行的，所以当你运行Tomcat时，它实际上作为一个与Apache 独立的进程单独运行的。 Tomcat不仅仅是一个Servlet容器，它也具有传统">
 
 
@@ -131,13 +131,13 @@ var _hmt = _hmt || [];
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/08/05/常见Web服务器浅析/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/08/05/常见WEB容器浅析/"/>
 
 
 
 
 
-  <title>常见Web服务器浅析 | hanx の 碎片栈</title>
+  <title>常见WEB容器浅析 | hanx の 碎片栈</title>
   
 
 
@@ -264,7 +264,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/05/常见Web服务器浅析/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/05/常见WEB容器浅析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanx">
@@ -281,7 +281,7 @@ var _hmt = _hmt || [];
 
         
         
-          <h1 class="post-title" itemprop="name headline">常见Web服务器浅析</h1>
+          <h1 class="post-title" itemprop="name headline">常见WEB容器浅析</h1>
         
 
         <div class="post-meta">
@@ -403,6 +403,10 @@ var _hmt = _hmt || [];
 <li>从扩展性上讲, fastcgi是一个中立的技术标准, 完全可以支持任何语言写的处理程序(php,java,python…) </li>
 </ul>
 <p><strong>Lighttpd和Apache和Nginx对比</strong><br>Proxy代理 - Apache 非常好 - Nginx 非常好 - Lighttpd 一般<br>Rewriter - Apache 好 - Nginx 非常好 - Lighttpd 一般<br>Fastcgi - Apache不好 - Nginx好 - Lighttpd非常好<br>热部署 - Apache不支持 - Nginx支持 - Lighttpd不支持<br>系统压力 - Apache很大 - Nginx很小 - Lighttpd比较小<br>稳定性 - Apache好 - Nginx非常好 - Lighttpd不好<br>安全性好 - Apache一般 - Nginx一般 - Lighttpd一般<br>技术支持 - Apache非常好 - Nginx很少 - Lighttpd一般<br>静态文件处理 - Apache一般 - Nginx非常好 - Lighttpd好<br>Vhosts虚拟主机 - Apache支持 - Nginx支持 - Lighttpd支持<br>反向代理 - Apache一般 - Nginx非常好 - Lighttpd一般<br>Session sticky - Apache支持 - Nginx不支持 - Lighttpd不支持<br>量级 - Apache重量级 - Nginx轻量 - Lighttpd轻量<br>复杂度 -（安装、配置）- Apache较复杂 - Nginx简单 - Lighttpd简单</p>
+<h3 id="Resin"><a href="#Resin" class="headerlink" title="Resin"></a>Resin</h3><p>Resin是CAUCHO公司的产品，是一个非常流行的支持servlets 和jsp的引擎，速度非常快。Resin本身包含了一个支持HTTP/1.1的WEB服务器。虽然它可以显示动态内容，但是它显示静态内容的能力也非常强，速度直逼APACHE SERVER。许多站点都是使用该WEB服务器构建的。</p>
+<p>Resin也可以和许多其他的WEB服务器一起工作，比如Apache server和IIS等。Resin支持Servlets 3.0标准和JSP 1.2标准。熟悉ASP和PHP的用户可以发现用Resin来进行JSP编程是件很容易的事情。</p>
+<p>Resin支持负载平衡（Load balancing），可以增加WEB站点的可靠性。方法是增加服务器的数量。比如一台SERVER的错误率是1%的话，那么支持负载平衡的两个Resin服务器就可以使错误率降到0.01%。</p>
+<p>Resin也是全免费的。相对于tomcat,后者更象是一个正在研究的项目。目前resin可以支持sun的j2ee，而tomcat不能直接支持，而j2ee是基于java服务器端大系统的基础。Resin3 之后已经不在是一个简单的jsp容器，并且支持ejb,jta等企业功能。目前resin4 (2010年后已经比较稳定)性能更是优秀。并且已经支持servlet 3.0标准. pro版本是收费版本，支持负载均衡和文件缓存。普通版本独立作为web服务器性能就要差一些，可以使用apache+resin的方案借助apache的缓存功能提高性能，但负载均衡就是普通版不能比的。CAUCHO公司还为resin添加了php解析执行功能，能够运行php程序。但相对 php的原生版本还是有一定差距。</p>
 <h3 id="JBoss"><a href="#JBoss" class="headerlink" title="JBoss"></a>JBoss</h3><p>JBoss开源的应用服务器，免费（文档要收费）</p>
 <p>JBoss是全世界开发者共同努力的成果，一个基于J2EE的开放源代码的应用服务器。 因为JBoss代码遵循LGPL许可，你可以在任何商业应用中免费使用它，而不用支付费用。<br>JBoss支持EJB 1.1和EJB 2.0 EJB3.0的规范，它是一个管理EJB的容器和服务器。类似于Sun’s J2SDK EnterpriseEdition（J2EE），JBoss的目标是一个源代码开放的J2EE环境。<br>但是JBoss核心服务仅是提供EJB服务器。JBoss不包括serverlers/JSP page 的WEB容器，当然可以和Tomcat或Jetty绑定使用。</p>
 <p><strong>JBoss还具有如下六大优点：</strong></p>
@@ -613,7 +617,7 @@ var _hmt = _hmt || [];
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat"><span class="nav-number">1.</span> <span class="nav-text">Tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx"><span class="nav-number">2.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache"><span class="nav-number">3.</span> <span class="nav-text">Apache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lighttpd"><span class="nav-number">4.</span> <span class="nav-text">Lighttpd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JBoss"><span class="nav-number">5.</span> <span class="nav-text">JBoss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSphere"><span class="nav-number">6.</span> <span class="nav-text">WebSphere</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Weblogic"><span class="nav-number">7.</span> <span class="nav-text">Weblogic</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat"><span class="nav-number">1.</span> <span class="nav-text">Tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx"><span class="nav-number">2.</span> <span class="nav-text">Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Apache"><span class="nav-number">3.</span> <span class="nav-text">Apache</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lighttpd"><span class="nav-number">4.</span> <span class="nav-text">Lighttpd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resin"><span class="nav-number">5.</span> <span class="nav-text">Resin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JBoss"><span class="nav-number">6.</span> <span class="nav-text">JBoss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSphere"><span class="nav-number">7.</span> <span class="nav-text">WebSphere</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Weblogic"><span class="nav-number">8.</span> <span class="nav-text">Weblogic</span></a></li></ol></div>
             
 
           </div>
