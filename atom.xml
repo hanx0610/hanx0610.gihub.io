@@ -219,9 +219,9 @@
       <category term="安全" scheme="http://yoursite.com/categories/%E5%AE%89%E5%85%A8/"/>
     
     
-      <category term="Github" scheme="http://yoursite.com/tags/Github/"/>
-    
       <category term="安全" scheme="http://yoursite.com/tags/%E5%AE%89%E5%85%A8/"/>
+    
+      <category term="Github" scheme="http://yoursite.com/tags/Github/"/>
     
   </entry>
   
@@ -299,9 +299,9 @@
       <category term="其他" scheme="http://yoursite.com/categories/%E5%85%B6%E4%BB%96/"/>
     
     
-      <category term="其他" scheme="http://yoursite.com/tags/%E5%85%B6%E4%BB%96/"/>
-    
       <category term="Github" scheme="http://yoursite.com/tags/Github/"/>
+    
+      <category term="其他" scheme="http://yoursite.com/tags/%E5%85%B6%E4%BB%96/"/>
     
       <category term="Hexo" scheme="http://yoursite.com/tags/Hexo/"/>
     
