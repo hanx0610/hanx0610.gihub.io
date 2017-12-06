@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/12/06/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E6%A2%B3%E7%90%86/</loc>
+    <lastmod>2017-12-06T14:52:10.691Z</lastmod>
+    <data>
+        <display>
+        <title>WEB前端知识体系梳理</title>
+        <pubTime>2017-12-06T13:16:06.000Z</pubTime>
+        
+        <tag>插件</tag>
+         
+        <tag>JavaScript</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2015/08/01/%E5%9C%A8Web%E5%BA%94%E7%94%A8%E4%B8%AD%E9%80%9A%E8%BF%87TomcatAPI%E5%AF%B9Tomcat%E8%BF%9B%E8%A1%8C%E8%AE%BF%E9%97%AE%E4%B8%8E%E6%8E%A7%E5%88%B6/</loc>
     <lastmod>2017-11-30T15:53:36.938Z</lastmod>
     <data>
@@ -251,9 +273,9 @@
         <title>Github 安全类Repo收集整理</title>
         <pubTime>2017-06-10T02:12:00.000Z</pubTime>
         
-        <tag>Github</tag>
-         
         <tag>安全</tag>
+         
+        <tag>Github</tag>
          
          
            
