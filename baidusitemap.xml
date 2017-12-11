@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://yoursite.com/2017/12/11/Webpack%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2017-12-11T15:21:32.957Z</lastmod>
+    <data>
+        <display>
+        <title>Webpack入门</title>
+        <pubTime>2017-12-11T15:16:06.000Z</pubTime>
+        
+        <tag>Webpack</tag>
+         
+         
+           
+             
+              <breadCrumb title="前端" url="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://yoursite.com/2017/12/06/%E5%89%8D%E7%AB%AF%E7%9F%A5%E8%AF%86%E4%BD%93%E7%B3%BB%E6%A2%B3%E7%90%86/</loc>
-    <lastmod>2017-12-06T15:15:10.027Z</lastmod>
+    <lastmod>2017-12-11T14:16:52.238Z</lastmod>
     <data>
         <display>
         <title>WEB前端知识体系梳理</title>
@@ -229,9 +249,9 @@
         <title>Hexo部署到Github完整步骤</title>
         <pubTime>2017-01-17T09:53:50.000Z</pubTime>
         
-        <tag>Github</tag>
-         
         <tag>其他</tag>
+         
+        <tag>Github</tag>
          
         <tag>Hexo</tag>
          

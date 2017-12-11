@@ -263,6 +263,194 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/20/ES6 ES2015核心内容/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/05/20/ES6 ES2015核心内容/" itemprop="url">ES6/ES2015核心内容</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-20T22:00:00+08:00">
+                2016-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>ECMAScript 6（以下简称ES6）是JavaScript语言的下一代标准。因为当前版本的ES6是在2015年发布的，所以又称ECMAScript 2015。也就是说，ES6就是ES2015。<br>虽然目前并不是所有浏览器都能兼容ES6全部特性，但越来越多的程序员在实际项目当中已经开始使用ES6了。所以就算你现在不打算使用ES6，但为了看懂别人的你也该懂点ES6的语法了…</p>
+<h3 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h3><p>在我们正式讲解ES6语法之前，我们得先了解下Babel。 <a style="color:#09F" href="https://babeljs.io/" target="_blank" rel="external">Babel官网</a><br>Babel是一个广泛使用的ES6转码器，可以将ES6代码转为ES5代码，从而在现有环境执行。大家可以选择自己习惯的工具来使用使用Babel，具体过程可直接在Babel官网查看</p>
+<h3 id="let-const"><a href="#let-const" class="headerlink" title="let, const"></a>let, const</h3><p>这两个的用途与var类似，都是用来声明变量的，但在实际运用中他俩都有各自的特殊用途。<br>首先来看下面这个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">'zach'</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">    <span class="keyword">var</span> name = <span class="string">'obama'</span></div><div class="line">    <span class="built_in">console</span>.log(name)  <span class="comment">//obama</span></div><div class="line">    <span class="keyword">break</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(name)  <span class="comment">//obama</span></div></pre></td></tr></table></figure></p>
+<p>使用var两次输出都是obama，这是因为ES5只有全局作用域和函数作用域，没有块级作用域，这带来很多不合理的场景。第一种场景就是你现在看到的内层变量覆盖外层变量。而let则实际上为JavaScript新增了块级作用域。用它所声明的变量，只在let命令所在的代码块内有效。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> name = <span class="string">'zach'</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">    <span class="keyword">let</span> name = <span class="string">'obama'</span></div><div class="line">    <span class="built_in">console</span>.log(name)  <span class="comment">//obama</span></div><div class="line">    <span class="keyword">break</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(name)  <span class="comment">//zach</span></div></pre></td></tr></table></figure></p>
+<p>另外一个var带来的不合理场景就是用来计数的循环变量泄露为全局变量，看下面的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line">a[<span class="number">6</span>](); <span class="comment">// 10</span></div></pre></td></tr></table></figure></p>
+<p>上面代码中，变量i是var声明的，在全局范围内都有效。所以每一次循环，新的i值都会覆盖旧值，导致最后输出的是最后一轮的i的值。而使用let则不会出现这个问题。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line">a[<span class="number">6</span>](); <span class="comment">// 6</span></div></pre></td></tr></table></figure>
+<p>再来看一个更常见的例子，了解下如果不用ES6，而用闭包如何解决这个问题。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> clickBoxs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.clickBox'</span>)</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; clickBoxs.length; i++)&#123;</div><div class="line">    clickBoxs[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(i)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们本来希望的是点击不同的clickBox，显示不同的i，但事实是无论我们点击哪个clickBox，输出的都是5。下面我们来看下，如何用闭包搞定它。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">iteratorFactory</span>(<span class="params">i</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(i)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> onclick;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> clickBoxs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.clickBox'</span>)</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; clickBoxs.length; i++)&#123;</div><div class="line">    clickBoxs[i].onclick = iteratorFactory(i)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>const也用来声明变量，但是声明的是常量。一旦声明，常量的值就不能改变。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> PI = <span class="built_in">Math</span>.PI</div><div class="line">PI = <span class="number">23</span> <span class="comment">//Module build failed: SyntaxError: /es6/app.js: "PI" is read-only</span></div></pre></td></tr></table></figure></p>
+<p>当我们尝试去改变用const声明的常量时，浏览器就会报错。<br>const有一个很好的应用场景，就是当我们引用第三方库的时声明的变量，用const来声明可以避免未来不小心重命名而导致出现bug：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> monent = <span class="built_in">require</span>(<span class="string">'moment'</span>)</div></pre></td></tr></table></figure></p>
+<h3 id="class-extends-super"><a href="#class-extends-super" class="headerlink" title="class, extends, super"></a>class, extends, super</h3><p>这三个特性涉及了ES5中最令人头疼的的几个部分：原型、构造函数，继承…你还在为它们复杂难懂的语法而烦恼吗？你还在为指针到底指向哪里而纠结万分吗？</p>
+<p>有了ES6我们不再烦恼！</p>
+<p>ES6提供了更接近传统语言的写法，引入了Class（类）这个概念。新的class写法让对象原型的写法更加清晰、更像面向对象编程的语法，也更加通俗易懂。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>()&#123;</div><div class="line">        <span class="keyword">this</span>.type = <span class="string">'animal'</span></div><div class="line">    &#125;</div><div class="line">    says(say)&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.type + <span class="string">' says '</span> + say)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> animal = <span class="keyword">new</span> Animal()</div><div class="line">animal.says(<span class="string">'hello'</span>) <span class="comment">//animal says hello</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>()&#123;</div><div class="line">        <span class="keyword">super</span>()</div><div class="line">        <span class="keyword">this</span>.type = <span class="string">'cat'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> cat = <span class="keyword">new</span> Cat()</div><div class="line">cat.says(<span class="string">'hello'</span>) <span class="comment">//cat says hello</span></div></pre></td></tr></table></figure></p>
+<p>上面代码首先用class定义了一个“类”，可以看到里面有一个constructor方法，这就是构造方法，而this关键字则代表实例对象。简单地说，constructor内定义的方法和属性是实例对象自己的，而constructor外定义的方法和属性则是所有实力对象可以共享的。</p>
+<p>Class之间可以通过extends关键字实现继承，这比ES5的通过修改原型链实现继承，要清晰和方便很多。上面定义了一个Cat类，该类通过extends关键字，继承了Animal类的所有属性和方法。</p>
+<p>super关键字，它指代父类的实例（即父类的this对象）。子类必须在constructor方法中调用super方法，否则新建实例时会报错。这是因为子类没有自己的this对象，而是继承父类的this对象，然后对其进行加工。如果不调用super方法，子类就得不到this对象。</p>
+<p>ES6的继承机制，实质是先创造父类的实例对象this（所以必须先调用super方法），然后再用子类的构造函数修改this。</p>
+<p>P.S 如果你写react的话，就会发现以上三个东西在最新版React中出现得很多。创建的每个component都是一个继承React.Component的类。详见react文档</p>
+<h3 id="arrow-function"><a href="#arrow-function" class="headerlink" title="arrow function"></a>arrow function</h3><p>这个恐怕是ES6最最常用的一个新特性了，用它来写function比原来的写法要简洁清晰很多:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params">i</span>)</span>&#123; <span class="keyword">return</span> i + <span class="number">1</span>; &#125; <span class="comment">//ES5</span></div><div class="line">(i) =&gt; i + <span class="number">1</span> <span class="comment">//ES6</span></div></pre></td></tr></table></figure></p>
+<p>简直是简单的不像话对吧…<br>如果方程比较复杂，则需要用{}把代码包起来：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123; </div><div class="line">    x++;</div><div class="line">    y--;</div><div class="line">    <span class="keyword">return</span> x + y;</div><div class="line">&#125;</div><div class="line">(x, y) =&gt; &#123;x++; y--; <span class="keyword">return</span> x+y&#125;</div></pre></td></tr></table></figure></p>
+<p>除了看上去更简洁以外，arrow function还有一项超级无敌的功能！<br>长期以来，JavaScript语言的this对象一直是一个令人头痛的问题，在对象方法中使用this，必须非常小心。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>()&#123;</div><div class="line">        <span class="keyword">this</span>.type = <span class="string">'animal'</span></div><div class="line">    &#125;</div><div class="line">    says(say)&#123;</div><div class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.type + <span class="string">' says '</span> + say)</div><div class="line">        &#125;, <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> animal = <span class="keyword">new</span> Animal()</div><div class="line">animal.says(<span class="string">'hi'</span>)  <span class="comment">//undefined says hi</span></div></pre></td></tr></table></figure></p>
+<p>运行上面的代码会报错，这是因为setTimeout中的this指向的是全局对象。所以为了让它能够正确的运行，传统的解决方法有两种：</p>
+<ol>
+<li><p>第一种是将this传给self,再用self来指代this</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">says(say)&#123;</div><div class="line"> <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line"> setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	 <span class="built_in">console</span>.log(self.type + <span class="string">' says '</span> + say)</div><div class="line"> &#125;, <span class="number">1000</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p>第二种方法是用bind(this),即</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">says(say)&#123;</div><div class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(self.type + <span class="string">' says '</span> + say)</div><div class="line">    &#125;.bind(<span class="keyword">this</span>), <span class="number">1000</span>)</div></pre></td></tr></table></figure>
+<p>但现在我们有了箭头函数，就不需要这么麻烦了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>()&#123;</div><div class="line">        <span class="keyword">this</span>.type = <span class="string">'animal'</span></div><div class="line">    &#125;</div><div class="line">    says(say)&#123;</div><div class="line">        setTimeout( <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.type + <span class="string">' says '</span> + say)</div><div class="line">        &#125;, <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> <span class="keyword">var</span> animal = <span class="keyword">new</span> Animal()</div><div class="line"> animal.says(<span class="string">'hi'</span>)  <span class="comment">//animal says hi</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>当我们使用箭头函数时，函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。<br>并不是因为箭头函数内部有绑定this的机制，实际原因是箭头函数根本没有自己的this，它的this是继承外面的，因此内部的this就是外层代码块的this。</p>
+<h3 id="template-string"><a href="#template-string" class="headerlink" title="template string"></a>template string</h3><p>这个东西也是非常有用，当我们要插入大段的html内容到文档中时，传统的写法非常麻烦，所以之前我们通常会引用一些模板工具库，比如mustache等等。</p>
+<p>大家可以先看下面一段代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#result"</span>).append(</div><div class="line">  <span class="string">"There are &lt;b&gt;"</span> + basket.count + <span class="string">"&lt;/b&gt; "</span> +</div><div class="line">  <span class="string">"items in your basket, "</span> +</div><div class="line">  <span class="string">"&lt;em&gt;"</span> + basket.onSale +</div><div class="line">  <span class="string">"&lt;/em&gt; are on sale!"</span></div><div class="line">);</div></pre></td></tr></table></figure></p>
+<p>我们要用一堆的’+’号来连接文本与变量，而使用ES6的新特性模板字符串``后，我们可以直接这么来写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#result"</span>).append(<span class="string">`</span></div><div class="line"><span class="string">  There are &lt;b&gt;<span class="subst">$&#123;basket.count&#125;</span>&lt;/b&gt; items</span></div><div class="line"><span class="string">   in your basket, &lt;em&gt;<span class="subst">$&#123;basket.onSale&#125;</span>&lt;/em&gt;</span></div><div class="line"><span class="string">  are on sale!</span></div><div class="line"><span class="string">`</span>);</div></pre></td></tr></table></figure></p>
+<p>用反引号（`）来标识起始，用${}来引用变量，而且所有的空格和缩进都会被保留在输出之中，是不是非常爽？！</p>
+<p>React Router从第1.0.3版开始也使用ES6语法了，比如这个例子：</p>
+<p><link to="{`/taco/${taco.name}`}">{taco.name}<br>React Router</p>
+<h3 id="destructuring"><a href="#destructuring" class="headerlink" title="destructuring"></a>destructuring</h3><p>ES6允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。</p>
+<p>看下面的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> cat = <span class="string">'ken'</span></div><div class="line"><span class="keyword">let</span> dog = <span class="string">'lili'</span></div><div class="line"><span class="keyword">let</span> zoo = &#123;<span class="attr">cat</span>: cat, <span class="attr">dog</span>: dog&#125;</div><div class="line"><span class="built_in">console</span>.log(zoo)  <span class="comment">//Object &#123;cat: "ken", dog: "lili"&#125;</span></div></pre></td></tr></table></figure></p>
+<p>用ES6完全可以像下面这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> cat = <span class="string">'ken'</span></div><div class="line"><span class="keyword">let</span> dog = <span class="string">'lili'</span></div><div class="line"><span class="keyword">let</span> zoo = &#123;cat, dog&#125;</div><div class="line"><span class="built_in">console</span>.log(zoo)  <span class="comment">//Object &#123;cat: "ken", dog: "lili"&#125;</span></div></pre></td></tr></table></figure></p>
+<p>反过来可以这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> dog = &#123;<span class="attr">type</span>: <span class="string">'animal'</span>, <span class="attr">many</span>: <span class="number">2</span>&#125;</div><div class="line"><span class="keyword">let</span> &#123; type, many&#125; = dog</div><div class="line"><span class="built_in">console</span>.log(type, many)   <span class="comment">//animal 2</span></div></pre></td></tr></table></figure></p>
+<h3 id="default-rest"><a href="#default-rest" class="headerlink" title="default, rest"></a>default, rest</h3><p>default很简单，意思就是默认值。大家可以看下面的例子，调用animal()方法时忘了传参数，传统的做法就是加上这一句type = type || ‘cat’来指定默认值。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">animal</span>(<span class="params">type</span>)</span>&#123;</div><div class="line">    type = type || <span class="string">'cat'</span>  </div><div class="line">    <span class="built_in">console</span>.log(type)</div><div class="line">&#125;</div><div class="line">animal()</div></pre></td></tr></table></figure></p>
+<p>如果用ES6我们而已直接这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">animal</span>(<span class="params">type = <span class="string">'cat'</span></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(type)</div><div class="line">&#125;</div><div class="line">animal()</div></pre></td></tr></table></figure></p>
+<p>最后一个rest语法也很简单，直接看例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">animals</span>(<span class="params">...types</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(types)</div><div class="line">&#125;</div><div class="line">animals(<span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'fish'</span>) <span class="comment">//["cat", "dog", "fish"]</span></div></pre></td></tr></table></figure></p>
+<p>而如果不用ES6的话，我们则得使用ES5的arguments。<br>总结</p>
+<p>以上就是ES6最常用的一些语法，可以说这20%的语法，在ES6的日常使用中占了80%…</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/10/JavaScript的闭包/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1427,6 +1615,327 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/CSS自适应布局/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/03/06/CSS自适应布局/" itemprop="url">CSS自适应布局</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
+                2016-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="尺寸相关"><a href="#尺寸相关" class="headerlink" title="尺寸相关"></a>尺寸相关</h3><p>为什么要先说尺寸呢？因为尺寸在布局中的作用非常核心，布局方式定位这些只是改变了元素之间的关系，没有尺寸就什么也不是。比如我们通常会用margin来控制跟其他元素的距离，这就是布局。<br>很多人都会觉得，什么width、margin太简单了，早就掌握了。这种心态我一开始学习CSS的时候也有，觉得很好理解很简单，但是后面才发现自己原来很多东西都没真正掌握。看看张鑫旭大神给我们上的政治课：<br><a href="http://www.zhangxinxu.com/wordpress/2012/07/bottleneck-css-study/" target="_blank" rel="external">http://www.zhangxinxu.com/wordpress/2012/07/bottleneck-css-study/</a> </p>
+<p>先说说百分比，百分比是相对父对象的，这里特性非常好用，很多时候会用在自适应布局上面。浏览器尺寸的改变，就是根节点html的长宽改变，我们可以用%来将浏览器尺寸和元素尺寸联系起来，做到自适应。<br>另外一个比较有意思的是auto，auto是很多尺寸值的默认值，也就是由浏览器自动计算。首先是块级元素水平方向的auto，块级元素的margin、border、padding以及content宽度之和等于父元素width。使用auto属性在父元素宽度变化的时候，该元素的宽度也会随之变化。</p>
+<p>但是当该元素被设为浮动时，该元素的width就变成了内容的宽度了，由内容撑开，也就是所谓的有了包裹性。overflow | position:absolute | float:left/right都可以产生包裹性，替换元素也同样具有包裹性。在具有包裹性的元素上想利用width : auto；来让元素宽度自适应浏览器宽是不行的。</p>
+<p>高度方向：外边距重叠，外边距auto为0，这两点需要注意。书写方向什么的，接触比较少就不扯了。那为什么margin：auto对不能计算垂直方向的值呢？很简单，垂直方向是被设计成可以无限扩展的，内容越多浏览器便产生滚动条来扩展，所以垂直方向都找不到一个计算基准，以此返回一个false，便成了0。用处：通过width、height控制大小，各个方向的margin值控制与边界或者其他元素的距离来定位。</p>
+<h3 id="浮动"><a href="#浮动" class="headerlink" title="浮动"></a>浮动</h3><p>目前PC网站大多使用float布局，从成本上考虑大改的概率很小，所以不要说浮动无用，总是会有机会让你维护的！代表网站：淘宝、腾讯、百度，好吧BAT都到齐了。</p>
+<p>浮动听得多了，博客园上关于用浮动布局的介绍也非常的多。浮动原本用于文本环绕，但却在布局被发扬光大，这就是命！我的理解：浮动布局的核心就是让元素脱离普通流，然后使用width/height，margin/padding将元素定位。脱离普通流的元素，就像脱离地心引力一样，与普通流不在一个高度上。这个跟图层的概念类似。高度不同所以可以叠在其他元素上面产生重叠或者使用负边距跑到父元素外，理解了这一点浮动布局就很好理解了。<br>下面用个圣杯布局的例子说明一下，理解了这个之后其他布局更加简单：<br>left，宽度固定,高度可固定也可由内容撑开<br>right，宽度固定，高度可固定也可由内容撑开<br>center，可以自适应浏览器宽度，高度可固定也可由内容撑开。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#D66464</span>;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</span></div><div class="line"><span class="undefined">                content: "";</span></div><div class="line"><span class="undefined">                clear: both;</span></div><div class="line"><span class="undefined">                display: block;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                float: left;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                float: right;</span></div><div class="line"><span class="undefined">                width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#FFFFFF</span>;</span></div><div class="line"><span class="undefined">                margin-left: 110px;</span></div><div class="line"><span class="undefined">                margin-right: 160px;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap clearfix"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度固定，高度可固定也可以由内容撑开。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度固定，高度可固定也可以由内容撑开。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span>center，可以自适应浏览器宽度，高度可固定也可以由内容撑开。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>原理非常简单，左右侧边栏定宽并浮动，中部内容区放最后不浮动、默认width：auto并设置相应外边距，让左右侧边栏浮动到上面。注意：子元素设置为浮动之后，父对象的高度就坍塌了，需要设置父对象后的元素清除浮动，这样父对象的高度才能被浮动子元素撑起来了。<br>当然，我们也要问一下，为啥父对象高度会坍塌呢？上面也说过了，浮动元素已经脱离了普通流，父对象所在的普通流比喻成地表，那浮动元素就已经上天了。但是父对象还在地表啊，从外太空看浮动元素在父对象里面，但是其实并不在，又怎么能撑开父对象呢？宽度如果我们不设置的话，其实也是为0的，因为父对象里面空空如也，所以宽高为0。<br>要撑开的办法就两个，1是让父对象也上天（。。。你咋不上天呢），2是把浮动元素的边框边界拉下来。</p>
+<p>父对象也上天（即浮动）的话，那就不能实现宽度自适应了。因为float元素的width：auto是包裹内容的，参考前面说的！<br>办法2就是在后面的元素里加一个clear语句。说到这个问题就要扯到clear与BFC了，我就不献丑了。传送门：<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear" target="_blank" rel="external">https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear</a><br>这个三列布局还有个双飞（是双飞翼！想啥呢）的变种，就是在HTML中center部分也就是内容区提到最前面，也就是内容先行渲染。在网络不好的时候，左右双翼能不能出来不要紧，先让主体内容出来！这种想法，明显的优秀工程师思维，但，尼玛的双翼都是广告啊。广告不出来，哪能赚钱养你们这群工程师？所以提出双飞的玉伯才离开了淘宝？？？（纯属意淫，如真属实，当我扯淡，哈哈哈！）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#FBD570</span>;</span></div><div class="line"><span class="undefined">                margin-left: 100px;</span></div><div class="line"><span class="undefined">                margin-right: 150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</span></div><div class="line"><span class="undefined">                content: "";</span></div><div class="line"><span class="undefined">                clear: both;</span></div><div class="line"><span class="undefined">                display: block;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                float: left;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">                margin-left: calc(-100% - 100px); </span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                float: right;</span></div><div class="line"><span class="undefined">                width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">                margin-right: -150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#B373DA</span>;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">                float: left;</span></div><div class="line"><span class="undefined">                width: 100%;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap clearfix"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span>center，可以自适应浏览器宽度，高度可固定也可以由内容撑开。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度固定，高度可固定也可以由内容撑开<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度固定，高度可固定也可以由内容撑开<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>思路：</p>
+<p>1)既然HTML里面要让center放前面，为了让left跑到center前面，那center也必须浮动了，否则因为都是块元素他们会分两行。<br>2)浮动之后还要让center宽度自适应，那明显width只能100%，然后在父元素中设width:auto，还有两侧margin，其实也就是父对象宽度自适应，center只是继承content的宽度。<br>3)对left使用负的margin让他们浮动到上方去。<br>代码里面我用到了一个calc()，这个CSS3带来的计算函数简直酷毙了！本例里如果不使用calc函数，那么就需要wrap左边距为0，left左边距-100%，然后center多加一层子块DIV设置margin-left：100px，可以达到同样的效果！calc函数与百分比配合就足以实现自适应的要求！目前所有的自适应布局都在利用浏览器来为我们计算尺寸，但是有了calc之后我们就可以自己制定规则！单是想想都高潮了吧？<br>总结：使用浮动来进行布局，一个比较大的问题是清除浮动。这个可以使用一个after伪类来清除。更大的问题是浮动性像水一样向上流动，难以把握。在元素较多而且元素高度尺寸不一的情况下，单纯使用浮动只能实现上端对齐，这对于适应多种设备的布局就显得力不从心了。目前的做法是牺牲一部分内容，将元素做成等高排列，从美观上看也当然也是极好的，比参差不齐的排列要美观。</p>
+<h3 id="普通流布局"><a href="#普通流布局" class="headerlink" title="普通流布局"></a>普通流布局</h3><p>普通流布局：display : inline-block！这是一个传说中取代float布局的存在。看了一些网站，PC端浮动为主，移动端的也用的不多啊，已经有些使用flex的了，说好的inline-block一统江湖呢？<br>使用inline-block之前先处理点小障碍：inline-block元素会有4px左右的空隙，这个是因为我们写代码时候的换行符所致。</p>
+<p>解决办法很简单：在inline-block的父元素中设置样式font-size：0；letter-spacing: -4px; 然后设置inline-block的所有兄弟元素 font-size：值；letter-spacing: 值px;  恢复正常的显示。</p>
+<p>另外还有一点需要注意的是inline-block默认是基线对齐的，而inline-block的基线又跟文本基线一致，所以在内容不同的时候并不能水平对齐。只需要用vertical-align显式声明一下top/bottom/middle对齐即可。这里补充一下基线的内容，没你想的那么简单哦。分有文字和无文字两种情况：<br>1）无文字：容器的margin-bottom下边缘。与容器内部的元素没一毛钱关系。<br>2）有文字：最后一行文字的下边缘，跟文字块（p,h等）的margin、padding没关系！注意是最后一行，无论文字在什么子对象容器内在什么位置都没关系，浏览器会找到最后一行文字对齐底部。</p>
+<p>inline-block的基线是最后一行文字的底部，flex里面的基线是第一行文字的底部</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#FBD570</span>;</span></div><div class="line"><span class="undefined">                font-size: 0;</span></div><div class="line"><span class="css">                <span class="selector-tag">letter-spacing</span>: <span class="selector-tag">-4px</span>;  <span class="comment">/*用于兼容safari，根据不同字体字号或许需要做一定的调整*/</span></span></div><div class="line"><span class="undefined">                margin-left: 100px;</span></div><div class="line"><span class="undefined">                margin-right: 150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> * &#123;</span></div><div class="line"><span class="undefined">                font-size: 1rem;</span></div><div class="line"><span class="undefined">                letter-spacing: normal;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">                margin-left: -100px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="undefined">                   width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">                margin-right: -150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#B373DA</span>;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">                min-width: 150px;</span></div><div class="line"><span class="undefined">                width: 100%;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span>center，可以自适应浏览器宽度，高度固定。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这里也没什么好说的，用到的也是width：auto和width：100%这两点，简单知识点的简单用法。<br>双飞的话，代码跟圣杯的基本相同，注意在html的顺序变为center&gt;right&gt;left，只改左栏移动的margin-left: calc(-100% - 100px)到预定位置即可。不能用calc的话可以在center里面再加一层，跟浮动一样的处理方式。更简单的方法是使用CSS3带给我们的box-sizing属性<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#FBD570</span>;</span></div><div class="line"><span class="undefined">                font-size: 0;</span></div><div class="line"><span class="css">                <span class="selector-tag">letter-spacing</span>: <span class="selector-tag">-4px</span>;  <span class="comment">/*用于兼容safari，根据不同字体字号或许需要做一定的调整*/</span></span></div><div class="line"><span class="undefined">                margin-right: 150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> * &#123;</span></div><div class="line"><span class="undefined">                font-size: 1rem;</span></div><div class="line"><span class="undefined">                letter-spacing: normal;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">                margin-left: -100%;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="undefined">                   width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">                margin-right: -150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#B373DA</span>;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">                min-width: 150px;</span></div><div class="line"><span class="undefined">                width: 100%;</span></div><div class="line"><span class="undefined">                box-sizing: border-box;</span></div><div class="line"><span class="undefined">                padding-left: 100px;</span></div><div class="line"><span class="undefined">                background-origin: content-box;</span></div><div class="line"><span class="undefined">                background-clip: content-box;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span></div><div class="line">                center，可以自适应浏览器宽度，高度固定。</div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>相比浮动inline-block更加容易理解，也更符合我们的认知，结合盒子模型的几个控制属性就可以进行布局了。对于元素高度不同的情况，目前浮动布局的做法都是将元素做成等高元素进行展现，这从美学上看也符合整齐的要求，不过牺牲了一部分内容。但inline-block有vertical-align属性，可以很好地解决元素高度不同而带来的布局问题。用过之后，你也会喜欢上inline-block的。。。至少我会！</p>
+<h3 id="绝对定位"><a href="#绝对定位" class="headerlink" title="绝对定位"></a>绝对定位</h3><p>前面的浮动和普通流中其实定位都是靠盒子模型控制的，与我们常说的定位还是有差别的。而绝对定位就是我们平常所说的定位，给定参考坐标系+坐标确定位置。关于绝对定位的资料太多，我就不说了。提一点就是absolute定位的基准是最近的非static定位父对象，而fixed是相对html根节点的定位。两种定位都会脱离普通流，跟之前说的浮动一样，上天了</p>
+<p>当然，他们跟浮动在空间中的位置还是有差别的，项目中有遇到这个问题的请参考张大婶的文章： <a href="http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/" target="_blank" rel="external">http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/</a>  还是要结合项目来看，否则看过也只是看过而已，并不会存到你的脑子里，毕竟还是相当抽象相当理论性的东西。借用张大神的一个总结图：</p>
+<p>使用绝对定位（特指absolute）做自适应布局跟前面两种方式没太大差别，宽度自适应还是在auto和100%上做文章，而位置则由top/bottom/left/right等控制。还是以圣杯布局来举例：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="undefined">                position: relative;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#FBD570</span>;</span></div><div class="line"><span class="undefined">                margin-left: 100px;</span></div><div class="line"><span class="undefined">                margin-right: 150px;</span></div><div class="line"><span class="undefined">                height: 250px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                position: absolute;</span></div><div class="line"><span class="undefined">                top: 0;</span></div><div class="line"><span class="undefined">                left: -100px;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                position: absolute;</span></div><div class="line"><span class="undefined">                top: 0;</span></div><div class="line"><span class="undefined">                right: 0;</span></div><div class="line"><span class="undefined">                   width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">                margin-right: -150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="undefined">                position: absolute;</span></div><div class="line"><span class="undefined">                top: 0;</span></div><div class="line"><span class="undefined">                left: 0;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#B373DA</span>;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">                min-width: 150px;</span></div><div class="line"><span class="undefined">                width: 100%;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span></div><div class="line">                center，可以自适应浏览器宽度，高度固定。</div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>父元素为relative，子元素为absolute，这样的话，又会出现跟浮动一样的问题：父对象高度坍塌，子元素不能撑起父对象。原因也跟浮动一样，解决办法的话目前我知道的只有给父对象指定一个确定height值，大家如果有更好的办法，请联系我！</p>
+<p>总结：单纯使用绝对定位进行自适应布局的情况很少，一般绝对定位都用在尺寸固定的元素定位上。而且fixed定位的渲染效率很低，因为它会频繁触发浏览器的重排。另外提一点：CSS3的transform会对绝对定位产生影响哦~比如说让fixed定位不再固定在浏览器视窗的黑魔法：<a href="http://www.zhangxinxu.com/wordpress/2015/05/css3-transform-affect/" target="_blank" rel="external">http://www.zhangxinxu.com/wordpress/2015/05/css3-transform-affect/</a> </p>
+<h3 id="弹性盒子"><a href="#弹性盒子" class="headerlink" title="弹性盒子"></a>弹性盒子</h3><p>CSS3中对布局影响最大的莫过于弹性盒子模块了，这是一套区别于以往盒子模型布局的全新方案。上面几种方法你可以看到，为了实现自适应我们用的都是width：auto和100%的嵌套以及各种边距的移动定位，这套规则并不符合我们的认知。为什么不能开拓出一块区域，横竖排列都可以，内部所有元素的尺寸可以按照一个规则和这个区域的大小联系起来？终于CSS3做出了改变，引入了flex弹性布局方案，弹性盒布局有如下优势：</p>
+<ol>
+<li>独立的高度控制与对齐。</li>
+<li>独立的元素顺序。</li>
+<li>指定元素之间的关系。</li>
+<li>灵活的尺寸与对齐方式。</li>
+</ol>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes " target="_blank" rel="external">在MDN上有非常简单易懂的基础教程</a></p>
+<p>上面也已经给出了圣杯布局的自适应布局方案，所以代码就不贴了不过这个例子实现的是3栏成比例缩放，左右栏如果需要固定值的话可以写成  flex: 0 0 150px; 的样式。</p>
+<p>但是上面的教程没有给出各个属性的详细解释，建议看看阮一峰的博文，详细易懂而且配图超漂亮的有木有：<br><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html</a></p>
+<p>总结：弹性盒子在移动端的应用会越来越普遍，这套模型值得去好好研究。语法规则都是非常贴近人性，非常灵活，浏览器兼容性也非常好，当然国内百花齐放的移动浏览器会有哪些大坑呢？我们拭目以待~</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>其他包括position：relative和CSS3中的transform都可以实现定位，但是由于他们在原来的普通流中还占着一个坑，所以很少用来布局啥的。transform是个很酷炫的东西，可以用平面的素材做出很多3D的效果，而且不需要js就可以做，非常好玩。此文已经很长，就不多说了，以后会写一篇文章来专门说说她的故事。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/强大网页分析解析辅助xpath插件，轻松得到xpath路径采集必备/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/03/06/强大网页分析解析辅助xpath插件，轻松得到xpath路径采集必备/" itemprop="url">强大网页分析解析辅助xpath插件，轻松得到xpath路径采集必备</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
+                2016-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>XPath 使用路径表达式来选取 XML 文档中的节点或节点集。节点是通过沿着路径 (path) 或者步 (steps) 来选取的。</p>
+<p>而xpath也广泛应用于采集数据，我们来看看这一款xpath怎么使用。</p>
+<p><img src="http://www.xxindu.com/uploads2/allimg/171108/1-1G10Q43324I2.jpg" alt="Github"></p>
+<p> 我们清楚限制条件，轻松获取到所有数据，</p>
+<p><img src="http://www.xxindu.com/uploads2/allimg/171108/1-1G10Q4352bc.jpg" alt="Github"></p>
+<p> 使用非常简单，及时没有学过xpath也能轻松解决问题。</p>
+<p> 下载地址：<a href="http://www.xxindu.com/upfile/xpath-helper.zip" target="_blank" rel="external">http://www.xxindu.com/upfile/xpath-helper.zip</a>.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/Spring Cloud概述/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1869,482 +2378,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/CSS自适应布局/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/03/06/CSS自适应布局/" itemprop="url">CSS自适应布局</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
-                2016-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="尺寸相关"><a href="#尺寸相关" class="headerlink" title="尺寸相关"></a>尺寸相关</h3><p>为什么要先说尺寸呢？因为尺寸在布局中的作用非常核心，布局方式定位这些只是改变了元素之间的关系，没有尺寸就什么也不是。比如我们通常会用margin来控制跟其他元素的距离，这就是布局。<br>很多人都会觉得，什么width、margin太简单了，早就掌握了。这种心态我一开始学习CSS的时候也有，觉得很好理解很简单，但是后面才发现自己原来很多东西都没真正掌握。看看张鑫旭大神给我们上的政治课：<br><a href="http://www.zhangxinxu.com/wordpress/2012/07/bottleneck-css-study/" target="_blank" rel="external">http://www.zhangxinxu.com/wordpress/2012/07/bottleneck-css-study/</a> </p>
-<p>先说说百分比，百分比是相对父对象的，这里特性非常好用，很多时候会用在自适应布局上面。浏览器尺寸的改变，就是根节点html的长宽改变，我们可以用%来将浏览器尺寸和元素尺寸联系起来，做到自适应。<br>另外一个比较有意思的是auto，auto是很多尺寸值的默认值，也就是由浏览器自动计算。首先是块级元素水平方向的auto，块级元素的margin、border、padding以及content宽度之和等于父元素width。使用auto属性在父元素宽度变化的时候，该元素的宽度也会随之变化。</p>
-<p>但是当该元素被设为浮动时，该元素的width就变成了内容的宽度了，由内容撑开，也就是所谓的有了包裹性。overflow | position:absolute | float:left/right都可以产生包裹性，替换元素也同样具有包裹性。在具有包裹性的元素上想利用width : auto；来让元素宽度自适应浏览器宽是不行的。</p>
-<p>高度方向：外边距重叠，外边距auto为0，这两点需要注意。书写方向什么的，接触比较少就不扯了。那为什么margin：auto对不能计算垂直方向的值呢？很简单，垂直方向是被设计成可以无限扩展的，内容越多浏览器便产生滚动条来扩展，所以垂直方向都找不到一个计算基准，以此返回一个false，便成了0。用处：通过width、height控制大小，各个方向的margin值控制与边界或者其他元素的距离来定位。</p>
-<h3 id="浮动"><a href="#浮动" class="headerlink" title="浮动"></a>浮动</h3><p>目前PC网站大多使用float布局，从成本上考虑大改的概率很小，所以不要说浮动无用，总是会有机会让你维护的！代表网站：淘宝、腾讯、百度，好吧BAT都到齐了。</p>
-<p>浮动听得多了，博客园上关于用浮动布局的介绍也非常的多。浮动原本用于文本环绕，但却在布局被发扬光大，这就是命！我的理解：浮动布局的核心就是让元素脱离普通流，然后使用width/height，margin/padding将元素定位。脱离普通流的元素，就像脱离地心引力一样，与普通流不在一个高度上。这个跟图层的概念类似。高度不同所以可以叠在其他元素上面产生重叠或者使用负边距跑到父元素外，理解了这一点浮动布局就很好理解了。<br>下面用个圣杯布局的例子说明一下，理解了这个之后其他布局更加简单：<br>left，宽度固定,高度可固定也可由内容撑开<br>right，宽度固定，高度可固定也可由内容撑开<br>center，可以自适应浏览器宽度，高度可固定也可由内容撑开。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#D66464</span>;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</span></div><div class="line"><span class="undefined">                content: "";</span></div><div class="line"><span class="undefined">                clear: both;</span></div><div class="line"><span class="undefined">                display: block;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                float: left;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                float: right;</span></div><div class="line"><span class="undefined">                width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#FFFFFF</span>;</span></div><div class="line"><span class="undefined">                margin-left: 110px;</span></div><div class="line"><span class="undefined">                margin-right: 160px;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap clearfix"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度固定，高度可固定也可以由内容撑开。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度固定，高度可固定也可以由内容撑开。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span>center，可以自适应浏览器宽度，高度可固定也可以由内容撑开。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>原理非常简单，左右侧边栏定宽并浮动，中部内容区放最后不浮动、默认width：auto并设置相应外边距，让左右侧边栏浮动到上面。注意：子元素设置为浮动之后，父对象的高度就坍塌了，需要设置父对象后的元素清除浮动，这样父对象的高度才能被浮动子元素撑起来了。<br>当然，我们也要问一下，为啥父对象高度会坍塌呢？上面也说过了，浮动元素已经脱离了普通流，父对象所在的普通流比喻成地表，那浮动元素就已经上天了。但是父对象还在地表啊，从外太空看浮动元素在父对象里面，但是其实并不在，又怎么能撑开父对象呢？宽度如果我们不设置的话，其实也是为0的，因为父对象里面空空如也，所以宽高为0。<br>要撑开的办法就两个，1是让父对象也上天（。。。你咋不上天呢），2是把浮动元素的边框边界拉下来。</p>
-<p>父对象也上天（即浮动）的话，那就不能实现宽度自适应了。因为float元素的width：auto是包裹内容的，参考前面说的！<br>办法2就是在后面的元素里加一个clear语句。说到这个问题就要扯到clear与BFC了，我就不献丑了。传送门：<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear" target="_blank" rel="external">https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear</a><br>这个三列布局还有个双飞（是双飞翼！想啥呢）的变种，就是在HTML中center部分也就是内容区提到最前面，也就是内容先行渲染。在网络不好的时候，左右双翼能不能出来不要紧，先让主体内容出来！这种想法，明显的优秀工程师思维，但，尼玛的双翼都是广告啊。广告不出来，哪能赚钱养你们这群工程师？所以提出双飞的玉伯才离开了淘宝？？？（纯属意淫，如真属实，当我扯淡，哈哈哈！）</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#FBD570</span>;</span></div><div class="line"><span class="undefined">                margin-left: 100px;</span></div><div class="line"><span class="undefined">                margin-right: 150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</span></div><div class="line"><span class="undefined">                content: "";</span></div><div class="line"><span class="undefined">                clear: both;</span></div><div class="line"><span class="undefined">                display: block;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                float: left;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">                margin-left: calc(-100% - 100px); </span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                float: right;</span></div><div class="line"><span class="undefined">                width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">                margin-right: -150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#B373DA</span>;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">                float: left;</span></div><div class="line"><span class="undefined">                width: 100%;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap clearfix"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span>center，可以自适应浏览器宽度，高度可固定也可以由内容撑开。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度固定，高度可固定也可以由内容撑开<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度固定，高度可固定也可以由内容撑开<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>思路：</p>
-<p>1)既然HTML里面要让center放前面，为了让left跑到center前面，那center也必须浮动了，否则因为都是块元素他们会分两行。<br>2)浮动之后还要让center宽度自适应，那明显width只能100%，然后在父元素中设width:auto，还有两侧margin，其实也就是父对象宽度自适应，center只是继承content的宽度。<br>3)对left使用负的margin让他们浮动到上方去。<br>代码里面我用到了一个calc()，这个CSS3带来的计算函数简直酷毙了！本例里如果不使用calc函数，那么就需要wrap左边距为0，left左边距-100%，然后center多加一层子块DIV设置margin-left：100px，可以达到同样的效果！calc函数与百分比配合就足以实现自适应的要求！目前所有的自适应布局都在利用浏览器来为我们计算尺寸，但是有了calc之后我们就可以自己制定规则！单是想想都高潮了吧？<br>总结：使用浮动来进行布局，一个比较大的问题是清除浮动。这个可以使用一个after伪类来清除。更大的问题是浮动性像水一样向上流动，难以把握。在元素较多而且元素高度尺寸不一的情况下，单纯使用浮动只能实现上端对齐，这对于适应多种设备的布局就显得力不从心了。目前的做法是牺牲一部分内容，将元素做成等高排列，从美观上看也当然也是极好的，比参差不齐的排列要美观。</p>
-<h3 id="普通流布局"><a href="#普通流布局" class="headerlink" title="普通流布局"></a>普通流布局</h3><p>普通流布局：display : inline-block！这是一个传说中取代float布局的存在。看了一些网站，PC端浮动为主，移动端的也用的不多啊，已经有些使用flex的了，说好的inline-block一统江湖呢？<br>使用inline-block之前先处理点小障碍：inline-block元素会有4px左右的空隙，这个是因为我们写代码时候的换行符所致。</p>
-<p>解决办法很简单：在inline-block的父元素中设置样式font-size：0；letter-spacing: -4px; 然后设置inline-block的所有兄弟元素 font-size：值；letter-spacing: 值px;  恢复正常的显示。</p>
-<p>另外还有一点需要注意的是inline-block默认是基线对齐的，而inline-block的基线又跟文本基线一致，所以在内容不同的时候并不能水平对齐。只需要用vertical-align显式声明一下top/bottom/middle对齐即可。这里补充一下基线的内容，没你想的那么简单哦。分有文字和无文字两种情况：<br>1）无文字：容器的margin-bottom下边缘。与容器内部的元素没一毛钱关系。<br>2）有文字：最后一行文字的下边缘，跟文字块（p,h等）的margin、padding没关系！注意是最后一行，无论文字在什么子对象容器内在什么位置都没关系，浏览器会找到最后一行文字对齐底部。</p>
-<p>inline-block的基线是最后一行文字的底部，flex里面的基线是第一行文字的底部</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#FBD570</span>;</span></div><div class="line"><span class="undefined">                font-size: 0;</span></div><div class="line"><span class="css">                <span class="selector-tag">letter-spacing</span>: <span class="selector-tag">-4px</span>;  <span class="comment">/*用于兼容safari，根据不同字体字号或许需要做一定的调整*/</span></span></div><div class="line"><span class="undefined">                margin-left: 100px;</span></div><div class="line"><span class="undefined">                margin-right: 150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> * &#123;</span></div><div class="line"><span class="undefined">                font-size: 1rem;</span></div><div class="line"><span class="undefined">                letter-spacing: normal;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">                margin-left: -100px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="undefined">                   width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">                margin-right: -150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#B373DA</span>;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">                min-width: 150px;</span></div><div class="line"><span class="undefined">                width: 100%;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span>center，可以自适应浏览器宽度，高度固定。<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-<p>这里也没什么好说的，用到的也是width：auto和width：100%这两点，简单知识点的简单用法。<br>双飞的话，代码跟圣杯的基本相同，注意在html的顺序变为center&gt;right&gt;left，只改左栏移动的margin-left: calc(-100% - 100px)到预定位置即可。不能用calc的话可以在center里面再加一层，跟浮动一样的处理方式。更简单的方法是使用CSS3带给我们的box-sizing属性<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#FBD570</span>;</span></div><div class="line"><span class="undefined">                font-size: 0;</span></div><div class="line"><span class="css">                <span class="selector-tag">letter-spacing</span>: <span class="selector-tag">-4px</span>;  <span class="comment">/*用于兼容safari，根据不同字体字号或许需要做一定的调整*/</span></span></div><div class="line"><span class="undefined">                margin-right: 150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> * &#123;</span></div><div class="line"><span class="undefined">                font-size: 1rem;</span></div><div class="line"><span class="undefined">                letter-spacing: normal;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">                margin-left: -100%;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="undefined">                   width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">                margin-right: -150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="undefined">                display: inline-block;</span></div><div class="line"><span class="undefined">                vertical-align: top;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#B373DA</span>;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">                min-width: 150px;</span></div><div class="line"><span class="undefined">                width: 100%;</span></div><div class="line"><span class="undefined">                box-sizing: border-box;</span></div><div class="line"><span class="undefined">                padding-left: 100px;</span></div><div class="line"><span class="undefined">                background-origin: content-box;</span></div><div class="line"><span class="undefined">                background-clip: content-box;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span></div><div class="line">                center，可以自适应浏览器宽度，高度固定。</div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>相比浮动inline-block更加容易理解，也更符合我们的认知，结合盒子模型的几个控制属性就可以进行布局了。对于元素高度不同的情况，目前浮动布局的做法都是将元素做成等高元素进行展现，这从美学上看也符合整齐的要求，不过牺牲了一部分内容。但inline-block有vertical-align属性，可以很好地解决元素高度不同而带来的布局问题。用过之后，你也会喜欢上inline-block的。。。至少我会！</p>
-<h3 id="绝对定位"><a href="#绝对定位" class="headerlink" title="绝对定位"></a>绝对定位</h3><p>前面的浮动和普通流中其实定位都是靠盒子模型控制的，与我们常说的定位还是有差别的。而绝对定位就是我们平常所说的定位，给定参考坐标系+坐标确定位置。关于绝对定位的资料太多，我就不说了。提一点就是absolute定位的基准是最近的非static定位父对象，而fixed是相对html根节点的定位。两种定位都会脱离普通流，跟之前说的浮动一样，上天了</p>
-<p>当然，他们跟浮动在空间中的位置还是有差别的，项目中有遇到这个问题的请参考张大婶的文章： <a href="http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/" target="_blank" rel="external">http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/</a>  还是要结合项目来看，否则看过也只是看过而已，并不会存到你的脑子里，毕竟还是相当抽象相当理论性的东西。借用张大神的一个总结图：</p>
-<p>使用绝对定位（特指absolute）做自适应布局跟前面两种方式没太大差别，宽度自适应还是在auto和100%上做文章，而位置则由top/bottom/left/right等控制。还是以圣杯布局来举例：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>宽度自适应布局<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">            <span class="selector-class">.wrap</span> &#123;</span></div><div class="line"><span class="undefined">                position: relative;</span></div><div class="line"><span class="css">                <span class="selector-tag">background-color</span>: <span class="selector-id">#FBD570</span>;</span></div><div class="line"><span class="undefined">                margin-left: 100px;</span></div><div class="line"><span class="undefined">                margin-right: 150px;</span></div><div class="line"><span class="undefined">                height: 250px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.left</span> &#123;</span></div><div class="line"><span class="undefined">                position: absolute;</span></div><div class="line"><span class="undefined">                top: 0;</span></div><div class="line"><span class="undefined">                left: -100px;</span></div><div class="line"><span class="undefined">                width: 100px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#00f</span>;</span></div><div class="line"><span class="undefined">                height: 180px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.right</span> &#123;</span></div><div class="line"><span class="undefined">                position: absolute;</span></div><div class="line"><span class="undefined">                top: 0;</span></div><div class="line"><span class="undefined">                right: 0;</span></div><div class="line"><span class="undefined">                   width: 150px;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#0f0</span>;</span></div><div class="line"><span class="undefined">                height: 200px;</span></div><div class="line"><span class="undefined">                margin-right: -150px;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="css">            <span class="selector-class">.center</span> &#123;</span></div><div class="line"><span class="undefined">                position: absolute;</span></div><div class="line"><span class="undefined">                top: 0;</span></div><div class="line"><span class="undefined">                left: 0;</span></div><div class="line"><span class="css">                <span class="selector-tag">background</span>: <span class="selector-id">#B373DA</span>;</span></div><div class="line"><span class="undefined">                height: 150px;</span></div><div class="line"><span class="undefined">                min-width: 150px;</span></div><div class="line"><span class="undefined">                width: 100%;</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"center"</span>&gt;</span></div><div class="line">                center，可以自适应浏览器宽度，高度固定。</div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"left"</span>&gt;</span>left，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span>right，宽度高度固定<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>父元素为relative，子元素为absolute，这样的话，又会出现跟浮动一样的问题：父对象高度坍塌，子元素不能撑起父对象。原因也跟浮动一样，解决办法的话目前我知道的只有给父对象指定一个确定height值，大家如果有更好的办法，请联系我！</p>
-<p>总结：单纯使用绝对定位进行自适应布局的情况很少，一般绝对定位都用在尺寸固定的元素定位上。而且fixed定位的渲染效率很低，因为它会频繁触发浏览器的重排。另外提一点：CSS3的transform会对绝对定位产生影响哦~比如说让fixed定位不再固定在浏览器视窗的黑魔法：<a href="http://www.zhangxinxu.com/wordpress/2015/05/css3-transform-affect/" target="_blank" rel="external">http://www.zhangxinxu.com/wordpress/2015/05/css3-transform-affect/</a> </p>
-<h3 id="弹性盒子"><a href="#弹性盒子" class="headerlink" title="弹性盒子"></a>弹性盒子</h3><p>CSS3中对布局影响最大的莫过于弹性盒子模块了，这是一套区别于以往盒子模型布局的全新方案。上面几种方法你可以看到，为了实现自适应我们用的都是width：auto和100%的嵌套以及各种边距的移动定位，这套规则并不符合我们的认知。为什么不能开拓出一块区域，横竖排列都可以，内部所有元素的尺寸可以按照一个规则和这个区域的大小联系起来？终于CSS3做出了改变，引入了flex弹性布局方案，弹性盒布局有如下优势：</p>
-<ol>
-<li>独立的高度控制与对齐。</li>
-<li>独立的元素顺序。</li>
-<li>指定元素之间的关系。</li>
-<li>灵活的尺寸与对齐方式。</li>
-</ol>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes " target="_blank" rel="external">在MDN上有非常简单易懂的基础教程</a></p>
-<p>上面也已经给出了圣杯布局的自适应布局方案，所以代码就不贴了不过这个例子实现的是3栏成比例缩放，左右栏如果需要固定值的话可以写成  flex: 0 0 150px; 的样式。</p>
-<p>但是上面的教程没有给出各个属性的详细解释，建议看看阮一峰的博文，详细易懂而且配图超漂亮的有木有：<br><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html</a></p>
-<p>总结：弹性盒子在移动端的应用会越来越普遍，这套模型值得去好好研究。语法规则都是非常贴近人性，非常灵活，浏览器兼容性也非常好，当然国内百花齐放的移动浏览器会有哪些大坑呢？我们拭目以待~</p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>其他包括position：relative和CSS3中的transform都可以实现定位，但是由于他们在原来的普通流中还占着一个坑，所以很少用来布局啥的。transform是个很酷炫的东西，可以用平面的素材做出很多3D的效果，而且不需要js就可以做，非常好玩。此文已经很长，就不多说了，以后会写一篇文章来专门说说她的故事。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/强大网页分析解析辅助xpath插件，轻松得到xpath路径采集必备/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/03/06/强大网页分析解析辅助xpath插件，轻松得到xpath路径采集必备/" itemprop="url">强大网页分析解析辅助xpath插件，轻松得到xpath路径采集必备</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
-                2016-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>XPath 使用路径表达式来选取 XML 文档中的节点或节点集。节点是通过沿着路径 (path) 或者步 (steps) 来选取的。</p>
-<p>而xpath也广泛应用于采集数据，我们来看看这一款xpath怎么使用。</p>
-<p><img src="http://www.xxindu.com/uploads2/allimg/171108/1-1G10Q43324I2.jpg" alt="Github"></p>
-<p> 我们清楚限制条件，轻松获取到所有数据，</p>
-<p><img src="http://www.xxindu.com/uploads2/allimg/171108/1-1G10Q4352bc.jpg" alt="Github"></p>
-<p> 使用非常简单，及时没有学过xpath也能轻松解决问题。</p>
-<p> 下载地址：<a href="http://www.xxindu.com/upfile/xpath-helper.zip" target="_blank" rel="external">http://www.xxindu.com/upfile/xpath-helper.zip</a>.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/13/7个高性能JavaScript代码高亮插件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/02/13/7个高性能JavaScript代码高亮插件/" itemprop="url">7个高性能JavaScript代码高亮插件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-13T13:00:06+08:00">
-                2016-02-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="SyntaxHighlighter-–"><a href="#SyntaxHighlighter-–" class="headerlink" title="SyntaxHighlighter –"></a>SyntaxHighlighter –</h4><p>最优秀的JavaScript代码高亮插件<br>SyntaxHighlighter 是一款完全基于JavaScript的代码高亮插件，SyntaxHighlighter 可以对大部分编程语言进行着色渲染，而且代码高亮的性能也非常不错。SyntaxHighlighter 可以自定义主题文件，在初始化的时候指定自己喜欢的主题即可。<br>官方网站：<a href="http://alexgorbatchev.com/SyntaxHighlighter/" target="_blank" rel="external">http://alexgorbatchev.com/SyntaxHighlighter/</a></p>
-<h4 id="Google-Code-Prettify"><a href="#Google-Code-Prettify" class="headerlink" title="Google Code Prettify"></a>Google Code Prettify</h4><p>自由地JavaScript代码高亮插件<br>Google Code Prettify是一款由Google推出的JavaScript代码高亮插件，Google Code Prettify可以对C/C++, Java, Python, Ruby, PHP, VisualBasic, AWK, Bash, SQL, HTML, XML, CSS, JavaScript, Makefiles和部分Perl编程语言代码高亮着色。<br>官方网站：<a href="http://code.google.com/p/google-code-prettify/" target="_blank" rel="external">http://code.google.com/p/google-code-prettify/</a></p>
-<h4 id="Highlight-js"><a href="#Highlight-js" class="headerlink" title="Highlight.js"></a>Highlight.js</h4><p>多风格JavaScript代码高亮插件<br>highlight.js是一个用于在任何web页面上高亮着色显示各种示例源代码语法的JavaScript项目。具有以下特色：</p>
-<ul>
-<li>支持 92 种语言，49 种代码格式化风格。</li>
-<li>自动检测语言种类</li>
-<li>支持多语言混合的代码高亮</li>
-<li>支持Node.js</li>
-<li>支持使用任何HTML标记</li>
-<li>兼容任意js框架<br>官方网站：<a href="https://highlightjs.org/" target="_blank" rel="external">https://highlightjs.org/</a></li>
-</ul>
-<h4 id="Prism-JS"><a href="#Prism-JS" class="headerlink" title="Prism.JS"></a>Prism.JS</h4><p>轻量级JavaScript代码高亮插件<br>Prism.JS是目前最为轻量级的JavaScript代码高亮插件，他压缩后只有2KB的大小，Prism.JS也支持大部分流行的编程语言，并且支持多种主题样式，开发者只需要引用CSS文件和JS文件即可完成。<br>官方网站：<a href="http://prismjs.com/" target="_blank" rel="external">http://prismjs.com/</a></p>
-<h4 id="jQuery-Syntax-–-jQuery轻量级代码高亮插件"><a href="#jQuery-Syntax-–-jQuery轻量级代码高亮插件" class="headerlink" title="jQuery.Syntax – jQuery轻量级代码高亮插件"></a>jQuery.Syntax – jQuery轻量级代码高亮插件</h4><p>这款代码高亮插件是基于jQuery的，同样也是轻量级的，渲染速度非常快。同时jQuery.Syntax还具有wordpress的插件应用，对于个人博主来说，使用wordpress和jQuery.Syntax可以完美实现0代买的高亮功能。<br>官方网站：<a href="http://www.codeotaku.com/projects/jquery-syntax/index.en" target="_blank" rel="external">http://www.codeotaku.com/projects/jquery-syntax/index.en</a></p>
-<h4 id="DlHighlight"><a href="#DlHighlight" class="headerlink" title="DlHighlight"></a>DlHighlight</h4><p>jQuery简单高效代码高亮插件<br>DlHighlight是基于JavaScript的代码高亮插件，非常简单，目前只支持JavaScript, CSS, XML, HTML。<br>官方网站：<a href="http://mihai.bazon.net/projects/javascript-syntax-highlighting-engine" target="_blank" rel="external">http://mihai.bazon.net/projects/javascript-syntax-highlighting-engine</a></p>
-<h4 id="Rainbow-js"><a href="#Rainbow-js" class="headerlink" title="Rainbow.js"></a>Rainbow.js</h4><p>可扩展的JavaScript代码高亮插件<br>Rainbow 是JavaScript开发的语法高亮工具。被设计为轻量级（压缩后仅1.4 kb），使用简单，可扩展。语法高亮主题完全通过CSS定义。基于正则表达式实现。</p>
-<p>官方网站：<a href="http://craig.is/making/rainbows" target="_blank" rel="external">http://craig.is/making/rainbows</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
   
   <nav class="pagination">
@@ -2400,7 +2433,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2422,7 +2455,7 @@ var _hmt = _hmt || [];
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
