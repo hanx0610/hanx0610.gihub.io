@@ -263,6 +263,472 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/JavaScript判断单、多张图片加载完成/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/12/08/JavaScript判断单、多张图片加载完成/" itemprop="url">JavaScript判断单、多张图片加载完成</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-08T15:15:12+08:00">
+                2015-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在实际的运用中有这样一种场景，某资源加载完成后再执行某个操作，例如在做导出时，后端通过打开模板页生成PDF，并返回下载地址。这时前后端通常需要约定一个flag，用以标识模板准备就绪，可以生成PDF了。</p>
+<p>试想，如果模板中有图片，此时如何判断图片是否加载完成？</p>
+<p>在此之前来了解一下jquery的ready与window.onload的区别，ready只是dom结构加载完毕，便视为加载完成。(此时图片没有加载完毕)，onload是指dom的生成和资源完全加载（比如flash、图片）出来后才执行。接下来回到正题，先从单张图片说起。</p>
+<h3 id="单张图片（图片在文档中）"><a href="#单张图片（图片在文档中）" class="headerlink" title="单张图片（图片在文档中）"></a>单张图片（图片在文档中）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HTML</span></div><div class="line">&lt;img id=<span class="string">'xiu'</span> src=<span class="string">"http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg"</span>&gt;  </div><div class="line"></div><div class="line"><span class="comment">//js</span></div><div class="line"> $(<span class="built_in">document</span>).ready(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//jquery</span></div><div class="line">    $(<span class="string">'#xiu'</span>).load(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">// 加载完成 </span></div><div class="line">    &#125;);</div><div class="line"></div><div class="line">   <span class="comment">//原生  onload</span></div><div class="line">    <span class="keyword">var</span> xiu = <span class="built_in">document</span>.getElementById(<span class="string">'xiu'</span>)</div><div class="line">    xiu.onload = xiu.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="keyword">if</span>(!<span class="keyword">this</span>.readyState||<span class="keyword">this</span>.readyState==<span class="string">'loaded'</span>||<span class="keyword">this</span>.readyState==<span class="string">'complete'</span>)&#123;</div><div class="line">           <span class="comment">// 加载完成 </span></div><div class="line">       &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>注：</p>
+<ul>
+<li>IE8及以下版本不支持onload事件，但支持onreadystatechange事件；</li>
+<li>readyState是onreadystatechange事件的一个状态，值为loaded或complete的时候，表示已经加载完毕。</li>
+<li>以下内容省略兼容</li>
+</ul>
+<h3 id="单张图片（图片动态生成）"><a href="#单张图片（图片动态生成）" class="headerlink" title="单张图片（图片动态生成）"></a>单张图片（图片动态生成）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//js</span></div><div class="line"> <span class="keyword">var</span> xiu = <span class="keyword">new</span> Image()</div><div class="line"> xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></div><div class="line"> xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 加载完成 </span></div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="单张图片（结合ES6-Promise）"><a href="#单张图片（结合ES6-Promise）" class="headerlink" title="单张图片（结合ES6 Promise）"></a>单张图片（结合ES6 Promise）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//js</span></div><div class="line"> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">let</span> xiu = <span class="keyword">new</span> Image()</div><div class="line">    xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></div><div class="line">    xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">// 加载完成 </span></div><div class="line">       resolve(xiu)</div><div class="line">    &#125;</div><div class="line"> &#125;).then(<span class="function">(<span class="params">xiu</span>)=&gt;</span>&#123;</div><div class="line"> <span class="comment">//code</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
+<h3 id="多张图片"><a href="#多张图片" class="headerlink" title="多张图片"></a>多张图片</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> img = [],  </div><div class="line">    flag = <span class="number">0</span>, </div><div class="line">    mulitImg = [</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line"> ];</div><div class="line"> <span class="keyword">var</span> imgTotal = mulitImg.length;</div><div class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line">    img[i] = <span class="keyword">new</span> Image()</div><div class="line">    img[i].src = mulitImg[i]</div><div class="line">    img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">//第i张图片加载完成</span></div><div class="line">       flag++</div><div class="line">       <span class="keyword">if</span>( flag == imgTotal )&#123;</div><div class="line">          <span class="comment">//全部加载完成</span></div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h3 id="多张图片（结合ES6-Promise-all-）"><a href="#多张图片（结合ES6-Promise-all-）" class="headerlink" title="多张图片（结合ES6 Promise.all()）"></a>多张图片（结合ES6 Promise.all()）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> mulitImg = [</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line">];</div><div class="line"><span class="keyword">let</span> promiseAll = [], img = [], imgTotal = mulitImg.length;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line"> promiseAll[i] = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">	 img[i] = <span class="keyword">new</span> Image()</div><div class="line">	 img[i].src = mulitImg[i]</div><div class="line">	 img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		  <span class="comment">//第i张加载完成</span></div><div class="line">		  resolve(img[i])</div><div class="line">	 &#125;</div><div class="line"> &#125;)</div><div class="line">&#125;</div><div class="line"><span class="built_in">Promise</span>.all(promiseAll).then(<span class="function">(<span class="params">img</span>)=&gt;</span>&#123;</div><div class="line"> <span class="comment">//全部加载完成</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/使用JavaScript的HTML特殊符号转义/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/12/08/使用JavaScript的HTML特殊符号转义/" itemprop="url">使用JavaScript的HTML特殊符号转义</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-08T15:15:12+08:00">
+                2015-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="以下列出三种转义HTML特殊符号的方法"><a href="#以下列出三种转义HTML特殊符号的方法" class="headerlink" title="以下列出三种转义HTML特殊符号的方法"></a>以下列出三种转义HTML特殊符号的方法</h3><h4 id="第一种"><a href="#第一种" class="headerlink" title="第一种"></a>第一种</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="comment">//编码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEncode</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> $(<span class="string">'&lt;div/&gt;'</span>).text(value).html();</div><div class="line">&#125;</div><div class="line"><span class="comment">//解码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlDecode</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> $(<span class="string">'&lt;div/&gt;'</span>).html(value).text();</div><div class="line">&#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="comment">//编码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEncode</span>(<span class="params"> html </span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">document</span>.createElement( <span class="string">'a'</span> ).appendChild( </div><div class="line">         <span class="built_in">document</span>.createTextNode( html ) ).parentNode.innerHTML;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//解码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlDecode</span>(<span class="params"> html </span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> a = <span class="built_in">document</span>.createElement( <span class="string">'a'</span> ); a.innerHTML = html;</div><div class="line">  <span class="keyword">return</span> a.textContent;</div><div class="line">&#125;;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="comment">//编码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEncode</span>(<span class="params">str</span>)</span>&#123; </div><div class="line">    <span class="keyword">var</span> s = <span class="string">""</span>; </div><div class="line">    <span class="keyword">if</span> (str.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>; </div><div class="line">    s = str.replace(<span class="regexp">/&amp;amp;/g</span>, <span class="string">"&amp;amp;"</span>); </div><div class="line">    s = s.replace(<span class="comment">//g, "&amp;gt;"); </span></div><div class="line">    s = s.replace(<span class="regexp">/ /g</span>, <span class="string">"&amp;nbsp;"</span>); </div><div class="line">    s = s.replace(<span class="regexp">/\'/g</span>, <span class="string">"'"</span>);</div><div class="line">    s = s.replace(<span class="regexp">/\"/g</span>, <span class="string">""</span><span class="string">"); </span></div><div class="line"><span class="string">    s = s.replace(/\n/g, "</span>&lt;br&gt;<span class="string">"); </span></div><div class="line"><span class="string">    return s; </span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">//解码</span></div><div class="line"><span class="string">function htmlDecode(str)&#123;</span></div><div class="line"><span class="string">	var s = "</span><span class="string">";</span></div><div class="line"><span class="string">	if (str.length == 0) return "</span><span class="string">";</span></div><div class="line"><span class="string">	s = str.replace(/&amp;gt;/g, "</span>&amp;amp;<span class="string">");</span></div><div class="line"><span class="string">	s = s.replace(//g, "</span>&amp;gt;<span class="string">");</span></div><div class="line"><span class="string">	s = s.replace(/&amp;nbsp;/g, "</span> <span class="string">");</span></div><div class="line"><span class="string">	s = s.replace(/'/g, "</span>\<span class="string">'");</span></div><div class="line"><span class="string">	s = s.replace(/"/g, "\"");</span></div><div class="line"><span class="string">	s = s.replace(/&lt;br&gt;/g, "\n");</span></div><div class="line"><span class="string">	return s;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">&lt;/script&gt;</span></div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/08/01/在Web应用中通过TomcatAPI对Tomcat进行访问与控制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/08/01/在Web应用中通过TomcatAPI对Tomcat进行访问与控制/" itemprop="url">在Web应用中通过TomcatAPI对Tomcat进行访问与控制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-08-01T19:32:50+08:00">
+                2015-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Tomcat自带的${tomcat.home}/webapps/manager应用提供了对应用的管理功能，如</p>
+<ol>
+<li>列出已部署应用</li>
+<li>停止应用</li>
+<li>启动应用</li>
+<li>重新加载应用</li>
+<li>部署新的应用</li>
+<li>信息统计</li>
+<li>资源监控</li>
+<li>…</li>
+</ol>
+<p>那么我们如何在程序中也能够实如上功能呢？<br>首先，这种操作对Tomcat来说是一种危险的行为，应为这样能够对Tomcat的内部信息进行直接操作。所以，Tomcat采用了授权的策略${tomcat.home}/conf/catalina.policy，策略文件摘要如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">...</div><div class="line">//WEB应用的权限</div><div class="line">// ========== WEB APPLICATION PERMISSIONS =====================================</div><div class="line">//默认的WEB应用都有这些权限，另外，应用程序可以访问文件系统和JNDI权限</div><div class="line">grant &#123;</div><div class="line">    // Required for JNDI lookup of named JDBC DataSource&apos;s and</div><div class="line">    // javamail named MimePart DataSource used to send mail</div><div class="line">    permission java.util.PropertyPermission &quot;java.home&quot;, &quot;read&quot;;</div><div class="line">    ...</div><div class="line">    // OS Specific properties to allow read access</div><div class="line">    permission java.util.PropertyPermission &quot;os.name&quot;, &quot;read&quot;;</div><div class="line">    ...</div><div class="line">    // JVM properties to allow read access</div><div class="line">    permission java.util.PropertyPermission &quot;java.version&quot;, &quot;read&quot;;</div><div class="line">    ...</div><div class="line">    // Required for OpenJMX</div><div class="line">    permission java.lang.RuntimePermission &quot;getAttribute&quot;;</div><div class="line">    // Allow read of JAXP compliant XML parser debug</div><div class="line">    permission java.util.PropertyPermission &quot;jaxp.debug&quot;, &quot;read&quot;;</div><div class="line">    // All JSPs need to be able to read this package</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.tomcat&quot;;</div><div class="line">    // Precompiled JSPs need access to these packages.</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.jasper.el&quot;;</div><div class="line">    ...</div><div class="line">    // Precompiled JSPs need access to these system properties.</div><div class="line">    permission java.util.PropertyPermission</div><div class="line">     &quot;org.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER&quot;, &quot;read&quot;;</div><div class="line">    ...</div><div class="line">    // The cookie code needs these.</div><div class="line">    permission java.util.PropertyPermission</div><div class="line">     &quot;org.apache.catalina.STRICT_SERVLET_COMPLIANCE&quot;, &quot;read&quot;;</div><div class="line">    ...</div><div class="line">    // Applications using Comet need to be able to access this package</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.comet&quot;;</div><div class="line">    // Applications using the legacy WebSocket implementation need to be able to access this package</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.websocket&quot;;</div><div class="line">    // Applications using the JSR-356 WebSocket implementation need to be able to access these packages</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.tomcat.websocket&quot;;</div><div class="line">    ...</div><div class="line">&#125;;</div><div class="line">//file:$&#123;catalina.base&#125;/webapps/manager/应用的权限</div><div class="line">grant codeBase &quot;file:$&#123;catalina.base&#125;/webapps/manager/-&quot; &#123;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina&quot;;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.ha.session&quot;;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.manager&quot;;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.manager.util&quot;;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.util&quot;;</div><div class="line">&#125;;</div><div class="line">grant codeBase &quot;file:$&#123;catalina.home&#125;/webapps/manager/-&quot; &#123;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina&quot;;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.ha.session&quot;;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.manager&quot;;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.manager.util&quot;;</div><div class="line">    permission java.lang.RuntimePermission &quot;accessClassInPackage.org.apache.catalina.util&quot;;</div><div class="line">&#125;;</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>那么我们该如何给应用赋予特殊的权限呢？我们首先看看Manager的应用是如何管理的，</p>
+<blockquote>
+<p>下载tomcat-catalina-7.0.47-sources.jar，</p>
+</blockquote>
+<p>打开org.apache.catalina.manager.HTMLManagerServlet，就可发现这是一个提供管理功能的一个servlet，管理功能代码如下，使用post的方式请求：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">HTMLManagerServlet</span> <span class="keyword">extends</span> <span class="title">ManagerServlet</span> </span>&#123;</div><div class="line"><span class="comment">//...................代码省略</span></div><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doPost</span><span class="params">(HttpServletRequest request,</span></span></div><div class="line"><span class="function"><span class="params">                      HttpServletResponse response)</span></span></div><div class="line"><span class="function">        <span class="keyword">throws</span> IOException, ServletException </span>&#123;</div><div class="line"> </div><div class="line">        StringManager smClient = StringManager.getManager(</div><div class="line">                Constants.Package, request.getLocales());</div><div class="line"> </div><div class="line">        <span class="comment">// Identify the request parameters that we need</span></div><div class="line">        <span class="comment">// By obtaining the command from the pathInfo, per-command security can</span></div><div class="line">        <span class="comment">// be configured in web.xml</span></div><div class="line">        String command = request.getPathInfo();</div><div class="line"> </div><div class="line">        String path = request.getParameter(<span class="string">"path"</span>);</div><div class="line">        ContextName cn = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (path != <span class="keyword">null</span>) &#123;</div><div class="line">            cn = <span class="keyword">new</span> ContextName(path, request.getParameter(<span class="string">"version"</span>));</div><div class="line">        &#125;</div><div class="line">        String deployPath = request.getParameter(<span class="string">"deployPath"</span>);</div><div class="line">        ContextName deployCn = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">if</span> (deployPath != <span class="keyword">null</span>) &#123;</div><div class="line">            deployCn = <span class="keyword">new</span> ContextName(deployPath,</div><div class="line">                    request.getParameter(<span class="string">"deployVersion"</span>)); </div><div class="line">        &#125;</div><div class="line">        String deployConfig = request.getParameter(<span class="string">"deployConfig"</span>);</div><div class="line">        String deployWar = request.getParameter(<span class="string">"deployWar"</span>);</div><div class="line"> </div><div class="line">        <span class="comment">// Prepare our output writer to generate the response message</span></div><div class="line">        response.setContentType(<span class="string">"text/html; charset="</span> + Constants.CHARSET);</div><div class="line"> </div><div class="line">        String message = <span class="string">""</span>;</div><div class="line"> </div><div class="line">        <span class="keyword">if</span> (command == <span class="keyword">null</span> || command.length() == <span class="number">0</span>) &#123;</div><div class="line">            <span class="comment">// No command == list</span></div><div class="line">            <span class="comment">// List always displayed -&gt; do nothing</span></div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"/upload"</span>)) &#123;</div><div class="line">            message = upload(request, smClient);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"/deploy"</span>)) &#123;</div><div class="line">            message = deployInternal(deployConfig, deployCn, deployWar,</div><div class="line">                    smClient);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"/reload"</span>)) &#123;</div><div class="line">            message = reload(cn, smClient);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"/undeploy"</span>)) &#123;</div><div class="line">            message = undeploy(cn, smClient);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"/expire"</span>)) &#123;</div><div class="line">            message = expireSessions(cn, request, smClient);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"/start"</span>)) &#123;</div><div class="line">            message = start(cn, smClient);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"/stop"</span>)) &#123;</div><div class="line">            message = stop(cn, smClient);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"/findleaks"</span>)) &#123;</div><div class="line">            message = findleaks(smClient);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="comment">// Try GET</span></div><div class="line">            doGet(request,response);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"> </div><div class="line">        list(request, response, message, smClient);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//...................代码省略</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>org.apache.catalina.manager.HTMLManagerServlet 不可以继承，所以我们要实现类似的功能，我们要自己继承<br>org.apache.catalina.manager.ManagerServlet,代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.manager.ManagerServlet;</div><div class="line"><span class="meta">@WebServlet</span>(name=<span class="string">"customServlet"</span>,urlPatterns=&#123;<span class="string">"/customServlet"</span>&#125;)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomServlet</span> <span class="keyword">extends</span> <span class="title">ManagerServlet</span></span>&#123;</div><div class="line"> </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这个ManagerServlet 如果被自己的应用所继承的话，会报一个错误，如下：</p>
+<blockquote>
+<p>java.lang.SecurityException: Restricted (ContainerServlet) class <strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></p>
+</blockquote>
+<p>可以通过在${webapp}/META-INF/下，新增一个context.xml配置文件，去声明权限：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- privileged="true" 特别的权限  --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">reloadable</span>=<span class="string">"false"</span> <span class="attr">delegate</span>=<span class="string">"true"</span> <span class="attr">privileged</span>=<span class="string">"true"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
+<p>reloadable=”true”则表示项目有变动时候会自动加载，如果要访问tomcat，最重要的是privileged=”true”，默认是false，由于安全性原因，false是无法访问Tomcat的API的。<br><img src="http://www.xdemo.org//qiniu/303/image/37bdbd31dd69e1b128531c789c5897f0.jpg" alt="这里写图片描述"></p>
+<p>项目依赖<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">	&lt;groupId&gt;org.apache.tomcat&lt;/groupId&gt;</div><div class="line">	&lt;artifactId&gt;tomcat-catalina&lt;/artifactId&gt;</div><div class="line">	&lt;version&gt;7.0.47&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<p>CustomSevlet代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> org.xdemo.example.TomcatManager.servlet;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> java.io.File;</div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"><span class="keyword">import</span> java.io.PrintWriter;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> javax.management.ObjectName;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletContext;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletException;</div><div class="line"><span class="keyword">import</span> javax.servlet.UnavailableException;</div><div class="line"><span class="keyword">import</span> javax.servlet.annotation.WebServlet;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServlet;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletResponse;</div><div class="line"> </div><div class="line"><span class="keyword">import</span> org.apache.catalina.Container;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.ContainerServlet;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.Context;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.Engine;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.Globals;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.Host;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.Server;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.Wrapper;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.manager.Constants;</div><div class="line"><span class="keyword">import</span> org.apache.catalina.util.ContextName;</div><div class="line"><span class="keyword">import</span> org.apache.tomcat.util.res.StringManager;</div><div class="line"> </div><div class="line"><span class="meta">@WebServlet</span>(name=<span class="string">"system"</span>,urlPatterns=<span class="string">"/system/update"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> <span class="keyword">implements</span> <span class="title">ContainerServlet</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">3060161522501102057L</span>;</div><div class="line">     </div><div class="line">    <span class="keyword">protected</span> <span class="keyword">transient</span> Host host = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">protected</span> <span class="keyword">transient</span> Wrapper wrapper = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">protected</span> <span class="keyword">transient</span> Context context = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">protected</span> <span class="keyword">static</span> <span class="keyword">final</span> StringManager sm = StringManager.getManager(Constants.Package);</div><div class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> debug = <span class="number">1</span>;</div><div class="line">    <span class="keyword">protected</span> <span class="keyword">transient</span> javax.naming.Context global = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">protected</span> File versioned = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">protected</span> File deployed = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">protected</span> File configBase = <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">protected</span> ObjectName oname = <span class="keyword">null</span>;</div><div class="line"><span class="comment">//  protected transient MBeanServer mBeanServer = null;</span></div><div class="line">     </div><div class="line">     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line"> </div><div class="line">        <span class="comment">// Ensure that our ContainerServlet properties have been set</span></div><div class="line">        <span class="keyword">if</span> ((wrapper == <span class="keyword">null</span>) || (context == <span class="keyword">null</span>))</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UnavailableException(</div><div class="line">                    sm.getString(<span class="string">"managerServlet.noWrapper"</span>));</div><div class="line"> </div><div class="line">        <span class="comment">// Set our properties from the initialization parameters</span></div><div class="line">        String value = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            value = getServletConfig().getInitParameter(<span class="string">"debug"</span>);</div><div class="line">            debug = Integer.parseInt(value);</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable t) &#123;</div><div class="line">            <span class="comment">//ExceptionUtils.handleThrowable(t);</span></div><div class="line">        &#125;</div><div class="line"> </div><div class="line">        <span class="comment">// Acquire global JNDI resources if available</span></div><div class="line">        Server server = ((Engine)host.getParent()).getService().getServer();</div><div class="line">        <span class="keyword">if</span> (server != <span class="keyword">null</span>) &#123;</div><div class="line">            global = server.getGlobalNamingContext();</div><div class="line">        &#125;</div><div class="line"> </div><div class="line">        <span class="comment">// Calculate the directory into which we will be deploying applications</span></div><div class="line">        versioned = (File) getServletContext().getAttribute</div><div class="line">            (ServletContext.TEMPDIR);</div><div class="line"> </div><div class="line">        <span class="comment">// Identify the appBase of the owning Host of this Context</span></div><div class="line">        <span class="comment">// (if any)</span></div><div class="line">        String appBase = ((Host) context.getParent()).getAppBase();</div><div class="line">        deployed = <span class="keyword">new</span> File(appBase);</div><div class="line">        <span class="keyword">if</span> (!deployed.isAbsolute()) &#123;</div><div class="line">            deployed = <span class="keyword">new</span> File(System.getProperty(Globals.CATALINA_BASE_PROP),</div><div class="line">                                appBase);</div><div class="line">        &#125;</div><div class="line">        configBase = <span class="keyword">new</span> File(System.getProperty(Globals.CATALINA_BASE_PROP), <span class="string">"conf"</span>);</div><div class="line">        Container container = context;</div><div class="line">        Container host = <span class="keyword">null</span>;</div><div class="line">        Container engine = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">while</span> (container != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (container <span class="keyword">instanceof</span> Host)</div><div class="line">                host = container;</div><div class="line">            <span class="keyword">if</span> (container <span class="keyword">instanceof</span> Engine)</div><div class="line">                engine = container;</div><div class="line">            container = container.getParent();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (engine != <span class="keyword">null</span>) &#123;</div><div class="line">            configBase = <span class="keyword">new</span> File(configBase, engine.getName());</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (host != <span class="keyword">null</span>) &#123;</div><div class="line">            configBase = <span class="keyword">new</span> File(configBase, host.getName());</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// Note: The directory must exist for this to work.</span></div><div class="line"> </div><div class="line">        <span class="comment">// Log debugging messages as necessary</span></div><div class="line">        <span class="keyword">if</span> (debug &gt;= <span class="number">1</span>) &#123;</div><div class="line">            log(<span class="string">"init: Associated with Deployer '"</span> +</div><div class="line">                oname + <span class="string">"'"</span>);</div><div class="line">            <span class="keyword">if</span> (global != <span class="keyword">null</span>) &#123;</div><div class="line">                log(<span class="string">"init: Global resources are available"</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"> </div><div class="line">    &#125;</div><div class="line">     </div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> Wrapper <span class="title">getWrapper</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="comment">// TODO Auto-generated method stub</span></div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.wrapper;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setWrapper</span><span class="params">(Wrapper wrapper)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.wrapper=wrapper;</div><div class="line">        <span class="keyword">if</span> (wrapper == <span class="keyword">null</span>) &#123;</div><div class="line">            context = <span class="keyword">null</span>;</div><div class="line">            host = <span class="keyword">null</span>;</div><div class="line">            oname = <span class="keyword">null</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            context = (Context) wrapper.getParent();</div><div class="line">            host = (Host) context.getParent();</div><div class="line">            Engine engine = (Engine) host.getParent();</div><div class="line">            String name = engine.getName() + <span class="string">":type=Deployer,host="</span> +</div><div class="line">                    host.getName();</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                oname = <span class="keyword">new</span> ObjectName(name);</div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                log(sm.getString(<span class="string">"managerServlet.objectNameFail"</span>, name), e);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest request, HttpServletResponse response)</span></span></div><div class="line"><span class="function">            <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line">        ContextName cn=<span class="keyword">new</span> ContextName(<span class="string">"/TomcatManager"</span>, request.getParameter(<span class="string">"version"</span>));</div><div class="line">        Context context = (Context) host.findChild(cn.getName());</div><div class="line">        context.reload();</div><div class="line">    &#125;</div><div class="line">     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在doGet方法中，调用reload方法，指定的项目则会重新加载一遍，效果如下：</p>
+<p><img src="http://www.xdemo.org//qiniu/303/image/c342f08515dd5468a0b15411f5bab63d.jpg" alt="这里写图片描述"></p>
+<p>这里演示了如何访问Tomcat的API，同样也可以调用API中的其他方法，更多的API信息可以参考<br><a href="https://tomcat.apache.org/tomcat-7.0-doc/api/org/apache/catalina/Context.html" target="_blank" rel="external">https://tomcat.apache.org/tomcat-7.0-doc/api/org/apache/catalina/Context.html</a></p>
+<blockquote>
+<p>转载自：<a href="http://www.xdemo.org/web-tomcat-api-control/" target="_blank" rel="external">http://www.xdemo.org/web-tomcat-api-control/</a></p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/07/13/Html优化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1050,7 +1516,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1072,7 +1538,7 @@ var _hmt = _hmt || [];
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -263,6 +263,856 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/12/深入理解Java内存模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/12/深入理解Java内存模型/" itemprop="url">深入理解Java内存模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-12T20:38:11+08:00">
+                2017-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Java内存模型即Java Memory Model，简称JMM。JMM定义了Java 虚拟机(JVM)在计算机内存(RAM)中的工作方式。JVM是整个计算机虚拟模型，所以JMM是隶属于JVM的。</p>
+<h3 id="并发编程模型的分类"><a href="#并发编程模型的分类" class="headerlink" title="并发编程模型的分类"></a>并发编程模型的分类</h3><p>在并发编程中，我们需要处理两个关键问题：线程之间如何通信及线程之间如何同步。<br>这里的线程是指并发执行的活动实体，通信是指线程之间以何种机制来交换信息。</p>
+<p>在命令式编程中，线程之间的通信机制有两种：<strong>共享内存和消息传递。</strong><br>在共享内存的并发模型里，线程之间共享程序的公共状态，线程之间通过写-读内存中的公共状态来隐式进行通信。<br>在消息传递的并发模型里，线程之间没有公共状态，线程之间必须通过明确的发送消息来显式进行通信。</p>
+<p>同步是指程序用于控制不同线程之间操作发生相对顺序的机制。在共享内存并发模型里，同步是显式进行的。程序员必须显式指定某个方法或某段代码需要在线程之间互斥执行。<br>在消息传递的并发模型里，由于消息的发送必须在消息的接收之前，因此同步是隐式进行的。</p>
+<p><strong>Java的并发采用的是共享内存模型</strong><br>Java线程之间的通信总是隐式进行，整个通信过程对程序员完全透明。</p>
+<h3 id="java内存模型三个特性"><a href="#java内存模型三个特性" class="headerlink" title="java内存模型三个特性"></a>java内存模型三个特性</h3><p>Java内存模型有三个特性：原子性、可见性、有序性。<br>这个三个特性主要体现在多线程环境下对变量的操作。这些变量包括：实例字段、静态字段、构成数组对象的元素。这些变量都保存在堆中，<br>堆是线程共享的。那么这些变量在多线程环境下就有可能出现所谓“线程不安全”的问题。 另，局部变量和方法参数是线程私有的，保存在栈中，不会出现线程安全问题。</p>
+<blockquote>
+<p><strong>原子性 : </strong>表明此操作是不可分割的，不可中断，要全部执行，要么全部不执行。<br>.<br><strong>可见性 : </strong>一个线程对某一共享变量修改之后，另一个线程要立即获取到修改后的结果。<br>.<br><strong>有序性 : </strong>在单线程环境下，程序永远会“有序的”执行，即：线程内表现为串行语义。</p>
+</blockquote>
+<h3 id="Java内存模型的抽象"><a href="#Java内存模型的抽象" class="headerlink" title="Java内存模型的抽象"></a>Java内存模型的抽象</h3><p>在Java中，所有实例域、静态域和数组元素存储在堆内存中，堆内存在线程之间共享。</p>
+<p>局部变量，方法定义参数和异常处理器参数不会在线程之间共享，不会出现线程安全问题，也不受内存模型的影响。</p>
+<p><strong>Java线程之间的通信由Java内存模型（本文简称为JMM）控制，JMM决定一个线程对共享变量的写入何时对另一个线程可见。</strong></p>
+<p>从抽象的角度来看，JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存（main memory）中，每个线程都有一个私有的本地内存（local memory），本地内存中存储了该线程以读/写共享变量的副本</p>
+<blockquote>
+<p><strong>本地内存 : </strong> 是JMM的一个抽象概念，并不真实存在。它涵盖了缓存，写缓冲区，寄存器以及其他的硬件和编译器优化</p>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20160921182337904" alt="这里写图片描述"></p>
+<p>从上图来看，线程A与线程B之间如要通信的话，必须要经历下面2个步骤：</p>
+<blockquote>
+<ol>
+<li>首先，线程A把本地内存A中更新过的共享变量刷新到主内存中去。</li>
+<li>然后，线程B到主内存中去读取线程A之前已更新过的共享变量。</li>
+</ol>
+</blockquote>
+<p><img src="http://img.blog.csdn.net/20160921182748551" alt="这里写图片描述"></p>
+<p>从整体来看，这两个步骤实质上是线程A在向线程B发送消息，而且这个通信过程必须要经过主内存。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序员提供内存可见性保证。</p>
+<p>上面也说到了，Java内存模型只是一个抽象概念，那么它在Java中具体是怎么工作的呢？为了更好的理解上Java内存模型工作方式，下面就JVM对Java内存模型的实现、硬件内存模型及它们之间的桥接做详细介绍。</p>
+<h3 id="JVM对Java内存模型的实现"><a href="#JVM对Java内存模型的实现" class="headerlink" title="JVM对Java内存模型的实现"></a>JVM对Java内存模型的实现</h3><p>在JVM内部，Java内存模型把内存分成了两部分：线程栈区和堆区，下图展示了Java内存模型在JVM中的逻辑视图： </p>
+<p><img src="http://img.blog.csdn.net/20160921182837697" alt="这里写图片描述"></p>
+<blockquote>
+<p><strong>线程栈 : </strong> JVM中运行的每个线程都拥有自己的线程栈，线程栈包含了当前线程执行的方法调用相关信息，我们也把它称作调用栈。随着代码的不断执行，调用栈会不断变化。<br>线程栈还包含了当前方法的所有本地变量信息。<strong>一个线程只能读取自己的线程栈</strong>，也就是说，线程中的本地变量对其它线程是不可见的。即使两个线程执行的是同一段代码，它们也会各自在自己的线程栈中创建本地变量，因此，每个线程中的本地变量都会有自己的版本。<br>所有原始类型(boolean,byte,short,char,int,long,float,double)的本地变量都直接保存在线程栈当中，对于它们的值各个线程之间都是独立的。<br>对于原始类型的本地变量，一个线程可以传递一个副本给另一个线程，当它们之间是无法共享的。</p>
+</blockquote>
+<p>..</p>
+<blockquote>
+<p><strong>堆 </strong> : 堆区包含了Java应用创建的所有对象信息，不管对象是哪个线程创建的，其中的对象包括原始类型的封装类（如Byte、Integer、Long等等）。不管对象是属于一个成员变量还是方法中的本地变量，它都会被存储在堆区。</p>
+</blockquote>
+<p>下图展示了调用栈和本地变量都存储在栈区，对象都存储在堆区： </p>
+<p><img src="http://img.blog.csdn.net/20160921182903818" alt="这里写图片描述"></p>
+<p>一个本地变量如果是原始类型，那么它会被完全存储到栈区。<br>一个本地变量也有可能是一个对象的引用，这种情况下，这个本地引用会被存储到栈中，但是对象本身仍然存储在堆区。</p>
+<p>对于一个对象的成员方法，这些方法中包含本地变量，仍需要存储在栈区，即使它们所属的对象在堆区。<br>对于一个对象的成员变量，不管它是原始类型还是包装类型，都会被存储到堆区。</p>
+<p>Static类型的变量以及类本身相关信息都会随着类本身存储在堆区。<br>堆中的对象可以被多线程共享。如果一个线程获得一个对象的应用，它便可访问这个对象的成员变量。如果两个线程同时调用了同一个对象的同一个方法，那么这两个线程便可同时访问这个对象的成员变量，但是对于本地变量，每个线程都会拷贝一份到自己的线程栈中。</p>
+<p><img src="http://img.blog.csdn.net/20160921182948601" alt="这里写图片描述"></p>
+<h3 id="硬件内存架构"><a href="#硬件内存架构" class="headerlink" title="硬件内存架构"></a>硬件内存架构</h3><p>不管是什么内存模型，最终还是运行在计算机硬件上的，所以我们有必要了解计算机硬件内存架构，下图就简单描述了当代计算机硬件内存架构： </p>
+<p><img src="http://img.blog.csdn.net/20160921183013570" alt="这里写图片描述"></p>
+<p>不管是什么内存模型，最终还是运行在计算机硬件上的，所以我们有必要了解计算机硬件内存架构，下图就简单描述了当代计算机硬件内存架构：<br>这里写图片描述</p>
+<p>现代计算机一般都有2个以上CPU，而且每个CPU还有可能包含多个核心。因此，如果我们的应用是多线程的话，这些线程可能会在各个CPU核心中并行运行。</p>
+<p>在CPU内部有一组CPU寄存器，也就是CPU的储存器。CPU操作寄存器的速度要比操作计算机主存快的多。在主存和CPU寄存器之间还存在一个CPU缓存，CPU操作CPU缓存的速度快于主存但慢于CPU寄存器。某些CPU可能有多个缓存层（一级缓存和二级缓存）。计算机的主存也称作RAM，所有的CPU都能够访问主存，而且主存比上面提到的缓存和寄存器大很多。</p>
+<p>当一个CPU需要访问主存时，会先读取一部分主存数据到CPU缓存，进而在读取CPU缓存到寄存器。当CPU需要写数据到主存时，同样会先flush寄存器到CPU缓存，然后再在某些节点把缓存数据flush到主存。</p>
+<h3 id="Java内存模型和硬件架构之间的桥接"><a href="#Java内存模型和硬件架构之间的桥接" class="headerlink" title="Java内存模型和硬件架构之间的桥接"></a>Java内存模型和硬件架构之间的桥接</h3><p>正如上面讲到的，Java内存模型和硬件内存架构并不一致。硬件内存架构中并没有区分栈和堆，从硬件上看，不管是栈还是堆，大部分数据都会存到主存中，当然一部分栈和堆的数据也有可能会存到CPU寄存器中，如下图所示，Java内存模型和计算机硬件内存架构是一个交叉关系：<br><img src="http://img.blog.csdn.net/20160921183144995" alt="这里写图片描述"></p>
+<p>当对象和变量存储到计算机的各个内存区域时，必然会面临一些问题，其中最主要的两个问题是：</p>
+<blockquote>
+<ol>
+<li>共享对象对各个线程的可见性</li>
+<li>共享对象的竞争现象</li>
+</ol>
+</blockquote>
+<h4 id="共享对象的可见性"><a href="#共享对象的可见性" class="headerlink" title="共享对象的可见性"></a>共享对象的可见性</h4><p>当多个线程同时操作同一个共享对象时，如果没有合理的使用volatile和synchronization关键字，一个线程对共享对象的更新有可能导致其它线程不可见。</p>
+<p>想象一下我们的共享对象存储在主存，一个CPU中的线程读取主存数据到CPU缓存，然后对共享对象做了更改，但CPU缓存中的更改后的对象还没有flush到主存，此时线程对共享对象的更改对其它CPU中的线程是不可见的。最终就是每个线程最终都会拷贝共享对象，而且拷贝的对象位于不同的CPU缓存中。</p>
+<p><img src="http://img.blog.csdn.net/20160921183218651" alt="这里写图片描述"></p>
+<p>要解决共享对象可见性这个问题，我们可以使用java volatile关键字。 Java’s volatile keyword. volatile 关键字可以保证变量会直接从主存读取，而对变量的更新也会直接写到主存。volatile原理是基于CPU内存屏障指令实现的。</p>
+<h4 id="竞争现象"><a href="#竞争现象" class="headerlink" title="竞争现象"></a>竞争现象</h4><p>如果多个线程共享一个对象，如果它们同时修改这个共享对象，这就产生了竞争现象。</p>
+<p>如下图所示，线程A和线程B共享一个对象obj。假设线程A从主存读取Obj.count变量到自己的CPU缓存，同时，线程B也读取了Obj.count变量到它的CPU缓存，并且这两个线程都对Obj.count做了加1操作。此时，Obj.count加1操作被执行了两次，不过都在不同的CPU缓存中。</p>
+<p>如果这两个加1操作是串行执行的，那么Obj.count变量便会在原始值上加2，最终主存中的Obj.count的值会是3。然而下图中两个加1操作是并行的，不管是线程A还是线程B先flush计算结果到主存，最终主存中的Obj.count只会增加1次变成2，尽管一共有两次加1操作</p>
+<p><img src="http://img.blog.csdn.net/20160921183251870" alt="这里写图片描述"></p>
+<p>要解决上面的问题我们可以使用java synchronized代码块。synchronized代码块可以保证同一个时刻只能有一个线程进入代码竞争区，synchronized代码块也能保证代码块中所有变量都将会从主存中读，当线程退出代码块时，对所有变量的更新将会flush到主存，不管这些变量是不是volatile类型的。</p>
+<p><strong> volatile和synchronized区别 </strong></p>
+<ul>
+<li>volatile本质是在告诉jvm当前变量在寄存器（工作内存）中的值是不确定的，需要从主存中读取； synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞住。</li>
+<li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别的</li>
+<li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
+<li>volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。</li>
+<li>volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化</li>
+</ul>
+<p><strong> 对于volatile关键字，当且仅当满足以下所有条件时可使用 </strong></p>
+<ul>
+<li>变量的写入操作不依赖变量的当前值，或者你能确保只有单个线程更新变量的值。</li>
+<li>该变量没有包含在具有其他变量的不变式中。</li>
+</ul>
+<h3 id="支撑Java内存模型的基础原理"><a href="#支撑Java内存模型的基础原理" class="headerlink" title="支撑Java内存模型的基础原理"></a>支撑Java内存模型的基础原理</h3><h4 id="指令重排序"><a href="#指令重排序" class="headerlink" title="指令重排序"></a>指令重排序</h4><p>在执行程序时，为了提高性能，编译器和处理器会对指令做重排序。但是，JMM确保在不同的编译器和不同的处理器平台之上，通过插入特定类型的Memory Barrier来禁止特定类型的编译器重排序和处理器重排序，为上层提供一致的内存可见性保证。</p>
+<ul>
+<li>编译器优化重排序：编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
+<li>指令级并行的重排序：如果不存l在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
+<li>内存系统的重排序：处理器使用缓存和读写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。</li>
+</ul>
+<p><strong>数据依赖性</strong></p>
+<p>如果两个操作访问同一个变量，其中一个为写操作，此时这两个操作之间存在数据依赖性。<br>编译器和处理器不会改变存在数据依赖性关系的两个操作的执行顺序，即不会重排序。</p>
+<p><strong>as-if-serial</strong></p>
+<p>不管怎么重排序，单线程下的执行结果不能被改变，编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
+<h4 id="内存屏障（Memory-Barrier-）"><a href="#内存屏障（Memory-Barrier-）" class="headerlink" title="内存屏障（Memory Barrier ）"></a>内存屏障（Memory Barrier ）</h4><p>通过内存屏障可以禁止特定类型处理器的重排序，从而让程序按我们预想的流程去执行。内存屏障，又称内存栅栏，是一个CPU指令，基本上它是一条这样的指令：</p>
+<ul>
+<li>保证特定操作的执行顺序。</li>
+<li>影响某些数据（或则是某条指令的执行结果）的内存可见性。</li>
+</ul>
+<p>编译器和CPU能够重排序指令，保证最终相同的结果，尝试优化性能。插入一条Memory Barrier会告诉编译器和CPU：不管什么指令都不能和这条Memory Barrier指令重排序。<br>Memory Barrier所做的另外一件事是强制刷出各种CPU cache，如一个Write-Barrier（写入屏障）将刷出所有在Barrier之前写入 cache 的数据，因此，任何CPU上的线程都能读取到这些数据的最新版本。</p>
+<p>上面讲到的volatile是基于Memory Barrier实现的。</p>
+<p>如果一个变量是volatile修饰的，JMM会在写入这个字段之后插进一个Write-Barrier指令，并在读这个字段之前插入一个Read-Barrier指令。这意味着，如果写入一个volatile变量，就可以保证：</p>
+<ul>
+<li>一个线程写入变量a后，任何线程访问该变量都会拿到最新值。</li>
+<li>在写入变量a之前的写入操作，其更新的数据对于其他线程也是可见的。因为Memory Barrier会刷出cache中的所有先前的写入。</li>
+</ul>
+<h4 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h4><p>从jdk5开始，java使用新的JSR-133内存模型，基于happens-before的概念来阐述操作之间的内存可见性。<br>在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须要存在happens-before关系，这个的两个操作既可以在同一个线程，也可以在不同的两个线程中。</p>
+<p>与程序员密切相关的happens-before规则如下：</p>
+<ul>
+<li>程序顺序规则：一个线程中的每个操作，happens-before于该线程中任意的后续操作。</li>
+<li>监视器锁规则：对一个锁的解锁操作，happens-before于随后对这个锁的加锁操作。</li>
+<li>volatile域规则：对一个volatile域的写操作，happens-before于任意线程后续对这个volatile域的读。</li>
+<li>传递性规则：如果 A happens-before B，且 B happens-before C，那么A happens-before C。</li>
+</ul>
+<p>注意：两个操作之间具有happens-before关系，并不意味前一个操作必须要在后一个操作之前执行！仅仅要求前一个操作的执行结果，对于后一个操作是可见的，且前一个操作按顺序排在后一个操作之前。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/10/Github 安全类Repo收集整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/10/Github 安全类Repo收集整理/" itemprop="url">Github 安全类Repo收集整理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-10T10:12:00+08:00">
+                2017-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/安全/" itemprop="url" rel="index">
+                    <span itemprop="name">安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转自：<a href="http://www.uedbox.com/github-security-repo-collection/" target="_blank" rel="external">http://www.uedbox.com/github-security-repo-collection/</a></p>
+<p>刚好这两天对之前github上关注的一些比较有意思的项目进行了一下分类整理，在这里列出来分享给大家，希望能对大家寻找工具或者资源有所帮助。<br>大部分Repo是关于<a href="http://www.uedbox.com/" target="_blank">网络安全</a>以及Python的，也有一些其他主题的项目，有很多我都没有用过，关于项目的功能概括如果写的有不对的地方，还请大家多多包涵，给予指正。<br>欢迎组团欢迎一起学习交流！转载请注明出处。</p>
+<h3 id="漏洞及渗透练习平台"><a href="#漏洞及渗透练习平台" class="headerlink" title="漏洞及渗透练习平台"></a>漏洞及渗透练习平台</h3><ul>
+<li><strong>WebGoat漏洞练习环境</strong><ul>
+<li><a href="https://github.com/WebGoat/WebGoat" target="_blank" rel="external">https://github.com/WebGoat/WebGoat</a></li>
+<li><a href="https://github.com/WebGoat/WebGoat-Legacy" target="_blank" rel="external">https://github.com/WebGoat/WebGoat-Legacy</a></li>
+</ul>
+</li>
+<li><strong>Damn Vulnerable Web Application(漏洞练习平台)</strong><ul>
+<li><a href="https://github.com/RandomStorm/DVWA" target="_blank" rel="external">https://github.com/RandomStorm/DVWA</a></li>
+</ul>
+</li>
+<li><strong>数据库注入练习平台</strong><ul>
+<li><a href="https://github.com/Audi-1/sqli-labs" target="_blank" rel="external">https://github.com/Audi-1/sqli-labs</a></li>
+</ul>
+</li>
+<li><strong>用node编写的漏洞练习平台，like OWASP Node Goat</strong><ul>
+<li><a href="https://github.com/cr0hn/vulnerable-node" target="_blank" rel="external">https://github.com/cr0hn/vulnerable-node</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="花式扫描器"><a href="#花式扫描器" class="headerlink" title="花式扫描器"></a>花式扫描器</h3><ul>
+<li><strong>端口扫描器Nmap</strong><ul>
+<li><a href="https://github.com/nmap/nmap" target="_blank" rel="external">https://github.com/nmap/nmap</a></li>
+</ul>
+</li>
+<li><strong>本地网络扫描器</strong><ul>
+<li><a href="https://github.com/SkyLined/LocalNetworkScanner" target="_blank" rel="external">https://github.com/SkyLined/LocalNetworkScanner</a></li>
+</ul>
+</li>
+<li><strong>子域名扫描器</strong><ul>
+<li><a href="https://github.com/lijiejie/subDomainsBrute" target="_blank" rel="external">https://github.com/lijiejie/subDomainsBrute</a></li>
+</ul>
+</li>
+<li><strong>漏洞路由扫描器</strong><ul>
+<li><a href="https://github.com/jh00nbr/Routerhunter-2.0" target="_blank" rel="external">https://github.com/jh00nbr/Routerhunter-2.0</a></li>
+</ul>
+</li>
+<li><strong>迷你批量信息泄漏扫描脚本</strong><ul>
+<li><a href="https://github.com/lijiejie/BBScan" target="_blank" rel="external">https://github.com/lijiejie/BBScan</a></li>
+</ul>
+</li>
+<li><strong>Waf类型检测工具</strong><ul>
+<li><a href="https://github.com/EnableSecurity/wafw00f" target="_blank" rel="external">https://github.com/EnableSecurity/wafw00f</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="信息搜集工具"><a href="#信息搜集工具" class="headerlink" title="信息搜集工具"></a>信息搜集工具</h3><ul>
+<li><strong>社工插件，可查找以email、phone、username的注册的所有网站账号信息</strong><ul>
+<li><a href="https://github.com/n0tr00t/Sreg" target="_blank" rel="external">https://github.com/n0tr00t/Sreg</a></li>
+</ul>
+</li>
+<li><strong>Github信息搜集，可实时扫描查询git最新上传有关邮箱账号密码信息</strong><ul>
+<li><a href="https://github.com/sea-god/gitscan" target="_blank" rel="external">https://github.com/sea-god/gitscan</a></li>
+</ul>
+</li>
+<li><strong>github Repo信息搜集工具</strong><ul>
+<li><a href="https://github.com/metac0rtex/GitHarvester" target="_blank" rel="external">https://github.com/metac0rtex/GitHarvester</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h3><ul>
+<li><strong>webshell大合集</strong><ul>
+<li><a href="https://github.com/tennc/webshell" target="_blank" rel="external">https://github.com/tennc/webshell</a></li>
+</ul>
+</li>
+<li><strong>渗透以及web攻击脚本</strong><ul>
+<li><a href="https://github.com/brianwrf/hackUtils" target="_blank" rel="external">https://github.com/brianwrf/hackUtils</a></li>
+</ul>
+</li>
+<li><strong>web渗透小工具大合集</strong><ul>
+<li><a href="https://github.com/rootphantomer/hack_tools_for_me" target="_blank" rel="external">https://github.com/rootphantomer/hack_tools_for_me</a></li>
+</ul>
+</li>
+<li><strong>XSS数据接收平台</strong><ul>
+<li><a href="https://github.com/firesunCN/BlueLotus_XSSReceiver" target="_blank" rel="external">https://github.com/firesunCN/BlueLotus_XSSReceiver</a></li>
+</ul>
+</li>
+<li><strong>XSS与CSRF工具</strong><ul>
+<li><a href="https://github.com/evilcos/xssor" target="_blank" rel="external">https://github.com/evilcos/xssor</a></li>
+</ul>
+</li>
+<li><strong>Short for command injection exploiter，web向命令注入检测工具</strong><ul>
+<li><a href="https://github.com/stasinopoulos/commix" target="_blank" rel="external">https://github.com/stasinopoulos/commix</a></li>
+</ul>
+</li>
+<li><strong>数据库注入工具</strong><ul>
+<li><a href="https://github.com/sqlmapproject/sqlmap" target="_blank" rel="external">https://github.com/sqlmapproject/sqlmap</a></li>
+</ul>
+</li>
+<li><strong>Web代理，通过加载sqlmap api进行sqli实时检测</strong><ul>
+<li><a href="https://github.com/zt2/sqli-hunter" target="_blank" rel="external">https://github.com/zt2/sqli-hunter</a></li>
+</ul>
+</li>
+<li><strong>新版中国菜刀</strong><ul>
+<li><a href="https://github.com/Chora10/Cknife" target="_blank" rel="external">https://github.com/Chora10/Cknife</a></li>
+</ul>
+</li>
+<li><strong>.git泄露利用EXP</strong><ul>
+<li><a href="https://github.com/lijiejie/GitHack" target="_blank" rel="external">https://github.com/lijiejie/GitHack</a></li>
+</ul>
+</li>
+<li><strong>浏览器攻击框架</strong><ul>
+<li><a href="https://github.com/beefproject/beef" target="_blank" rel="external">https://github.com/beefproject/beef</a></li>
+</ul>
+</li>
+<li><strong>自动化绕过WAF脚本</strong><ul>
+<li><a href="https://github.com/khalilbijjou/WAFNinja" target="_blank" rel="external">https://github.com/khalilbijjou/WAFNinja</a></li>
+</ul>
+</li>
+<li><strong>http命令行客户端，可以从命令行构造发送各种http请求（类似于Curl）</strong><ul>
+<li><a href="https://github.com/jkbrzt/httpie" target="_blank" rel="external">https://github.com/jkbrzt/httpie</a></li>
+</ul>
+</li>
+<li><strong>浏览器调试利器</strong><ul>
+<li><a href="https://github.com/firebug/firebug" target="_blank" rel="external">https://github.com/firebug/firebug</a></li>
+</ul>
+</li>
+<li><strong>一款开源WAF</strong><ul>
+<li><a href="https://github.com/SpiderLabs/ModSecurity" target="_blank" rel="external">https://github.com/SpiderLabs/ModSecurity</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="windows域渗透工具"><a href="#windows域渗透工具" class="headerlink" title="windows域渗透工具"></a>windows域渗透工具</h3><ul>
+<li><strong>windows渗透神器</strong><ul>
+<li><a href="https://github.com/gentilkiwi/mimikatz" target="_blank" rel="external">https://github.com/gentilkiwi/mimikatz</a></li>
+</ul>
+</li>
+<li><strong>Powershell渗透库合集</strong><ul>
+<li><a href="https://github.com/PowerShellMafia/PowerSploit" target="_blank" rel="external">https://github.com/PowerShellMafia/PowerSploit</a></li>
+</ul>
+</li>
+<li><strong>Powershell tools合集</strong><ul>
+<li><a href="https://github.com/clymb3r/PowerShell" target="_blank" rel="external">https://github.com/clymb3r/PowerShell</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="Fuzz"><a href="#Fuzz" class="headerlink" title="Fuzz"></a>Fuzz</h3><ul>
+<li><strong>Web向Fuzz工具</strong><ul>
+<li><a href="https://github.com/xmendez/wfuzz" target="_blank" rel="external">https://github.com/xmendez/wfuzz</a></li>
+</ul>
+</li>
+<li><strong>HTTP暴力破解，撞库攻击脚本</strong><ul>
+<li><a href="https://github.com/lijiejie/htpwdScan" target="_blank" rel="external">https://github.com/lijiejie/htpwdScan</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="漏洞利用及攻击框架"><a href="#漏洞利用及攻击框架" class="headerlink" title="漏洞利用及攻击框架"></a>漏洞利用及攻击框架</h3><ul>
+<li><strong>msf</strong><ul>
+<li><a href="https://github.com/rapid7/metasploit-framework" target="_blank" rel="external">https://github.com/rapid7/metasploit-framework</a></li>
+</ul>
+</li>
+<li><strong>Poc调用框架，可加载Pocsuite,Tangscan，Beebeeto等</strong><ul>
+<li><a href="https://github.com/erevus-cn/pocscan" target="_blank" rel="external">https://github.com/erevus-cn/pocscan</a></li>
+</ul>
+</li>
+<li><strong>Pocsuite</strong><ul>
+<li><a href="https://github.com/knownsec/Pocsuite" target="_blank" rel="external">https://github.com/knownsec/Pocsuite</a></li>
+</ul>
+</li>
+<li><strong>Beebeeto</strong><ul>
+<li><a href="https://github.com/n0tr00t/Beebeeto-framework" target="_blank" rel="external">https://github.com/n0tr00t/Beebeeto-framework</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="漏洞POC-amp-EXP"><a href="#漏洞POC-amp-EXP" class="headerlink" title="漏洞POC&amp;EXP"></a>漏洞POC&amp;EXP</h3><ul>
+<li><strong>ExploitDB官方git版本</strong><ul>
+<li><a href="https://github.com/offensive-security/exploit-database" target="_blank" rel="external">https://github.com/offensive-security/exploit-database</a></li>
+</ul>
+</li>
+<li><strong>php漏洞代码分析</strong><ul>
+<li><a href="https://github.com/80vul/phpcodz" target="_blank" rel="external">https://github.com/80vul/phpcodz</a></li>
+</ul>
+</li>
+<li><strong>Simple test for CVE-2016-2107</strong><ul>
+<li><a href="https://github.com/FiloSottile/CVE-2016-2107" target="_blank" rel="external">https://github.com/FiloSottile/CVE-2016-2107</a></li>
+</ul>
+</li>
+<li><strong>CVE-2015-7547 POC</strong><ul>
+<li><a href="https://github.com/fjserna/CVE-2015-7547" target="_blank" rel="external">https://github.com/fjserna/CVE-2015-7547</a></li>
+</ul>
+</li>
+<li><strong>JAVA反序列化POC生成工具</strong><ul>
+<li><a href="https://github.com/frohoff/ysoserial" target="_blank" rel="external">https://github.com/frohoff/ysoserial</a></li>
+</ul>
+</li>
+<li><strong>JAVA反序列化EXP</strong><ul>
+<li><a href="https://github.com/foxglovesec/JavaUnserializeExploits" target="_blank" rel="external">https://github.com/foxglovesec/JavaUnserializeExploits</a></li>
+</ul>
+</li>
+<li><strong>Jenkins CommonCollections EXP</strong><ul>
+<li><a href="https://github.com/CaledoniaProject/jenkins-cli-exploit" target="_blank" rel="external">https://github.com/CaledoniaProject/jenkins-cli-exploit</a></li>
+</ul>
+</li>
+<li><strong>CVE-2015-2426 EXP (windows内核提权)</strong><ul>
+<li><a href="https://github.com/vlad902/hacking-team-windows-kernel-lpe" target="_blank" rel="external">https://github.com/vlad902/hacking-team-windows-kernel-lpe</a></li>
+</ul>
+</li>
+<li><strong>use docker to show web attack(php本地文件包含结合phpinfo getshell 以及ssrf结合curl的利用演示)</strong><ul>
+<li><a href="https://github.com/hxer/vulnapp" target="_blank" rel="external">https://github.com/hxer/vulnapp</a></li>
+</ul>
+</li>
+<li><strong>php7缓存覆写漏洞Demo及相关工具</strong><ul>
+<li><a href="https://github.com/GoSecure/php7-opcache-override" target="_blank" rel="external">https://github.com/GoSecure/php7-opcache-override</a></li>
+</ul>
+</li>
+<li><strong>XcodeGhost木马样本</strong><ul>
+<li><a href="https://github.com/XcodeGhostSource/XcodeGhost" target="_blank" rel="external">https://github.com/XcodeGhostSource/XcodeGhost</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="中间人攻击及钓鱼"><a href="#中间人攻击及钓鱼" class="headerlink" title="中间人攻击及钓鱼"></a>中间人攻击及钓鱼</h3><ul>
+<li><strong>中间人攻击框架</strong><ul>
+<li><a href="https://github.com/secretsquirrel/the-backdoor-factory" target="_blank" rel="external">https://github.com/secretsquirrel/the-backdoor-factory</a></li>
+<li><a href="https://github.com/secretsquirrel/BDFProxy" target="_blank" rel="external">https://github.com/secretsquirrel/BDFProxy</a></li>
+<li><a href="https://github.com/byt3bl33d3r/MITMf" target="_blank" rel="external">https://github.com/byt3bl33d3r/MITMf</a></li>
+</ul>
+</li>
+<li><strong>Inject code, jam wifi, and spy on wifi users</strong><ul>
+<li><a href="https://github.com/DanMcInerney/LANs.py" target="_blank" rel="external">https://github.com/DanMcInerney/LANs.py</a></li>
+</ul>
+</li>
+<li><strong>可扩展的中间人代理工具</strong><ul>
+<li><a href="https://github.com/intrepidusgroup/mallory" target="_blank" rel="external">https://github.com/intrepidusgroup/mallory</a></li>
+</ul>
+</li>
+<li><strong>wifi钓鱼</strong><ul>
+<li><a href="https://github.com/sophron/wifiphisher" target="_blank" rel="external">https://github.com/sophron/wifiphisher</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="密码破解"><a href="#密码破解" class="headerlink" title="密码破解"></a>密码破解</h3><ul>
+<li><strong>密码破解工具</strong><ul>
+<li><a href="https://github.com/shinnok/johnny" target="_blank" rel="external">https://github.com/shinnok/johnny</a></li>
+</ul>
+</li>
+<li><strong>本地存储的各类密码提取利器</strong><ul>
+<li><a href="https://github.com/AlessandroZ/LaZagne" target="_blank" rel="external">https://github.com/AlessandroZ/LaZagne</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="二进制及代码分析工具"><a href="#二进制及代码分析工具" class="headerlink" title="二进制及代码分析工具"></a>二进制及代码分析工具</h3><ul>
+<li><strong>二进制分析工具</strong><ul>
+<li><a href="https://github.com/devttys0/binwalk" target="_blank" rel="external">https://github.com/devttys0/binwalk</a></li>
+</ul>
+</li>
+<li><strong>系统扫描器，用于寻找程序和库然后收集他们的依赖关系，链接等信息</strong><ul>
+<li><a href="https://github.com/quarkslab/binmap" target="_blank" rel="external">https://github.com/quarkslab/binmap</a></li>
+</ul>
+</li>
+<li><strong>rp++ is a full-cpp written tool that aims to find ROP sequences in PE/Elf/Mach-O (doesn’t support the FAT binaries) x86/x64 binaries.</strong><ul>
+<li><a href="https://github.com/0vercl0k/rp" target="_blank" rel="external">https://github.com/0vercl0k/rp</a></li>
+</ul>
+</li>
+<li><strong>Windows Exploit Development工具</strong><ul>
+<li><a href="https://github.com/lillypad/badger" target="_blank" rel="external">https://github.com/lillypad/badger</a></li>
+</ul>
+</li>
+<li><strong>二进制静态分析工具（python）</strong><ul>
+<li><a href="https://github.com/bdcht/amoco" target="_blank" rel="external">https://github.com/bdcht/amoco</a></li>
+</ul>
+</li>
+<li><strong>Python Exploit Development Assistance for GDB</strong><ul>
+<li><a href="https://github.com/longld/peda" target="_blank" rel="external">https://github.com/longld/peda</a></li>
+</ul>
+</li>
+<li><strong>对BillGates Linux Botnet系木马活动的监控工具</strong><ul>
+<li><a href="https://github.com/ValdikSS/billgates-botnet-tracker" target="_blank" rel="external">https://github.com/ValdikSS/billgates-botnet-tracker</a></li>
+</ul>
+</li>
+<li><strong>木马配置参数提取工具</strong><ul>
+<li><a href="https://github.com/kevthehermit/RATDecoders" target="_blank" rel="external">https://github.com/kevthehermit/RATDecoders</a></li>
+</ul>
+</li>
+<li><strong>Shellphish编写的二进制分析工具（CTF向）</strong><ul>
+<li><a href="https://github.com/angr/angr" target="_blank" rel="external">https://github.com/angr/angr</a></li>
+</ul>
+</li>
+<li><strong>针对python的静态代码分析工具</strong><ul>
+<li><a href="https://github.com/yinwang0/pysonar2" target="_blank" rel="external">https://github.com/yinwang0/pysonar2</a></li>
+</ul>
+</li>
+<li><strong>一个自动化的脚本（shell）分析工具，用来给出警告和建议</strong><ul>
+<li><a href="https://github.com/koalaman/shellcheck" target="_blank" rel="external">https://github.com/koalaman/shellcheck</a></li>
+</ul>
+</li>
+<li><strong>基于AST变换的简易Javascript反混淆辅助工具</strong><ul>
+<li><a href="https://github.com/ChiChou/etacsufbo" target="_blank" rel="external">https://github.com/ChiChou/etacsufbo</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="EXP编写框架及工具"><a href="#EXP编写框架及工具" class="headerlink" title="EXP编写框架及工具"></a>EXP编写框架及工具</h3><ul>
+<li><strong>二进制EXP编写工具</strong><ul>
+<li><a href="https://github.com/t00sh/rop-tool" target="_blank" rel="external">https://github.com/t00sh/rop-tool</a></li>
+</ul>
+</li>
+<li><strong>CTF Pwn 类题目脚本编写框架</strong><ul>
+<li><a href="https://github.com/Gallopsled/pwntools" target="_blank" rel="external">https://github.com/Gallopsled/pwntools</a></li>
+</ul>
+</li>
+<li><strong>an easy-to-use io library for pwning development</strong><ul>
+<li><a href="https://github.com/zTrix/zio" target="_blank" rel="external">https://github.com/zTrix/zio</a></li>
+</ul>
+</li>
+<li><strong>跨平台注入工具（ Inject JavaScript to explore native apps on Windows, Mac, Linux, iOS and Android.）</strong><ul>
+<li><a href="https://github.com/frida/frida" target="_blank" rel="external">https://github.com/frida/frida</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="隐写"><a href="#隐写" class="headerlink" title="隐写"></a>隐写</h3><ul>
+<li><strong>隐写检测工具</strong><ul>
+<li><a href="https://github.com/abeluck/stegdetect" target="_blank" rel="external">https://github.com/abeluck/stegdetect</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="各类安全资料"><a href="#各类安全资料" class="headerlink" title="各类安全资料"></a>各类安全资料</h3><ul>
+<li><strong>域渗透教程</strong><ul>
+<li><a href="https://github.com/l3m0n/pentest_study" target="_blank" rel="external">https://github.com/l3m0n/pentest_study</a></li>
+</ul>
+</li>
+<li><strong>python security教程（原文链接<a href="http://www.primalsecurity.net/tutorials/python-tutorials/）" target="_blank" rel="external">http://www.primalsecurity.net/tutorials/python-tutorials/）</a></strong><ul>
+<li><a href="https://github.com/smartFlash/pySecurity" target="_blank" rel="external">https://github.com/smartFlash/pySecurity</a></li>
+</ul>
+</li>
+<li><strong>data_hacking合集</strong><ul>
+<li><a href="https://github.com/ClickSecurity/data_hacking" target="_blank" rel="external">https://github.com/ClickSecurity/data_hacking</a></li>
+</ul>
+</li>
+<li><strong>mobile-security-wiki</strong><ul>
+<li><a href="https://github.com/exploitprotocol/mobile-security-wiki" target="_blank" rel="external">https://github.com/exploitprotocol/mobile-security-wiki</a></li>
+</ul>
+</li>
+<li><strong>书籍《reverse-engineering-for-beginners》</strong><ul>
+<li><a href="https://github.com/veficos/reverse-engineering-for-beginners" target="_blank" rel="external">https://github.com/veficos/reverse-engineering-for-beginners</a></li>
+</ul>
+</li>
+<li><strong>一些信息安全标准及设备配置</strong><ul>
+<li><a href="https://github.com/luyg24/IT_security" target="_blank" rel="external">https://github.com/luyg24/IT_security</a></li>
+</ul>
+</li>
+<li><strong>APT相关笔记</strong><ul>
+<li><a href="https://github.com/kbandla/APTnotes" target="_blank" rel="external">https://github.com/kbandla/APTnotes</a></li>
+</ul>
+</li>
+<li><strong>Kcon资料</strong><ul>
+<li><a href="https://github.com/knownsec/KCon" target="_blank" rel="external">https://github.com/knownsec/KCon</a></li>
+</ul>
+</li>
+<li><strong>ctf及黑客资源合集</strong><ul>
+<li><a href="https://github.com/bt3gl/My-Gray-Hacker-Resources" target="_blank" rel="external">https://github.com/bt3gl/My-Gray-Hacker-Resources</a></li>
+</ul>
+</li>
+<li><strong>ctf和安全工具大合集</strong><ul>
+<li><a href="https://github.com/zardus/ctf-tools" target="_blank" rel="external">https://github.com/zardus/ctf-tools</a></li>
+</ul>
+</li>
+<li><strong>《DO NOT FUCK WITH A HACKER》</strong><ul>
+<li><a href="https://github.com/citypw/DNFWAH" target="_blank" rel="external">https://github.com/citypw/DNFWAH</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="各类CTF资源"><a href="#各类CTF资源" class="headerlink" title="各类CTF资源"></a>各类CTF资源</h3><ul>
+<li><strong>近年ctf writeup大全</strong><ul>
+<li><a href="https://github.com/ctfs/write-ups-2016" target="_blank" rel="external">https://github.com/ctfs/write-ups-2016</a></li>
+<li><a href="https://github.com/ctfs/write-ups-2015" target="_blank" rel="external">https://github.com/ctfs/write-ups-2015</a></li>
+<li><a href="https://github.com/ctfs/write-ups-2014" target="_blank" rel="external">https://github.com/ctfs/write-ups-2014</a></li>
+</ul>
+</li>
+<li><strong>fbctf竞赛平台Demo</strong><ul>
+<li><a href="https://github.com/facebook/fbctf" target="_blank" rel="external">https://github.com/facebook/fbctf</a></li>
+</ul>
+</li>
+<li><strong>ctf Resources</strong><ul>
+<li><a href="https://github.com/ctfs/resources" target="_blank" rel="external">https://github.com/ctfs/resources</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="各类编程资源"><a href="#各类编程资源" class="headerlink" title="各类编程资源"></a>各类编程资源</h3><ul>
+<li><strong>大礼包（什么都有）</strong><ul>
+<li><a href="https://github.com/bayandin/awesome-awesomeness" target="_blank" rel="external">https://github.com/bayandin/awesome-awesomeness</a></li>
+</ul>
+</li>
+<li><strong>bash-handbook</strong><ul>
+<li><a href="https://github.com/denysdovhan/bash-handbook" target="_blank" rel="external">https://github.com/denysdovhan/bash-handbook</a></li>
+</ul>
+</li>
+<li><strong>python资源大全</strong><ul>
+<li><a href="https://github.com/jobbole/awesome-python-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-python-cn</a></li>
+</ul>
+</li>
+<li><strong>git学习资料</strong><ul>
+<li><a href="https://github.com/xirong/my-git" target="_blank" rel="external">https://github.com/xirong/my-git</a></li>
+</ul>
+</li>
+<li><strong>安卓开源代码解析</strong><ul>
+<li><a href="https://github.com/android-cn/android-open-project-analysis" target="_blank" rel="external">https://github.com/android-cn/android-open-project-analysis</a></li>
+</ul>
+</li>
+<li><strong>python框架，库，资源大合集</strong><ul>
+<li><a href="https://github.com/vinta/awesome-python" target="_blank" rel="external">https://github.com/vinta/awesome-python</a></li>
+</ul>
+</li>
+<li><strong>JS 正则表达式库（用于简化构造复杂的JS正则表达式）</strong></li>
+<li><a href="https://github.com/VerbalExpressions/JSVerbalExpressions" target="_blank" rel="external">https://github.com/VerbalExpressions/JSVerbalExpressions</a></li>
+</ul>
+<h3 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h3><ul>
+<li><strong>python 正则表达式库（用于简化构造复杂的python正则表达式）</strong><ul>
+<li><a href="https://github.com/VerbalExpressions/PythonVerbalExpressions" target="_blank" rel="external">https://github.com/VerbalExpressions/PythonVerbalExpressions</a></li>
+</ul>
+</li>
+<li><strong>python任务管理以及命令执行库</strong><ul>
+<li><a href="https://github.com/pyinvoke/invoke" target="_blank" rel="external">https://github.com/pyinvoke/invoke</a></li>
+</ul>
+</li>
+<li><strong>python exe打包库</strong><ul>
+<li><a href="https://github.com/pyinstaller/pyinstaller" target="_blank" rel="external">https://github.com/pyinstaller/pyinstaller</a></li>
+</ul>
+</li>
+<li><strong>py3 爬虫框架</strong><ul>
+<li><a href="https://github.com/orf/cyborg" target="_blank" rel="external">https://github.com/orf/cyborg</a></li>
+</ul>
+</li>
+<li><strong>一个提供底层接口数据包编程和网络协议支持的python库</strong><ul>
+<li><a href="https://github.com/CoreSecurity/impacket" target="_blank" rel="external">https://github.com/CoreSecurity/impacket</a></li>
+</ul>
+</li>
+<li><strong>python requests 库</strong><ul>
+<li><a href="https://github.com/kennethreitz/requests" target="_blank" rel="external">https://github.com/kennethreitz/requests</a></li>
+</ul>
+</li>
+<li><strong>python 实用工具合集</strong><ul>
+<li><a href="https://github.com/mahmoud/boltons" target="_blank" rel="external">https://github.com/mahmoud/boltons</a></li>
+</ul>
+</li>
+<li><strong>python爬虫系统</strong><ul>
+<li><a href="https://github.com/binux/pyspider" target="_blank" rel="external">https://github.com/binux/pyspider</a></li>
+</ul>
+</li>
+<li><strong>ctf向 python工具包</strong><ul>
+<li><a href="https://github.com/P1kachu/v0lt" target="_blank" rel="external">https://github.com/P1kachu/v0lt</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="科学上网"><a href="#科学上网" class="headerlink" title="科学上网"></a>科学上网</h3><ul>
+<li><strong>科学上网工具</strong><ul>
+<li><a href="https://github.com/XX-net/XX-Net" target="_blank" rel="external">https://github.com/XX-net/XX-Net</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="福利"><a href="#福利" class="headerlink" title="福利"></a>福利</h3><ul>
+<li><strong>微信自动抢红包动态库</strong><ul>
+<li><a href="https://github.com/east520/AutoGetRedEnv" target="_blank" rel="external">https://github.com/east520/AutoGetRedEnv</a></li>
+</ul>
+</li>
+<li><strong>微信抢红包插件（安卓版）</strong><ul>
+<li><a href="https://github.com/geeeeeeeeek/WeChatLuckyMoney" target="_blank" rel="external">https://github.com/geeeeeeeeek/WeChatLuckyMoney</a></li>
+</ul>
+</li>
+<li><strong>神器</strong><ul>
+<li><a href="https://github.com/yangyangwithgnu/hardseed" target="_blank" rel="external">https://github.com/yangyangwithgnu/hardseed</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/25/Java监控文件夹或文件的变动/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -527,6 +1377,147 @@ var _hmt = _hmt || [];
 <p>代码在一旦运行到此处，能立即知晓依赖。而无需遍历整个函数体找到它的依赖，因此性能有所提升，缺点就是开发者必须显式得指明依赖——这会使得开发工作量变大，比如：当你写到函数体内部几百上千行的时候，忽然发现需要增加一个依赖，你不得不回到函数顶端来将这个依赖添加进数组。</p>
 <h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>至此可以对由commonJS衍生出来的方案做出总结了。在浏览器端来设计模块加载机制，需要考虑依赖的问题。<br>我们先把依赖分为两种，“强依赖” —— 肯定需要 和“弱依赖” —— 可能需要。<br>对于强依赖，如果要性能优先，则考虑参照依赖前置的思想设计你的模块加载器，我个人也更推崇这个方案一些；如果考虑开发成本优先，则考虑按照依赖就近的思想设计你的模块加载器。<br>对于弱依赖，只需要将弱依赖的部分改写到回调函数内即可。<br>如果现在我要实现一个模块加载器，我会将强依赖前置，弱依赖采用异步回调函数的形式，其它的方法我认为都只是语法糖而已，仅此就够了。</p>
 
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/21/用nodeJs做代理服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/01/21/用nodeJs做代理服务器/" itemprop="url">用nodeJs做代理服务器</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-21T23:16:06+08:00">
+                2017-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>` npm install http-proxy </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>), httpProxy = <span class="built_in">require</span>(<span class="string">'http-proxy'</span>);  </div><div class="line">  </div><div class="line"><span class="comment">// 新建一个代理 Proxy Server 对象  </span></div><div class="line"><span class="keyword">var</span> proxy = httpProxy.createProxyServer(&#123;&#125;);  </div><div class="line">  </div><div class="line"><span class="comment">// 捕获异常  </span></div><div class="line">proxy.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, req, res</span>) </span>&#123;  </div><div class="line">  res.writeHead(<span class="number">500</span>, &#123;  </div><div class="line">    <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span>  </div><div class="line">  &#125;);  </div><div class="line">  res.end(<span class="string">'Something went wrong. And we are reporting a custom error message.'</span>);  </div><div class="line">&#125;);  </div><div class="line">  </div><div class="line"><span class="comment">// 另外新建一个 HTTP 80 端口的服务器，也就是常规 Node 创建 HTTP 服务器的方法。  </span></div><div class="line"><span class="comment">// 在每次请求中，调用 proxy.web(req, res config) 方法进行请求分发  </span></div><div class="line"><span class="keyword">var</span> server = <span class="built_in">require</span>(<span class="string">'http'</span>).createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;  </div><div class="line">  <span class="comment">// 在这里可以自定义你的路由分发  </span></div><div class="line">  <span class="keyword">var</span> host = req.headers.host, ip = req.headers[<span class="string">'x-forwarded-for'</span>] || req.connection.remoteAddress;  </div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"client ip:"</span> + ip + <span class="string">", host:"</span> + host);  </div><div class="line">    </div><div class="line">  <span class="keyword">switch</span>(host)&#123;  </div><div class="line">    <span class="keyword">case</span> <span class="string">'aaaa.com'</span>:  </div><div class="line">    <span class="keyword">case</span> <span class="string">'bbs.aaaa.com'</span>:  </div><div class="line">        proxy.web(req, res, &#123; <span class="attr">target</span>: <span class="string">'http://xyd.bbbbb.com:82'</span> &#125;);  </div><div class="line">    <span class="keyword">break</span>;  </div><div class="line">    <span class="keyword">case</span> <span class="string">'vps.cccc.com'</span>:  </div><div class="line">        proxy.web(req, res, &#123; <span class="attr">target</span>: <span class="string">'http://xyd.bbbbb.com:8080'</span> &#125;);  </div><div class="line">    <span class="keyword">break</span>;  </div><div class="line">    <span class="keyword">case</span> <span class="string">'dddd.com'</span>:  </div><div class="line">    <span class="keyword">case</span> <span class="string">'www.dddd.com'</span>:  </div><div class="line">        proxy.web(req, res, &#123; <span class="attr">target</span>: <span class="string">'http://localhost:81'</span> &#125;);  </div><div class="line">    <span class="keyword">break</span>;  </div><div class="line">    <span class="keyword">case</span> <span class="string">'eeeeee.com.cn'</span>:  </div><div class="line">    <span class="keyword">case</span> <span class="string">'www.eeee.com.cn'</span>:  </div><div class="line">        proxy.web(req, res, &#123; <span class="attr">target</span>: <span class="string">'http://eeeee.com.cn:8082'</span> &#125;);  </div><div class="line">    <span class="keyword">break</span>;  </div><div class="line">    <span class="keyword">default</span>:  </div><div class="line">        res.writeHead(<span class="number">200</span>, &#123;  </div><div class="line">            <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span>  </div><div class="line">        &#125;);  </div><div class="line">        res.end(<span class="string">'Welcome to my server!'</span>);  </div><div class="line">  &#125;  </div><div class="line">&#125;);  </div><div class="line">  </div><div class="line"><span class="built_in">console</span>.log(<span class="string">"listening on port 80"</span>)  </div><div class="line">server.listen(<span class="number">80</span>);</div></pre></td></tr></table></figure>
+<h3 id="正向代理"><a href="#正向代理" class="headerlink" title="正向代理"></a>正向代理</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">'http'</span>)</div><div class="line"><span class="keyword">var</span> opt = &#123;</div><div class="line"> host:<span class="string">'这里放代理服务器的ip或者域名'</span>,</div><div class="line"> port:<span class="string">'这里放代理服务器的端口号'</span>,</div><div class="line"> method:<span class="string">'POST'</span>,<span class="comment">//这里是发送的方法</span></div><div class="line"> path:<span class="string">' https://www.google.com'</span>,     <span class="comment">//这里是访问的路径</span></div><div class="line"> headers:&#123;</div><div class="line">  <span class="comment">//这里放期望发送出去的请求头</span></div><div class="line"> &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//以下是接受数据的代码</span></div><div class="line"><span class="keyword">var</span> body = <span class="string">''</span>;</div><div class="line"><span class="keyword">var</span> req = http.request(opt, <span class="function"><span class="keyword">function</span>(<span class="params">res</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"Got response: "</span> + res.statusCode);</div><div class="line">  res.on(<span class="string">'data'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">d</span>)</span>&#123;</div><div class="line">  body += d;</div><div class="line"> &#125;).on(<span class="string">'end'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(res.headers)</div><div class="line">  <span class="built_in">console</span>.log(body)</div><div class="line"> &#125;);</div><div class="line"></div><div class="line">&#125;).on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"Got error: "</span> + e.message);</div><div class="line">&#125;)</div><div class="line">req.end();</div></pre></td></tr></table></figure>
           
         
       
@@ -1538,529 +2529,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/10/JavaScript常见设计模式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/10/10/JavaScript常见设计模式/" itemprop="url">JavaScript常见设计模式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-10T18:20:20+08:00">
-                2016-10-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">    <span class="keyword">var</span> lev=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </div><div class="line">       <span class="keyword">return</span> <span class="string">"啊打"</span>;  </div><div class="line">    &#125;;  </div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>)</span>&#123;  </div><div class="line">           <span class="keyword">var</span>  Child = <span class="keyword">new</span> <span class="built_in">Object</span>();  </div><div class="line">           Child.name=<span class="string">"李小龙"</span>;  </div><div class="line">           Child.age=<span class="string">"30"</span>;  </div><div class="line">           Child.lev=lev;  </div><div class="line">         <span class="keyword">return</span> Child;  </div><div class="line">    &#125;;  </div><div class="line">      </div><div class="line">    <span class="keyword">var</span>  x = Parent();  </div><div class="line">    alert(x.name);  </div><div class="line">    alert(x.lev()); </div><div class="line"><span class="string">``</span><span class="string">` </span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">说明：</span></div><div class="line"><span class="string">1.在函数中定义对象,并定义对象的各种属性，,虽然属性可以为方法，但是建议将属性为方法的属性定义到函数之外，这样可以避免重复创建该方法</span></div><div class="line"><span class="string">2.引用该对象的时候，这里使用的是 var x = Parent()而不是 var x = new Parent();因为后者会可能出现很多问题（前者也成为工厂经典方式,后者称之为混合工厂方式），不推荐使用new的方式使用该对象</span></div><div class="line"><span class="string">3.在函数的最后返回该对象</span></div><div class="line"><span class="string">4.不推荐使用这种方式创建对象，但应该了解</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">### 构造函数模式</span></div><div class="line"><span class="string">`</span><span class="string">``</span> JavaScript</div><div class="line">	<span class="keyword">var</span> lev=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </div><div class="line">	   <span class="keyword">return</span> <span class="string">"啊打"</span>;  </div><div class="line">	&#125;;  </div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>)</span>&#123;   </div><div class="line">		   <span class="keyword">this</span>.name=<span class="string">"李小龙"</span>;  </div><div class="line">		   <span class="keyword">this</span>.age=<span class="string">"30"</span>;  </div><div class="line">		   <span class="keyword">this</span>.lev=lev; </div><div class="line">	&#125;;  </div><div class="line">	  </div><div class="line">	<span class="keyword">var</span>  x =<span class="keyword">new</span>  Parent();  </div><div class="line">	alert(x.name);  </div><div class="line">	alert(x.lev());</div></pre></td></tr></table></figure>
-<p>说明：<br>1.与工厂方式相比，使用构造函数方式创建对象，无需再函数内部重建创建对象，而使用this指代，并而函数无需明确return<br>2.同工厂模式一样，虽然属性的值可以为方法，扔建议将该方法定义在函数之外<br>3.同样的，不推荐使用这种方式创建对象，但仍需要了解</p>
-<h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> lev=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </div><div class="line">   <span class="keyword">return</span> <span class="string">"啊打"</span>;  </div><div class="line">&#125;;  </div><div class="line">   <span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>)</span>&#123;   &#125;;  </div><div class="line">     Parent.prototype.name=<span class="string">"李小龙"</span>;  </div><div class="line">     Parent.prototype.age=<span class="string">"30"</span>;  </div><div class="line">     Parent.prototype.lev=lev;  </div><div class="line">     </div><div class="line">   <span class="keyword">var</span>  x =<span class="keyword">new</span>  Parent();  </div><div class="line">   alert(x.name);  </div><div class="line">   alert(x.lev());</div></pre></td></tr></table></figure>
-<p>1.函数中不对属性进行定义<br>2.利用prototype属性对属性进行定义<br>3.同样的，不推荐使用这样方式创建对象</p>
-<h3 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 先申明一个奶茶妹对象</span></div><div class="line"><span class="keyword">var</span> TeaAndMilkGirl = <span class="function"><span class="keyword">function</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// 这是京东ceo先生</span></div><div class="line"><span class="keyword">var</span> Ceo = <span class="function"><span class="keyword">function</span>(<span class="params">girl</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.girl = girl;</div><div class="line">    <span class="comment">// 送结婚礼物 给奶茶妹</span></div><div class="line">    <span class="keyword">this</span>.sendMarriageRing = <span class="function"><span class="keyword">function</span>(<span class="params">ring</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"Hi "</span> + <span class="keyword">this</span>.girl.name + <span class="string">", ceo送你一个礼物："</span> + ring);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// 京东ceo的经纪人是代理，来代替送</span></div><div class="line"><span class="keyword">var</span> ProxyObj = <span class="function"><span class="keyword">function</span>(<span class="params">girl</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.girl = girl;</div><div class="line">    <span class="comment">// 经纪人代理送礼物给奶茶妹</span></div><div class="line">    <span class="keyword">this</span>.sendGift = <span class="function"><span class="keyword">function</span>(<span class="params">gift</span>) </span>&#123;</div><div class="line">        <span class="comment">// 代理模式负责本体对象实例化</span></div><div class="line">        (<span class="keyword">new</span> Ceo(<span class="keyword">this</span>.girl)).sendMarriageRing(gift);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="comment">// 初始化</span></div><div class="line"><span class="keyword">var</span> proxy = <span class="keyword">new</span> ProxyObj(<span class="keyword">new</span> TeaAndMilkGirl(<span class="string">"奶茶妹"</span>));</div><div class="line">proxy.sendGift(<span class="string">"结婚戒"</span>); <span class="comment">// Hi 奶茶妹, ceo送你一个礼物：结婚戒</span></div></pre></td></tr></table></figure>
-<p>代理是一个对象，它可以用来控制对本体对象的访问，它与本体对象实现了同样的接口，代理对象会把所有的调用方法传递给本体对象的；代理模式最基本的形式是对访问进行控制，而本体对象则负责执行所分派的那个对象的函数或者类，简单的来讲本地对象注重的去执行页面上的代码，代理则控制本地对象何时被实例化，何时被使用；我们在上面的单体模式中使用过一些代理模式，就是使用代理模式实现单体模式的实例化，其他的事情就交给本体对象去处理</p>
-<p>1.代理对象可以代替本体被实例化，并使其可以被远程访问；<br>2.它还可以把本体实例化推迟到真正需要的时候；对于实例化比较费时的本体对象，或者因为尺寸比较大以至于不用时不适于保存在内存中的本体，我们可以推迟实例化该对象；</p>
-<h3 id="模块模式"><a href="#模块模式" class="headerlink" title="模块模式"></a>模块模式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Person = (<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> name = <span class="string">"xin"</span>;</div><div class="line">    <span class="keyword">var</span> age = <span class="number">22</span>;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getName</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> name;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">getAge</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> age;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        getName: getName,</div><div class="line">        getAge: getAge</div><div class="line">    &#125;</div><div class="line">&#125;)();</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(age); <span class="comment">// 报错:age未定义</span></div><div class="line"><span class="built_in">console</span>.log(name); <span class="comment">// 报错:name未定义</span></div><div class="line"><span class="built_in">console</span>.log(Person.age); <span class="comment">// undefined</span></div><div class="line"><span class="built_in">console</span>.log(Person.name); <span class="comment">// undefined</span></div><div class="line">只能通过Person提供的接口访问相应的变量</div><div class="line"><span class="built_in">console</span>.log(Person.getName()); <span class="comment">// xin</span></div><div class="line"><span class="built_in">console</span>.log(Person.getAge()); <span class="comment">// 22</span></div></pre></td></tr></table></figure>
-<p>说明：<br>在立即执行函数表达式中定义的变量和方法在外界是访问不到的,只能通过其向外部提供的接口,”有限制”地访问.通过函数作用域解决了属性和方法的封装问题<br>模块模式的思路是为单体模式添加私有变量和私有方法能够减少全局变量的使用<br>如果我们必须创建一个对象并以某些数据进行初始化，同时还要公开一些能够访问这些私有数据的方法，那么我们这个时候就可以使用模块模式了。</p>
-<h3 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Singleton = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> instance;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">init</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line"></div><div class="line">        &#125;;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">        getInstance: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="keyword">if</span>(!instance)&#123;</div><div class="line">                instace = init();</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> instance;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
-<h3 id="构造函数-原型的js混合的模式"><a href="#构造函数-原型的js混合的模式" class="headerlink" title="构造函数+原型的js混合的模式"></a>构造函数+原型的js混合的模式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>)</span>&#123;  </div><div class="line">     <span class="keyword">this</span>.name=<span class="string">"李小龙"</span>;  </div><div class="line">     <span class="keyword">this</span>.age=<span class="number">32</span>; </div><div class="line">   &#125;;</div><div class="line">   Parent.prototype.lev=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.name;  </div><div class="line">   &#125;;</div><div class="line">     </div><div class="line">   <span class="keyword">var</span>  x =<span class="keyword">new</span>  Parent();</div><div class="line">   alert(x.lev());</div></pre></td></tr></table></figure>
-<p>说明：</p>
-<p>1.该模式是指混合搭配使用构造函数方式和原型方式<br>2.将所有属性不是方法的属性定义在函数中（构造函数方式）将所有属性值为方法的属性利用prototype在函数之外定义（原型方式）<br>3.推荐使用这样方式创建对象,这样做有好处和为什么不单独使用构造函数方式和原型方式，由于篇幅问题这里不予讨论</p>
-<h3 id="构造函数-原型的动态原型模式"><a href="#构造函数-原型的动态原型模式" class="headerlink" title="构造函数+原型的动态原型模式"></a>构造函数+原型的动态原型模式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>)</span>&#123;  </div><div class="line">     <span class="keyword">this</span>.name=<span class="string">"李小龙"</span>;  </div><div class="line">    <span class="keyword">this</span>.age=<span class="number">32</span>; </div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> Parent._lev==<span class="string">"undefined"</span>)&#123;    </div><div class="line">        Parent.prototype.lev=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; </div><div class="line">                  <span class="keyword">return</span> <span class="keyword">this</span>.name;  </div><div class="line">        &#125;  </div><div class="line">        Parent._lev=<span class="literal">true</span>;  </div><div class="line">    &#125;  </div><div class="line">        </div><div class="line">   &#125;;   </div><div class="line">    </div><div class="line">   <span class="keyword">var</span>  x =<span class="keyword">new</span>  Parent(); </div><div class="line">   alert(x.lev());</div></pre></td></tr></table></figure>
-<p>说明：</p>
-<p>1.动态原型方式可以理解为混合构造函数，原型方式的一个特例<br>2.该模式中,属性为方法的属性直接在函数中进行了定义，但是因为</p>
-<p>if(typeof Parent._lev==”undefined”){<br>           Parent._lev=true;<br>    }<br>从而保证创建该对象的实例时，属性的方法不会被重复创建</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/08/05/常见WEB容器浅析/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/08/05/常见WEB容器浅析/" itemprop="url">常见WEB容器浅析</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-08-05T23:42:11+08:00">
-                2016-08-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/后端/" itemprop="url" rel="index">
-                    <span itemprop="name">后端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h3><p>支持部分j2ee，免费，出自 apache基金组织<br>Tomcat是一个小型的轻量级应用服务器，在中小型系统和并发访问用户不是很多的场合下被普遍使用，是开发和调试JSP 程序的首选。</p>
-<p>实际上Tomcat部分是Apache服务器的扩展，但它是独立运行的，所以当你运行Tomcat时，它实际上作为一个与Apache 独立的进程单独运行的。</p>
-<p>Tomcat不仅仅是一个Servlet容器，它也具有传统的Web服务器的功能处理Html页面。但是与Apache相比，它的处理静态Html的能力就不如Apache.我们可以将Tomcat和Apache集成到一块，让Apache处理静态Html，而Tomcat处理Jsp和Servlet.这种集成只需要修改一下Apache和Tomcat的配置文件即可。 </p>
-<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><p>Nginx是俄罗斯人编写的十分轻量级的HTTP服务器,Nginx，它的发音为“engine X”， 是一个高性能的HTTP和反向代理服务器，同时也是一个IMAP/POP3/SMTP 代理服务器。</p>
-<p>Nginx处理静态请求的速度高于apache</p>
-<p>Nginx以事件驱动的方式编写，所以有非常好的性能，同时也是一个非常高效的反向代理、负载平衡。其拥有匹配Lighttpd的性能，同时还没有Lighttpd的内存泄漏问题，而且Lighttpd的mod_proxy也有一些问题并且很久没有更新。但是Nginx并不支持cgi方式运行，原因是可以减少因此带来的一些程序上的漏洞。所以必须使用FastCGI方式来执行PHP程序。</p>
-<p>nginx做为HTTP服务器，有以下几项基本特性：</p>
-<ul>
-<li>处理静态文件，索引文件以及自动索引；打开文件描述符缓冲．</li>
-<li>无缓存的反向代理加速，简单的负载均衡和容错．</li>
-<li>FastCGI，简单的负载均衡和容错．</li>
-<li>模块化的结构。包括gzipping, byte ranges, chunked responses,以及 SSI-filter等filter。如果由FastCGI或其它代理服务器处理单页中存在的多个SSI，则这项处理可以并行运行，而不需要相互等待。</li>
-<li>Nginx专为性能优化而开发，性能是其最重要的考量,实现上非常注重效率。它支持内核Poll模型，能经受高负载的考验,有报告表明能支持高达 50,000个并发连接数。</li>
-<li>Nginx具有很高的稳定性。其它HTTP服务器，当遇到访问的峰值，或者有人恶意发起慢速连接时，也很可能会导致服务器物理内存耗尽频繁交换，失去响应，只能重启服务器。例如当前apache一旦上到200个以上进程，web响应速度就明显非常缓慢了。而Nginx采取了分阶段资源分配技术，使得它的CPU与内存占用率非常低。nginx官方表示保持10,000个没有活动的连接，它只占2.5M内存，所以类似DOS这样的攻击对nginx来说基本上是毫无用处的。就稳定性而言,nginx比lighthttpd更胜一筹。</li>
-<li>Nginx支持热部署。它的启动特别容易, 并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在不间断服务的情况下，对软件版本进行进行升级。</li>
-</ul>
-<h3 id="Apache"><a href="#Apache" class="headerlink" title="Apache"></a>Apache</h3><p>Apache HTTP服务器是一个模块化的服务器，世界使用排名第一的Web服务器软件，免费<br>它可以运行在几乎所有广泛使用的计算机平台上，其属于应用服务器。Apache支持支持模块多，性能稳定，Apache本身是静态解析，适合静态HTML、图片等，但可以通过扩展脚本、模块等支持动态页面等。<br>（Apche可以支持PHPcgiperl,但是要使用Java的话，你需要Tomcat在Apache后台支撑，将Java请求由Apache转发给Tomcat处理。） </p>
-<p>相对于Tomcat服务器来说处理静态文件是它的优势，速度快。Apache是静态解析，适合静态HTML、图片等。</p>
-<p>缺点：配置相对复杂，自身不支持动态页面。</p>
-<p><strong>Apache的特性:</strong></p>
-<ul>
-<li>几乎可以运行在所有的计算机平台上.</li>
-<li>支持最新的http/1.1协议</li>
-<li>简单而且强有力的基于文件的配置(httpd.conf).</li>
-<li>支持通用网关接口(cgi)</li>
-<li>支持虚拟主机.</li>
-<li>支持http认证.</li>
-<li>集成perl.</li>
-<li>集成的代理服务器</li>
-<li>可以通过web浏览器监视服务器的状态, 可以自定义日志.</li>
-<li>支持服务器端包含命令(ssi).</li>
-<li>支持安全socket层(ssl).</li>
-<li>具有用户会话过程的跟踪能力.</li>
-<li>支持fastcgi</li>
-<li>支持java servlets</li>
-</ul>
-<p><strong>Apache和Tomcat比较</strong><br>Apache支持静态页，Tomcat支持动态的，比如Servlet等，一般使用Apache+Tomcat的话，Apache只是作为一个转发，对JSP的处理是由Tomcat来处理的。<br>Apache可以支持PHPcgiperl,但是要使用Java的话，你需要Tomcat在Apache后台支撑，将Java请求由Apache转发给Tomcat处理。<br>Apache是Web服务器，Tomcat是应用（Java）服务器，它只是一个Servlet(JSP也翻译成Servlet)容器，可以认为是Apache的扩展，但是可以独立于Apache运行。<br>Apache是专门用了提供HTTP服务的，以及相关配置的（例如虚拟主机、URL转发等等）<br>Tomcat是Apache组织在符合Java EE的JSP、Servlet标准下开发的一个JSP服务器.<br>Apache是一个Web服务器环境程序,启用他可以作为Web服务器使用,不过只支持静态网页如(ASP,PHP,CGI,JSP)等动态网页的就不行。</p>
-<p><strong>Nginx与Apache比较</strong><br>Nginx 配置简洁, Apache 复杂 ；<br>Nginx 静态处理性能比 Apache 高 3倍以上 ；<br>Apache 对 PHP 支持比较简单，Nginx 需要配合其他后端用；<br>Apache 的组件比 Nginx 多 ；<br>apache是同步多进程模型，一个连接对应一个进程；nginx是异步的，多个连接（万级别）可以对应一个进程；<br>nginx处理静态文件好,耗费内存少；<br>动态请求由apache去做，nginx只适合静态和反向；<br>Nginx适合做前端服务器，负载性能很好；<br>Nginx本身就是一个反向代理服务器 ，且支持负载均衡</p>
-<p>如果要在Apache环境下运行jsp的话就需要一个解释器来执行jsp网页，而这个jsp解释器就是Tomcat, 为什么还要JDK呢？因为jsp需要连接数据库的话，就要jdk来提供连接数据库的驱程，所以要运行jsp的web服务器平台就需要Apache+tomcat+JDK。整合的好处是：</p>
-<ul>
-<li>如果客户端请求的是静态页面，则只需要Apache服务器响应请求。</li>
-<li>如果客户端请求动态页面，则是Tomcat服务器响应请求。</li>
-<li>因为JSP是服务器端解释代码的，这样整合就可以减少Tomcat的服务开销。</li>
-</ul>
-<h3 id="Lighttpd"><a href="#Lighttpd" class="headerlink" title="Lighttpd"></a>Lighttpd</h3><p>Lighttpd是一个具有非常低的内存开销，cpu占用率低，效能好，以及丰富的模块等特点。lighttpd是众多OpenSource轻量级的web server中较为优秀的一个。支持FastCGI, CGI, Auth, 输出压缩(output compress), URL重写, Alias等重要功能。<br>Lighttpd使用fastcgi方式运行php,它会使用很少的PHP进程响应很大的并发量。<br>Fastcgi的优点在于：</p>
-<ul>
-<li>从稳定性上看, fastcgi是以独立的进程池运行来cgi,单独一个进程死掉,系统可以很轻易的丢弃,然后重新分配新的进程来运行逻辑.</li>
-<li>从安全性上看, fastcgi和宿主的server完全独立, fastcgi怎么down也不会把server搞垮,</li>
-<li>从性能上看, fastcgi把动态逻辑的处理从server中分离出来, 大负荷的IO处理还是留给宿主server, 这样宿主server可以一心一意作IO,对于一个普通的动态网页来说, 逻辑处理可能只有一小部分, 大量的图片等静态IO处理完全不需要逻辑程序的参与(注1)</li>
-<li>从扩展性上讲, fastcgi是一个中立的技术标准, 完全可以支持任何语言写的处理程序(php,java,python…) </li>
-</ul>
-<p><strong>Lighttpd和Apache和Nginx对比</strong><br>Proxy代理 - Apache 非常好 - Nginx 非常好 - Lighttpd 一般<br>Rewriter - Apache 好 - Nginx 非常好 - Lighttpd 一般<br>Fastcgi - Apache不好 - Nginx好 - Lighttpd非常好<br>热部署 - Apache不支持 - Nginx支持 - Lighttpd不支持<br>系统压力 - Apache很大 - Nginx很小 - Lighttpd比较小<br>稳定性 - Apache好 - Nginx非常好 - Lighttpd不好<br>安全性好 - Apache一般 - Nginx一般 - Lighttpd一般<br>技术支持 - Apache非常好 - Nginx很少 - Lighttpd一般<br>静态文件处理 - Apache一般 - Nginx非常好 - Lighttpd好<br>Vhosts虚拟主机 - Apache支持 - Nginx支持 - Lighttpd支持<br>反向代理 - Apache一般 - Nginx非常好 - Lighttpd一般<br>Session sticky - Apache支持 - Nginx不支持 - Lighttpd不支持<br>量级 - Apache重量级 - Nginx轻量 - Lighttpd轻量<br>复杂度 -（安装、配置）- Apache较复杂 - Nginx简单 - Lighttpd简单</p>
-<h3 id="Resin"><a href="#Resin" class="headerlink" title="Resin"></a>Resin</h3><p>Resin是CAUCHO公司的产品，是一个非常流行的支持servlets 和jsp的引擎，速度非常快。Resin本身包含了一个支持HTTP/1.1的WEB服务器。虽然它可以显示动态内容，但是它显示静态内容的能力也非常强，速度直逼APACHE SERVER。许多站点都是使用该WEB服务器构建的。</p>
-<p>Resin也可以和许多其他的WEB服务器一起工作，比如Apache server和IIS等。Resin支持Servlets 3.0标准和JSP 1.2标准。熟悉ASP和PHP的用户可以发现用Resin来进行JSP编程是件很容易的事情。</p>
-<p>Resin支持负载平衡（Load balancing），可以增加WEB站点的可靠性。方法是增加服务器的数量。比如一台SERVER的错误率是1%的话，那么支持负载平衡的两个Resin服务器就可以使错误率降到0.01%。</p>
-<p>Resin也是全免费的。相对于tomcat,后者更象是一个正在研究的项目。目前resin可以支持sun的j2ee，而tomcat不能直接支持，而j2ee是基于java服务器端大系统的基础。Resin3 之后已经不在是一个简单的jsp容器，并且支持ejb,jta等企业功能。目前resin4 (2010年后已经比较稳定)性能更是优秀。并且已经支持servlet 3.0标准. pro版本是收费版本，支持负载均衡和文件缓存。普通版本独立作为web服务器性能就要差一些，可以使用apache+resin的方案借助apache的缓存功能提高性能，但负载均衡就是普通版不能比的。CAUCHO公司还为resin添加了php解析执行功能，能够运行php程序。但相对 php的原生版本还是有一定差距。</p>
-<h3 id="JBoss"><a href="#JBoss" class="headerlink" title="JBoss"></a>JBoss</h3><p>JBoss开源的应用服务器，免费（文档要收费）</p>
-<p>JBoss是全世界开发者共同努力的成果，一个基于J2EE的开放源代码的应用服务器。 因为JBoss代码遵循LGPL许可，你可以在任何商业应用中免费使用它，而不用支付费用。<br>JBoss支持EJB 1.1和EJB 2.0 EJB3.0的规范，它是一个管理EJB的容器和服务器。类似于Sun’s J2SDK EnterpriseEdition（J2EE），JBoss的目标是一个源代码开放的J2EE环境。<br>但是JBoss核心服务仅是提供EJB服务器。JBoss不包括serverlers/JSP page 的WEB容器，当然可以和Tomcat或Jetty绑定使用。</p>
-<p><strong>JBoss还具有如下六大优点：</strong></p>
-<ul>
-<li>JBoss是免费的，开放源代码J2EE的实现，它通过LGPL许可证进行发布。</li>
-<li>JBoss需要的内存和硬盘空间比较小。</li>
-<li>安装非常简单。先解压缩JBoss打包文件再配置一些环境变量就可以了。</li>
-<li>JBoss能够”热部署”，部署BEAN只是简单拷贝BEAN的JAR文件到部署路径下就可以了。如果没有加载就加载它；如果已经加载了就卸载掉，然后LOAD这个新的。</li>
-<li>JBoss与Web服务器在同一个Java虚拟机中运行，Servlet调用EJB不经过网络，从而大大提高运行效率，提升安全性能。</li>
-<li>用户可以直接实施J2EE-EAR，而不是以前分别实施EJB-JAR和Web-WAR，非常方便。</li>
-</ul>
-<p>JBoss的安装和配置可以直接拷贝使用，但是要改动 %JBoss-HOME%/bin/run.bat里JAVA-HOME的设置，改成本机JDK的目录。运行run.bat来启动JBoss</p>
-<h3 id="WebSphere"><a href="#WebSphere" class="headerlink" title="WebSphere"></a>WebSphere</h3><p>收费<br>WebSphere是IBM的集成软件平台。它包含了编写、运行和监视全天候的工业强度的随需应变 Web应用程序和跨平台、跨产品解决方案所需要的整个中间件基础设施，如服务器、服务和工具。WebSphere提供了可靠、灵活和健壮的集成软件。</p>
-<h3 id="Weblogic"><a href="#Weblogic" class="headerlink" title="Weblogic"></a>Weblogic</h3><p>收费<br>Weblogic应该说算是业界第一的app server，全部支持j2ee1.4， 对于开发者，有免费使用一年的许可证，用起来比较舒服，出资BEA公司<br>WebLogic是美国bea公司出品的一个application server确切的说是一个基于j2ee架构的中间件，webserver是用来构建网站的必要软件用来解析发布网页等功能，它是用纯java开发的。weblogic本来不是由bea发明的，是它从别人手中买过来，然后再加工扩展。目前weblogic在世界application server市场上占有最大的份额，其他还有象IBM的websphere，免费的tomcat、resin等中间件。<br>BEA WebLogic是用于开发、集成、部署和管理大型分布式Web应用、网络应用和数据库应用的Java应用服务器。将Java的动态功能和Java Enterprise标准的安全性引入大型网络应用的开发、集成、部署和管理之中。<br>BEA WebLogic Server拥有处理关键Web应用系统问题所需的性能 、可扩展性和高可用性。<br>与BEA WebLogic Commerce ServerTM配合使用， BEA WebLogic Server可为部署适应性个性化电子商务应用系统提供完善的解决方案。<br>BEA WebLogic Server具有开发和部署关键任务电子商务Web应用系统 所需的多种特色和优势，包括：</p>
-<ul>
-<li>领先的标准：对业内多种标准的全面支持，包括EJB、JSB、JMS、JDBC、XML和WML，使Web应用系统的实施更为简单，并且保护了投资，同时也使基于标准的解决方案的开发更加简　便。</li>
-<li>无限的可扩展性：BEA WebLogic Server以其高扩展的架构体系闻名于业内，包括客户机连接的共享、资源pooling以及动态网页和EJB组件群集。</li>
-<li>快速开发：凭借对EJB和JSP的支持，以及BEA WebLogic Server 的Servlet组件架 构体系，可加速投放市场速度。这些开放性标准与WebGain Studio配合时，可简化开发，并可发挥已有的技能，迅速部署应用系统。</li>
-<li>部署更趋灵活：BEA WebLogic Server的特点是与领先数据库、操作系统和Web服务器 紧密集成。</li>
-<li>关键任务可靠性：其容错、系统管理和安全性能已经在全球数以千记的关键任务环境中得以验证。</li>
-<li>体系结构：BEA WebLogic Server是专门为企业电子商务应用系统开发的。企业电子商务应用系统需要快速开发，并要求服务器端组件具有良好的灵活性和安全性，同时还要支持关键任务所必需的扩展、性能、和高可用性。BEA WebLogic Server简化了可移植及可扩展的应用系统的开发，并为其它应用 系统和系统提供了丰富的互操作性。<br>凭借其出色的群集技术，BEA WebLogic Server拥有最高水平的可扩展 性和可用性。BEA WebLogic Server既实现了网页群集，也实现了EJB组件 群集，而且不需要任何专门的硬件或操作系统支持。网页群集可以实现透明的复制、负载平衡以及表示内容容错，如Web购物车；组件群集则处理复杂的复制、负载平衡和EJB组件容错，以及状态对象（如EJB实体）的恢复。</li>
-</ul>
-<p>无论是网页群集，还是组件群集，对于电子商务解决方案所要求的可扩展性和可用性都是至关重要的。共享的客户机/服务器和数据库连接以及数据缓存和EJB都增强了性能表现。这是其它Web应用系统所不具备的</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/07/20/Cookie安全/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/07/20/Cookie安全/" itemprop="url">Cookie安全</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-07-20T23:49:11+08:00">
-                2016-07-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="HttpOnly"><a href="#HttpOnly" class="headerlink" title="HttpOnly"></a>HttpOnly</h3><p>该属性值的作用就是防止Cookie值被页面脚本读取。一个没有设置HttpOnly的Cookie：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setcookie(<span class="string">'name'</span>,<span class="string">'lf'</span>);</div></pre></td></tr></table></figure></p>
-<p>这段代码就可能被攻击者用脚本来获取，所以我们应该为Cookie添加HttpOnly属性如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">setcookie(<span class="string">'name'</span>,<span class="string">'lf'</span>);</div><div class="line">setcookie(<span class="string">'age'</span>,<span class="string">'23'</span>,NULL,NULL,NULL,NULL,TRUE);<span class="comment">//HttpOnly属性为true</span></div></pre></td></tr></table></figure>
-<p>HttpOnly属性只是增加了攻击者的难度，不能达到完全防御XSS攻击。</p>
-<h3 id="Secure"><a href="#Secure" class="headerlink" title="Secure"></a>Secure</h3><p>接下来要介绍的就是Secure属性了。给Cookie设置该属性时，只有在https协议下访问的时候，浏览器才会发送该Cookie。</p>
-<p>还是刚才的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setcookie(<span class="string">'age'</span>,<span class="string">'23'</span>,NULL,NULL,NULL,NULL,TRUE);<span class="comment">//HttpOnly属性为true</span></div></pre></td></tr></table></figure></p>
-<p>如果我们仅仅设置了HttpOnly属性，只能防止Cookie不被脚本获取，却不能防止Cookie被攻击者通过抓包来读取，如果加上了Secure属性，就算攻击者窃听网络，也无法获取用户明文Cookie了。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">setcookie(<span class="string">'gf'</span>,<span class="string">'tyq'</span>,Null,Null,Null,TRUE,Null);<span class="comment">//Secure属性为true</span></div></pre></td></tr></table></figure></p>
-<h3 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h3><p>https下的cookie在传输过是安全的，但在客户端上是不安全的，使用客户端的有用户还有黑客<br>无论有没有使用SSL，Cookie值都一定要经过高强度难破解的加密算法进行处理。<br>所有的密文都要使用没有明显特征，不易被破解的算法进行加密处理，推荐使用AES加密算法（修正：加上与哈希结合</p>
-<h3 id="有效期"><a href="#有效期" class="headerlink" title="有效期"></a>有效期</h3><p>最后来说说Cookie的有效期，刚才的代码并没有在服务器中设置强制超时时间，所以万一用户获取到用户的Cookie后，就可以一直使用用户身份登录。<br>我们在设置Cookie认证的时候，需要加入两个时间，一个是“即使一直在活动，也要失效”的时间，一个是“长时间不活动的失效时间”。并在Web应用中，首先判断两个时间是否已超时，再执行其他操作。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 判断会员的cookie是否过期</span></div><div class="line"><span class="keyword">if</span> (isLogin) &#123;</div><div class="line">	<span class="built_in">String</span> timeStampStr = (<span class="built_in">String</span>) map.get(UserAuthenticationContext.TIMESTAMP);</div><div class="line">	long loginTime = <span class="number">0</span>;</div><div class="line">	<span class="keyword">try</span> &#123;</div><div class="line">		loginTime = Long.parseLong(timeStampStr);</div><div class="line">	&#125; <span class="keyword">catch</span> (NumberFormatException e) &#123;</div><div class="line">		<span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</div><div class="line">			logger.info(<span class="string">" loginId: "</span> + usr.getLoginId() + <span class="string">" timestamp has exception "</span> + timeStampStr);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	long now = System.currentTimeMillis() / <span class="number">1000</span>;</div><div class="line">	<span class="keyword">if</span> (now - loginTime &gt; UserAuthenticationContext.COOKIE_VALIDITY) &#123;</div><div class="line">		usr.setAuthenticated(<span class="literal">false</span>, <span class="literal">true</span>);</div><div class="line">		<span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</div><div class="line">			logger.info(<span class="string">"loginId: "</span> + usr.getLoginId() + <span class="string">" loginTime: "</span> + loginTime + <span class="string">" nowTime: "</span> + now);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
   
   <nav class="pagination">
@@ -2116,7 +2584,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2138,7 +2606,7 @@ var _hmt = _hmt || [];
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
