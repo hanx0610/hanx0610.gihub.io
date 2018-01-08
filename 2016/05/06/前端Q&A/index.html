@@ -88,7 +88,7 @@
 <meta property="og:site_name" content="hanx の 碎片栈">
 <meta property="og:description" content="HTML  Q：http码，url输入后发生些什么  A：1、用户输入URL地址，浏览器会去解析URL地址，得到请求服务器地址，请求页面文件路径，以及请求参数，2、DNS解析：从浏览器DNS缓存，找域名相对应的IP没有找到，则从系统缓存寻找没有找到，从系统的host文件里面找没有找到，从路由器上找DNS服务器找3、浏览器发送HTTP请求找到域名对应的IP地址浏览器发出一个 HTTP协议的请求，组织">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-12T15:39:50.013Z">
+<meta property="og:updated_time" content="2018-01-08T15:32:24.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端 Q &amp; A">
 <meta name="twitter:description" content="HTML  Q：http码，url输入后发生些什么  A：1、用户输入URL地址，浏览器会去解析URL地址，得到请求服务器地址，请求页面文件路径，以及请求参数，2、DNS解析：从浏览器DNS缓存，找域名相对应的IP没有找到，则从系统缓存寻找没有找到，从系统的host文件里面找没有找到，从路由器上找DNS服务器找3、浏览器发送HTTP请求找到域名对应的IP地址浏览器发出一个 HTTP协议的请求，组织">
@@ -208,16 +208,6 @@ var _hmt = _hmt || [];
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-collection">
-          <a href="/me/index.html" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
-            
-            收录
           </a>
         </li>
       
@@ -402,7 +392,7 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：请描述一下 cookies，sessionStorage 和 localStorage 的区别？</strong></li>
+<li><strong> Q：cookies，sessionStorage 和 localStorage 的区别？</strong></li>
 <li><strong> A：<br>cookie在浏览器和服务器间来回传递。 sessionStorage和localStorage不会<br>sessionStorage和localStorage的存储空间更大；<br>sessionStorage和localStorage有更多丰富易用的接口；<br>sessionStorage和localStorage各自独立的存储空间；
 </strong></li>
 </ul>
@@ -426,12 +416,6 @@ var _hmt = _hmt || [];
 <ul>
 <li><strong> Q：Doctype? 严格模式与混杂模式-如何触发这两种模式，区分它们有何意义?</strong></li>
 <li><strong> A：用于声明文档使用那种规范（html/Xhtml）一般为 严格 过度 基于框架的html文档。加入XMl声明可触发，解析方式更改为IE5.5 拥有IE5.5的Bug。
-</strong></li>
-</ul>
-<hr>
-<ul>
-<li><strong> Q：请描述一下 cookies，sessionStorage 和 localStorage 的区别？</strong></li>
-<li><strong> A：<br>cookie在浏览器和服务器间来回传递。 sessionStorage和localStorage不会<br>sessionStorage和localStorage的存储空间更大；<br>sessionStorage和localStorage有更多丰富易用的接口；<br>sessionStorage和localStorage各自独立的存储空间；
 </strong></li>
 </ul>
 <hr>
@@ -515,13 +499,40 @@ var _hmt = _hmt || [];
 </strong></li>
 </ul>
 <h1 id="Javascript"><a href="#Javascript" class="headerlink" title="Javascript"></a>Javascript</h1><ul>
+<li><strong> Q：什么是AJAX</strong></li>
+<li><strong> A：AJAX是“Asynchronous JavaScript and XML”的缩写。他是指一种创建交互式网页应用的网页开发技术。<br>Ajax包含下列技术：<br>基于web标准（standards-basedpresentation）XHTML+CSS的表示；<br>使用 DOM（Document ObjectModel）进行动态显示及交互；<br>使用 XML 和 XSLT 进行数据交换及相关操作；<br>使用 XMLHttpRequest 进行异步数据查询、检索；<br>使用 JavaScript 将所有的东西绑定在一起。
+</strong></li>
+</ul>
+<hr>
+<ul>
+<li><strong> Q：双向绑定原理</strong></li>
+<li><strong> A：脏值检查: angular.js 是通过脏值检测的方式比对数据是否有变更，来决定是否更新视图，最简单的方式就是通过 setInterval() 定时轮询检测数据变动，当然Google不会这么low，angular只有在指定的事件触发时进入脏值检测。<br>数据劫持: vue.js 则是采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。
+</strong></li>
+</ul>
+<hr>
+<ul>
+<li><strong> Q：js有哪些内置对象</strong></li>
+<li><strong> A：bject是JavaScript中所有对象的父对象<br>数据封装类对象：Object、Array、Boolean、Number和String<br>其他对象：Function、Arguments、Math、Date、RegExp、Error 
+</strong></li>
+</ul>
+<hr>
+<ul>
+<li><strong> Q：js里面的事件流</strong></li>
+<li><strong> A：DOM2级事件模型中规定了事件流的三个阶段：捕获阶段、目标阶段、冒泡阶段，低版本IE（IE8及以下版本）不支持捕获阶段<br>捕获事件流：Netscape提出的事件流，即事件由页面元素接收，逐级向下，传播到最具体的元素。<br>冒泡事件流：IE提出的事件流，即事件由最具体的元素接收，逐级向上，传播到页面。
+</strong></li>
+</ul>
+<hr>
+<ul>
 <li><strong> Q：手写事件模型及事件代理/委托问题</strong></li>
-<li><strong> A：xxxxxxxxxx </strong></li>
+<li><strong> A：</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//手写原生js实现事件代理，并要求兼容浏览器</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">delegateEvent</span>(<span class="params">interfaceEle, selector, type, fn</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span>(interfaceEle.addEventListener)&#123;</div><div class="line">    interfaceEle.addEventListener(type, eventfn);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">    interfaceEle.attachEvent(<span class="string">"on"</span>+type, eventfn);</div><div class="line">    &#125;</div><div class="line">      </div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">eventfn</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> e = e || <span class="built_in">window</span>.event;   </div><div class="line">    <span class="keyword">var</span> target = e.target || e.srcElement;</div><div class="line">    <span class="keyword">if</span> (matchSelector(target, selector)) &#123;</div><div class="line">            <span class="keyword">if</span>(fn) &#123;</div><div class="line">                fn.call(target, e);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * only support #id, tagName, .className</span></div><div class="line"><span class="comment"> * and it's simple single, no combination</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">matchSelector</span>(<span class="params">ele, selector</span>) </span>&#123;</div><div class="line">    <span class="comment">// if use id</span></div><div class="line">    <span class="keyword">if</span> (selector.charAt(<span class="number">0</span>) === <span class="string">"#"</span>) &#123;</div><div class="line">        <span class="keyword">return</span> ele.id === selector.slice(<span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// if use class</span></div><div class="line">    <span class="keyword">if</span> (selector.charAt(<span class="number">0</span>) === <span class="string">"."</span>) &#123;</div><div class="line">        <span class="keyword">return</span> (<span class="string">" "</span> + ele.className + <span class="string">" "</span>).indexOf(<span class="string">" "</span> + selector.slice(<span class="number">1</span>) + <span class="string">" "</span>) != <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// if use tagName</span></div><div class="line">    <span class="keyword">return</span> ele.tagName.toLowerCase() === selector.toLowerCase();</div><div class="line">&#125;</div><div class="line"><span class="comment">//调用</span></div><div class="line"><span class="keyword">var</span> odiv = <span class="built_in">document</span>.getElementById(<span class="string">"oDiv"</span>);</div><div class="line">delegateEvent(odiv,<span class="string">"a"</span>,<span class="string">"click"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    alert(<span class="string">"1"</span>);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：Function.bind函数问题</strong></li>
-<li><strong> A：xxxxxxxxxx </strong></li>
+<li><strong> A：<br>bind() 方法的主要作用就是将函数绑定至某个对象，bind() 方法会创建一个函数，函数体内this对象的值会被绑定到传入bind() 函数的值。<br>例如，在 f() 函数上调用 bind() 方法并传入参数 obj ，即 f.bind(obj) ，这将返回一个新函数, 新函数会把原始的函数 f() 当做 obj 的方<br>法来调用,就像 obj.f() 似的，当然这时 f() 函数中的 this 对象指向的是 obj
+</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//手写Function.bind函数</span></div><div class="line"><span class="keyword">if</span>(!<span class="built_in">Function</span>.prototype.bind)&#123;</div><div class="line">　　<span class="built_in">Function</span>.prototype.bind = <span class="function"><span class="keyword">function</span>(<span class="params">oThis</span>)</span>&#123;</div><div class="line">　　　　<span class="keyword">if</span>(<span class="keyword">typeof</span> <span class="keyword">this</span> !==<span class="string">"function"</span>)&#123; <span class="comment">//如果不函数抛出异常</span></div><div class="line">　　　　　　<span class="keyword">throw</span> <span class="keyword">new</span> TyperError(<span class="string">""</span>)</div><div class="line">　　　　&#125;</div><div class="line">　　　　<span class="keyword">var</span> aArgs = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>,<span class="number">1</span>),   <span class="comment">//此处的aArgs是除函数外的参数</span></div><div class="line">　　　　　　fToBind = <span class="keyword">this</span>,　　　　　　　　　　　　　　　　　　<span class="comment">//要绑定的对象</span></div><div class="line">　　　　　　fNOP = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;,</div><div class="line">　　　　　　fBound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">　　　　　　　　<span class="keyword">return</span> fToBind.apply(</div><div class="line">　　　　　　　　　　<span class="keyword">this</span> <span class="keyword">instanceof</span> fNOP ? <span class="keyword">this</span>:oThis||<span class="keyword">this</span>,aArgs.concat(<span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>)));</div><div class="line">　　　　　　　　)</div><div class="line">　　　　　　&#125;;</div><div class="line">　　　　fNOP.prototype = <span class="keyword">this</span>.prototype;</div><div class="line">　　　　fBound.prototype = <span class="keyword">new</span> fNOP();</div><div class="line">　　　　<span class="keyword">return</span>  fBound;</div><div class="line">　　&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
 </ul>
 <hr>
 <ul>
@@ -531,7 +542,7 @@ var _hmt = _hmt || [];
 <hr>
 <ul>
 <li><strong> Q：跨域问题</strong></li>
-<li><strong> A： 跨域，指的是浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的，是浏览器对javascript施加的安全限制。解决方法：JSONP、服务器代理、document.domain、window.postMessage、window.name </strong></li>
+<li><strong> A： 跨域，指的是浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的，是浏览器对javascript施加的安全限制。<br>解决方法：JSONP、服务器代理、document.domain、window.postMessage、window.name </strong></li>
 </ul>
 <hr>
 <ul>
@@ -556,8 +567,8 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：函数节流问题</strong></li>
-<li><strong> A：函数节流基本思想是：某些代码不可以在没有间断的情况下连续重复执行 </strong></li>
+<li><strong> Q：函数节流</strong></li>
+<li><strong> A：鼠标的mousemove、scroll，浏览器窗口的resize事件等，都是在短时间内重复触发。以onresize事件为例，若事件处理程序需要进行修改元素宽度高度等操作，那么频繁的触发事件会导致频繁的重绘页面。函数节流基本思想是：某些代码不可以在没有间断的情况下连续重复执行 </strong></li>
 </ul>
 <hr>
 <ul>
@@ -572,19 +583,15 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：异步和同步问题</strong></li>
-<li><strong> A：同步指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；异步指的是，不进入主线程、而进入”任务队列”（task queue）的任务，只有”任务队列”通知主线程，某个异步任务可以执行了，该任务才会进入主线程执行<br>（1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。<br>（2）主线程之外，还存在一个”任务队列”（task queue）。只要异步任务有了运行结果，就在”任务队列”之中放置一个事件。<br>（3）一旦”执行栈”中的所有同步任务执行完毕，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>（4）主线程不断重复上面的第三步。<br>只要主线程空了，就会去读取”任务队列”，这就是JavaScript的运行机制。这个过程会不断重复。  
+<li><strong> Q：异步和同步</strong></li>
+<li><strong> A：<br>同步指的是，在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；<br>异步，是一种并行处理的方式，不必等待一个程序执行完，可以执行其它的任务。在程序中异步处理的结果通常使用回调函数来处理结果。在JavaScript中实现异步的方式主要有Ajax和H5新增的Web Worker。<br>（1）所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。<br>（2）主线程之外，还存在一个”任务队列”（task queue）。只要异步任务有了运行结果，就在”任务队列”之中放置一个事件。<br>（3）一旦”执行栈”中的所有同步任务执行完毕，系统就会读取”任务队列”，看看里面有哪些事件。那些对应的异步任务，于是结束等待状态，进入执行栈，开始执行。<br>（4）主线程不断重复上面的第三步。<br>只要主线程空了，就会去读取”任务队列”，这就是JavaScript的运行机制。这个过程会不断重复。  
 </strong></li>
 </ul>
 <hr>
 <ul>
 <li><strong> Q：js监听css3动画怎么实现，具体到每一帧（gg）</strong></li>
-<li><strong> A：xxxxxxxxxx </strong></li>
-</ul>
-<hr>
-<ul>
-<li><strong> Q：如何应对双边距的兼容问题</strong></li>
-<li><strong> A：xxxxxxxxxx </strong></li>
+<li><strong> A：<br>可以在任何一个元素上使用事件处理来决定动画的状态<br>动画运行时会触发三种类型的事件，<br>动画第一次启动时，animationstart 事件触发。<br>animationinteration事件会在每一次新的动画执行过程中被触发，即除了第一次之外的每一个迭代过程。<br>animationend事件会在动画结束时被触发。
+</strong></li>
 </ul>
 <hr>
 <ul>
@@ -599,14 +606,18 @@ var _hmt = _hmt || [];
 <hr>
 <ul>
 <li><strong> Q：promise </strong></li>
-<li>** A：<br>所谓 Promise，就是一个对象，用来传递异步操作的消息。它代表了某个未来才会知道结果的事件（通常是一个异步操作），并且这个事件提供统一的 API，可供进一步处理<br>Promise 对象有以下两个特点。</li>
+<li><strong> A：<br>Promise是异步编程的一种解决方案。Promise就是一个对象，用来传递异步操作的消息。它代表了某个未来才会知道结果的事件（通常是一个异步操作），并且这个事件提供统一的 API，可供进一步处理<br>Promise 对象有以下两个特点。<br>（1）对象的状态不受外界影响。Promise 对象代表一个异步操作，有三种状态：Pending（进行中）、Resolved（已完成，又称 Fulfilled）和 Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。这也是 Promise 这个名字的由来，它的英语意思就是「承诺」，表示其他手段无法改变。<br>（2）一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise 对象的状态改变，只有两种可能：从 Pending 变为 Resolved 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果。就算改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。<br>有了 Promise 对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise 对象提供统一的接口，使得控制异步操作更加容易。<br>Promise 也有一些缺点。首先，无法取消 Promise，一旦新建它就会立即执行，无法中途取消。其次，如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。第三，当处于 Pending 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+</strong></li>
 </ul>
-<p>（1）对象的状态不受外界影响。Promise 对象代表一个异步操作，有三种状态：Pending（进行中）、Resolved（已完成，又称 Fulfilled）和 Rejected（已失败）。只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态。这也是 Promise 这个名字的由来，它的英语意思就是「承诺」，表示其他手段无法改变。<br>（2）一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise 对象的状态改变，只有两种可能：从 Pending 变为 Resolved 和从 Pending 变为 Rejected。只要这两种情况发生，状态就凝固了，不会再变了，会一直保持这个结果。就算改变已经发生了，你再对 Promise 对象添加回调函数，也会立即得到这个结果。这与事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。</p>
-<p>有了 Promise 对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，Promise 对象提供统一的接口，使得控制异步操作更加容易。<br>Promise 也有一些缺点。首先，无法取消 Promise，一旦新建它就会立即执行，无法中途取消。其次，如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。第三，当处于 Pending 状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。**</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="keyword">function</span>(<span class="params">resolve, reject</span>) </span>&#123;</div><div class="line"> <span class="keyword">if</span> (<span class="comment">/* 异步操作成功 */</span>)&#123;</div><div class="line"> resolve(value);</div><div class="line"> &#125; <span class="keyword">else</span> &#123;</div><div class="line"> reject(error);</div><div class="line"> &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">promise.then(<span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line"> <span class="comment">// success</span></div><div class="line">&#125;, <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</div><div class="line"> <span class="comment">// failure</span></div><div class="line">&#125;);</div><div class="line"><span class="string">``</span><span class="string">` </span></div><div class="line"><span class="string"> </span></div><div class="line"><span class="string">---</span></div><div class="line"><span class="string">- ** Q：es6箭头函数**</span></div><div class="line"><span class="string">- ** A：箭头函数是es6的一种函数的简写方法。 **</span></div><div class="line"><span class="string">`</span><span class="string">``</span> javascript</div><div class="line"><span class="keyword">var</span> f = v = &gt; v;</div><div class="line"><span class="comment">//等同于</span></div><div class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> v;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> sum = <span class="function">(<span class="params">num1,num2</span>) =&gt;</span> num1+num2 ;</div><div class="line"><span class="comment">//等同于</span></div><div class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1,num2</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> num1+num2</div><div class="line">&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].map(<span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> x * x;</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 箭头函数写法</span></div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].map(<span class="function"><span class="params">x</span> =&gt;</span> x * x);<span class="comment">//简洁了许多</span></div></pre></td></tr></table></figure>
 <hr>
 <ul>
-<li><strong> Q：简述XSS，如何防范呢？</strong></li>
+<li><strong> Q：es6箭头函数</strong></li>
+<li><strong> A：箭头函数是es6的一种函数的简写方法。 </strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> f = v = &gt; v;</div><div class="line"><span class="comment">//等同于</span></div><div class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> v;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> sum = <span class="function">(<span class="params">num1,num2</span>) =&gt;</span> num1+num2 ;</div><div class="line"><span class="comment">//等同于</span></div><div class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1,num2</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> num1+num2</div><div class="line">&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].map(<span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> x * x;</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 箭头函数写法</span></div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].map(<span class="function"><span class="params">x</span> =&gt;</span> x * x);<span class="comment">//简洁了许多</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong> Q：如何防范XSS</strong></li>
 <li><strong> A：<a href="../../../../2017/01/03/防御XSS攻击的七条原则">防御XSS攻击的七条原则</a></strong></li>
 </ul>
 <hr>
@@ -627,18 +638,13 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：红黑树</strong></li>
-<li><strong> A：xxxxxxxxxx </strong></li>
-</ul>
-<hr>
-<ul>
 <li><strong> Q：队列，栈存</strong></li>
 <li><strong> A：队列:是一种支持先进先出(FIFO)的集合,即先被插入的数据,先被取出!<br>队列是一种特殊的线性表，特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，队列是一种操作受限制的线性表。进行插入操作的端称为队尾，进行删除操作的端称为队头。<br>堆栈:是一种支持后进先出(LIFO)的集合,即后被插入的数据,先被取出!<br>栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。</strong></li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">队列：</div><div class="line"></div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.unshift(<span class="number">1</span>);</div><div class="line">a.unshift(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"先进先出"</span>)</div><div class="line">a.pop()</div><div class="line"></div><div class="line">栈：</div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.push(<span class="number">1</span>);</div><div class="line">a.push(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"后进先出"</span>)</div><div class="line">a.pop()</div></pre></td></tr></table></figure>
 <hr>
 <ul>
-<li><strong> Q：谈一谈JavaScript作用域链</strong></li>
+<li><strong> Q：JavaScript作用域链</strong></li>
 <li><strong> A：<br>当执行一段JavaScript代码（全局代码或函数）时，JavaScript引擎会创建为其创建一个作用域又称为执行上下文（Execution Context），在页面加载后会首先创建一个全局的作用域，然后每执行一个函数，会建立一个对应的作用域，从而形成了一条作用域链。每个作用域都有一条对应的作用域链，链头是全局作用域，链尾是当前函数作用域。<br>作用域链的作用是用于解析标识符，当函数被创建时（不是执行），会将this、arguments、命名参数和该函数中的所有局部变量添加到该当前作用域中，当JavaScript需要查找变量X的时候（这个过程称为变量解析），它首先会从作用域链中的链尾也就是当前作用域进行查找是否有X属性，如果没有找到就顺着作用域链继续查找，直到查找到链头，也就是全局作用域链，仍未找到该变量的话，就认为这段代码的作用域链上不存在x变量，并抛出一个引用错误（ReferenceError）的异常。
 </strong></li>
 </ul>
@@ -654,6 +660,24 @@ var _hmt = _hmt || [];
 <li><strong> A：构造继承、原型继承、实例继承、拷贝继承，原型prototype机制或apply和call方法去实现较简单，建议使用构造函数与原型混合方式。
 </strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Parent</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">this</span>.name = <span class="string">'wang'</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Child</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">this</span>.age = <span class="number">28</span>;</div><div class="line">&#125;</div><div class="line">Child.prototype = <span class="keyword">new</span> Parent();<span class="comment">//继承了Parent，通过原型</span></div><div class="line"><span class="keyword">var</span> demo = <span class="keyword">new</span> Child();</div><div class="line">alert(demo.age);</div><div class="line">alert(demo.name);<span class="comment">//得到被继承的属性</span></div></pre></td></tr></table></figure>
 </li>
+</ul>
+<hr>
+<ul>
+<li><strong> Q：什么情况会引起内存泄漏</strong></li>
+<li><strong> A：<br>1.意外的全局变量引起的内存泄漏。<br>原因：全局变量，不会被回收。<br>解决：使用严格模式避免。<br>2.闭包引起的内存泄漏<br>原因：闭包可以维持函数内局部变量，使其得不到释放。<br>解决：将事件处理函数定义在外部，解除闭包,或者在定义事件处理函数的外部函数中，删除对dom的引用。<br>3.没有清理的DOM元素引用<br>原因：虽然别的地方删除了，但是对象中还存在对dom的引用<br>解决：手动删除。<br>4.被遗忘的定时器或者回调<br>原因：定时器中有dom的引用，即使dom删除了，但是定时器还在，所以内存中还是有这个dom。<br>解决：手动删除定时器和dom。<br>5.子元素存在引用引起的内存泄漏<br>原因：div中的ul li  得到这个div，会间接引用某个得到的li，那么此时因为div间接引用li，即使li被清空，也还是在内存中，并且只要li不被删除，他的父元素都不会被删除。<br>解决：手动删除清空。
+</strong></li>
+</ul>
+<hr>
+<ul>
+<li><strong> Q：栈和堆的区别</strong></li>
+<li><strong> A：<br>一、堆栈空间分配区别：<br>1、栈（操作系统）：由操作系统自动分配释放 ，存放函数的参数值，局部变量的值等。其操作方式类似于数据结构中的栈；<br>2、堆（操作系统）： 一般由程序员分配释放，若程序员不释放，程序结束时可能由OS回收，分配方式倒是类似于链表。<br>二、堆栈缓存方式区别：<br>1、栈使用的是一级缓存， 他们通常都是被调用时处于存储空间中，调用完毕立即释放；<br>2、堆是存放在二级缓存中，生命周期由虚拟机的垃圾回收算法来决定（并不是一旦成为孤儿对象就能被回收）。所以调用这些对象的速度要相对来得低一些。<br>三、堆栈数据结构区别：<br>堆（数据结构）：堆可以被看成是一棵树，如：堆排序；<br>栈（数据结构）：一种先进后出的数据结构。
+</strong></li>
+</ul>
+<hr>
+<ul>
+<li><strong> Q：垃圾回收机制—GC</strong></li>
+<li><strong> A：原理：垃圾收集器会定期（周期性）找出那些不在继续使用的变量，然后释放其内存。<br>工作流程：<br>1.垃圾回收器，在运行的时候会给存储在内存中的所有变量都加上标记。<br>2.去掉环境中的变量以及被环境中的变量引用的变量的标记。<br>3.再被加上标记的会被视为准备删除的变量。<br>4.垃圾回收器完成内存清除工作，销毁那些带标记的值并回收他们所占用的内存空间。
+</strong></li>
 </ul>
 <hr>
 <ul>
@@ -684,8 +708,8 @@ var _hmt = _hmt || [];
 <hr>
 <ul>
 <li><strong> Q：ajax请求的时候get 和post方式的区别</strong></li>
-<li>** A：</li>
-<li>一个在url后面 一个放在虚拟载体里面<br>1.有大小限制<br>2.安全问题<br>3.应用不同 一个是论坛等只需要请求的，一个是类似修改密码的 **</li>
+<li><strong> A：<br>1.一个在url后面 一个放在虚拟载体里面<br>2.有大小限制<br>3.GET方式请求的数据会被浏览器缓存起来,GET方式会带来严重的安全问题<br>4.应用不同 一个是论坛等只需要请求的，一个是类似修改密码的 
+</strong></li>
 </ul>
 <hr>
 <ul>
@@ -733,36 +757,18 @@ var _hmt = _hmt || [];
 </ul>
 <hr>
 <ul>
-<li><strong> Q：下面程序执行后弹出什么样的结果?</strong></li>
-<li><strong> A：</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.a = <span class="number">0</span>;</div><div class="line">    <span class="keyword">this</span>.b = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        alert(<span class="keyword">this</span>.a)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">fn.prototype = &#123;</div><div class="line">    b: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">this</span>.a = <span class="number">20</span>;</div><div class="line">        alert(<span class="keyword">this</span>.a);</div><div class="line">    &#125;,</div><div class="line">    c: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">this</span>.a = <span class="number">30</span>;</div><div class="line">        alert(<span class="keyword">this</span>.a);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> myfn = <span class="keyword">new</span> fn();</div><div class="line">myfn.b();</div><div class="line">myfn.c();</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<ul>
-<li><strong> Q：谈谈This对象的理解。</strong></li>
+<li><strong> Q：This对象的理解。</strong></li>
 <li><strong> A：this是js的一个关键字，随着函数使用场合不同，this的值会发生变化。但是有一个总原则，那就是this指的是调用函数的那个对象。this一般情况下：是全局对象Global。 作为方法调用，那么this就是指这个对象
 </strong></li>
 </ul>
 <hr>
 <ul>
-<li><strong> Q：下面程序的结果</strong></li>
-<li><strong> A：</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params">n,o</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(o)</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    fun:<span class="function"><span class="keyword">function</span>(<span class="params">m</span>)</span>&#123;</div><div class="line">      <span class="keyword">return</span> fun(m,n);</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> a = fun(<span class="number">0</span>);  a.fun(<span class="number">1</span>);  a.fun(<span class="number">2</span>);  a.fun(<span class="number">3</span>);</div><div class="line"><span class="keyword">var</span> b = fun(<span class="number">0</span>).fun(<span class="number">1</span>).fun(<span class="number">2</span>).fun(<span class="number">3</span>);</div><div class="line"><span class="keyword">var</span> c = fun(<span class="number">0</span>).fun(<span class="number">1</span>);  c.fun(<span class="number">2</span>);  c.fun(<span class="number">3</span>);</div><div class="line"><span class="comment">//答案：</span></div><div class="line"><span class="comment">//a: undefined,0,0,0</span></div><div class="line"><span class="comment">//b: undefined,0,1,2</span></div><div class="line"><span class="comment">//c: undefined,0,1,1</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<ul>
-<li><strong> Q：下面程序的输出结果</strong></li>
-<li><strong> A：</strong><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">'World!'</span>;</div><div class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> name === <span class="string">'undefined'</span>) &#123;</div><div class="line">        <span class="keyword">var</span> name = <span class="string">'Jack'</span>;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Goodbye '</span> + name);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Hello '</span> + name);</div><div class="line">    &#125;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<ul>
-<li><strong> Q：了解Node么？Node的使用场景都有哪些？</strong></li>
+<li><strong> Q：Node的使用场景都有哪些？</strong></li>
 <li><strong> A：高并发、聊天、实时消息推送</strong></li>
 </ul>
 <hr>
 <ul>
-<li><strong> Q：说一下什么是JavaScript的同源策略？</strong></li>
+<li><strong> Q：什么是JavaScript的同源策略？</strong></li>
 <li><strong> A：一段脚本只能读取来自于同一来源的窗口和文档的属性，所谓同源是指，域名，协议，端口号完全相同</strong></li>
 </ul>
 
@@ -890,7 +896,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -974,7 +980,7 @@ var _hmt = _hmt || [];
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     ❤
   </span>
