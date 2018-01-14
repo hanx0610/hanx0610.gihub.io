@@ -1522,7 +1522,7 @@ var _hmt = _hmt || [];
             <h4 id="HTTP方法有哪些"><a href="#HTTP方法有哪些" class="headerlink" title="HTTP方法有哪些"></a>HTTP方法有哪些</h4><p>1.get<br>2.post<br>3.put<br>4.delete<br>5.head</p>
 <p>get浏览器退回时无害，post会再次请求<br>get产生url地址可以被收藏，post不可以<br>get请求会被浏览器主动缓存,post需要手动设置<br>get请求只能进行url编码,post支持多种编码方式<br>get请求参数会被保存在浏览器历史记录中,post不会被保留<br>get请求在url中传送参数长度有限,post没限制<br>get只接受ascII字符，post没限制<br>get不安全爆率参数在URL<br>get参数通过url传递,post通过Request body</p>
 <hr>
-<h4 id="什么是管线化"><a href="#什么是管线化" class="headerlink" title="什么是管线化"></a>什么是管线化</h4><p>HTTP管线化是将多个HTTP要求（request）整批提交的技术，传送过程中不需先等待服务端的回应<br>管线化通过持久连接完成，仅html1.1支持<br>只有get和head请求可以管线化 ，post有所限制<br>初次创建连接时不应启动管线化,因为服务器可能不支持html1.1的协议<br>管线化不会影响到来的顺序<br>管线化很可能不会大幅度提升性能，而且很多服务端和代理程序对管线化支持并不太好,现在浏览器默认并未开启支持</p>
+<h4 id="什么是管线化"><a href="#什么是管线化" class="headerlink" title="什么是管线化"></a>什么是管线化</h4><p>HTTP管线化是将多个HTTP要求（request）整批提交的技术，传送过程中不需先等待服务端的回应<br>管线化通过持久连接完成，仅HTTP1.1支持<br>只有get和head请求可以管线化 ，post有所限制<br>初次创建连接时不应启动管线化,因为服务器可能不支持HTTP1.1的协议<br>管线化不会影响到来的顺序<br>管线化很可能不会大幅度提升性能，而且很多服务端和代理程序对管线化支持并不太好,现在浏览器默认并未开启支持</p>
 <hr>
 <h4 id="HTTP协议特点"><a href="#HTTP协议特点" class="headerlink" title="HTTP协议特点"></a>HTTP协议特点</h4><p>1.简单快速(统一资源符)<br>2.灵活(通过请求头可以进行不同数据类型传输)<br>3.无连接 (链接一次就会断掉)<br>4.无状态(无法区分连接者状态)</p>
 <hr>
