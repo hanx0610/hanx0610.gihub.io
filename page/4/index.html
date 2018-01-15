@@ -253,145 +253,6 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/JavaScript中Ajax的简单封装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/03/06/JavaScript中Ajax的简单封装/" itemprop="url">Javascript中Ajax的简单封装</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
-                2016-03-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1、封裝AJAX函數</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">nativeAjax</span>(<span class="params">option,success,error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 定义domain,方便环境切换</span></div><div class="line">    <span class="keyword">var</span> domain=<span class="string">'https://'</span> + <span class="built_in">window</span>.location.host + <span class="string">'/'</span>;</div><div class="line">    <span class="keyword">var</span> url=domain+option.urlStr;</div><div class="line">    <span class="keyword">var</span> type=option.ajaxType;</div><div class="line">    <span class="keyword">var</span> data=option.ajaxData;</div><div class="line">    <span class="keyword">var</span> xhrRequest=<span class="literal">null</span>;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.XMLHttpRequest)&#123;</div><div class="line">        xhrRequest = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        xhrRequest = <span class="keyword">new</span> ActiveXObject(<span class="string">'Microsoft.XMLHTTP'</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> str=<span class="string">""</span>;</div><div class="line">    xhrRequest.open(type,url,<span class="literal">true</span>);</div><div class="line">    <span class="keyword">if</span>(type===<span class="string">"POST"</span>&amp;&amp;data!=<span class="literal">null</span>)&#123;</div><div class="line">        xhrRequest.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded;charset=utf-8"</span>);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> data)&#123;</div><div class="line">            str+=<span class="string">'&amp;'</span>+key+<span class="string">'='</span>+data[key];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">str=str.slice(<span class="number">1</span>);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line"></div><div class="line">str=<span class="literal">null</span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line">    xhrRequest.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(xhrRequest.readyState==<span class="number">4</span>)&#123;</div><div class="line">            <span class="keyword">if</span>(xhrRequest.status==<span class="number">200</span>)&#123;</div><div class="line">                <span class="comment">// 1.1、格式化返回的数据</span></div><div class="line">                <span class="keyword">var</span> responseData=<span class="built_in">JSON</span>.parse(xhrRequest.responseText);</div><div class="line">                <span class="comment">// 1.2、这里操作数据--------</span></div><div class="line">                success(responseData);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="comment">// 1.3、没成功返回HTTP状态码</span></div><div class="line">                error(xhrRequest.status);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    xhrRequest.send(str);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 2、POST：定義請求參數</span></div><div class="line"><span class="keyword">var</span> postOption=&#123;</div><div class="line">    ajaxType:<span class="string">"POST"</span>,</div><div class="line">    urlStr:<span class="string">"v2/html/broke/get_broke_ranked_info"</span>,</div><div class="line">    ajaxData:&#123;                                        </div><div class="line">        <span class="string">"HTTP_USER_TOKEN"</span>:token,</div><div class="line">        <span class="string">"HTTP_USER_UID"</span>:pfid, </div><div class="line">        <span class="string">"anchor_pfid"</span>:anchor_pfid,</div><div class="line">        <span class="string">"broke_pfid"</span>:pfid,</div><div class="line">        <span class="string">"date"</span>:date</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 3、调用AJAX</span></div><div class="line">nativeAjax(postOption,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">// 3.1、请求成功回调</span></div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 3.2、请求失败回调,返回HTTP状态码</span></div><div class="line">    <span class="built_in">console</span>.log(error);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//4、GET：定义请求参数</span></div><div class="line"><span class="keyword">var</span> getOption=&#123;</div><div class="line">    ajaxType:<span class="string">"GET"</span>,    </div><div class="line">    urlStr:<span class="string">"v2/html/broke/get_broke_ranked_info"</span>,</div><div class="line">    ajaxData:<span class="literal">null</span>        </div><div class="line">&#125;</div><div class="line">Ajax(getOption,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">// 成功函数</span></div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 失败返回HTTP状态码</span></div><div class="line">    <span class="built_in">console</span>.log(error);</div><div class="line"></div><div class="line">&#125;);</div><div class="line"><span class="comment">// 使用说明</span></div><div class="line"><span class="comment">// 一、option必须</span></div><div class="line">option=&#123;</div><div class="line">    <span class="comment">//1、ajaxType必须："GET"或者"POST"</span></div><div class="line">    ajaxType:<span class="string">""</span>,</div><div class="line">    <span class="comment">//2、urlStr必须："string类型"</span></div><div class="line">    urlStr:<span class="string">""</span>,</div><div class="line">    <span class="comment">//3、必须：POST时候为object&#123;key:value&#125;，GET的时候直接为：null</span></div><div class="line">    ajaxData:<span class="literal">null</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// 二、success请求成功回调必须</span></div><div class="line"><span class="comment">// 三：error请求失败回调必须</span></div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/用CSS开启硬件加速来提高性能/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -649,6 +510,145 @@ var _hmt = _hmt || [];
 <p> 使用非常简单，及时没有学过xpath也能轻松解决问题。</p>
 <p> 下载地址：<a href="http://www.xxindu.com/upfile/xpath-helper.zip" target="_blank" rel="external">http://www.xxindu.com/upfile/xpath-helper.zip</a>.</p>
 
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/06/JavaScript中Ajax的简单封装/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/03/06/JavaScript中Ajax的简单封装/" itemprop="url">Javascript中Ajax的简单封装</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-06T13:43:56+08:00">
+                2016-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 1、封裝AJAX函數</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">nativeAjax</span>(<span class="params">option,success,error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 定义domain,方便环境切换</span></div><div class="line">    <span class="keyword">var</span> domain=<span class="string">'https://'</span> + <span class="built_in">window</span>.location.host + <span class="string">'/'</span>;</div><div class="line">    <span class="keyword">var</span> url=domain+option.urlStr;</div><div class="line">    <span class="keyword">var</span> type=option.ajaxType;</div><div class="line">    <span class="keyword">var</span> data=option.ajaxData;</div><div class="line">    <span class="keyword">var</span> xhrRequest=<span class="literal">null</span>;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.XMLHttpRequest)&#123;</div><div class="line">        xhrRequest = <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        xhrRequest = <span class="keyword">new</span> ActiveXObject(<span class="string">'Microsoft.XMLHTTP'</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">var</span> str=<span class="string">""</span>;</div><div class="line">    xhrRequest.open(type,url,<span class="literal">true</span>);</div><div class="line">    <span class="keyword">if</span>(type===<span class="string">"POST"</span>&amp;&amp;data!=<span class="literal">null</span>)&#123;</div><div class="line">        xhrRequest.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded;charset=utf-8"</span>);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> key <span class="keyword">in</span> data)&#123;</div><div class="line">            str+=<span class="string">'&amp;'</span>+key+<span class="string">'='</span>+data[key];</div><div class="line">        &#125;</div><div class="line"></div><div class="line">str=str.slice(<span class="number">1</span>);</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line"></div><div class="line">str=<span class="literal">null</span>;</div><div class="line"></div><div class="line">&#125;</div><div class="line">    xhrRequest.onreadystatechange=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">if</span>(xhrRequest.readyState==<span class="number">4</span>)&#123;</div><div class="line">            <span class="keyword">if</span>(xhrRequest.status==<span class="number">200</span>)&#123;</div><div class="line">                <span class="comment">// 1.1、格式化返回的数据</span></div><div class="line">                <span class="keyword">var</span> responseData=<span class="built_in">JSON</span>.parse(xhrRequest.responseText);</div><div class="line">                <span class="comment">// 1.2、这里操作数据--------</span></div><div class="line">                success(responseData);</div><div class="line">            &#125;<span class="keyword">else</span>&#123;</div><div class="line">                <span class="comment">// 1.3、没成功返回HTTP状态码</span></div><div class="line">                error(xhrRequest.status);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    xhrRequest.send(str);</div><div class="line">&#125;</div><div class="line"><span class="comment">// 2、POST：定義請求參數</span></div><div class="line"><span class="keyword">var</span> postOption=&#123;</div><div class="line">    ajaxType:<span class="string">"POST"</span>,</div><div class="line">    urlStr:<span class="string">"v2/html/broke/get_broke_ranked_info"</span>,</div><div class="line">    ajaxData:&#123;                                        </div><div class="line">        <span class="string">"HTTP_USER_TOKEN"</span>:token,</div><div class="line">        <span class="string">"HTTP_USER_UID"</span>:pfid, </div><div class="line">        <span class="string">"anchor_pfid"</span>:anchor_pfid,</div><div class="line">        <span class="string">"broke_pfid"</span>:pfid,</div><div class="line">        <span class="string">"date"</span>:date</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">// 3、调用AJAX</span></div><div class="line">nativeAjax(postOption,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">// 3.1、请求成功回调</span></div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 3.2、请求失败回调,返回HTTP状态码</span></div><div class="line">    <span class="built_in">console</span>.log(error);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//4、GET：定义请求参数</span></div><div class="line"><span class="keyword">var</span> getOption=&#123;</div><div class="line">    ajaxType:<span class="string">"GET"</span>,    </div><div class="line">    urlStr:<span class="string">"v2/html/broke/get_broke_ranked_info"</span>,</div><div class="line">    ajaxData:<span class="literal">null</span>        </div><div class="line">&#125;</div><div class="line">Ajax(getOption,<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</div><div class="line">    <span class="comment">// 成功函数</span></div><div class="line">    <span class="built_in">console</span>.log(data);</div><div class="line">&#125;,<span class="function"><span class="keyword">function</span>(<span class="params">error</span>)</span>&#123;</div><div class="line">    <span class="comment">// 失败返回HTTP状态码</span></div><div class="line">    <span class="built_in">console</span>.log(error);</div><div class="line"></div><div class="line">&#125;);</div><div class="line"><span class="comment">// 使用说明</span></div><div class="line"><span class="comment">// 一、option必须</span></div><div class="line">option=&#123;</div><div class="line">    <span class="comment">//1、ajaxType必须："GET"或者"POST"</span></div><div class="line">    ajaxType:<span class="string">""</span>,</div><div class="line">    <span class="comment">//2、urlStr必须："string类型"</span></div><div class="line">    urlStr:<span class="string">""</span>,</div><div class="line">    <span class="comment">//3、必须：POST时候为object&#123;key:value&#125;，GET的时候直接为：null</span></div><div class="line">    ajaxData:<span class="literal">null</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// 二、success请求成功回调必须</span></div><div class="line"><span class="comment">// 三：error请求失败回调必须</span></div></pre></td></tr></table></figure>
           
         
       
@@ -1029,6 +1029,161 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/13/7个高性能JavaScript代码高亮插件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/02/13/7个高性能JavaScript代码高亮插件/" itemprop="url">7个高性能JavaScript代码高亮插件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-13T13:00:06+08:00">
+                2016-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h4 id="SyntaxHighlighter-–"><a href="#SyntaxHighlighter-–" class="headerlink" title="SyntaxHighlighter –"></a>SyntaxHighlighter –</h4><p>最优秀的JavaScript代码高亮插件<br>SyntaxHighlighter 是一款完全基于JavaScript的代码高亮插件，SyntaxHighlighter 可以对大部分编程语言进行着色渲染，而且代码高亮的性能也非常不错。SyntaxHighlighter 可以自定义主题文件，在初始化的时候指定自己喜欢的主题即可。<br>官方网站：<a href="http://alexgorbatchev.com/SyntaxHighlighter/" target="_blank" rel="external">http://alexgorbatchev.com/SyntaxHighlighter/</a></p>
+<h4 id="Google-Code-Prettify"><a href="#Google-Code-Prettify" class="headerlink" title="Google Code Prettify"></a>Google Code Prettify</h4><p>自由地JavaScript代码高亮插件<br>Google Code Prettify是一款由Google推出的JavaScript代码高亮插件，Google Code Prettify可以对C/C++, Java, Python, Ruby, PHP, VisualBasic, AWK, Bash, SQL, HTML, XML, CSS, JavaScript, Makefiles和部分Perl编程语言代码高亮着色。<br>官方网站：<a href="http://code.google.com/p/google-code-prettify/" target="_blank" rel="external">http://code.google.com/p/google-code-prettify/</a></p>
+<h4 id="Highlight-js"><a href="#Highlight-js" class="headerlink" title="Highlight.js"></a>Highlight.js</h4><p>多风格JavaScript代码高亮插件<br>highlight.js是一个用于在任何web页面上高亮着色显示各种示例源代码语法的JavaScript项目。具有以下特色：</p>
+<ul>
+<li>支持 92 种语言，49 种代码格式化风格。</li>
+<li>自动检测语言种类</li>
+<li>支持多语言混合的代码高亮</li>
+<li>支持Node.js</li>
+<li>支持使用任何HTML标记</li>
+<li>兼容任意js框架<br>官方网站：<a href="https://highlightjs.org/" target="_blank" rel="external">https://highlightjs.org/</a></li>
+</ul>
+<h4 id="Prism-JS"><a href="#Prism-JS" class="headerlink" title="Prism.JS"></a>Prism.JS</h4><p>轻量级JavaScript代码高亮插件<br>Prism.JS是目前最为轻量级的JavaScript代码高亮插件，他压缩后只有2KB的大小，Prism.JS也支持大部分流行的编程语言，并且支持多种主题样式，开发者只需要引用CSS文件和JS文件即可完成。<br>官方网站：<a href="http://prismjs.com/" target="_blank" rel="external">http://prismjs.com/</a></p>
+<h4 id="jQuery-Syntax-–-jQuery轻量级代码高亮插件"><a href="#jQuery-Syntax-–-jQuery轻量级代码高亮插件" class="headerlink" title="jQuery.Syntax – jQuery轻量级代码高亮插件"></a>jQuery.Syntax – jQuery轻量级代码高亮插件</h4><p>这款代码高亮插件是基于jQuery的，同样也是轻量级的，渲染速度非常快。同时jQuery.Syntax还具有wordpress的插件应用，对于个人博主来说，使用wordpress和jQuery.Syntax可以完美实现0代买的高亮功能。<br>官方网站：<a href="http://www.codeotaku.com/projects/jquery-syntax/index.en" target="_blank" rel="external">http://www.codeotaku.com/projects/jquery-syntax/index.en</a></p>
+<h4 id="DlHighlight"><a href="#DlHighlight" class="headerlink" title="DlHighlight"></a>DlHighlight</h4><p>jQuery简单高效代码高亮插件<br>DlHighlight是基于JavaScript的代码高亮插件，非常简单，目前只支持JavaScript, CSS, XML, HTML。<br>官方网站：<a href="http://mihai.bazon.net/projects/javascript-syntax-highlighting-engine" target="_blank" rel="external">http://mihai.bazon.net/projects/javascript-syntax-highlighting-engine</a></p>
+<h4 id="Rainbow-js"><a href="#Rainbow-js" class="headerlink" title="Rainbow.js"></a>Rainbow.js</h4><p>可扩展的JavaScript代码高亮插件<br>Rainbow 是JavaScript开发的语法高亮工具。被设计为轻量级（压缩后仅1.4 kb），使用简单，可扩展。语法高亮主题完全通过CSS定义。基于正则表达式实现。</p>
+<p>官方网站：<a href="http://craig.is/making/rainbows" target="_blank" rel="external">http://craig.is/making/rainbows</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/13/弹力球/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1169,7 +1324,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/13/7个高性能JavaScript代码高亮插件/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/22/KMP算法JAVA实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanx">
@@ -1188,7 +1343,7 @@ var _hmt = _hmt || [];
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/02/13/7个高性能JavaScript代码高亮插件/" itemprop="url">7个高性能JavaScript代码高亮插件</a></h1>
+                <a class="post-title-link" href="/2016/01/22/KMP算法JAVA实现/" itemprop="url">KMP算法JAVA实现</a></h1>
         
 
         <div class="post-meta">
@@ -1200,8 +1355,8 @@ var _hmt = _hmt || [];
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-13T13:00:06+08:00">
-                2016-02-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-22T15:15:12+08:00">
+                2016-01-22
               </time>
             
 
@@ -1223,8 +1378,8 @@ var _hmt = _hmt || [];
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
+                  <a href="/categories/其他/" itemprop="url" rel="index">
+                    <span itemprop="name">其他</span>
                   </a>
                 </span>
 
@@ -1260,23 +1415,12 @@ var _hmt = _hmt || [];
       
         
           
-            <h4 id="SyntaxHighlighter-–"><a href="#SyntaxHighlighter-–" class="headerlink" title="SyntaxHighlighter –"></a>SyntaxHighlighter –</h4><p>最优秀的JavaScript代码高亮插件<br>SyntaxHighlighter 是一款完全基于JavaScript的代码高亮插件，SyntaxHighlighter 可以对大部分编程语言进行着色渲染，而且代码高亮的性能也非常不错。SyntaxHighlighter 可以自定义主题文件，在初始化的时候指定自己喜欢的主题即可。<br>官方网站：<a href="http://alexgorbatchev.com/SyntaxHighlighter/" target="_blank" rel="external">http://alexgorbatchev.com/SyntaxHighlighter/</a></p>
-<h4 id="Google-Code-Prettify"><a href="#Google-Code-Prettify" class="headerlink" title="Google Code Prettify"></a>Google Code Prettify</h4><p>自由地JavaScript代码高亮插件<br>Google Code Prettify是一款由Google推出的JavaScript代码高亮插件，Google Code Prettify可以对C/C++, Java, Python, Ruby, PHP, VisualBasic, AWK, Bash, SQL, HTML, XML, CSS, JavaScript, Makefiles和部分Perl编程语言代码高亮着色。<br>官方网站：<a href="http://code.google.com/p/google-code-prettify/" target="_blank" rel="external">http://code.google.com/p/google-code-prettify/</a></p>
-<h4 id="Highlight-js"><a href="#Highlight-js" class="headerlink" title="Highlight.js"></a>Highlight.js</h4><p>多风格JavaScript代码高亮插件<br>highlight.js是一个用于在任何web页面上高亮着色显示各种示例源代码语法的JavaScript项目。具有以下特色：</p>
-<ul>
-<li>支持 92 种语言，49 种代码格式化风格。</li>
-<li>自动检测语言种类</li>
-<li>支持多语言混合的代码高亮</li>
-<li>支持Node.js</li>
-<li>支持使用任何HTML标记</li>
-<li>兼容任意js框架<br>官方网站：<a href="https://highlightjs.org/" target="_blank" rel="external">https://highlightjs.org/</a></li>
-</ul>
-<h4 id="Prism-JS"><a href="#Prism-JS" class="headerlink" title="Prism.JS"></a>Prism.JS</h4><p>轻量级JavaScript代码高亮插件<br>Prism.JS是目前最为轻量级的JavaScript代码高亮插件，他压缩后只有2KB的大小，Prism.JS也支持大部分流行的编程语言，并且支持多种主题样式，开发者只需要引用CSS文件和JS文件即可完成。<br>官方网站：<a href="http://prismjs.com/" target="_blank" rel="external">http://prismjs.com/</a></p>
-<h4 id="jQuery-Syntax-–-jQuery轻量级代码高亮插件"><a href="#jQuery-Syntax-–-jQuery轻量级代码高亮插件" class="headerlink" title="jQuery.Syntax – jQuery轻量级代码高亮插件"></a>jQuery.Syntax – jQuery轻量级代码高亮插件</h4><p>这款代码高亮插件是基于jQuery的，同样也是轻量级的，渲染速度非常快。同时jQuery.Syntax还具有wordpress的插件应用，对于个人博主来说，使用wordpress和jQuery.Syntax可以完美实现0代买的高亮功能。<br>官方网站：<a href="http://www.codeotaku.com/projects/jquery-syntax/index.en" target="_blank" rel="external">http://www.codeotaku.com/projects/jquery-syntax/index.en</a></p>
-<h4 id="DlHighlight"><a href="#DlHighlight" class="headerlink" title="DlHighlight"></a>DlHighlight</h4><p>jQuery简单高效代码高亮插件<br>DlHighlight是基于JavaScript的代码高亮插件，非常简单，目前只支持JavaScript, CSS, XML, HTML。<br>官方网站：<a href="http://mihai.bazon.net/projects/javascript-syntax-highlighting-engine" target="_blank" rel="external">http://mihai.bazon.net/projects/javascript-syntax-highlighting-engine</a></p>
-<h4 id="Rainbow-js"><a href="#Rainbow-js" class="headerlink" title="Rainbow.js"></a>Rainbow.js</h4><p>可扩展的JavaScript代码高亮插件<br>Rainbow 是JavaScript开发的语法高亮工具。被设计为轻量级（压缩后仅1.4 kb），使用简单，可扩展。语法高亮主题完全通过CSS定义。基于正则表达式实现。</p>
-<p>官方网站：<a href="http://craig.is/making/rainbows" target="_blank" rel="external">http://craig.is/making/rainbows</a></p>
-
+            <p>KMP为的是解决2字符串匹配问题的算法，检查一个字符串是否为另一个的子串，sub = “abc” , str = “aabcd” , str里包含了一个sub，KMP算法可以以O(M+N)的复杂度找到子串在str的位置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//KMP中的核心算法，获得记录跳转状态的next数组</span></div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] next(String sub) &#123;</div><div class="line">	  <span class="keyword">int</span>[] a = <span class="keyword">new</span> <span class="keyword">int</span>[sub.length()];</div><div class="line">	  <span class="keyword">char</span>[] c = sub.toCharArray();</div><div class="line">	  <span class="keyword">int</span> length=sub.length();</div><div class="line">	  <span class="keyword">int</span> i,j;</div><div class="line">	  a[<span class="number">0</span>] = -<span class="number">1</span>;</div><div class="line">	  i = <span class="number">0</span>;</div><div class="line">	 <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;length;j++) &#123;</div><div class="line">		 i = a[j - <span class="number">1</span>];</div><div class="line">		 <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;c[j]!=c[i+<span class="number">1</span>]) &#123;</div><div class="line">			 i = a[i];    </div><div class="line">		 &#125;</div><div class="line">		<span class="keyword">if</span>(c[j]==c[i+<span class="number">1</span>]) &#123;</div><div class="line">			a[j] = i+<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			a[j] = -<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">	 &#125;</div><div class="line">	 <span class="keyword">return</span> a;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>另一个关键函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">pattern</span><span class="params">(String str,String sub,<span class="keyword">int</span>[] next)</span> </span>&#123;</div><div class="line">	<span class="keyword">char</span>[] ch1 = str.toCharArray();</div><div class="line">	<span class="keyword">char</span>[] ch2 = sub.toCharArray();</div><div class="line">	<span class="keyword">int</span> i = <span class="number">0</span>,j = <span class="number">0</span>;  <span class="comment">//i控制ch1,j控制ch2;</span></div><div class="line">	<span class="keyword">for</span>(;i&lt;ch1.length; ) &#123;</div><div class="line">		<span class="keyword">if</span>(ch1[i]==ch2[j]) &#123;<span class="comment">//匹配就自动递增，往后匹配。</span></div><div class="line">			<span class="keyword">if</span>(j==ch2.length-<span class="number">1</span>) &#123;</div><div class="line">				System.out.println(i-ch2.length+<span class="number">1</span>);</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">			j++;</div><div class="line">			i++;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(j==<span class="number">0</span>) &#123;</div><div class="line">			 i++;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			j = next[j-<span class="number">1</span>]+<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>应用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        String sub = <span class="string">"aabaccfaddddaabc"</span>;</div><div class="line">        String str = <span class="string">"gdsaadfdgffccsdaabaccfdaddaabaccfaddddaabcga"</span>;</div><div class="line">        <span class="keyword">int</span>[] next = next(sub);</div><div class="line">        pattern(str,sub,next);</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"><span class="comment">//结果：26----&gt;41；</span></div></pre></td></tr></table></figure>
           
         
       
@@ -1434,150 +1578,6 @@ var _hmt = _hmt || [];
 <h3 id="消息提示框"><a href="#消息提示框" class="headerlink" title="消息提示框"></a>消息提示框</h3><p>消息提示框可以先制作一个圆角矩形，然后在需要的地方放置一个三角形。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#comment_bubble</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">140px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#088cb7</span>;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">12px</span>;</div><div class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">12px</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">12px</span>;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#comment_bubble</span><span class="selector-pseudo">:before</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">right</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">top</span>: <span class="number">38px</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">border-top</span>: <span class="number">13px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">26px</span> solid <span class="number">#088cb7</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">13px</span> solid transparent;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="吃豆人"><a href="#吃豆人" class="headerlink" title="吃豆人"></a>吃豆人</h3><p>吃豆人的制作方法是先在一个圆形里面制作一个透明的三角形。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#pacman</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">70px</span> solid transparent;</div><div class="line">    <span class="attribute">border-top</span>: <span class="number">70px</span> solid <span class="number">#ffde00</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">70px</span> solid <span class="number">#ffde00</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">70px</span> solid <span class="number">#ffde00</span>;</div><div class="line">    <span class="attribute">border-top-left-radius</span>: <span class="number">70px</span>;</div><div class="line">    <span class="attribute">border-top-right-radius</span>: <span class="number">70px</span>;</div><div class="line">    <span class="attribute">border-bottom-left-radius</span>: <span class="number">70px</span>;</div><div class="line">    <span class="attribute">border-bottom-right-radius</span>: <span class="number">70px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/22/KMP算法JAVA实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/22/KMP算法JAVA实现/" itemprop="url">KMP算法JAVA实现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-22T15:15:12+08:00">
-                2016-01-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/其他/" itemprop="url" rel="index">
-                    <span itemprop="name">其他</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>KMP为的是解决2字符串匹配问题的算法，检查一个字符串是否为另一个的子串，sub = “abc” , str = “aabcd” , str里包含了一个sub，KMP算法可以以O(M+N)的复杂度找到子串在str的位置。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//KMP中的核心算法，获得记录跳转状态的next数组</span></div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] next(String sub) &#123;</div><div class="line">	  <span class="keyword">int</span>[] a = <span class="keyword">new</span> <span class="keyword">int</span>[sub.length()];</div><div class="line">	  <span class="keyword">char</span>[] c = sub.toCharArray();</div><div class="line">	  <span class="keyword">int</span> length=sub.length();</div><div class="line">	  <span class="keyword">int</span> i,j;</div><div class="line">	  a[<span class="number">0</span>] = -<span class="number">1</span>;</div><div class="line">	  i = <span class="number">0</span>;</div><div class="line">	 <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;length;j++) &#123;</div><div class="line">		 i = a[j - <span class="number">1</span>];</div><div class="line">		 <span class="keyword">while</span>(i&gt;=<span class="number">0</span>&amp;&amp;c[j]!=c[i+<span class="number">1</span>]) &#123;</div><div class="line">			 i = a[i];    </div><div class="line">		 &#125;</div><div class="line">		<span class="keyword">if</span>(c[j]==c[i+<span class="number">1</span>]) &#123;</div><div class="line">			a[j] = i+<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			a[j] = -<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">	 &#125;</div><div class="line">	 <span class="keyword">return</span> a;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
-<p>另一个关键函数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">pattern</span><span class="params">(String str,String sub,<span class="keyword">int</span>[] next)</span> </span>&#123;</div><div class="line">	<span class="keyword">char</span>[] ch1 = str.toCharArray();</div><div class="line">	<span class="keyword">char</span>[] ch2 = sub.toCharArray();</div><div class="line">	<span class="keyword">int</span> i = <span class="number">0</span>,j = <span class="number">0</span>;  <span class="comment">//i控制ch1,j控制ch2;</span></div><div class="line">	<span class="keyword">for</span>(;i&lt;ch1.length; ) &#123;</div><div class="line">		<span class="keyword">if</span>(ch1[i]==ch2[j]) &#123;<span class="comment">//匹配就自动递增，往后匹配。</span></div><div class="line">			<span class="keyword">if</span>(j==ch2.length-<span class="number">1</span>) &#123;</div><div class="line">				System.out.println(i-ch2.length+<span class="number">1</span>);</div><div class="line">				<span class="keyword">break</span>;</div><div class="line">			&#125;</div><div class="line">			j++;</div><div class="line">			i++;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(j==<span class="number">0</span>) &#123;</div><div class="line">			 i++;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			j = next[j-<span class="number">1</span>]+<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>应用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        String sub = <span class="string">"aabaccfaddddaabc"</span>;</div><div class="line">        String str = <span class="string">"gdsaadfdgffccsdaabaccfdaddaabaccfaddddaabcga"</span>;</div><div class="line">        <span class="keyword">int</span>[] next = next(sub);</div><div class="line">        pattern(str,sub,next);</div><div class="line">        </div><div class="line">    &#125;</div><div class="line"><span class="comment">//结果：26----&gt;41；</span></div></pre></td></tr></table></figure>
           
         
       

@@ -1594,6 +1594,8 @@ var _hmt = _hmt || [];
 <hr>
 <h4 id="行内元素有哪些-块级元素有哪些-CSS的盒模型"><a href="#行内元素有哪些-块级元素有哪些-CSS的盒模型" class="headerlink" title="行内元素有哪些?块级元素有哪些?CSS的盒模型?"></a>行内元素有哪些?块级元素有哪些?CSS的盒模型?</h4><p>块级元素：div,p,h1,form,ul,li;<br>行内元素 : span,a,label,input,img,strong,em;<br>CSS盒模型:内容，border ,margin，padding</p>
 <hr>
+<h4 id="响应式"><a href="#响应式" class="headerlink" title="响应式"></a>响应式</h4><p>响应式网页设计就是一个网站能够兼容多个终端<br>响应式设计的基本原理是通过媒体查询检测不同的设备屏幕尺寸做处理。页面头部必须有meta声明viewport：<br>基本原理: 媒体查询 @media</p>
+<hr>
 <h4 id="CSS引入的方式有哪些-link和-import的区别是"><a href="#CSS引入的方式有哪些-link和-import的区别是" class="headerlink" title="CSS引入的方式有哪些? link和@import的区别是?"></a>CSS引入的方式有哪些? link和@import的区别是?</h4><p>内联、内嵌、外链、导入。<br>区别 ：同时加载前者无兼容性，后者CSS2.1以下浏览器不支持Link支持使用javascript改变样式，后者不可</p>
 <hr>
 <h4 id="CSS选择符有哪些-哪些属性可以继承-优先级算法如何计算-内联和important哪个优先级高"><a href="#CSS选择符有哪些-哪些属性可以继承-优先级算法如何计算-内联和important哪个优先级高" class="headerlink" title="CSS选择符有哪些?哪些属性可以继承?优先级算法如何计算?内联和important哪个优先级高?"></a>CSS选择符有哪些?哪些属性可以继承?优先级算法如何计算?内联和important哪个优先级高?</h4><p>标签选择符 类选择符 id选择符继承不如指定 Id&gt;class&gt;标签选择后者优先级高</p>
@@ -1668,7 +1670,7 @@ var _hmt = _hmt || [];
 <hr>
 <h4 id="js监听css3动画怎么实现，具体到每一帧（gg）"><a href="#js监听css3动画怎么实现，具体到每一帧（gg）" class="headerlink" title="js监听css3动画怎么实现，具体到每一帧（gg）"></a>js监听css3动画怎么实现，具体到每一帧（gg）</h4><p>可以在任何一个元素上使用事件处理来决定动画的状态<br>动画运行时会触发三种类型的事件，<br>动画第一次启动时，animationstart 事件触发。<br>animationinteration事件会在每一次新的动画执行过程中被触发，即除了第一次之外的每一个迭代过程。<br>animationend事件会在动画结束时被触发。</p>
 <hr>
-<h4 id="什么是闭包，原理"><a href="#什么是闭包，原理" class="headerlink" title="什么是闭包，原理"></a>什么是闭包，原理</h4><p>闭包是函数而不是一个事物或者一个过程。<br>函数执行的时候会先创建一个属于该函数的上下文执行环境，这个上下文包含了作用域在内的相关信息。当一个函数执行完毕后，与该函数相关的上下文环境便会收回。<br>但是当闭包出现的时候，这个该被收回的环境就不会被收回了，因此也就产生了闭包。<br>原因就是因为在这个函数执行的时候，它内部有对不属于这个作用域并且也不属于全局作用域的局部变量的引用。</p>
+<h4 id="什么是闭包，原理"><a href="#什么是闭包，原理" class="headerlink" title="什么是闭包，原理"></a>什么是闭包，原理</h4><p>闭包是函数而不是一个事物或者一个过程。<br>当一个函数执行完毕后，与该函数相关的上下文环境便会收回。但是闭包的话环境不会被收回。<br>原因就是因为在这个函数执行的时候，它内部有对不属于这个作用域并且也不属于全局作用域的局部变量的引用。</p>
 <hr>
 <h4 id="闭包的应用以及优缺点"><a href="#闭包的应用以及优缺点" class="headerlink" title="闭包的应用以及优缺点"></a>闭包的应用以及优缺点</h4><p>用途：一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。<br>优点：<br>1.逻辑连续，当闭包作为另一个函数调用参数时，避免脱离当前逻辑而单独编写额外逻辑。<br>2.方便调用上下文的局部变量。<br>3.加强封装性，可以达到对变量的保护作用。<br>缺点：<br>1.由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包。解决方法是，在退出函数之前，将不使用的局部变量全部删除。<br>使用场景:<br>1.采用函数引用方式的setTimeout调用<br>2.将函数关联到对象的实例方法。<br>3.封装相关的功能集。</p>
 <hr>
@@ -1678,6 +1680,10 @@ var _hmt = _hmt || [];
 <hr>
 <h4 id="如何防范XSS-和CSRF"><a href="#如何防范XSS-和CSRF" class="headerlink" title="如何防范XSS 和CSRF"></a>如何防范XSS 和CSRF</h4><p>XSS跨站脚本攻击：<a href="../../../../2017/01/03/防御XSS攻击的七条原则">防御XSS攻击的七条原则</a><br>CRSF跨站请求伪造：用token验证，Referer验证 隐藏令牌</p>
 <hr>
+<h4 id="ES6主要特性"><a href="#ES6主要特性" class="headerlink" title="ES6主要特性"></a>ES6主要特性</h4><p>1.变量声明const和let<br>2.模板字符串<br>3.函数默认参数,箭头函数<br>4.拓展的对象功能(键值对重名简写)<br>5.import 和 export<br>6.Promise<br>7.解构<br>8.类<br>9.展开运算符    </p>
+<hr>
+<h4 id="JQ核心"><a href="#JQ核心" class="headerlink" title="JQ核心"></a>JQ核心</h4><p>JQuery 每执行一次查询就会创建一个jQuery对象，所有jQuery对象都会共享同一个jQuery原型对象。<br>因此，jQuery 象不仅包含了 DOM 查询结果集，还继承了 jQuery 原型对象上的操作方法。<br>这样，就可以在查询后直接调用方法来操作这些DOM 元素了。这就是 jQuery 的核心架构设计</p>
+<hr>
 <h4 id="简述JQ实现原理"><a href="#简述JQ实现原理" class="headerlink" title="简述JQ实现原理"></a>简述JQ实现原理</h4><p>jQuery是为了改变javascript的编码方式而设计的,<br>1.查找(创建)jQuery对象：$(“selector”);<br>2.调用jQuery对象的方法完成我们需要完成的工作：$(“selector”).doOurWork();</p>
 <p>jQuery带来了一个简洁方便的编码模型<br>1.创建jQuery对象<br>2.直接使用jQuery对象的属性/方法/事件<br>3.一个强悍的dom元素查找器($)<br>4.插件式编程接口(jQuery.fn)<br>5.以及插件初始化的”配置”对象思想</p>
 <hr>
@@ -1686,7 +1692,7 @@ var _hmt = _hmt || [];
 <h4 id="队列，栈存"><a href="#队列，栈存" class="headerlink" title="队列，栈存"></a>队列，栈存</h4><p>队列:是一种支持先进先出(FIFO)的集合,即先被插入的数据,先被取出!<br>队列是一种特殊的线性表，特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，队列是一种操作受限制的线性表。进行插入操作的端称为队尾，进行删除操作的端称为队头。<br>堆栈:是一种支持后进先出(LIFO)的集合,即后被插入的数据,先被取出!<br>栈（stack）又名堆栈，它是一种运算受限的线性表。其限制是仅允许在表的一端进行插入和删除运算。这一端被称为栈顶，相对地，把另一端称为栈底。向一个栈插入新元素又称作进栈、入栈或压栈，它是把新元素放到栈顶元素的上面，使之成为新的栈顶元素；从一个栈删除元素又称作出栈或退栈，它是把栈顶元素删除掉，使其相邻的元素成为新的栈顶元素。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">队列：</div><div class="line"></div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.unshift(<span class="number">1</span>);</div><div class="line">a.unshift(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"先进先出"</span>)</div><div class="line">a.pop()</div><div class="line"></div><div class="line">栈：</div><div class="line"><span class="keyword">var</span> a=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">a.push(<span class="number">1</span>);</div><div class="line">a.push(<span class="number">2</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"后进先出"</span>)</div><div class="line">a.pop()</div></pre></td></tr></table></figure>
 <hr>
-<h4 id="JavaScript作用域链"><a href="#JavaScript作用域链" class="headerlink" title="JavaScript作用域链"></a>JavaScript作用域链</h4><p>每一段js代码都有一个与之关联的作用域链,这个作用域链是一个对象列表或者链表，这组对象定义了这段代码中“作用域中”的变量。<br>当js需要查找变量的值的时候，它会从链的第一个对象开始查找，如果这个对象有，则会直接使用这个属性的值，如果没有，会继续查找链上的下一个对象,以此类推。<br>如果作用域链上没有任何一个对象含有属性，那么就认为这段代码的作用域链上不存在，并最终抛出一个引用异常。</p>
+<h4 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h4><p>每一段js代码都有一个与之关联的作用域链,这个作用域链是一个对象列表或者链表，这组对象定义了这段代码中“作用域中”的变量。<br>当js需要查找变量的值的时候，它会从链的第一个对象开始查找，如果这个对象有，则会直接使用这个属性的值，如果没有，会继续查找链上的下一个对象,以此类推。<br>如果作用域链上没有任何一个对象含有属性，那么就认为这段代码的作用域链上不存在，并最终抛出一个引用异常。</p>
 <hr>
 <h4 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h4><p><em>proto</em>:任何一个对象Object都有<em>proto</em>，它是每一个对象的私有属性，是天生自带的。<br>prototype:不是任何对象都有prototype，只有构造函数有prototype，是后天赋予的。</p>
 <p>原型链的作用是用于对象继承，调用一个对象的属性或方法，一但这个对象中没有，就去这个对象的<em>proto</em>中查找。这个对象的<em>proto</em>指向自己构造函数的prototype属性<br>若未找到, 则继续查找其原型对象的属性,如果还找不到实际上还会沿着原型链向上查找直至根。 </p>
@@ -1724,13 +1730,22 @@ var _hmt = _hmt || [];
 <hr>
 <h4 id="This对象的理解。"><a href="#This对象的理解。" class="headerlink" title="This对象的理解。"></a>This对象的理解。</h4><p>this是js的一个关键字，随着函数使用场合不同，this的值会发生变化。但是有一个总原则，那就是this指的是调用函数的那个对象。this一般情况下：是全局对象Global。 作为方法调用，那么this就是指这个对象</p>
 <hr>
-<h4 id="Node的使用场景都有哪些？"><a href="#Node的使用场景都有哪些？" class="headerlink" title="Node的使用场景都有哪些？"></a>Node的使用场景都有哪些？</h4><p>高并发、聊天、实时消息推送</p>
+<h4 id="Node-JS的使用场景都有哪些？"><a href="#Node-JS的使用场景都有哪些？" class="headerlink" title="Node.JS的使用场景都有哪些？"></a>Node.JS的使用场景都有哪些？</h4><p>实时应用：如在线聊天，实时通知推送等等（如socket.io）<br>分布式应用：通过高效的并行I/O使用已有的数据<br>工具类应用：海量的工具，小到前端压缩部署（如grunt），大到桌面图形界面应用程序<br>游戏类应用：游戏领域对实时和并发有很高的要求（如网易的pomelo框架）</p>
+<p>高并发、聊天、实时消息推送</p>
 <hr>
 <h4 id="什么是同源策略？"><a href="#什么是同源策略？" class="headerlink" title="什么是同源策略？"></a>什么是同源策略？</h4><p>一段脚本只能读取来自于同一来源的窗口和文档的属性，所谓同源是指，域名，协议，端口号完全相同</p>
 <hr>
+<h4 id="什么是渐进增强和优雅降级"><a href="#什么是渐进增强和优雅降级" class="headerlink" title="什么是渐进增强和优雅降级"></a>什么是渐进增强和优雅降级</h4><p>渐进增强：一开始就针对低版本浏览器进行构建页面，完成基本的功能，然后再针对高级浏览器进行效果、交互、追加功能达到更好的体验。<br>优雅降级：一开始就构建站点的完整功能，然后针对浏览器测试和修复。比如一开始使用 CSS3 的特性构建了一个应用，然后逐步针对各大浏览器进行 hack 使其可以在低版本浏览器上正常浏览。</p>
+<hr>
+<h4 id="Backbone原理"><a href="#Backbone原理" class="headerlink" title="Backbone原理"></a>Backbone原理</h4><p>核心却是UI界面的观察者模式和事件机制。有了事件，并灵活运用观察者模式，才能实现复杂界面的复杂逻辑。</p>
+<hr>
+<h4 id="new操作符具体干了什么呢"><a href="#new操作符具体干了什么呢" class="headerlink" title="new操作符具体干了什么呢?"></a>new操作符具体干了什么呢?</h4><p>1.创建一个空对象，并且 this 变量引用该对象，同时还继承了该函数的原型。<br>2.属性和方法被加入到 this 引用的对象中。<br>3.新创建的对象由 this 所引用，并且最后隐式的返回 this 。</p>
+<h4 id="什么是前端路由？"><a href="#什么是前端路由？" class="headerlink" title="什么是前端路由？"></a>什么是前端路由？</h4><p>路由是根据不同的url地址展示不同的内容或页面。前端路由就是把不同路由对应不同的内容或页面的任务交给前端来做，之前通过服务端根据url的不同返回不同的页面实现的</p>
+<p>优点：<br>用户体验好，不需要每次都从服务器全部获取，快速展现给用户<br>缺点：使<br>用浏览器的前进，后退键的时候会重新发送请求，没有合理利用缓存<br>单页面无法记住之前滚动的位置，无法再前进，后退的时候记住滚动的位置。</p>
+<hr>
 <h4 id="前端优化"><a href="#前端优化" class="headerlink" title="前端优化"></a>前端优化</h4><p>网络请求：<br>加载层：<br>减少HTTP请求。(合并压缩文件,或者HTTP2.0,或者HTTP1.1管线化持久连接)<br>压缩合并图片小于4kb采用base64格式<br>使用CDN内容分发网络<br>缓存层：<br>使用DNS预解析缓存设置link标签dns-prefetch属性<br>使用get请求（get可缓存）<br>使用代理服务器缓存<br>添加缓存请求头(ETa、Cache-Control、Expires)<br>使用本地储存(localStorage)<br>大量数据可以用indexDB</p>
 <p>渲染层面：<br>使用异步加载非首屏显示内容（script使用defer属性或者动态脚本）<br>减少DOM操作（获取、修改、添加）<br>CSS写在头部，JavaScript写在尾部或异步。<br>单页应用采用首屏服务器端渲染<br>结构复杂图片较多使用懒加载<br>合理HTML布局（减少嵌套，有结尾标签）<br>尽量避免重设图片大小<br>不滥用iframe使用<br>不滥用Web字体（会重新绘制当前界面）<br>不滥用Float（时计算量比较大）<br>不滥用@import(影响CSS加载速度)<br>不滥用高级选择器(计算量大)<br>利用CSS继承特性<br>值为0时不需要任何单位<br>对监控resize和scroll事件使用函数节流<br>开启GPU加速。（css的transitions和transforms）</p>
-<p>JS内存层面：<br>使用传统for,并缓存长度(forin forEach效率比较差)<br>不要滥用闭包<br>使用局部变量<br>手工解除变量引用<br>使用es6语法<br>使用匿名回调函数（函数执行完内存回收）<br>使用简写语法</p>
+<p>JS内存层面：<br>使用传统for,并缓存长度(forin forEach效率比较差)<br>不要滥用闭包<br>使用局部变量<br>手工解除变量引用<br>使用es6语法和一些简写语法（比如箭头函数，模板字符串，let, const）<br>使用匿名回调函数（函数执行完内存回收）<br>dom要批量插入，修改</p>
 
           
         
