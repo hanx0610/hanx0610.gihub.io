@@ -253,6 +253,163 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/22/CSS实现各种形状/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/01/22/CSS实现各种形状/" itemprop="url">CSS实现各种形状</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-01-22T15:15:12+08:00">
+                2016-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>CSS3的一个非常酷的特性是允许我们创建各种规则和不规则形状的图形，从而可以减少图片的使用。以前只能在Photoshop等图像编辑软件中制作的复杂图形现在使用CSS3就可以完成了。通过使用新的CSS属性，像transform和border-radius，我们可以创建非常漂亮和复杂的图形效果。</p>
+<h3 id="椭圆形"><a href="#椭圆形" class="headerlink" title="椭圆形"></a>椭圆形</h3><p>椭圆形是正圆形的一个变体，设置椭圆形的CSS时，高度要设置为宽度的一半，border-radius属性也要做相应的改变：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#oval</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#e9337c</span>;</div><div class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">100px</span> / <span class="number">50px</span>;</div><div class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">100px</span> / <span class="number">50px</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">100px</span> / <span class="number">50px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="三角形"><a href="#三角形" class="headerlink" title="三角形"></a>三角形</h3><p>要创建一个CSS三角形，需要使用border，通过设置不同边的透明效果，我们可以制作出三角形的现状。另外，在制作三角形时，宽度和高度要设置为0。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#triangle</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">140px</span> solid <span class="number">#fcf921</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">70px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">70px</span> solid transparent;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>###倒三角形</p>
+<p>与正三角形不同的是，倒三角形要设置的是border-top、border-left和border-right三条边的属性：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">#triangle &#123;</div><div class="line">    width: 0;</div><div class="line">    height: 0;</div><div class="line">    border-top: 140px solid #20a3bf;</div><div class="line">    border-left: 70px solid transparent;</div><div class="line">    border-right: 70px solid transparent;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="左三角形"><a href="#左三角形" class="headerlink" title="左三角形"></a>左三角形</h3><p>左三角形操作的是border-top、border-left和border-right三条边的属性，其中上边和下边要设置透明属性。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#triangle_left</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-top</span>: <span class="number">70px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">140px</span> solid <span class="number">#6bbf20</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">70px</span> solid transparent;</div><div class="line">&#125;      </div><div class="line">```                       </div><div class="line">### 右三角形</div><div class="line"></div><div class="line">``` <span class="selector-tag">css</span></div><div class="line">右三角形操作的是<span class="selector-tag">border-bottom</span>、<span class="selector-tag">border-left</span>和<span class="selector-tag">border-right</span>三条边的属性，其中上边和下边要设置透明属性。</div><div class="line"><span class="selector-id">#triangle_right</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-top</span>: <span class="number">70px</span> solid transparent;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">140px</span> solid <span class="number">#ff5a00</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">70px</span> solid transparent;</div><div class="line">&#125;</div><div class="line">```                              </div><div class="line">### 菱形</div><div class="line">制作菱形的方法有很多种。这里使用的是<span class="selector-tag">transform</span>属性和<span class="selector-tag">rotate</span>相结合，使两个正反三角形上下显示。</div><div class="line">``` <span class="selector-tag">css</span></div><div class="line"><span class="selector-id">#diamond</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">120px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">120px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#1eff00</span>;</div><div class="line"><span class="comment">/* Rotate */</span></div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-o-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line"><span class="comment">/* Rotate Origin */</span></div><div class="line">    <span class="attribute">-webkit-transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">-moz-transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">-ms-transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">-o-transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">60px</span> <span class="number">0</span> <span class="number">10px</span> <span class="number">310px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="梯形"><a href="#梯形" class="headerlink" title="梯形"></a>梯形</h3><p>梯形是三角形的一个变体，设置CSS梯形时，左右两条边设置为相等，并且给它设置一个宽度。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#trapezium</span> &#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">120px</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">120px</span> solid <span class="number">#ec3504</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">60px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">60px</span> solid transparent;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="平行四边形"><a href="#平行四边形" class="headerlink" title="平行四边形"></a>平行四边形</h3><p>平行四边形的制作方式是使用transform属性使长方形倾斜一个角度。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#parallelogram</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">160px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#8734f7</span>;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">skew</span>(30deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">skew</span>(30deg);</div><div class="line">    <span class="attribute">-o-transform</span>: <span class="built_in">skew</span>(30deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">skew</span>(30deg);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="星形"><a href="#星形" class="headerlink" title="星形"></a>星形</h3><p>星形的HTML结构同样使用一个带ID的空div。星形的实现方式比较复杂，主要是使用transform属性来旋转不同的边。仔细体会下面的代码。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#star</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">50px</span> <span class="number">0</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#fc2e5a</span>;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">100px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">70px</span> solid <span class="number">#fc2e5a</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">100px</span> solid transparent;</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotate</span>(35deg);</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(35deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotate</span>(35deg);</div><div class="line">    <span class="attribute">-o-transform</span>: <span class="built_in">rotate</span>(35deg);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-id">#star</span><span class="selector-pseudo">:before</span> &#123;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">top</span>: -<span class="number">45px</span>;</div><div class="line">    <span class="attribute">left</span>: -<span class="number">65px</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">80px</span> solid <span class="number">#fc2e5a</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">30px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">30px</span> solid transparent;</div><div class="line">    <span class="attribute">content</span>: <span class="string">''</span>;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(-35deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotate</span>(-35deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotate</span>(-35deg);</div><div class="line">    <span class="attribute">-o-transform</span>: <span class="built_in">rotate</span>(-35deg);</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#star</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">''</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">top</span>: <span class="number">3px</span>;</div><div class="line">    <span class="attribute">left</span>: -<span class="number">105px</span>;</div><div class="line">    <span class="attribute">color</span>: <span class="number">#fc2e5a</span>;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">100px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">70px</span> solid <span class="number">#fc2e5a</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">100px</span> solid transparent;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(-70deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotate</span>(-70deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotate</span>(-70deg);</div><div class="line">    <span class="attribute">-o-transform</span>: <span class="built_in">rotate</span>(-70deg);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="六角星形"><a href="#六角星形" class="headerlink" title="六角星形"></a>六角星形</h3><p>和五角星的制作方法不同，六角星形状的制作方法是操纵border属性来制作两半图形，然后合并它们。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#star_six_points</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">50px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">50px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">100px</span> solid <span class="number">#de34f7</span>;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">10px</span> auto;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#star_six_points</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">50px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">50px</span> solid transparent;</div><div class="line">    <span class="attribute">border-top</span>: <span class="number">100px</span> solid <span class="number">#de34f7</span>;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">30px</span> <span class="number">0</span> <span class="number">0</span> -<span class="number">50px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="五边形"><a href="#五边形" class="headerlink" title="五边形"></a>五边形</h3><p>创建CSS五边形需要结合两个图形：一个梯形，然后在它的上面放一个三角形，共同组成一个五边形。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#pentagon</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">54px</span>;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">border-width</span>: <span class="number">50px</span> <span class="number">18px</span> <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-style</span>: solid;</div><div class="line">    <span class="attribute">border-color</span>: <span class="number">#277bab</span> transparent;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#pentagon</span><span class="selector-pseudo">:before</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: -<span class="number">85px</span>;</div><div class="line">    <span class="attribute">left</span>: -<span class="number">18px</span>;</div><div class="line">    <span class="attribute">border-width</span>: <span class="number">0</span> <span class="number">45px</span> <span class="number">35px</span>;</div><div class="line">    <span class="attribute">border-style</span>: solid;</div><div class="line">    <span class="attribute">border-color</span>: transparent transparent <span class="number">#277bab</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="六边形"><a href="#六边形" class="headerlink" title="六边形"></a>六边形</h3><p>六边形的制作方法可以有很多种，可以像五边形一样，先制作一个长方形，然后在它的上面和下面各放置一个三角形。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#hexagon</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">55px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#fc5e5e</span>;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">margin</span>: <span class="number">10px</span> auto;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#hexagon</span><span class="selector-pseudo">:before</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: -<span class="number">25px</span>;</div><div class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">50px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">50px</span> solid transparent;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">25px</span> solid <span class="number">#fc5e5e</span>;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#hexagon</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">bottom</span>: -<span class="number">25px</span>;</div><div class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">50px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">50px</span> solid transparent;</div><div class="line">    <span class="attribute">border-top</span>: <span class="number">25px</span> solid <span class="number">#fc5e5e</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="八角形"><a href="#八角形" class="headerlink" title="八角形"></a>八角形</h3><p>八角形的制作方法也有多种方式，这里使用的是先制作两个相同的梯形，然后在两边分别放置一个三角形。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#octagon</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#ac60ec</span>;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#octagon</span><span class="selector-pseudo">:before</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">42px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">29px</span> solid <span class="number">#ac60ec</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">29px</span> solid <span class="number">#f4f4f4</span>;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">29px</span> solid <span class="number">#f4f4f4</span>;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#octagon</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">42px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-top</span>: <span class="number">29px</span> solid <span class="number">#ac60ec</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">29px</span> solid <span class="number">#f4f4f4</span>;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">29px</span> solid <span class="number">#f4f4f4</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="心形"><a href="#心形" class="headerlink" title="心形"></a>心形</h3><p>心形的制作是非常复杂的，可以使用伪元素来制作，分别将伪元素旋转不同的角度，并修改transform-origin属性来元素的旋转中心点。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#heart</span> &#123;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#heart</span><span class="selector-pseudo">:before</span>,<span class="selector-id">#heart</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">70px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">115px</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">background</span>: red;</div><div class="line">    <span class="attribute">left</span>: <span class="number">70px</span>;</div><div class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">0</span>;</div><div class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">0</span>;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-o-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-webkit-transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">-moz-transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">-ms-transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">-o-transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">transform-origin</span>: <span class="number">0</span> <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#heart</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">    <span class="attribute">-o-transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">    <span class="attribute">-webkit-transform-origin</span>: <span class="number">100%</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">-moz-transform-origin</span>: <span class="number">100%</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">-ms-transform-origin</span>: <span class="number">100%</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">-o-transform-origin</span>: <span class="number">100%</span> <span class="number">100%</span>;</div><div class="line">    <span class="attribute">transform-origin</span>: <span class="number">100%</span> <span class="number">100%</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="蛋形"><a href="#蛋形" class="headerlink" title="蛋形"></a>蛋形</h3><p>蛋形时椭圆形的一个变体，它的高度要比宽度稍大，并且设置正确的border-radius属性即可以制作出一个蛋形。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#egg</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">136px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">190px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#ffc000</span>;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">63px</span> <span class="number">63px</span> <span class="number">63px</span> <span class="number">63px</span> / <span class="number">108px</span> <span class="number">108px</span> <span class="number">72px</span> <span class="number">72px</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">50%</span> <span class="number">50%</span> <span class="number">50%</span> <span class="number">50%</span> / <span class="number">60%</span> <span class="number">60%</span> <span class="number">40%</span> <span class="number">40%</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="无穷符号"><a href="#无穷符号" class="headerlink" title="无穷符号"></a>无穷符号</h3><p>无穷符号可以通过border属性和设置伪元素的角度来实现。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#infinity</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">220px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#infinity</span><span class="selector-pseudo">:before</span>,<span class="selector-id">#infinity</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">60px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">60px</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border</span>: <span class="number">20px</span> solid <span class="number">#06c999</span>;</div><div class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span> <span class="number">50px</span>;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">-o-transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotate</span>(-45deg);</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#infinity</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">    <span class="attribute">left</span>: auto;</div><div class="line">    <span class="attribute">right</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">50px</span> <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">50px</span> <span class="number">50px</span> <span class="number">50px</span> <span class="number">0</span>;</div><div class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">    <span class="attribute">-moz-transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">    <span class="attribute">-o-transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">    <span class="attribute">transform</span>: <span class="built_in">rotate</span>(45deg);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="消息提示框"><a href="#消息提示框" class="headerlink" title="消息提示框"></a>消息提示框</h3><p>消息提示框可以先制作一个圆角矩形，然后在需要的地方放置一个三角形。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#comment_bubble</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">140px</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</div><div class="line">    <span class="attribute">background</span>: <span class="number">#088cb7</span>;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">-moz-border-radius</span>: <span class="number">12px</span>;</div><div class="line">    <span class="attribute">-webkit-border-radius</span>: <span class="number">12px</span>;</div><div class="line">    <span class="attribute">border-radius</span>: <span class="number">12px</span>;</div><div class="line">&#125;</div><div class="line">  </div><div class="line"><span class="selector-id">#comment_bubble</span><span class="selector-pseudo">:before</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">right</span>: <span class="number">100%</span>;</div><div class="line">    <span class="attribute">top</span>: <span class="number">38px</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">border-top</span>: <span class="number">13px</span> solid transparent;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">26px</span> solid <span class="number">#088cb7</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">13px</span> solid transparent;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="吃豆人"><a href="#吃豆人" class="headerlink" title="吃豆人"></a>吃豆人</h3><p>吃豆人的制作方法是先在一个圆形里面制作一个透明的三角形。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#pacman</span> &#123;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border-right</span>: <span class="number">70px</span> solid transparent;</div><div class="line">    <span class="attribute">border-top</span>: <span class="number">70px</span> solid <span class="number">#ffde00</span>;</div><div class="line">    <span class="attribute">border-left</span>: <span class="number">70px</span> solid <span class="number">#ffde00</span>;</div><div class="line">    <span class="attribute">border-bottom</span>: <span class="number">70px</span> solid <span class="number">#ffde00</span>;</div><div class="line">    <span class="attribute">border-top-left-radius</span>: <span class="number">70px</span>;</div><div class="line">    <span class="attribute">border-top-right-radius</span>: <span class="number">70px</span>;</div><div class="line">    <span class="attribute">border-bottom-left-radius</span>: <span class="number">70px</span>;</div><div class="line">    <span class="attribute">border-bottom-right-radius</span>: <span class="number">70px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/04/分布式系统的理解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -652,147 +809,6 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/JavaScript的HTML特殊符号转义/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/12/08/JavaScript的HTML特殊符号转义/" itemprop="url">JavaScript的HTML特殊符号转义</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-08T15:15:12+08:00">
-                2015-12-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="以下列出三种转义HTML特殊符号的方法"><a href="#以下列出三种转义HTML特殊符号的方法" class="headerlink" title="以下列出三种转义HTML特殊符号的方法"></a>以下列出三种转义HTML特殊符号的方法</h3><h4 id="第一种"><a href="#第一种" class="headerlink" title="第一种"></a>第一种</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="comment">//编码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEncode</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> $(<span class="string">'&lt;div/&gt;'</span>).text(value).html();</div><div class="line">&#125;</div><div class="line"><span class="comment">//解码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlDecode</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> $(<span class="string">'&lt;div/&gt;'</span>).html(value).text();</div><div class="line">&#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
-<h4 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="comment">//编码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEncode</span>(<span class="params"> html </span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">document</span>.createElement( <span class="string">'a'</span> ).appendChild( </div><div class="line">         <span class="built_in">document</span>.createTextNode( html ) ).parentNode.innerHTML;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//解码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlDecode</span>(<span class="params"> html </span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> a = <span class="built_in">document</span>.createElement( <span class="string">'a'</span> ); a.innerHTML = html;</div><div class="line">  <span class="keyword">return</span> a.textContent;</div><div class="line">&#125;;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
-<h4 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="comment">//编码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEncode</span>(<span class="params">str</span>)</span>&#123; </div><div class="line">    <span class="keyword">var</span> s = <span class="string">""</span>; </div><div class="line">    <span class="keyword">if</span> (str.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>; </div><div class="line">    s = str.replace(<span class="regexp">/&amp;amp;/g</span>, <span class="string">"&amp;amp;"</span>); </div><div class="line">    s = s.replace(<span class="comment">//g, "&amp;gt;"); </span></div><div class="line">    s = s.replace(<span class="regexp">/ /g</span>, <span class="string">"&amp;nbsp;"</span>); </div><div class="line">    s = s.replace(<span class="regexp">/\'/g</span>, <span class="string">"'"</span>);</div><div class="line">    s = s.replace(<span class="regexp">/\"/g</span>, <span class="string">""</span><span class="string">"); </span></div><div class="line"><span class="string">    s = s.replace(/\n/g, "</span>&lt;br&gt;<span class="string">"); </span></div><div class="line"><span class="string">    return s; </span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">//解码</span></div><div class="line"><span class="string">function htmlDecode(str)&#123;</span></div><div class="line"><span class="string">	var s = "</span><span class="string">";</span></div><div class="line"><span class="string">	if (str.length == 0) return "</span><span class="string">";</span></div><div class="line"><span class="string">	s = str.replace(/&amp;gt;/g, "</span>&amp;amp;<span class="string">");</span></div><div class="line"><span class="string">	s = s.replace(//g, "</span>&amp;gt;<span class="string">");</span></div><div class="line"><span class="string">	s = s.replace(/&amp;nbsp;/g, "</span> <span class="string">");</span></div><div class="line"><span class="string">	s = s.replace(/'/g, "</span>\<span class="string">'");</span></div><div class="line"><span class="string">	s = s.replace(/"/g, "\"");</span></div><div class="line"><span class="string">	s = s.replace(/&lt;br&gt;/g, "\n");</span></div><div class="line"><span class="string">	return s;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">&lt;/script&gt;</span></div></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/JavaScript判断单、多张图片加载完成/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -898,6 +914,147 @@ var _hmt = _hmt || [];
 <h3 id="单张图片（结合ES6-Promise）"><a href="#单张图片（结合ES6-Promise）" class="headerlink" title="单张图片（结合ES6 Promise）"></a>单张图片（结合ES6 Promise）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//js</span></div><div class="line"> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">    <span class="keyword">let</span> xiu = <span class="keyword">new</span> Image()</div><div class="line">    xiu.src = <span class="string">'http://www.daqianduan.com/wp-content/uploads/2014/11/hs-xiu.jpg'</span></div><div class="line">    xiu.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">// 加载完成 </span></div><div class="line">       resolve(xiu)</div><div class="line">    &#125;</div><div class="line"> &#125;).then(<span class="function">(<span class="params">xiu</span>)=&gt;</span>&#123;</div><div class="line"> <span class="comment">//code</span></div><div class="line"> &#125;)</div></pre></td></tr></table></figure>
 <h3 id="多张图片"><a href="#多张图片" class="headerlink" title="多张图片"></a>多张图片</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> img = [],  </div><div class="line">    flag = <span class="number">0</span>, </div><div class="line">    mulitImg = [</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line">    <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line"> ];</div><div class="line"> <span class="keyword">var</span> imgTotal = mulitImg.length;</div><div class="line"> <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line">    img[i] = <span class="keyword">new</span> Image()</div><div class="line">    img[i].src = mulitImg[i]</div><div class="line">    img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">       <span class="comment">//第i张图片加载完成</span></div><div class="line">       flag++</div><div class="line">       <span class="keyword">if</span>( flag == imgTotal )&#123;</div><div class="line">          <span class="comment">//全部加载完成</span></div><div class="line">       &#125;</div><div class="line">    &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
 <h3 id="多张图片（结合ES6-Promise-all-）"><a href="#多张图片（结合ES6-Promise-all-）" class="headerlink" title="多张图片（结合ES6 Promise.all()）"></a>多张图片（结合ES6 Promise.all()）</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> mulitImg = [</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/03/IMG_0119.jpg'</span>,</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2017/01/1.jpg'</span>,</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/11/jquery.jpg'</span>,</div><div class="line"> <span class="string">'http://www.daqianduan.com/wp-content/uploads/2015/10/maid.jpg'</span></div><div class="line">];</div><div class="line"><span class="keyword">let</span> promiseAll = [], img = [], imgTotal = mulitImg.length;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; imgTotal ; i++)&#123;</div><div class="line"> promiseAll[i] = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</div><div class="line">	 img[i] = <span class="keyword">new</span> Image()</div><div class="line">	 img[i].src = mulitImg[i]</div><div class="line">	 img[i].onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		  <span class="comment">//第i张加载完成</span></div><div class="line">		  resolve(img[i])</div><div class="line">	 &#125;</div><div class="line"> &#125;)</div><div class="line">&#125;</div><div class="line"><span class="built_in">Promise</span>.all(promiseAll).then(<span class="function">(<span class="params">img</span>)=&gt;</span>&#123;</div><div class="line"> <span class="comment">//全部加载完成</span></div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2015/12/08/JavaScript的HTML特殊符号转义/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/12/08/JavaScript的HTML特殊符号转义/" itemprop="url">JavaScript的HTML特殊符号转义</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-08T15:15:12+08:00">
+                2015-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="以下列出三种转义HTML特殊符号的方法"><a href="#以下列出三种转义HTML特殊符号的方法" class="headerlink" title="以下列出三种转义HTML特殊符号的方法"></a>以下列出三种转义HTML特殊符号的方法</h3><h4 id="第一种"><a href="#第一种" class="headerlink" title="第一种"></a>第一种</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="comment">//编码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEncode</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> $(<span class="string">'&lt;div/&gt;'</span>).text(value).html();</div><div class="line">&#125;</div><div class="line"><span class="comment">//解码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlDecode</span>(<span class="params">value</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> $(<span class="string">'&lt;div/&gt;'</span>).html(value).text();</div><div class="line">&#125;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="comment">//编码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEncode</span>(<span class="params"> html </span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">document</span>.createElement( <span class="string">'a'</span> ).appendChild( </div><div class="line">         <span class="built_in">document</span>.createTextNode( html ) ).parentNode.innerHTML;</div><div class="line">&#125;;</div><div class="line"><span class="comment">//解码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlDecode</span>(<span class="params"> html </span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> a = <span class="built_in">document</span>.createElement( <span class="string">'a'</span> ); a.innerHTML = html;</div><div class="line">  <span class="keyword">return</span> a.textContent;</div><div class="line">&#125;;</div><div class="line">&lt;<span class="regexp">/script&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</div><div class="line"><span class="comment">//编码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">htmlEncode</span>(<span class="params">str</span>)</span>&#123; </div><div class="line">    <span class="keyword">var</span> s = <span class="string">""</span>; </div><div class="line">    <span class="keyword">if</span> (str.length == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>; </div><div class="line">    s = str.replace(<span class="regexp">/&amp;amp;/g</span>, <span class="string">"&amp;amp;"</span>); </div><div class="line">    s = s.replace(<span class="comment">//g, "&amp;gt;"); </span></div><div class="line">    s = s.replace(<span class="regexp">/ /g</span>, <span class="string">"&amp;nbsp;"</span>); </div><div class="line">    s = s.replace(<span class="regexp">/\'/g</span>, <span class="string">"'"</span>);</div><div class="line">    s = s.replace(<span class="regexp">/\"/g</span>, <span class="string">""</span><span class="string">"); </span></div><div class="line"><span class="string">    s = s.replace(/\n/g, "</span>&lt;br&gt;<span class="string">"); </span></div><div class="line"><span class="string">    return s; </span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">//解码</span></div><div class="line"><span class="string">function htmlDecode(str)&#123;</span></div><div class="line"><span class="string">	var s = "</span><span class="string">";</span></div><div class="line"><span class="string">	if (str.length == 0) return "</span><span class="string">";</span></div><div class="line"><span class="string">	s = str.replace(/&amp;gt;/g, "</span>&amp;amp;<span class="string">");</span></div><div class="line"><span class="string">	s = s.replace(//g, "</span>&amp;gt;<span class="string">");</span></div><div class="line"><span class="string">	s = s.replace(/&amp;nbsp;/g, "</span> <span class="string">");</span></div><div class="line"><span class="string">	s = s.replace(/'/g, "</span>\<span class="string">'");</span></div><div class="line"><span class="string">	s = s.replace(/"/g, "\"");</span></div><div class="line"><span class="string">	s = s.replace(/&lt;br&gt;/g, "\n");</span></div><div class="line"><span class="string">	return s;</span></div><div class="line"><span class="string">&#125;</span></div><div class="line"><span class="string">&lt;/script&gt;</span></div></pre></td></tr></table></figure>
           
         
       
@@ -2078,7 +2235,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
