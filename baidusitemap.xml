@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://yoursite.com/2018/01/16/HTML%205.2%20%E6%9C%89%E5%93%AA%E4%BA%9B%E6%96%B0%E5%86%85%E5%AE%B9%EF%BC%9F/</loc>
-    <lastmod>2018-01-16T16:28:58.064Z</lastmod>
+    <lastmod>2018-01-16T16:32:28.376Z</lastmod>
     <data>
         <display>
         <title>HTML 5.2 有哪些新内容？</title>
@@ -221,11 +221,11 @@
         <title>在Web应用中通过TomcatAPI对Tomcat进行访问与控制</title>
         <pubTime>2015-08-01T11:32:50.000Z</pubTime>
         
-        <tag>服务器</tag>
+        <tag>Tomcat</tag>
          
         <tag>Server</tag>
          
-        <tag>Tomcat</tag>
+        <tag>服务器</tag>
          
          
            
@@ -267,9 +267,9 @@
         <title>常见WEB容器浅析</title>
         <pubTime>2016-08-05T15:42:11.000Z</pubTime>
         
-        <tag>服务器</tag>
-         
         <tag>Server</tag>
+         
+        <tag>服务器</tag>
          
          
            
