@@ -887,151 +887,6 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/Java性能调优随记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/09/Java性能调优随记/" itemprop="url">Java性能调优随记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T17:41:37+08:00">
-                2017-11-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/后端/" itemprop="url" rel="index">
-                    <span itemprop="name">后端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>事情发生在16年了。当时系统beta版本进行上线前的性能压测时，发现进程的内存占用率会持续升高，与之而来的时，性能的接口性能的持续下降。最奇怪的是，停止压测后CPU和内存开销并没有恢复过来。记得之前发过博文，不知道怎么回事找不到了。 应其他同事的要求，回忆一下当时的定位过程，再做一个简单分享。<br>在讲述整个过程前，请大家自备两个梯子：<br>1)Java虚拟机的垃圾回收机制<br>2)jmeter的基本使用知识</p>
-<p>首先下载jmeter工具，感觉是一个轻量级的性能检测工具，很好用。有基于windows 的GUI版本，也有在linux上运行的命令行版本。<br>下载地址：<a href="http://jmeter.apache.org/download_jmeter.cgi" target="_blank" rel="external">http://jmeter.apache.org/download_jmeter.cgi</a></p>
-<p>怪象简述<br>刚开始压测时，一切指标都是正常的，也达到了预期水平。<br><img src="https://yqfile.alicdn.com/d68a2baf560215bcbf654489328695c3aca91d76.png" alt="Github"><br>8小时后，性能直线下降。<br><img src="https://yqfile.alicdn.com/2824338ce1f4e454c7e46d2edf22af7f7b1efbdc.png" alt="Github"><br>停止压测后，CPU和内存，仍然居高不下。 不要小看 2.4%的内存占用，这是200多G内存的物理服务器。（后面部署方式已切换为虚拟机的部署方式）<br><img src="https://yqfile.alicdn.com/7ec0340ae5296cc1f690656974add8ea82cc0a3c.png" alt="Github"><br>定位解决<br>1) 首先命令行，看下java堆的情况：jmap -heap 24442<br>看见年老区的内存被占满了<br><img src="https://yqfile.alicdn.com/44e00eddb0bbd82e988038652c3276a52da80be1.png" alt="Github"><br>2) 继续执行命令：jsat –gcutil 24442 1000 5，<br>看见年老区 使用率 100%，同时执行了12304次 FullGC<br><img src="https://yqfile.alicdn.com/27faf3175cf3f30ca3f04b21ef88a699f7851643.png" alt="Github"><br>3）查看进程24442的线程信息： ps –mp 24442 –o THREAD,tid,time<br>发现很多线程运行了好几个小时<br><img src="https://yqfile.alicdn.com/3e4e149b1563c6bc1aec5f10ec1efbc0e6faefbd.png" alt="Github"></p>
-<p>这个时候，明显怀疑有内存泄露了。<br>再执行了两个命令（时间太久，没有找到截图了）：<br>jstat -printcompilation -h3 24442<br>jmap -histo 24442</p>
-<p>进一步发现，内存中某个类的实例数量和String类的实例数量，异常的多。<br>最后在排查代码，找到了具体的类 及其使用逻辑。发现是由于队列的使用不当，造成了内存泄露</p>
-<p>总结<br>本项目中，因为涉及频繁的小IO，所以开发同事期望通过生产者－队列－消费者的模型，用批量IO解决频繁小IO带来的资源开销。但在使用此模型时，忘计考虑了极限状态下，生产者的输入能力远大于消费者的消费能力时，会造成队列中的数据积压，进而造成内存泄露。但又因为常规情况下不会出现 此场景，所以很难发现这个bug。<br>这个案例告诉我们：<br>1) 对于一些关键接口，开发同事可以在完成开发后，自己用Jmeter压测一下，避免问题遗留到上线前期，造成巨大风险。<br>2) Java仍然会有内存泄露的情况，使用类似数组、队列、栈等数据结构时，需要格外小心。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/前端需要了解的 SSO 与 CAS 知识 /">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1126,7 +981,6 @@ var _hmt = _hmt || [];
             <p>不管是什么公司，只要产品数量大于一个，那么单点登录势必是绕不过去的一个问题。作为前端程序员，我们对其虽然接触不多，但适当的了解还是必要的。本文就来谈谈单点登录相关的问题。<br>前置知识<br>了解 SSO，最好具备以下知识。当然，如果不是特别熟，也不影响阅读。</p>
 <p>cookie及session<br>浏览器同源策略及跨域<br>了解登录系统的构成<br>什么是 SSO 与 CAS?</p>
 <h3 id="SSO"><a href="#SSO" class="headerlink" title="SSO"></a>SSO</h3><p>SSO 是英文 Single Sign On 的缩写，翻译过来就是单点登录。顾名思义，它把两个及以上个产品中的用户登录逻辑抽离出来，达到只输入一次用户名密码，就能同时登录多个产品的效果。<br>使用 SSO 的优点很明显：<br>提升用户体验。就以我厂为例。我厂有两个产品，丁香人才网和丁香园论坛，假如你是我厂用户，肯定无法忍受登录丁香园论坛的时候输入一次用户名密码，登录人才网又要输入一次用户名密码吧？<br>避免重复开发。假如你是我厂后端，每天任务都饱和的不行，肯定无法忍受到人才网开发一套登录逻辑，到论坛又开发一套登录逻辑吧？<br>提升安全系数<br>假如你是我厂运维，发现了一个安全隐患需要紧急修复。你肯定无法忍受给茫茫多的产品后端都发一封邮件，责令修复吧？万一漏了一个呢？ </p>
-<p>如果你想学习前端，可以来这个Q群，首先是291，中间是851，最后是189，里面可以学习和交流，也有资料可以下载。</p>
 <h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>SSO 仅仅是一种架构，一种设计，而 CAS 则是实现 SSO 的一种手段。两者是抽象与具体的关系。当然，除了 CAS 之外，实现 SSO 还有其他手段，比如简单的 cookie。CAS （Central Authentication Service）中心授权服务，本身是一个开源协议，分为 1.0 版本和 2.0 版本。1.0 称为基础模式，2.0称为代理模式，适用于存在非 Web 应用之间的单点登录。<br>同域 SSO如图，同域 SSO 是最简单的一种情况。此时，两个产品都是在一个域名下，单点登录是很自然的选择。我们来捋一捋步骤，搞清楚这里的步骤是理解后文的基础，千万不要跳过。<br>用户访问产品 a，向 后台服务器发送登录请求。<br>登录认证成功，服务器把用户的登录信息写入 session。<br>服务器为该用户生成一个 cookie，并加入到 response header 中，随着请求返回而写入浏览器。<br>该 cookie 的域设定为 dxy.cn。<br>下一次，当用户访问同域名的产品 b 时，由于 a 和 b 在同一域名下，也是 dxy.cn，浏览器会自动带上之前的 cookie。此时后台服务器就可以通过该 cookie 来验证登录状态了。<br>实际上，这种场景就是最简单最传统的登录操作。虽然我们把产品 a 和 b 人为分开了，但由于它们在同域上，就算看成是同一产品的不同类目也未尝不可。我们没有设置独立的 SSO 服务器，因为业务后台服务器本身就足以承担 SSO 的职能。<br>同父域 SSO<br>同父域 SSO 是同域 SSO 的简单升级，唯一的不同在于，服务器在返回 cookie 的时候，要把cookie 的 domain 设置为其父域。比如两个产品的地址分别为 a.dxy.cn 和 b.dxy.cn，那么 cookie 的域设置为 dxy.cn 即可。在访问 a 和 b 时，这个 cookie 都能发送到服务器，本质上和同域 SSO 没有区别。<br>.跨域 SSO<br>可以看到，在上面两种情况下，我们都没有专门设置 SSO 服务器。但是当两个产品不同域时，cookie 无法共享，所以我们必须设置独立的 SSO 服务器了。这个时候，我们就是通过标准的 CAS 方案来实现 SSO 的。<br>详解CAS</p>
 <p>CAS 1.0 协议定义了一组术语，一组票据，一组接口。<br>术语：</p>
 <p>Client：用户。<br>Server：中心服务器，也是 SSO 中负责单点登录的服务器。<br>Service：需要使用单点登录的各个服务，相当于上文中的产品 a/b。<br>/login：登录接口，用于登录到中心服务器。<br>/logout：登出接口，用于从中心服务器登出。<br>/validate：用于验证用户是否登录中心服务器。<br>/serviceValidate：用于让各个 service 验证用户是否登录中心服务器。 </p>
@@ -1873,6 +1727,151 @@ var _hmt = _hmt || [];
 <li>传递性规则：如果 A happens-before B，且 B happens-before C，那么A happens-before C。</li>
 </ul>
 <p>注意：两个操作之间具有happens-before关系，并不意味前一个操作必须要在后一个操作之前执行！仅仅要求前一个操作的执行结果，对于后一个操作是可见的，且前一个操作按顺序排在后一个操作之前。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/03/Java性能调优随记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/03/Java性能调优随记/" itemprop="url">Java性能调优随记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T17:41:37+08:00">
+                2017-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>事情发生在16年了。当时系统beta版本进行上线前的性能压测时，发现进程的内存占用率会持续升高，与之而来的时，性能的接口性能的持续下降。最奇怪的是，停止压测后CPU和内存开销并没有恢复过来。记得之前发过博文，不知道怎么回事找不到了。 应其他同事的要求，回忆一下当时的定位过程，再做一个简单分享。<br>在讲述整个过程前，请大家自备两个梯子：<br>1)Java虚拟机的垃圾回收机制<br>2)jmeter的基本使用知识</p>
+<p>首先下载jmeter工具，感觉是一个轻量级的性能检测工具，很好用。有基于windows 的GUI版本，也有在linux上运行的命令行版本。<br>下载地址：<a href="http://jmeter.apache.org/download_jmeter.cgi" target="_blank" rel="external">http://jmeter.apache.org/download_jmeter.cgi</a></p>
+<p>怪象简述<br>刚开始压测时，一切指标都是正常的，也达到了预期水平。<br><img src="https://yqfile.alicdn.com/d68a2baf560215bcbf654489328695c3aca91d76.png" alt="Github"><br>8小时后，性能直线下降。<br><img src="https://yqfile.alicdn.com/2824338ce1f4e454c7e46d2edf22af7f7b1efbdc.png" alt="Github"><br>停止压测后，CPU和内存，仍然居高不下。 不要小看 2.4%的内存占用，这是200多G内存的物理服务器。（后面部署方式已切换为虚拟机的部署方式）<br><img src="https://yqfile.alicdn.com/7ec0340ae5296cc1f690656974add8ea82cc0a3c.png" alt="Github"><br>定位解决<br>1) 首先命令行，看下java堆的情况：jmap -heap 24442<br>看见年老区的内存被占满了<br><img src="https://yqfile.alicdn.com/44e00eddb0bbd82e988038652c3276a52da80be1.png" alt="Github"><br>2) 继续执行命令：jsat –gcutil 24442 1000 5，<br>看见年老区 使用率 100%，同时执行了12304次 FullGC<br><img src="https://yqfile.alicdn.com/27faf3175cf3f30ca3f04b21ef88a699f7851643.png" alt="Github"><br>3）查看进程24442的线程信息： ps –mp 24442 –o THREAD,tid,time<br>发现很多线程运行了好几个小时<br><img src="https://yqfile.alicdn.com/3e4e149b1563c6bc1aec5f10ec1efbc0e6faefbd.png" alt="Github"></p>
+<p>这个时候，明显怀疑有内存泄露了。<br>再执行了两个命令（时间太久，没有找到截图了）：<br>jstat -printcompilation -h3 24442<br>jmap -histo 24442</p>
+<p>进一步发现，内存中某个类的实例数量和String类的实例数量，异常的多。<br>最后在排查代码，找到了具体的类 及其使用逻辑。发现是由于队列的使用不当，造成了内存泄露</p>
+<p>总结<br>本项目中，因为涉及频繁的小IO，所以开发同事期望通过生产者－队列－消费者的模型，用批量IO解决频繁小IO带来的资源开销。但在使用此模型时，忘计考虑了极限状态下，生产者的输入能力远大于消费者的消费能力时，会造成队列中的数据积压，进而造成内存泄露。但又因为常规情况下不会出现 此场景，所以很难发现这个bug。<br>这个案例告诉我们：<br>1) 对于一些关键接口，开发同事可以在完成开发后，自己用Jmeter压测一下，避免问题遗留到上线前期，造成巨大风险。<br>2) Java仍然会有内存泄露的情况，使用类似数组、队列、栈等数据结构时，需要格外小心。</p>
 
           
         

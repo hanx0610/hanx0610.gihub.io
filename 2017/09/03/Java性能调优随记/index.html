@@ -67,7 +67,7 @@
 
 
 
-  <meta name="keywords" content="JavaScript,插件," />
+  <meta name="keywords" content="Java," />
 
 
 
@@ -80,18 +80,25 @@
 
 
 
-<meta name="description" content="Sparkbox中的一支团队建立了一个简单的交互式页面，用于演示如何使用各种技术创建一个弹跳球动画。如果考虑使用动画库的话，这可能是一个不错的选择来比较不同的编码和接口。Bouncy Ball">
-<meta name="keywords" content="JavaScript,插件">
+<meta name="description" content="事情发生在16年了。当时系统beta版本进行上线前的性能压测时，发现进程的内存占用率会持续升高，与之而来的时，性能的接口性能的持续下降。最奇怪的是，停止压测后CPU和内存开销并没有恢复过来。记得之前发过博文，不知道怎么回事找不到了。 应其他同事的要求，回忆一下当时的定位过程，再做一个简单分享。在讲述整个过程前，请大家自备两个梯子：1)Java虚拟机的垃圾回收机制2)jmeter的基本使用知识 首先">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="弹力球">
-<meta property="og:url" content="http://yoursite.com/2016/02/13/弹力球/index.html">
+<meta property="og:title" content="Java性能调优随记">
+<meta property="og:url" content="http://yoursite.com/2017/09/03/Java性能调优随记/index.html">
 <meta property="og:site_name" content="hanx の 碎片栈">
-<meta property="og:description" content="Sparkbox中的一支团队建立了一个简单的交互式页面，用于演示如何使用各种技术创建一个弹跳球动画。如果考虑使用动画库的话，这可能是一个不错的选择来比较不同的编码和接口。Bouncy Ball">
+<meta property="og:description" content="事情发生在16年了。当时系统beta版本进行上线前的性能压测时，发现进程的内存占用率会持续升高，与之而来的时，性能的接口性能的持续下降。最奇怪的是，停止压测后CPU和内存开销并没有恢复过来。记得之前发过博文，不知道怎么回事找不到了。 应其他同事的要求，回忆一下当时的定位过程，再做一个简单分享。在讲述整个过程前，请大家自备两个梯子：1)Java虚拟机的垃圾回收机制2)jmeter的基本使用知识 首先">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-12T11:53:11.915Z">
+<meta property="og:image" content="https://yqfile.alicdn.com/d68a2baf560215bcbf654489328695c3aca91d76.png">
+<meta property="og:image" content="https://yqfile.alicdn.com/2824338ce1f4e454c7e46d2edf22af7f7b1efbdc.png">
+<meta property="og:image" content="https://yqfile.alicdn.com/7ec0340ae5296cc1f690656974add8ea82cc0a3c.png">
+<meta property="og:image" content="https://yqfile.alicdn.com/44e00eddb0bbd82e988038652c3276a52da80be1.png">
+<meta property="og:image" content="https://yqfile.alicdn.com/27faf3175cf3f30ca3f04b21ef88a699f7851643.png">
+<meta property="og:image" content="https://yqfile.alicdn.com/3e4e149b1563c6bc1aec5f10ec1efbc0e6faefbd.png">
+<meta property="og:updated_time" content="2018-01-16T16:44:15.744Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="弹力球">
-<meta name="twitter:description" content="Sparkbox中的一支团队建立了一个简单的交互式页面，用于演示如何使用各种技术创建一个弹跳球动画。如果考虑使用动画库的话，这可能是一个不错的选择来比较不同的编码和接口。Bouncy Ball">
+<meta name="twitter:title" content="Java性能调优随记">
+<meta name="twitter:description" content="事情发生在16年了。当时系统beta版本进行上线前的性能压测时，发现进程的内存占用率会持续升高，与之而来的时，性能的接口性能的持续下降。最奇怪的是，停止压测后CPU和内存开销并没有恢复过来。记得之前发过博文，不知道怎么回事找不到了。 应其他同事的要求，回忆一下当时的定位过程，再做一个简单分享。在讲述整个过程前，请大家自备两个梯子：1)Java虚拟机的垃圾回收机制2)jmeter的基本使用知识 首先">
+<meta name="twitter:image" content="https://yqfile.alicdn.com/d68a2baf560215bcbf654489328695c3aca91d76.png">
 
 
 
@@ -131,13 +138,13 @@ var _hmt = _hmt || [];
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/02/13/弹力球/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/03/Java性能调优随记/"/>
 
 
 
 
 
-  <title>弹力球 | hanx の 碎片栈</title>
+  <title>Java性能调优随记 | hanx の 碎片栈</title>
   
 
 
@@ -254,7 +261,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/02/13/弹力球/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/03/Java性能调优随记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanx">
@@ -271,7 +278,7 @@ var _hmt = _hmt || [];
 
         
         
-          <h1 class="post-title" itemprop="name headline">弹力球</h1>
+          <h1 class="post-title" itemprop="name headline">Java性能调优随记</h1>
         
 
         <div class="post-meta">
@@ -283,8 +290,8 @@ var _hmt = _hmt || [];
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-02-13T13:00:06+08:00">
-                2016-02-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T17:41:37+08:00">
+                2017-09-03
               </time>
             
 
@@ -306,8 +313,8 @@ var _hmt = _hmt || [];
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
+                  <a href="/categories/后端/" itemprop="url" rel="index">
+                    <span itemprop="name">后端</span>
                   </a>
                 </span>
 
@@ -341,7 +348,12 @@ var _hmt = _hmt || [];
       
 
       
-        <p>Sparkbox中的一支团队建立了一个简单的交互式页面，用于演示如何使用各种技术创建一个弹跳球动画。如果考虑使用动画库的话，这可能是一个不错的选择来比较不同的编码和接口。<br><a href="http://sparkbox.github.io/bouncy-ball/?spm=5176.100239.blogcont235917.76.Y10y1G#css" target="_blank" rel="external">Bouncy Ball</a></p>
+        <p>事情发生在16年了。当时系统beta版本进行上线前的性能压测时，发现进程的内存占用率会持续升高，与之而来的时，性能的接口性能的持续下降。最奇怪的是，停止压测后CPU和内存开销并没有恢复过来。记得之前发过博文，不知道怎么回事找不到了。 应其他同事的要求，回忆一下当时的定位过程，再做一个简单分享。<br>在讲述整个过程前，请大家自备两个梯子：<br>1)Java虚拟机的垃圾回收机制<br>2)jmeter的基本使用知识</p>
+<p>首先下载jmeter工具，感觉是一个轻量级的性能检测工具，很好用。有基于windows 的GUI版本，也有在linux上运行的命令行版本。<br>下载地址：<a href="http://jmeter.apache.org/download_jmeter.cgi" target="_blank" rel="external">http://jmeter.apache.org/download_jmeter.cgi</a></p>
+<p>怪象简述<br>刚开始压测时，一切指标都是正常的，也达到了预期水平。<br><img src="https://yqfile.alicdn.com/d68a2baf560215bcbf654489328695c3aca91d76.png" alt="Github"><br>8小时后，性能直线下降。<br><img src="https://yqfile.alicdn.com/2824338ce1f4e454c7e46d2edf22af7f7b1efbdc.png" alt="Github"><br>停止压测后，CPU和内存，仍然居高不下。 不要小看 2.4%的内存占用，这是200多G内存的物理服务器。（后面部署方式已切换为虚拟机的部署方式）<br><img src="https://yqfile.alicdn.com/7ec0340ae5296cc1f690656974add8ea82cc0a3c.png" alt="Github"><br>定位解决<br>1) 首先命令行，看下java堆的情况：jmap -heap 24442<br>看见年老区的内存被占满了<br><img src="https://yqfile.alicdn.com/44e00eddb0bbd82e988038652c3276a52da80be1.png" alt="Github"><br>2) 继续执行命令：jsat –gcutil 24442 1000 5，<br>看见年老区 使用率 100%，同时执行了12304次 FullGC<br><img src="https://yqfile.alicdn.com/27faf3175cf3f30ca3f04b21ef88a699f7851643.png" alt="Github"><br>3）查看进程24442的线程信息： ps –mp 24442 –o THREAD,tid,time<br>发现很多线程运行了好几个小时<br><img src="https://yqfile.alicdn.com/3e4e149b1563c6bc1aec5f10ec1efbc0e6faefbd.png" alt="Github"></p>
+<p>这个时候，明显怀疑有内存泄露了。<br>再执行了两个命令（时间太久，没有找到截图了）：<br>jstat -printcompilation -h3 24442<br>jmap -histo 24442</p>
+<p>进一步发现，内存中某个类的实例数量和String类的实例数量，异常的多。<br>最后在排查代码，找到了具体的类 及其使用逻辑。发现是由于队列的使用不当，造成了内存泄露</p>
+<p>总结<br>本项目中，因为涉及频繁的小IO，所以开发同事期望通过生产者－队列－消费者的模型，用批量IO解决频繁小IO带来的资源开销。但在使用此模型时，忘计考虑了极限状态下，生产者的输入能力远大于消费者的消费能力时，会造成队列中的数据积压，进而造成内存泄露。但又因为常规情况下不会出现 此场景，所以很难发现这个bug。<br>这个案例告诉我们：<br>1) 对于一些关键接口，开发同事可以在完成开发后，自己用Jmeter压测一下，避免问题遗留到上线前期，造成巨大风险。<br>2) Java仍然会有内存泄露的情况，使用类似数组、队列、栈等数据结构时，需要格外小心。</p>
 
       
     </div>
@@ -359,9 +371,7 @@ var _hmt = _hmt || [];
       
         <div class="post-tags">
           
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
-          
-            <a href="/tags/插件/" rel="tag"># 插件</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
         </div>
       
@@ -374,8 +384,8 @@ var _hmt = _hmt || [];
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/01/22/CSS实现各种形状/" rel="next" title="CSS实现各种形状">
-                <i class="fa fa-chevron-left"></i> CSS实现各种形状
+              <a href="/2017/06/10/Github 安全类Repo收集整理/" rel="next" title="Github 安全类Repo收集整理">
+                <i class="fa fa-chevron-left"></i> Github 安全类Repo收集整理
               </a>
             
           </div>
@@ -384,8 +394,8 @@ var _hmt = _hmt || [];
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/02/13/7个高性能JavaScript代码高亮插件/" rel="prev" title="7个高性能JavaScript代码高亮插件">
-                7个高性能JavaScript代码高亮插件 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/12/深入理解Java内存模型/" rel="prev" title="深入理解Java内存模型">
+                深入理解Java内存模型 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
