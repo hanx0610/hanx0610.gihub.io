@@ -253,6 +253,214 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/06/使用estools辅助反混淆Javascript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/01/06/使用estools辅助反混淆Javascript/" itemprop="url">使用estools辅助反混淆Javascript</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-06T13:14:22+08:00">
+                2017-01-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Javascript 作为一种运行在客户端的脚本语言，其源代码对用户来说是完全可见的。但不是每一个 js 开发者都希望自己的代码能被直接阅读，比如恶意软件的制造者们。为了增加代码分析的难度，混淆（obfuscate）工具被应用到了许多恶意软件（如 0day 挂马、跨站攻击等）当中。分析人员为了掀开恶意软件的面纱，首先就得对脚本进行反混淆（deobfuscate）处理。<br>本文将介绍一些常见的混淆手段和 estools 进行静态代码分析的入门。</p>
+<h3 id="常见混淆手段"><a href="#常见混淆手段" class="headerlink" title="常见混淆手段"></a>常见混淆手段</h3><h4 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h4><p>这类混淆的关键思想在于将需要执行的代码进行一次编码，在执行的时候还原出浏览器可执行的合法的脚本，然后执行之。看上去和可执行文件的加壳有那么点类似。Javascript 提供了将字符串当做代码执行（evaluate）的能力，可以通过 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" rel="external">Function 构造器</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/eval" target="_blank" rel="external">eval</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setTimeout" target="_blank" rel="external">setTimeout</a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/setInterval" target="_blank" rel="external">setInterval&nbsp;</a>将字符串传递给 js 引擎进行解析执行。最常见的是 <a href="http://dean.edwards.name/packer/" target="_blank" rel="external">base62 编码</a>——其最明显的特征是生成的代码以<code>eval(function(p,a,c,k,e,r))</code> 开头。</p>
+<p><img src="/img/1-base62-1024x281.png" alt="hexo目录结构"></p>
+<p>无论代码如何进行变形，其最终都要调用一次 eval 等函数。解密的方法不需要对其算法做任何分析，只需要简单地找到这个最终的调用，改为 <code>console.log</code> 或者其他方式，将程序解码后的结果按照字符串输出即可。自动化的实现方式已经有许多文章介绍过，此处就不再赘述。</p>
+<h4 id="隐写术"><a href="#隐写术" class="headerlink" title="隐写术"></a>隐写术</h4><p>严格说这不能称之为混淆，只是将 js 代码隐藏到了特定的介质当中。如通过最低有效位（LSB）算法嵌入到图片的 RGB 通道、隐藏在图片 EXIF 元数据、隐藏在 HTML 空白字符等。</p>
+<p>比如这个耸人听闻的议题：<a href="http://www.freebuf.com/news/69106.html" target="_blank" rel="external">一张图片黑掉你</a>：在图片中嵌入恶意程序，PPT（ <a href="https://conference.hitb.org/hitbsecconf2015ams/wp-content/uploads/2015/02/D1T1-Saumil-Shah-Stegosploit-Hacking-with-Pictures.pdf" target="_blank" rel="external">https://conference.hitb.org/hitbsecconf2015ams/wp-content/uploads/2015/02/D1T1-Saumil-Shah-Stegosploit-Hacking-with-Pictures.pdf</a> ）放出来一看，正是使用了最低有效位平面算法。结合 HTML5 的 canvas 或者处理二进制数据的 TypeArray，脚本可以抽取出载体中隐藏的数据（如代码）。<br><img src="/img/2-lsb-steg.png" alt="hexo目录结构"><br>隐写的方式同样需要解码程序和动态执行，所以破解的方式和前者相同，在浏览器上下文中劫持替换关键函数调用的行为，改为文本输出即可得到载体中隐藏的代码。</p>
+<h4 id="复杂化表达式"><a href="#复杂化表达式" class="headerlink" title="复杂化表达式"></a>复杂化表达式</h4><p>代码混淆不一定会调用 eval，也可以通过在代码中填充无效的指令来增加代码复杂度，极大地降低可读性。Javascript 中存在许多称得上丧心病狂的特性，这些特性组合起来，可以把原本简单的字面量（Literal）、成员访问（MemberExpression）、函数调用（CallExpression）等代码片段变得难以阅读。<br>Js 中的字面量有字符串、数字、正则表达式</p>
+<p>下面简单举一个例子:</p>
+<ol>
+<li>访问一个对象的成员有两种方法——点运算符和下标运算符。调用 window 的 eval 方法，既可以写成 <code>window.eval()</code>，也可以 <code>window[&#39;eval&#39;]</code>；</li>
+<li>为了让代码更变态一些，混淆器选用第二种写法，然后再在字符串字面量上做文章。先把字符串拆成几个部分：<code>&#39;e&#39; + &#39;v&#39; + &#39;al&#39;</code>；</li>
+<li>这样看上去还是很明显，再利用一个数字进制转换的技巧：<code>14..toString(15)+31..toString(32)+0xf1.toString(22)</code>；</li>
+<li>一不做二不休，把数字也展开：<code>(0b1110).toString(4&lt;&lt;2)+(&#39; &#39;.charCodeAt() - 1).toString(Math.log(0x100000000) / Math.log(2)) + 0xf1.toString(11 &lt;&lt; 1)</code>；</li>
+<li>最后的效果：<code>window[(2*7).toString(4&lt;&lt;2)+(&#39; &#39;.charCodeAt() - 1).toString(Math.log(0x100000000) / Math.log(2)) + 0xf1.toString(11 &lt;&lt; 1)](&#39;alert(1)&#39;)</code><br>在 js 中可以找到许多这样互逆的运算，通过使用随机生成的方式将其组合使用，可以把简单的表达式无限复杂化。</li>
+</ol>
+<h3 id="静态分析实现"><a href="#静态分析实现" class="headerlink" title="静态分析实现"></a>静态分析实现</h3><h4 id="解析和变换代码"><a href="#解析和变换代码" class="headerlink" title="解析和变换代码"></a>解析和变换代码</h4><p>本文对 Javascript 实现反混淆的思路是模拟执行代码中可预测结果的部分，编写一个简单的脚本执行引擎，只执行符合某些预定规则的代码块，最后将计算结果替换掉原本冗长的代码，实现表达式的简化。</p>
+<p>果对脚本引擎解释器的原理有初步了解的话，可以知道解释器在为了“读懂”代码，会对源代码进行词法分析、语法分析，将代码的字符串转换为抽象语法树（ <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank" rel="external">Abstract Syntax Tree</a>, AST）的数据形式。</p>
+<p>如这段代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">42</span>;</div><div class="line"><span class="keyword">var</span> b = <span class="number">5</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addA</span>(<span class="params">d</span>) </span>&#123;</div><div class="line"><span class="keyword">return</span> a + d;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> c = addA(<span class="number">2</span>) + b;</div></pre></td></tr></table></figure></p>
+<p>对应的语法树如图：<br><img src="/img/3-ast-1024x491.png" alt="hexo目录结构"><br>（由 <a href="http://jointjs.com/demos/javascript-ast" target="_blank" rel="external">JointJS</a> 的在线工具生成）<br>不考虑 JIT 技术，解释器可以从语法树的根节点开始，使用深度优先遍历整棵树的所有节点，根据节点上分析出来的指令逐个执行，直到脚本结束返回结果。</p>
+<p>通过 js 代码生成抽象语法树的工具很多，如压缩器 <a href="https://github.com/mishoo/UglifyJS" target="_blank" rel="external">UglifyJS</a> 带的 parser，还有本文使用的 <a href="http://esprima.org/" target="_blank" rel="external">esprima</a>。</p>
+<p>esprima 提供的接口很简单：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> ast = <span class="built_in">require</span>(<span class="string">'esprima'</span>).parse(code)</div></pre></td></tr></table></figure></p>
+<p>另外 Esprima 提供了一个在线工具，可以把任意（合法的）Javascript 代码解析成为 AST 并输出：<a href="http://esprima.org/demo/parse.html" target="_blank" rel="external">http://esprima.org/demo/parse.html</a></p>
+<p>再结合 estools 的几个辅助库即可对 js 进行静态代码分析：</p>
+<ul>
+<li><a href="https://github.com/estools/escope" target="_blank" rel="external">escope</a> Javascript 作用域分析工具</li>
+<li><a href="https://github.com/estools/esutils" target="_blank" rel="external">esutil</a> 辅助函数库，检查语法树节点是否满足某些条件</li>
+<li><a href="http://github.com/estools/estraverse" target="_blank" rel="external">estraverse</a> 语法树遍历辅助库，接口有一点类似 SAX 方式解析 XML</li>
+<li><a href="http://github.com/estools/esrecurse" target="_blank" rel="external">esrecurse</a> 另一个语法树遍历工具，使用递归</li>
+<li><a href="https://github.com/estools/esquery" target="_blank" rel="external">esquery</a> 使用 css 选择器的语法从语法树中提取符合条件的节点</li>
+<li><a href="http://github.com/estools/escodegen" target="_blank" rel="external">escodegen</a> 与 esprima 功能互逆，将语法树还原为代码</li>
+</ul>
+<p>项目中使用的遍历工具是 estraverse。其提供了两个静态方法，<code>estraverse.traverse</code> 和 <code>estraverse.replace</code>。前者单纯遍历 AST 的节点，通过返回值控制是否继续遍历到叶子节点；而 replace 方法则可以在遍历的过程中直接修改 AST，实现代码重构功能。具体的用法可以参考其官方文档，或者本文附带的示例代码。</p>
+<h4 id="规则设计"><a href="#规则设计" class="headerlink" title="规则设计"></a>规则设计</h4><p>从实际遇到的代码入手。最近在研究一些 XSS 蠕虫的时候遇到了类似如下代码混淆：<br><img src="/img/4-obfuscated-js.png" alt="hexo目录结构"></p>
+<p>观察其代码风格，发现这个混淆器做了这几件事：</p>
+<ol>
+<li>字符串字面量混淆：首先提取全部的字符串，在全局作用域创建一个字符串数组，同时转义字符增大阅读难度，然后将字符串出现的地方替换成为数组元素的引用</li>
+<li>变量名混淆：不同于压缩器的缩短命名，此处使用了下划线加数字的格式，变量之间区分度很低，相比单个字母更难以阅读</li>
+<li>成员运算符混淆：将点运算符替换为字符串下标形式，然后对字符串进行混淆</li>
+<li>删除多余的空白字符：减小文件体积，这是所有压缩器都会做的事</li>
+</ol>
+<p>经过搜索，这样的代码很有可能是通过<a href="http://javascriptobfuscator.com/Javascript-Obfuscator.aspx" target="_blank" rel="external">javascriptobfuscator.com</a>的免费版生成的。其中免费版可以使用的三个选项（Encode Strings / Strings / Replace Names）也印证了前面观察到的现象。</p>
+<p>这些变换中，变量名混淆是不可逆的。要是可以智能给变量命名的工具也不错，比如这个 <a href="http://jsnice.org/" target="_blank" rel="external">jsnice</a> 网站提供了一个在线工具，可以分析变量具体作用自动重命名。就算不能做到十全十美，实在不行就用人工的方式，使用 IDE（如 WebStorm）的代码重构功能，结合代码行为分析进行手工重命名还原。</p>
+<p>再看字符串的处理。由于字符串将会被提取到一个全局的数组，在语法树中可以观察到这样的特征： 在全局作用域下，出现一个 VariableDeclarator，其 init 属性为 ArrayExpression，而且所有元素都是 Literal ——这说明这个数组所有元素都是常量。简单地将其求值，与变量名（标识符）关联起来。注意，此处为了简化处理，并没有考虑变量名作用域链的问题。在 js 中，作用域链上存在变量名的优先级，比如全局上的变量名是可以被局部变量重新定义的。如果混淆器再变态一点，在不同的作用域上使用相同的变量名，反混淆器又没有处理作用域的情况，将会导致解出来的代码出错。</p>
+<p>在测试程序中我设置了如下的替换规则：</p>
+<ol>
+<li>全局变量声明的字符串数组，在代码中直接使用数字下标引用其值</li>
+<li>结果确定的一连串二元运算，如 <code>1 * 2 + 3 / 4 - 6 % 5</code></li>
+<li>正则表达式字面量的 source，字符串字面量的 length</li>
+<li>完全由字符串常量组成的数组，其 join / reverse / slice 等方法的返回值</li>
+<li>字符串常量的 substr / charAt 等方法的返回值</li>
+<li>decodeURIComponent 等全局函数，其所有参数为常量的，替换为其返回值</li>
+<li>结果为常数的数学函数调用，如 <code>Math.sin(3.14)</code></li>
+</ol>
+<p>至于缩进的还原，这是 escodegen 自带的功能。在调用 <code>escodegen.generate</code> 方法生成代码的时候使用默认的配置（忽略第二个参数）即可。</p>
+<h3 id="DEMO程序"><a href="#DEMO程序" class="headerlink" title="DEMO程序"></a>DEMO程序</h3><p>这个反混淆器的原型放在 GitHub 上：<a href="https://github.com/ChiChou/etacsufbo" target="_blank" rel="external">https://github.com/ChiChou/etacsufbo</a></p>
+<p>运行环境和使用方法参考仓库的 README。</p>
+<p>从<a href="http://youmightnotneedjquery.com/" target="_blank" rel="external">YOU MIGHT NOT NEED JQUERY</a>上摘抄了一段代码，放入<a href="https://javascriptobfuscator.com/Javascript-Obfuscator.aspx" target="_blank" rel="external">javascriptobfuscator.com</a>测试混淆：<br><img src="/img/5-online-obfuscate-1024x266.png" alt="hexo目录结构"><br>将混淆结果（ <a href="https://github.com/ChiChou/etacsufbo/blob/master/tests/cases/jsobfuscator.com.js" target="_blank" rel="external">https://github.com/ChiChou/etacsufbo/blob/master/tests/cases/jsobfuscator.com.js</a> ）进行解开，结果如下：<br><img src="/img/6-deobfuscated.png" alt="hexo目录结构"><br>虽然变量名可读性依旧很差，但已经可以大体看出代码的行为了。</p>
+<p>演示程序目前存在大量局限性，只能算一个半自动的辅助工具，还有许多没有实现的功能。</p>
+<p>一些混淆器会对字符串字面量进行更复杂的保护，将字符串转换为 f(x) 的形式，其中 f 函数为一个解密函数，参数 x 为密文的字符串。也有原地生成一个匿名函数，返回值为字符串的。这种方式通常使用的函数表达式具有上下文无关的特性——其返回值只与函数的输入有关，与当前代码所处的上下文（比如类的成员、DOM 中取到的值）无关。如以下代码片段中的 xor 函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xor = <span class="function"><span class="keyword">function</span>(<span class="params">str, a, b</span>) </span>&#123;</div><div class="line"><span class="keyword">return</span> <span class="built_in">String</span>.fromCharCode.apply(<span class="literal">null</span>, str.split(<span class="string">''</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params">c, i</span>) </span>&#123;</div><div class="line"><span class="keyword">var</span> ascii = c.charCodeAt(<span class="number">0</span>);</div><div class="line"><span class="keyword">return</span> ascii ^ (i % <span class="number">2</span> ? a : b);</div><div class="line">&#125;));</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>如何判断某个函数是否具有这样的特性呢？<br>首先一些库函数可以确定符合，如 btoa，escape，String.fromCharCode 等，只要输入值是常量，返回值就是固定的。建立一个这样的内置函数白名单，接着遍历函数表达式的 AST，若该函数参与计算的参数均没有来自外部上下文，且其所有 CallExpression 的 callee 在函数白名单内，那么通过递归的方式可以确认一个函数是否满足条件。还有的混淆器会给变量创建大量的引用实例，也就是给同一个对象使用了多个别名，阅读起来非常具有干扰性。可以派出 escope 工具对变量标识符进行数据流分析，替换为所指向的正确值。还有利用数学的恒等式进行混淆的。如声明一个变量 a，若 a 为 Number，则表达式 <code>a-a</code>、<code>a * 0</code> 均恒为 0。但如果 a 满足 <code>isNaN(a)</code>，则表达式返回 <code>NaN</code>。要清理这类代码，同样需要借助数据流分析的方法。<br>目前还没有见到使用扁平化流程跳转实现的 js 混淆样本，笔者认为可能跟 js 语言本身的使用场景和特点有关。一般 js 的代都是偏业务型的，不会有太复杂的流程控制或者算法，混淆起来效果不一定理想。</p>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>Javascript 的确是一门神奇的语言，经常可以遇到一些让人惊讶的奇技淫巧。解密保护过的代码也是有趣的事情。据说几大科技巨头在酝酿给浏览器应用设计一款通用的字节码标准——<a href="https://github.com/WebAssembly" target="_blank" rel="external">WebAssembly</a>。一旦这个设想得以实现，代码保护将可以引入真正意义上的“加壳”或者虚拟机保护，对抗技术又将提升到一个新的台阶。</p>
+<p>演示项目代码托管在 GitHub：<a href="https://github.com/ChiChou/etacsufbo" target="_blank" rel="external">https://github.com/ChiChou/etacsufbo</a></p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
+<li><a href="http://tobyho.com/2013/12/02/fun-with-esprima/" target="_blank" rel="external">http://tobyho.com/2013/12/02/fun-with-esprima/</a></li>
+<li><a href="https://github.com/estree/estree/blob/master/spec.md" target="_blank" rel="external">https://github.com/estree/estree/blob/master/spec.md</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Parser_API</a></li>
+<li><a href="http://jointjs.com/demos/javascript-ast" target="_blank" rel="external">http://jointjs.com/demos/javascript-ast</a></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/03/防御XSS攻击的七条原则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1416,6 +1624,10 @@ var _hmt = _hmt || [];
 <h4 id="TCP三次握手四次挥手"><a href="#TCP三次握手四次挥手" class="headerlink" title="TCP三次握手四次挥手"></a>TCP三次握手四次挥手</h4><p>三次握手是为了确认客户端跟服务器都能接受到对方的信息。<br>1、客户端给服务器发包。此时服务器确认自己可以接收客户端的包，客户端不确认服务器是否接收到了自己发的包。<br>2、服务器端回复客户端。  此时客户端确认自己发的包被服务器收到，也确认自己可以正常接收服务器包，客户端对此次通信没有疑问了。服务器可以确认自己能接收到客户端的包，但不能确认客户端能否接收自己发的包。<br>3、客户端回复服务器。  客户端已经没有疑问了，服务器也确认刚刚客户端收到了自己的包。两边都没有问题，开始通信。</p>
 <p>1、先由客户端向服务器端发送一个FIN，请求关闭数据传输。<br>2、当服务器接收到客户端的FIN时，向客户端发送一个ACK，其中ack的值等于FIN+SEQ<br>3、然后服务器向客户端发送一个FIN，告诉客户端应用程序关闭。<br>4、当客户端收到服务器端的FIN是，回复一个ACK给服务器端。其中ack的值等于FIN+SEQ</p>
 <hr>
+<h4 id="TCP粘包"><a href="#TCP粘包" class="headerlink" title="TCP粘包"></a>TCP粘包</h4><p>TCP粘包是指发送方发送的若干包数据到接收方接收时粘成一包，从接收缓冲区看，后一包数据的头紧接着前一包数据的尾。</p>
+<p>原因：<br>简单得说，在流传输中出现，UDP不会出现粘包，因为它有消息边界(参考Windows网络编程)<br>1发送端需要等缓冲区满才发送出去，造成粘包<br>2接收方不及时接收缓冲区的包，造成多个包接收</p>
+<p>解决方法<br>格式化数据：每条数据有固定的格式（开始符、结束符），这种方法简单易行，但选择开始符和结束符的时候一定要注意每条数据的内部一定不能出现开始符或结束符；<br>发送长度：发送每条数据的时候，将数据的长度一并发送，比如可以选择每条数据的前4位是数据的长度，应用层处理时可以根据长度来判断每条数据的开始和结束。</p>
+<hr>
 <h4 id="什么是管线化"><a href="#什么是管线化" class="headerlink" title="什么是管线化"></a>什么是管线化</h4><p>1.HTTP管线化是将多个HTTP要求（request）整批提交的技术，传送过程中不需先等待服务端的回应<br>2.管线化通过持久连接完成，仅HTTP1.1支持<br>3.只有get和head请求可以管线化 ，post有所限制<br>4.初次创建连接时不应启动管线化,因为服务器可能不支持HTTP1.1的协议<br>5.管线化不会影响到来的顺序<br>6.管线化很可能不会大幅度提升性能，而且很多服务端和代理程序对管线化支持并不太好,现在浏览器默认并未开启支持</p>
 <hr>
 <h4 id="浏览器渲染机制"><a href="#浏览器渲染机制" class="headerlink" title="浏览器渲染机制"></a>浏览器渲染机制</h4><p>HTML转成DOM树<br>CSS转成RULES树<br>两棵树进行结合形成Render树<br>然后layout计算DOM位置宽高<br>绘制GUI</p>
@@ -1438,7 +1650,8 @@ var _hmt = _hmt || [];
 <hr>
 <h4 id="cookies，sessionStorage-和-localStorage-的区别？"><a href="#cookies，sessionStorage-和-localStorage-的区别？" class="headerlink" title="cookies，sessionStorage 和 localStorage 的区别？"></a>cookies，sessionStorage 和 localStorage 的区别？</h4><p>cookie在浏览器和服务器间来回传递。 sessionStorage和localStorage不会<br>sessionStorage和localStorage的存储空间更大；<br>sessionStorage和localStorage有更多丰富易用的接口；<br>sessionStorage和localStorage各自独立的存储空间；</p>
 <hr>
-<h4 id="如何实现浏览器内多个标签页之间的通信"><a href="#如何实现浏览器内多个标签页之间的通信" class="headerlink" title="如何实现浏览器内多个标签页之间的通信?"></a>如何实现浏览器内多个标签页之间的通信?</h4><p>调用localstorge、cookies等本地存储方式</p>
+<h4 id="href和src-的定义与区别"><a href="#href和src-的定义与区别" class="headerlink" title="href和src 的定义与区别"></a>href和src 的定义与区别</h4><p>href : 表示“超链接”， 目的不是为了引用一个资源，而是为了建立一个“通道”，让当前标签能够链接到目标地址上.并不是为了把目标拉进页面本身内来替换本身的内容<br>src : 表示“源,用来代替自己本身的内容。如img、script、iframe。它们如果不写src，那么本身没有内容</p>
+<h2 id="浏览器会阻塞加载直到提取和加载图像。"><a href="#浏览器会阻塞加载直到提取和加载图像。" class="headerlink" title="浏览器会阻塞加载直到提取和加载图像。"></a>浏览器会阻塞加载直到提取和加载图像。</h2><h4 id="如何实现浏览器内多个标签页之间的通信"><a href="#如何实现浏览器内多个标签页之间的通信" class="headerlink" title="如何实现浏览器内多个标签页之间的通信?"></a>如何实现浏览器内多个标签页之间的通信?</h4><p>调用localstorge、cookies等本地存储方式</p>
 <hr>
 <h4 id="什么是DOCTYPE以及作用"><a href="#什么是DOCTYPE以及作用" class="headerlink" title="什么是DOCTYPE以及作用"></a>什么是DOCTYPE以及作用</h4><p>就是直接告诉浏览器什么是DTD（文档类型定义)<br>&lt;!DOCTYPE html&gt;<br>HTML4.0 有严格模式和宽松模式<br>严格模式不展示弃用的元素<br>宽松模式则可以正常解析</p>
 <hr>
@@ -1472,7 +1685,14 @@ var _hmt = _hmt || [];
 <hr>
 <h4 id="CSS实现垂直水平居中"><a href="#CSS实现垂直水平居中" class="headerlink" title="CSS实现垂直水平居中"></a>CSS实现垂直水平居中</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">CSS：</div><div class="line">.wrapper&#123;position:relative;&#125;</div><div class="line">    .content&#123;</div><div class="line">        background-color:#6699FF;</div><div class="line">        width:200px;</div><div class="line">        height:200px;</div><div class="line">        position: absolute;        //父元素需要相对定位</div><div class="line">        top: 50%;</div><div class="line">        left: 50%;</div><div class="line">        margin-top:-100px ;   //二分之一的height，width</div><div class="line">        margin-left: -100px;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <hr>
-<h4 id="Display有哪些值？他们的作用。"><a href="#Display有哪些值？他们的作用。" class="headerlink" title="Display有哪些值？他们的作用。"></a>Display有哪些值？他们的作用。</h4><p>block         块类型。默认宽度为父元素宽度，可设置宽高，换行显示。<br>  none          缺省值。象行内元素类型一样显示。<br>  inline        行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。<br>  inline-block  默认宽度为内容宽度，可以设置宽高，同行显示。<br>  list-item     象块类型元素一样显示，并添加样式列表标记。<br>  table         此元素会作为块级表格来显示。<br>  inherit       规定应该从父元素继承 display 属性的值。</p>
+<h4 id="浮动"><a href="#浮动" class="headerlink" title="浮动"></a>浮动</h4><p>浮动元素脱离文档流，不占据空间。<br>浮动元素碰到包含它的边框或者浮动元素的边框停留。</p>
+<hr>
+<h4 id="浮动元素引起的问题和解决办法？"><a href="#浮动元素引起的问题和解决办法？" class="headerlink" title="浮动元素引起的问题和解决办法？"></a>浮动元素引起的问题和解决办法？</h4><p>浮动元素引起的问题：<br>父元素的高度无法被撑开，影响与父元素同级的元素<br>与浮动元素同级的非浮动元素（内联元素）会跟随其后<br>若非第一个元素浮动，则该元素之前的元素也需要浮动，否则会影响页面显示的结构</p>
+<p>解决方法：<br>使用clear:both<br>使父元素形成BFC，设置<code>overflow</code>为`hidden</p>
+<hr>
+<h4 id="position有哪些值？他们的作用。"><a href="#position有哪些值？他们的作用。" class="headerlink" title="position有哪些值？他们的作用。"></a>position有哪些值？他们的作用。</h4><p>static：默认值。没有定位，元素出现在正常的流中.<br>fixed：相对于浏览器窗口进行定位。<br>absolute：绝对定位，相对于static以外的第一个元素定位<br>relative：生成相对定位的元素，相对于其正常位置进行定位。</p>
+<hr>
+<h4 id="Display有哪些值？他们的作用。"><a href="#Display有哪些值？他们的作用。" class="headerlink" title="Display有哪些值？他们的作用。"></a>Display有哪些值？他们的作用。</h4><p>block         块类型。默认宽度为父元素宽度，可设置宽高，换行显示。<br>none          缺省值。象行内元素类型一样显示。<br>inline        行内元素类型。默认宽度为内容宽度，不可设置宽高，同行显示。<br>inline-block  默认宽度为内容宽度，可以设置宽高，同行显示。<br>list-item     象块类型元素一样显示，并添加样式列表标记。<br>table         此元素会作为块级表格来显示。<br>inherit       规定应该从父元素继承 display 属性的值。</p>
 <hr>
 <h4 id="行内元素有哪些-块级元素有哪些-CSS的盒模型"><a href="#行内元素有哪些-块级元素有哪些-CSS的盒模型" class="headerlink" title="行内元素有哪些?块级元素有哪些?CSS的盒模型?"></a>行内元素有哪些?块级元素有哪些?CSS的盒模型?</h4><p>块级元素：div,p,h1,form,ul,li;<br>行内元素 : span,a,label,input,img,strong,em;<br>CSS盒模型:内容，border ,margin，padding</p>
 <hr>
@@ -1488,7 +1708,8 @@ var _hmt = _hmt || [];
 <hr>
 <h4 id="面向对象继承"><a href="#面向对象继承" class="headerlink" title="面向对象继承"></a>面向对象继承</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line">/</div><div class="line"> </div><div class="line">      /</div><div class="line">       * 借助构造函数实现继承</div><div class="line">       *<span class="regexp">/</span></div><div class="line"><span class="regexp">      function Parent1 () &#123;</span></div><div class="line"><span class="regexp">          this.name = 'parent1';</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      Parent1.prototype.say = function () &#123;</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">      &#125;;</span></div><div class="line"><span class="regexp">      function Child1 () &#123;</span></div><div class="line"><span class="regexp">          Parent1.call(this);</span></div><div class="line"><span class="regexp">          this.type = 'child1';</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      console.log(new Child1(), new Child1().say());</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">      /</span></div><div class="line">       * 借助原型链实现继承</div><div class="line">       *<span class="regexp">/</span></div><div class="line"><span class="regexp">      function Parent2 () &#123;</span></div><div class="line"><span class="regexp">          this.name = 'parent2';</span></div><div class="line"><span class="regexp">          this.play = [1, 2, 3];</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      function Child2 () &#123;</span></div><div class="line"><span class="regexp">          this.type = 'child2';</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      Child2.prototype = new Parent2();</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">      var s1 = new Child2();</span></div><div class="line"><span class="regexp">      var s2 = new Child2();</span></div><div class="line"><span class="regexp">      console.log(s1.play, s2.play);</span></div><div class="line"><span class="regexp">      s1.play.push(4);</span></div><div class="line"><span class="regexp">      /</span></div><div class="line">       * 组合方式</div><div class="line">       *<span class="regexp">/</span></div><div class="line"><span class="regexp">      function Parent3 () &#123;</span></div><div class="line"><span class="regexp">          this.name = 'parent3';</span></div><div class="line"><span class="regexp">          this.play = [1, 2, 3];</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      function Child3 () &#123;</span></div><div class="line"><span class="regexp">          Parent3.call(this);</span></div><div class="line"><span class="regexp">          this.type = 'child3';</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      Child3.prototype = new Parent3();</span></div><div class="line"><span class="regexp">      var s3 = new Child3();</span></div><div class="line"><span class="regexp">      var s4 = new Child3();</span></div><div class="line"><span class="regexp">      s3.play.push(4);</span></div><div class="line"><span class="regexp">      console.log(s3.play, s4.play);</span></div><div class="line"><span class="regexp">	   /</span></div><div class="line">       * 组合继承的优化<span class="number">1</span></div><div class="line">       * @type &#123;<span class="built_in">String</span>&#125;</div><div class="line">       *<span class="regexp">/</span></div><div class="line"><span class="regexp">      function Parent4 () &#123;</span></div><div class="line"><span class="regexp">          this.name = 'parent4';</span></div><div class="line"><span class="regexp">          this.play = [1, 2, 3];</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      function Child4 () &#123;</span></div><div class="line"><span class="regexp">          Parent4.call(this);</span></div><div class="line"><span class="regexp">          this.type = 'child4';</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      Child4.prototype = Parent4.prototype;</span></div><div class="line"><span class="regexp">      var s5 = new Child4();</span></div><div class="line"><span class="regexp">      var s6 = new Child4();</span></div><div class="line"><span class="regexp">      console.log(s5, s6);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">      console.log(s5 instanceof Child4, s5 instanceof Parent4);</span></div><div class="line"><span class="regexp">      console.log(s5.constructor);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">      /</span></div><div class="line">       * 组合继承的优化<span class="number">2</span></div><div class="line">       *<span class="regexp">/</span></div><div class="line"><span class="regexp">      function Parent5 () &#123;</span></div><div class="line"><span class="regexp">          this.name = 'parent5';</span></div><div class="line"><span class="regexp">          this.play = [1, 2, 3];</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      function Child5 () &#123;</span></div><div class="line"><span class="regexp">          Parent5.call(this);</span></div><div class="line"><span class="regexp">          this.type = 'child5';</span></div><div class="line"><span class="regexp">      &#125;</span></div><div class="line"><span class="regexp">      Child5.prototype = Object.create(Parent5.prototype);</span></div></pre></td></tr></table></figure>
 <hr>
-<h4 id="什么是Event-Loop"><a href="#什么是Event-Loop" class="headerlink" title="什么是Event Loop"></a>什么是Event Loop</h4><p>识别异步任务，拿走函数，到时间后放入任务队列，同步队列完成后，执行异步队列，队列空了后继续监听继续执行。</p>
+<h4 id="深拷贝和浅拷贝"><a href="#深拷贝和浅拷贝" class="headerlink" title="深拷贝和浅拷贝"></a>深拷贝和浅拷贝</h4><p>浅复制是对对象地址的复制对象图。<br>而深复制则是开辟新的栈<br>第一种方法、通过递归解析解决<br>第二种方法：通过JSON解析解决</p>
+<h2 id="jQuery-extend也是用递归"><a href="#jQuery-extend也是用递归" class="headerlink" title="jQuery.extend也是用递归"></a>jQuery.extend也是用递归</h2><h4 id="什么是Event-Loop"><a href="#什么是Event-Loop" class="headerlink" title="什么是Event Loop"></a>什么是Event Loop</h4><p>识别异步任务，拿走函数，到时间后放入任务队列，同步队列完成后，执行异步队列，队列空了后继续监听继续执行。</p>
 <hr>
 <h4 id="什么是AJAX"><a href="#什么是AJAX" class="headerlink" title="什么是AJAX"></a>什么是AJAX</h4><p>AJAX是“Asynchronous JavaScript and XML”的缩写。他是指一种创建交互式网页应用的网页开发技术。<br>Ajax包含下列技术：<br>基于web标准（standards-basedpresentation）XHTML+CSS的表示；<br>使用 DOM（Document ObjectModel）进行动态显示及交互；<br>使用 XML 和 XSLT 进行数据交换及相关操作；<br>使用 XMLHTTPRequest 进行异步数据查询、检索；<br>使用 JavaScript 将所有的东西绑定在一起。</p>
 <h4 id="实现一个Ajax"><a href="#实现一个Ajax" class="headerlink" title="实现一个Ajax"></a>实现一个Ajax</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> xmlhttp=<span class="literal">null</span>;<span class="comment">//声明一个变量，用来实例化XMLHttpRequest对象</span></div><div class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.XMLHttpRequest)&#123;</div><div class="line">  xmlhttp=<span class="keyword">new</span> XMLHttpRequest();<span class="comment">// 新版本的浏览器可以直接创建XMLHttpRequest对象</span></div><div class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">window</span>.ActiveXObject)&#123;</div><div class="line">  xmlhttp=<span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);<span class="comment">// IE5或IE6没有XMLHttpRequest对象，而是用的ActiveXObject对象</span></div><div class="line">&#125;<span class="keyword">if</span> (xmlhttp!=<span class="literal">null</span>)&#123;</div><div class="line">  xmlhttp.onreadystatechange=state_Change;<span class="comment">//指定响应函数为state_Change</span></div><div class="line">  xmlhttp.open(<span class="string">"GET"</span>,<span class="string">"/example/xdom/note.xml"</span>,<span class="literal">true</span>);<span class="comment">//指定请求，这里要访问在/example/xdom路径下的note.xml文件，true代表的使用的是异步请求</span></div><div class="line">  xmlhttp.send(<span class="literal">null</span>);<span class="comment">//发送请求</span></div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">  alert(<span class="string">"Your browser does not support XMLHTTP."</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -1530,6 +1751,8 @@ var _hmt = _hmt || [];
 <h4 id="什么是window对象-什么是document对象"><a href="#什么是window对象-什么是document对象" class="headerlink" title="什么是window对象? 什么是document对象"></a>什么是window对象? 什么是document对象</h4><p>window它是一个顶层对象,而不是另一个对象的属性，即浏览器的窗口，document对象代表整个HTML 文档,可用来访问页面中的所有元素对象属性 </p>
 <hr>
 <h4 id="null，undefined的区别问题"><a href="#null，undefined的区别问题" class="headerlink" title="null，undefined的区别问题"></a>null，undefined的区别问题</h4><p>null表示”没有对象”，即该处不应该有值<br>例如：作为对象原型链的终点，作为函数的参数，表示该函数的参数不是对象）；<br>undefined表示”缺少值”，就是此处应该有一个值，但是还没有定义<br>例如：变量被声明了，但没有赋值时，调用函数时，应该提供的参数没有提供） </p>
+<hr>
+<h4 id="函数声明与函数表达式的区别"><a href="#函数声明与函数表达式的区别" class="headerlink" title="函数声明与函数表达式的区别"></a>函数声明与函数表达式的区别</h4><p>函数声明必须有函数名<br>函数表达式可以是匿名<br>表达式因为变量提升不能放在作用域的任何位置<br>表达式因为匿名调试起来更麻烦</p>
 <hr>
 <h4 id="将url的查询参数解析成字典对象"><a href="#将url的查询参数解析成字典对象" class="headerlink" title="将url的查询参数解析成字典对象"></a>将url的查询参数解析成字典对象</h4><p>使用正则<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"> <span class="function"><span class="keyword">function</span> <span class="title">getQueryObject</span>(<span class="params">url</span>) </span>&#123;</div><div class="line">    url = url == <span class="literal">null</span> ? <span class="built_in">window</span>.location.href : url;</div><div class="line">    <span class="keyword">var</span> search = url.substring(url.lastIndexOf(<span class="string">"?"</span>) + <span class="number">1</span>);</div><div class="line">    <span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line">    <span class="keyword">var</span> reg = <span class="regexp">/([^?&amp;=]+)=([^?&amp;=]*)/g</span>;</div><div class="line">    search.replace(reg, <span class="function"><span class="keyword">function</span> (<span class="params">rs, $<span class="number">1</span>, $<span class="number">2</span></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> name = <span class="built_in">decodeURIComponent</span>($<span class="number">1</span>);</div><div class="line">        <span class="keyword">var</span> val = <span class="built_in">decodeURIComponent</span>($<span class="number">2</span>);               </div><div class="line">        val = <span class="built_in">String</span>(val);</div><div class="line">        obj[name] = val;</div><div class="line">        <span class="keyword">return</span> rs;</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> obj;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <hr>
@@ -2211,198 +2434,10 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/05/20/ES6 ES2015核心内容/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/05/20/ES6 ES2015核心内容/" itemprop="url">ES6/ES2015核心内容</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-20T22:00:00+08:00">
-                2016-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>ECMAScript 6（以下简称ES6）是JavaScript语言的下一代标准。因为当前版本的ES6是在2015年发布的，所以又称ECMAScript 2015。也就是说，ES6就是ES2015。<br>虽然目前并不是所有浏览器都能兼容ES6全部特性，但越来越多的程序员在实际项目当中已经开始使用ES6了。所以就算你现在不打算使用ES6，但为了看懂别人的你也该懂点ES6的语法了…</p>
-<h3 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h3><p>在我们正式讲解ES6语法之前，我们得先了解下Babel。 <a style="color:#09F" href="https://babeljs.io/" target="_blank" rel="external">Babel官网</a><br>Babel是一个广泛使用的ES6转码器，可以将ES6代码转为ES5代码，从而在现有环境执行。大家可以选择自己习惯的工具来使用使用Babel，具体过程可直接在Babel官网查看</p>
-<h3 id="let-const"><a href="#let-const" class="headerlink" title="let, const"></a>let, const</h3><p>这两个的用途与var类似，都是用来声明变量的，但在实际运用中他俩都有各自的特殊用途。<br>首先来看下面这个例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> name = <span class="string">'zach'</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">    <span class="keyword">var</span> name = <span class="string">'obama'</span></div><div class="line">    <span class="built_in">console</span>.log(name)  <span class="comment">//obama</span></div><div class="line">    <span class="keyword">break</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(name)  <span class="comment">//obama</span></div></pre></td></tr></table></figure></p>
-<p>使用var两次输出都是obama，这是因为ES5只有全局作用域和函数作用域，没有块级作用域，这带来很多不合理的场景。第一种场景就是你现在看到的内层变量覆盖外层变量。而let则实际上为JavaScript新增了块级作用域。用它所声明的变量，只在let命令所在的代码块内有效。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> name = <span class="string">'zach'</span></div><div class="line"></div><div class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">    <span class="keyword">let</span> name = <span class="string">'obama'</span></div><div class="line">    <span class="built_in">console</span>.log(name)  <span class="comment">//obama</span></div><div class="line">    <span class="keyword">break</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(name)  <span class="comment">//zach</span></div></pre></td></tr></table></figure></p>
-<p>另外一个var带来的不合理场景就是用来计数的循环变量泄露为全局变量，看下面的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line">a[<span class="number">6</span>](); <span class="comment">// 10</span></div></pre></td></tr></table></figure></p>
-<p>上面代码中，变量i是var声明的，在全局范围内都有效。所以每一次循环，新的i值都会覆盖旧值，导致最后输出的是最后一轮的i的值。而使用let则不会出现这个问题。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = [];</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line">a[<span class="number">6</span>](); <span class="comment">// 6</span></div></pre></td></tr></table></figure>
-<p>再来看一个更常见的例子，了解下如果不用ES6，而用闭包如何解决这个问题。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> clickBoxs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.clickBox'</span>)</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; clickBoxs.length; i++)&#123;</div><div class="line">    clickBoxs[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(i)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>我们本来希望的是点击不同的clickBox，显示不同的i，但事实是无论我们点击哪个clickBox，输出的都是5。下面我们来看下，如何用闭包搞定它。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">iteratorFactory</span>(<span class="params">i</span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> onclick = <span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(i)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> onclick;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> clickBoxs = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.clickBox'</span>)</div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; clickBoxs.length; i++)&#123;</div><div class="line">    clickBoxs[i].onclick = iteratorFactory(i)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>const也用来声明变量，但是声明的是常量。一旦声明，常量的值就不能改变。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> PI = <span class="built_in">Math</span>.PI</div><div class="line">PI = <span class="number">23</span> <span class="comment">//Module build failed: SyntaxError: /es6/app.js: "PI" is read-only</span></div></pre></td></tr></table></figure></p>
-<p>当我们尝试去改变用const声明的常量时，浏览器就会报错。<br>const有一个很好的应用场景，就是当我们引用第三方库的时声明的变量，用const来声明可以避免未来不小心重命名而导致出现bug：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> monent = <span class="built_in">require</span>(<span class="string">'moment'</span>)</div></pre></td></tr></table></figure></p>
-<h3 id="class-extends-super"><a href="#class-extends-super" class="headerlink" title="class, extends, super"></a>class, extends, super</h3><p>这三个特性涉及了ES5中最令人头疼的的几个部分：原型、构造函数，继承…你还在为它们复杂难懂的语法而烦恼吗？你还在为指针到底指向哪里而纠结万分吗？</p>
-<p>有了ES6我们不再烦恼！</p>
-<p>ES6提供了更接近传统语言的写法，引入了Class（类）这个概念。新的class写法让对象原型的写法更加清晰、更像面向对象编程的语法，也更加通俗易懂。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>()&#123;</div><div class="line">        <span class="keyword">this</span>.type = <span class="string">'animal'</span></div><div class="line">    &#125;</div><div class="line">    says(say)&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.type + <span class="string">' says '</span> + say)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> animal = <span class="keyword">new</span> Animal()</div><div class="line">animal.says(<span class="string">'hello'</span>) <span class="comment">//animal says hello</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>()&#123;</div><div class="line">        <span class="keyword">super</span>()</div><div class="line">        <span class="keyword">this</span>.type = <span class="string">'cat'</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> cat = <span class="keyword">new</span> Cat()</div><div class="line">cat.says(<span class="string">'hello'</span>) <span class="comment">//cat says hello</span></div></pre></td></tr></table></figure></p>
-<p>上面代码首先用class定义了一个“类”，可以看到里面有一个constructor方法，这就是构造方法，而this关键字则代表实例对象。简单地说，constructor内定义的方法和属性是实例对象自己的，而constructor外定义的方法和属性则是所有实力对象可以共享的。</p>
-<p>Class之间可以通过extends关键字实现继承，这比ES5的通过修改原型链实现继承，要清晰和方便很多。上面定义了一个Cat类，该类通过extends关键字，继承了Animal类的所有属性和方法。</p>
-<p>super关键字，它指代父类的实例（即父类的this对象）。子类必须在constructor方法中调用super方法，否则新建实例时会报错。这是因为子类没有自己的this对象，而是继承父类的this对象，然后对其进行加工。如果不调用super方法，子类就得不到this对象。</p>
-<p>ES6的继承机制，实质是先创造父类的实例对象this（所以必须先调用super方法），然后再用子类的构造函数修改this。</p>
-<p>P.S 如果你写react的话，就会发现以上三个东西在最新版React中出现得很多。创建的每个component都是一个继承React.Component的类。详见react文档</p>
-<h3 id="arrow-function"><a href="#arrow-function" class="headerlink" title="arrow function"></a>arrow function</h3><p>这个恐怕是ES6最最常用的一个新特性了，用它来写function比原来的写法要简洁清晰很多:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params">i</span>)</span>&#123; <span class="keyword">return</span> i + <span class="number">1</span>; &#125; <span class="comment">//ES5</span></div><div class="line">(i) =&gt; i + <span class="number">1</span> <span class="comment">//ES6</span></div></pre></td></tr></table></figure></p>
-<p>简直是简单的不像话对吧…<br>如果方程比较复杂，则需要用{}把代码包起来：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params">x, y</span>) </span>&#123; </div><div class="line">    x++;</div><div class="line">    y--;</div><div class="line">    <span class="keyword">return</span> x + y;</div><div class="line">&#125;</div><div class="line">(x, y) =&gt; &#123;x++; y--; <span class="keyword">return</span> x+y&#125;</div></pre></td></tr></table></figure></p>
-<p>除了看上去更简洁以外，arrow function还有一项超级无敌的功能！<br>长期以来，JavaScript语言的this对象一直是一个令人头痛的问题，在对象方法中使用this，必须非常小心。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>()&#123;</div><div class="line">        <span class="keyword">this</span>.type = <span class="string">'animal'</span></div><div class="line">    &#125;</div><div class="line">    says(say)&#123;</div><div class="line">        setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.type + <span class="string">' says '</span> + say)</div><div class="line">        &#125;, <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> animal = <span class="keyword">new</span> Animal()</div><div class="line">animal.says(<span class="string">'hi'</span>)  <span class="comment">//undefined says hi</span></div></pre></td></tr></table></figure></p>
-<p>运行上面的代码会报错，这是因为setTimeout中的this指向的是全局对象。所以为了让它能够正确的运行，传统的解决方法有两种：</p>
-<ol>
-<li><p>第一种是将this传给self,再用self来指代this</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">says(say)&#123;</div><div class="line"> <span class="keyword">var</span> self = <span class="keyword">this</span>;</div><div class="line"> setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	 <span class="built_in">console</span>.log(self.type + <span class="string">' says '</span> + say)</div><div class="line"> &#125;, <span class="number">1000</span>)</div></pre></td></tr></table></figure>
-</li>
-<li><p>第二种方法是用bind(this),即</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">says(say)&#123;</div><div class="line">    setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(self.type + <span class="string">' says '</span> + say)</div><div class="line">    &#125;.bind(<span class="keyword">this</span>), <span class="number">1000</span>)</div></pre></td></tr></table></figure>
-<p>但现在我们有了箭头函数，就不需要这么麻烦了：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span>()&#123;</div><div class="line">        <span class="keyword">this</span>.type = <span class="string">'animal'</span></div><div class="line">    &#125;</div><div class="line">    says(say)&#123;</div><div class="line">        setTimeout( <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="keyword">this</span>.type + <span class="string">' says '</span> + say)</div><div class="line">        &#125;, <span class="number">1000</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> <span class="keyword">var</span> animal = <span class="keyword">new</span> Animal()</div><div class="line"> animal.says(<span class="string">'hi'</span>)  <span class="comment">//animal says hi</span></div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>当我们使用箭头函数时，函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。<br>并不是因为箭头函数内部有绑定this的机制，实际原因是箭头函数根本没有自己的this，它的this是继承外面的，因此内部的this就是外层代码块的this。</p>
-<h3 id="template-string"><a href="#template-string" class="headerlink" title="template string"></a>template string</h3><p>这个东西也是非常有用，当我们要插入大段的html内容到文档中时，传统的写法非常麻烦，所以之前我们通常会引用一些模板工具库，比如mustache等等。</p>
-<p>大家可以先看下面一段代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#result"</span>).append(</div><div class="line">  <span class="string">"There are &lt;b&gt;"</span> + basket.count + <span class="string">"&lt;/b&gt; "</span> +</div><div class="line">  <span class="string">"items in your basket, "</span> +</div><div class="line">  <span class="string">"&lt;em&gt;"</span> + basket.onSale +</div><div class="line">  <span class="string">"&lt;/em&gt; are on sale!"</span></div><div class="line">);</div></pre></td></tr></table></figure></p>
-<p>我们要用一堆的’+’号来连接文本与变量，而使用ES6的新特性模板字符串``后，我们可以直接这么来写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#result"</span>).append(<span class="string">`</span></div><div class="line"><span class="string">  There are &lt;b&gt;<span class="subst">$&#123;basket.count&#125;</span>&lt;/b&gt; items</span></div><div class="line"><span class="string">   in your basket, &lt;em&gt;<span class="subst">$&#123;basket.onSale&#125;</span>&lt;/em&gt;</span></div><div class="line"><span class="string">  are on sale!</span></div><div class="line"><span class="string">`</span>);</div></pre></td></tr></table></figure></p>
-<p>用反引号（`）来标识起始，用${}来引用变量，而且所有的空格和缩进都会被保留在输出之中，是不是非常爽？！</p>
-<p>React Router从第1.0.3版开始也使用ES6语法了，比如这个例子：</p>
-<p><link to="{`/taco/${taco.name}`}">{taco.name}<br>React Router</p>
-<h3 id="destructuring"><a href="#destructuring" class="headerlink" title="destructuring"></a>destructuring</h3><p>ES6允许按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构（Destructuring）。</p>
-<p>看下面的例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> cat = <span class="string">'ken'</span></div><div class="line"><span class="keyword">let</span> dog = <span class="string">'lili'</span></div><div class="line"><span class="keyword">let</span> zoo = &#123;<span class="attr">cat</span>: cat, <span class="attr">dog</span>: dog&#125;</div><div class="line"><span class="built_in">console</span>.log(zoo)  <span class="comment">//Object &#123;cat: "ken", dog: "lili"&#125;</span></div></pre></td></tr></table></figure></p>
-<p>用ES6完全可以像下面这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> cat = <span class="string">'ken'</span></div><div class="line"><span class="keyword">let</span> dog = <span class="string">'lili'</span></div><div class="line"><span class="keyword">let</span> zoo = &#123;cat, dog&#125;</div><div class="line"><span class="built_in">console</span>.log(zoo)  <span class="comment">//Object &#123;cat: "ken", dog: "lili"&#125;</span></div></pre></td></tr></table></figure></p>
-<p>反过来可以这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> dog = &#123;<span class="attr">type</span>: <span class="string">'animal'</span>, <span class="attr">many</span>: <span class="number">2</span>&#125;</div><div class="line"><span class="keyword">let</span> &#123; type, many&#125; = dog</div><div class="line"><span class="built_in">console</span>.log(type, many)   <span class="comment">//animal 2</span></div></pre></td></tr></table></figure></p>
-<h3 id="default-rest"><a href="#default-rest" class="headerlink" title="default, rest"></a>default, rest</h3><p>default很简单，意思就是默认值。大家可以看下面的例子，调用animal()方法时忘了传参数，传统的做法就是加上这一句type = type || ‘cat’来指定默认值。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">animal</span>(<span class="params">type</span>)</span>&#123;</div><div class="line">    type = type || <span class="string">'cat'</span>  </div><div class="line">    <span class="built_in">console</span>.log(type)</div><div class="line">&#125;</div><div class="line">animal()</div></pre></td></tr></table></figure></p>
-<p>如果用ES6我们而已直接这么写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">animal</span>(<span class="params">type = <span class="string">'cat'</span></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(type)</div><div class="line">&#125;</div><div class="line">animal()</div></pre></td></tr></table></figure></p>
-<p>最后一个rest语法也很简单，直接看例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">animals</span>(<span class="params">...types</span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(types)</div><div class="line">&#125;</div><div class="line">animals(<span class="string">'cat'</span>, <span class="string">'dog'</span>, <span class="string">'fish'</span>) <span class="comment">//["cat", "dog", "fish"]</span></div></pre></td></tr></table></figure></p>
-<p>而如果不用ES6的话，我们则得使用ES5的arguments。<br>总结</p>
-<p>以上就是ES6最常用的一些语法，可以说这20%的语法，在ES6的日常使用中占了80%…</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2454,7 +2489,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
