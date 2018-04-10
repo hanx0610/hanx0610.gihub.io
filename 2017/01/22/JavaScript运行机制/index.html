@@ -67,7 +67,7 @@
 
 
 
-  <meta name="keywords" content="JavaScript,Vue,ESLint," />
+  <meta name="keywords" content="JavaScript," />
 
 
 
@@ -80,18 +80,18 @@
 
 
 
-<meta name="description" content="整个文件范围内禁止规则出现警告1234将/* eslint-disable */放置于文件最顶部/* eslint-disable */alert(&apos;foo&apos;); 在文件中临时禁止规则出现警告将需要忽略的代码块用注释包裹起来 123/* eslint-disable */alert(&apos;foo&apos;);/* eslint-enable */ 对指定规则的启用或者禁用警告将需要忽略的代码块用注释包裹起来">
-<meta name="keywords" content="JavaScript,Vue,ESLint">
+<meta name="description" content="JavaScript的单线程机制JavaScript的单线程与它的语言用途是有关的。作为一门浏览器脚本语言，JavaScript的主要用途是完成用户交互、操作DOM。这就决定了它只能是单线程，否则会导致复杂的同步问题。设想JavaScript同时有两个线程，一个线程需要在某个DOM节点上添加内容，而另一个线程的操作是删除了这个节点，那么浏览器应该以谁为准呢？所以为了避免复杂性，JavaScript">
+<meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue2.0 指定文件不使用 ESLint 语法检查">
-<meta property="og:url" content="http://yoursite.com/2017/06/20/Vue2.0 指定文件不使用 ESLint 语法检查/index.html">
+<meta property="og:title" content="JavaScript运行机制">
+<meta property="og:url" content="http://yoursite.com/2017/01/22/JavaScript运行机制/index.html">
 <meta property="og:site_name" content="hanx の 碎片栈">
-<meta property="og:description" content="整个文件范围内禁止规则出现警告1234将/* eslint-disable */放置于文件最顶部/* eslint-disable */alert(&apos;foo&apos;); 在文件中临时禁止规则出现警告将需要忽略的代码块用注释包裹起来 123/* eslint-disable */alert(&apos;foo&apos;);/* eslint-enable */ 对指定规则的启用或者禁用警告将需要忽略的代码块用注释包裹起来">
+<meta property="og:description" content="JavaScript的单线程机制JavaScript的单线程与它的语言用途是有关的。作为一门浏览器脚本语言，JavaScript的主要用途是完成用户交互、操作DOM。这就决定了它只能是单线程，否则会导致复杂的同步问题。设想JavaScript同时有两个线程，一个线程需要在某个DOM节点上添加内容，而另一个线程的操作是删除了这个节点，那么浏览器应该以谁为准呢？所以为了避免复杂性，JavaScript">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-16T17:15:40.442Z">
+<meta property="og:updated_time" content="2018-04-10T16:29:55.908Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue2.0 指定文件不使用 ESLint 语法检查">
-<meta name="twitter:description" content="整个文件范围内禁止规则出现警告1234将/* eslint-disable */放置于文件最顶部/* eslint-disable */alert(&apos;foo&apos;); 在文件中临时禁止规则出现警告将需要忽略的代码块用注释包裹起来 123/* eslint-disable */alert(&apos;foo&apos;);/* eslint-enable */ 对指定规则的启用或者禁用警告将需要忽略的代码块用注释包裹起来">
+<meta name="twitter:title" content="JavaScript运行机制">
+<meta name="twitter:description" content="JavaScript的单线程机制JavaScript的单线程与它的语言用途是有关的。作为一门浏览器脚本语言，JavaScript的主要用途是完成用户交互、操作DOM。这就决定了它只能是单线程，否则会导致复杂的同步问题。设想JavaScript同时有两个线程，一个线程需要在某个DOM节点上添加内容，而另一个线程的操作是删除了这个节点，那么浏览器应该以谁为准呢？所以为了避免复杂性，JavaScript">
 
 
 
@@ -131,13 +131,13 @@ var _hmt = _hmt || [];
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/20/Vue2.0 指定文件不使用 ESLint 语法检查/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/01/22/JavaScript运行机制/"/>
 
 
 
 
 
-  <title>Vue2.0 指定文件不使用 ESLint 语法检查 | hanx の 碎片栈</title>
+  <title>JavaScript运行机制 | hanx の 碎片栈</title>
   
 
 
@@ -254,7 +254,7 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/20/Vue2.0 指定文件不使用 ESLint 语法检查/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/22/JavaScript运行机制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="hanx">
@@ -271,7 +271,7 @@ var _hmt = _hmt || [];
 
         
         
-          <h1 class="post-title" itemprop="name headline">Vue2.0 指定文件不使用 ESLint 语法检查</h1>
+          <h1 class="post-title" itemprop="name headline">JavaScript运行机制</h1>
         
 
         <div class="post-meta">
@@ -283,8 +283,8 @@ var _hmt = _hmt || [];
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T23:16:06+08:00">
-                2017-06-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-22T23:16:06+08:00">
+                2017-01-22
               </time>
             
 
@@ -341,14 +341,30 @@ var _hmt = _hmt || [];
       
 
       
-        <h3 id="整个文件范围内禁止规则出现警告"><a href="#整个文件范围内禁止规则出现警告" class="headerlink" title="整个文件范围内禁止规则出现警告"></a>整个文件范围内禁止规则出现警告</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">将<span class="comment">/* eslint-disable */</span>放置于文件最顶部</div><div class="line"></div><div class="line"><span class="comment">/* eslint-disable */</span></div><div class="line">alert(<span class="string">'foo'</span>);</div></pre></td></tr></table></figure>
-<h3 id="在文件中临时禁止规则出现警告"><a href="#在文件中临时禁止规则出现警告" class="headerlink" title="在文件中临时禁止规则出现警告"></a>在文件中临时禁止规则出现警告</h3><p>将需要忽略的代码块用注释包裹起来</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* eslint-disable */</span></div><div class="line">alert(<span class="string">'foo'</span>);</div><div class="line"><span class="comment">/* eslint-enable */</span></div></pre></td></tr></table></figure>
-<h3 id="对指定规则的启用或者禁用警告"><a href="#对指定规则的启用或者禁用警告" class="headerlink" title="对指定规则的启用或者禁用警告"></a>对指定规则的启用或者禁用警告</h3><p>将需要忽略的代码块用注释包裹起来</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* eslint-disable no-alert, no-console */</span></div><div class="line">alert(<span class="string">'foo'</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'bar'</span>);</div><div class="line"><span class="comment">/* eslint-enable no-alert, no-console */</span></div></pre></td></tr></table></figure>
-<h3 id="对指定行禁用规则警告"><a href="#对指定行禁用规则警告" class="headerlink" title="对指定行禁用规则警告"></a>对指定行禁用规则警告</h3><p>此方法，有两种形式，参见下方。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">alert(<span class="string">'foo'</span>); <span class="comment">// eslint-disable-line</span></div><div class="line"></div><div class="line"><span class="comment">// eslint-disable-next-line</span></div><div class="line">alert(<span class="string">'foo'</span>);</div></pre></td></tr></table></figure></p>
-<h3 id="在指定行上禁用指定的某个规则"><a href="#在指定行上禁用指定的某个规则" class="headerlink" title="在指定行上禁用指定的某个规则"></a>在指定行上禁用指定的某个规则</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">alert(<span class="string">'foo'</span>); <span class="comment">// eslint-disable-line no-alert</span></div><div class="line"></div><div class="line"><span class="comment">// eslint-disable-next-line no-alert</span></div><div class="line">alert(<span class="string">'foo'</span>);</div></pre></td></tr></table></figure>
-<h3 id="在某个特定的行上禁用多个规则"><a href="#在某个特定的行上禁用多个规则" class="headerlink" title="在某个特定的行上禁用多个规则"></a>在某个特定的行上禁用多个规则</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">alert(<span class="string">'foo'</span>); <span class="comment">// eslint-disable-line no-alert, quotes, semi</span></div><div class="line"></div><div class="line"><span class="comment">// eslint-disable-next-line no-alert, quotes, semi</span></div><div class="line">alert(<span class="string">'foo'</span>);</div></pre></td></tr></table></figure>
+        <h4 id="JavaScript的单线程机制"><a href="#JavaScript的单线程机制" class="headerlink" title="JavaScript的单线程机制"></a>JavaScript的单线程机制</h4><p>JavaScript的单线程与它的语言用途是有关的。作为一门浏览器脚本语言，JavaScript的主要用途是完成用户交互、操作DOM。这就决定了它只能是单线程，否则会导致复杂的同步问题。<br>设想JavaScript同时有两个线程，一个线程需要在某个DOM节点上添加内容，而另一个线程的操作是删除了这个节点，那么浏览器应该以谁为准呢？所以为了避免复杂性，JavaScript从诞生起就是单线程。</p>
+<p>注：为了提高CPU的利用率，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。所以这个标准并没有改变JavaScript单线程的本质。</p>
+<h4 id="任务队列"><a href="#任务队列" class="headerlink" title="任务队列"></a>任务队列</h4><p>一个接一个地完成任务也就意味着待完成的任务是需要排队的，那么为什么会需要排队呢？<br>通常排队有以下两种原因：</p>
+<ul>
+<li>任务计算量过大，CPU处于忙碌状态；</li>
+<li>任务所需的东西为准备好所以无法继续执行，导致CPU闲置，等待输入输出设备（I/O设备）。&gt; 比如有的任务你需要Ajax获取到数据才能往下执行</li>
+</ul>
+<p>由此JavaScript的设计者也意识到，这时完全可以先运行后面已经就绪的任务来提高运行效率，也就是把等待中的任务先挂起放到一边，等得到需要的东西再执行。<br>所以也就出现了同步和异步的概念，任务也被分成了两种，一种是同步任务（Synchronous），另一种是异步任务（Asynchronous）。</p>
+<ul>
+<li>同步任务：需要执行的任务在主线程上排队，一个接一个，前一个完成了再执行下一个</li>
+<li>异步任务：没有马上被执行但需要执行的任务，存放在“任务队列”（task queue）中，“任务队列”会通知主线程什么时候哪个异步任务可以执行，然后这个任务就会进入主线程并被执行。&gt; 所有的同步执行都可以看作是没有异步任务的异步执行</li>
+</ul>
+<p>具体来说，异步执行如下：</p>
+<ul>
+<li>所有同步任务都在主线程上执行，形成一个执行栈（execution context stack）。也就是所有能被马上执行的任务都在主线程上排好了队，一个接一个的被执行。</li>
+<li>主线程之外，还存在一个“任务队列”（task queue）。只要异步任务有了运行结果，就在“任务队列”之中放置一个事件。也就是说每个异步任务准备好了就会立一个唯一的flag，这个flag用来标识对应的异步任务。</li>
+<li>一旦“执行栈”中的所有同步任务执行完毕，系统就会读取“任务队列”，看看里面有哪些事件。那些对应的异步任务，就结束等待装袋，进入执行栈开始被执行。也就是主线程把之前的任务做完了之后，就会来看“任务队列”中的flag，来把对应的异步任务打包来执行。</li>
+<li>主线程不断重复以上三步。只要主线程空了，就会去读取“任务队列”。这个过程会被不断重复，这就是JavaScript的运行机制。</li>
+</ul>
+<h4 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h4><p>“任务队列”是一个事件的队列（也可以理解成是消息的队列），IO设备完成一项任务，就会在“任务队列”中添加一个时间，表示相关的异步任务可以进入“执行栈”。接着主线程读取“任务队列”，查看里面有哪些事件。<br>“任务队列”中的事件，除了IO设备的事件以外，还包括一些用户产生的事件（比如鼠标点击、页面滚动等等）。只要指定过回调函数，这些事件发生时就会进入“任务队列”，等待主线程读取。</p>
+<h4 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h4><p>所谓“回调函数”（callback），就是那些会被主线程挂起来的代码。异步任务必须指定回调函数，当主线程开始执行异步任务，就是执行对应的回调函数。<br>“任务队列”是一个先进先出的数据结构，排在前面的事件，优先被主线程读取。主线程的读取过程基本上是自动的，只要执行栈一清空，“任务队列”上第一位的事件就自动进入主线程。但是，如果包含“定时器”，主线程首先要检查一下执行时间，某些事件只有到了规定的时间，才能返回主线程。</p>
+<h4 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h4><p>除了放置异步任务的事件，“任务队列”还可以放置定时事件，即指定某些代码在多少时间之后执行。这叫做定时器（timer）功能，也就是定时执行的代码。<br>SetTimeout()和setInterval()可以用来注册在指定时间之后单次或重复调用的函数，它们的内部运行机制完全一样，区别在于前者指定的代码是一次性执行，后者会在指定毫秒数的间隔里重复调用。</p>
+<p>setTimeout(fn,o)的含义是，指定某个任务在主线程最早可得的空闲时间执行，也就是尽可能早地执行。它在“任务队列”的尾部添加一个事件，因此要等到同步任务和“任务队列”现有的事件都处理完，才会的到执行。<br>需要注意的是，setTimeout()只是将事件插入了“任务队列”，必须等到当前代码（执行栈）执行完，主线程才会去执行它指定的回调函数。要是当前代码耗时很长，有可能要等很久，所以并没有办法保证回调函数一定会在setTimeout()指定的时间执行。</p>
+<h4 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h4><p>主线程从“任务队列”中读取事件，这个过程是循环不断的，所以整个的运行机制又称为“Event Loop”（事件循环）</p>
 
       
     </div>
@@ -368,10 +384,6 @@ var _hmt = _hmt || [];
           
             <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
           
-            <a href="/tags/Vue/" rel="tag"># Vue</a>
-          
-            <a href="/tags/ESLint/" rel="tag"># ESLint</a>
-          
         </div>
       
 
@@ -383,8 +395,8 @@ var _hmt = _hmt || [];
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/10/Github 安全类Repo收集整理/" rel="next" title="Github 安全类Repo收集整理">
-                <i class="fa fa-chevron-left"></i> Github 安全类Repo收集整理
+              <a href="/2017/01/21/用nodeJs做代理服务器/" rel="next" title="用nodeJs做代理服务器">
+                <i class="fa fa-chevron-left"></i> 用nodeJs做代理服务器
               </a>
             
           </div>
@@ -393,8 +405,8 @@ var _hmt = _hmt || [];
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/18/vue常见问题/" rel="prev" title="Vue常见问题">
-                Vue常见问题 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/01/22/JavaScript编码简写技巧 19+ /" rel="prev" title="JavaScript编码简写技巧 19+">
+                JavaScript编码简写技巧 19+ <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -538,7 +550,7 @@ var _hmt = _hmt || [];
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#整个文件范围内禁止规则出现警告"><span class="nav-number">1.</span> <span class="nav-text">整个文件范围内禁止规则出现警告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在文件中临时禁止规则出现警告"><span class="nav-number">2.</span> <span class="nav-text">在文件中临时禁止规则出现警告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对指定规则的启用或者禁用警告"><span class="nav-number">3.</span> <span class="nav-text">对指定规则的启用或者禁用警告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对指定行禁用规则警告"><span class="nav-number">4.</span> <span class="nav-text">对指定行禁用规则警告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在指定行上禁用指定的某个规则"><span class="nav-number">5.</span> <span class="nav-text">在指定行上禁用指定的某个规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在某个特定的行上禁用多个规则"><span class="nav-number">6.</span> <span class="nav-text">在某个特定的行上禁用多个规则</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#JavaScript的单线程机制"><span class="nav-number">1.</span> <span class="nav-text">JavaScript的单线程机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#任务队列"><span class="nav-number">2.</span> <span class="nav-text">任务队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#事件"><span class="nav-number">3.</span> <span class="nav-text">事件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#回调函数"><span class="nav-number">4.</span> <span class="nav-text">回调函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定时器"><span class="nav-number">5.</span> <span class="nav-text">定时器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Event-Loop"><span class="nav-number">6.</span> <span class="nav-text">Event Loop</span></a></li></ol></div>
             
 
           </div>
