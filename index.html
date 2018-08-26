@@ -253,6 +253,1083 @@ var _hmt = _hmt || [];
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/26/理解JavaScript碰撞检测算法核心简单实现原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/26/理解JavaScript碰撞检测算法核心简单实现原理/" itemprop="url">理解JavaScript碰撞检测算法核心简单实现原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-26T17:00:16+08:00">
+                2018-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>碰撞检测在前端游戏，设计拖拽的实用业务等领域的应用场景非常广泛，今天我们就在这里对于前端JavaScript如何实现碰撞检测算法进行一个原理上的探讨，让大家能够明白如何实现碰撞以及碰撞的理念是什么：</p>
+<h3 id="矩形与矩形间的碰撞"><a href="#矩形与矩形间的碰撞" class="headerlink" title="矩形与矩形间的碰撞"></a>矩形与矩形间的碰撞</h3><p>核心理念<br>判断任意两个（无旋转）矩形的任意一边是否无间距，从而判断是否碰撞。大体实现方式就是以一个矩形的某个定点作为运动物，计算自己的坐上顶点与另一元素的左上定点的位置和宽高数据进行判断检测<br>通用算法判断</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(react1.offsetLeft&lt;react2.offsetLeft+react2.offsetWidth&amp;&amp;</div><div class="line">   react1.offsetLeft+react1.offsetWidth&gt;react2.offsetLeft&amp;&amp;</div><div class="line">   react1.offsetTop&lt;react2.offsetTop+react2.offsetHeight&amp;&amp;</div><div class="line">   react1.offsetHeight+react1.offsetTop&gt;react2.offsetTop</div><div class="line">)&#123;</div><div class="line"> <span class="built_in">console</span>.log(<span class="string">'碰撞成功'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如下：图中的 x 既是 offsetLeft , y 既是 offsetTop；矩形的宽和高既是 offsetWidth 、offsetHeight </p>
+<p><img src="/img/bVbesmo.jpg" alt="这里写图片描述"></p>
+<h3 id="圆形与圆形的碰撞"><a href="#圆形与圆形的碰撞" class="headerlink" title="圆形与圆形的碰撞"></a>圆形与圆形的碰撞</h3><p>核心理念<br>通过判断任意两个圆形的圆心距离是否小于两圆半径之和，若小于则为碰撞。<br>通用算法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">|AB|=<span class="built_in">Math</span>.sqrt(<span class="built_in">Math</span>.pow(x1-x2,<span class="number">2</span>)+<span class="built_in">Math</span>.pow(y1-y2,<span class="number">2</span>))</div></pre></td></tr></table></figure>
+<p>概念模型</p>
+<p><img src="/img/bVbesmu.jpg" alt="这里写图片描述"></p>
+<h3 id="圆形与矩形之间的碰撞"><a href="#圆形与矩形之间的碰撞" class="headerlink" title="圆形与矩形之间的碰撞"></a>圆形与矩形之间的碰撞</h3><p>核心理念<br>通过找出矩形上离圆心最近的点，然后通过判断该点与圆心的距离是否小于圆的半径，若小于则为碰撞。改点的位置可以通过获取矩形左上角的坐标位置和元素的宽高来进行数据计算。<br>通用算法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> distance=<span class="built_in">Math</span>.sqrt(<span class="built_in">Math</span>.pow(closestPoint.x-x1,<span class="number">2</span>)+<span class="built_in">Math</span>.pow(closestPoint.y-y1,<span class="number">2</span>));</div><div class="line"><span class="keyword">if</span>(distance&lt;r1)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'碰撞成功'</span>)</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"> <span class="built_in">console</span>.log(<span class="string">'没碰到'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>概念模型<br><img src="/img/bVbesmz.jpg" alt="这里写图片描述"></p>
+<h3 id="圆形与矩形之间的碰撞-1"><a href="#圆形与矩形之间的碰撞-1" class="headerlink" title="圆形与矩形之间的碰撞"></a>圆形与矩形之间的碰撞</h3><p>核心理念<br>通过找出矩形上离圆心最近的点，然后通过判断该点与圆心的距离是否小于圆的半径，若小于则为碰撞。改点的位置可以通过获取矩形左上角的坐标位置和元素的宽高来进行数据计算。<br>通用算法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> distance=<span class="built_in">Math</span>.sqrt(<span class="built_in">Math</span>.pow(closestPoint.x-x1,<span class="number">2</span>)+<span class="built_in">Math</span>.pow(closestPoint.y-y1,<span class="number">2</span>));</div><div class="line"><span class="keyword">if</span>(distance&lt;r1)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'碰撞成功'</span>)</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"> <span class="built_in">console</span>.log(<span class="string">'没碰到'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>概念模型 </p>
+<p><img src="/img/bVbes43mz.jpg" alt="这里写图片描述"></p>
+<h3 id="圆形与旋转矩形之间的碰撞"><a href="#圆形与旋转矩形之间的碰撞" class="headerlink" title="圆形与旋转矩形之间的碰撞"></a>圆形与旋转矩形之间的碰撞</h3><p>核心理念<br>即使矩形以其中心为旋转轴进行了旋转，但是判断它与圆形是否发生碰撞的本质还是找出矩形上离圆心的最近点。但是矩形的边缘坐标需要进行一个数据转换，通过这个旋转的角度值计算转换后的位置<br>通用算法（同上）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> distance=<span class="built_in">Math</span>.sqrt(<span class="built_in">Math</span>.pow(closestPoint.x-x1,<span class="number">2</span>)+<span class="built_in">Math</span>.pow(closestPoint.y-y1,<span class="number">2</span>));</div><div class="line"><span class="keyword">if</span>(distance&lt;r1)&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'碰撞成功'</span>)</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line"> <span class="built_in">console</span>.log(<span class="string">'没碰到'</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>概念模型 </p>
+<p><img src="/img/bVbesmG.jpg" alt="这里写图片描述"></p>
+<h3 id="矩形与障碍物之间的碰撞（地图碰撞算法）"><a href="#矩形与障碍物之间的碰撞（地图碰撞算法）" class="headerlink" title="矩形与障碍物之间的碰撞（地图碰撞算法）"></a>矩形与障碍物之间的碰撞（地图碰撞算法）</h3><p>核心理念<br>将整个地图进行数据化，划分为一个矩形的地图，地图的每个基本单位是一个矩形区域。地图中所有可能参与碰撞的物体都要是基本单位大小的整数倍，地图中参与检测的对象都存储着自身所在格子的坐标，两个物体在同一格才为碰撞。<br>通用算法</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//标记为0的可以通过，1的不可以通过既是障碍物</span></div><div class="line"><span class="keyword">var</span> map=[</div><div class="line">    [<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>],</div><div class="line">    [<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>],</div><div class="line">    [<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>],</div><div class="line">    [<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>],</div><div class="line">    [<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>],</div><div class="line">]</div><div class="line"><span class="comment">//设置角色的初始位置</span></div><div class="line">player=&#123;<span class="attr">left</span>:<span class="number">2</span>,<span class="attr">top</span>:<span class="number">2</span>&#125;</div><div class="line"><span class="comment">//下面就要用到A*寻路算法进行判断检测碰撞了</span></div><div class="line">......</div></pre></td></tr></table></figure>
+<p>概念模型</p>
+<p><img src="/img/bVbesmI.jpg" alt="这里写图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/26/从 1 到完美，用 js 和 electron 写一个桌面应用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/26/从 1 到完美，用 js 和 electron 写一个桌面应用/" itemprop="url">从 1 到完美，用 js 和 electron 写一个桌面应用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-26T17:00:16+08:00">
+                2018-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>目前用 js 和前端技术写桌面软件的方案主要有两种：electron 和 nw.js。这两者在底层实现上有所不同，简单的说，electron 是 node + chromium，nw.js 是 node + webkit。从使用上来说，electron 的使用更为广泛，社区也更活跃，有一大批成熟的商用软件，像 vscode, atom等。所以，现在一般推荐使用 electron 来写桌面软件。</p>
+<h3 id="选择合适的组件库和工具库"><a href="#选择合适的组件库和工具库" class="headerlink" title="选择合适的组件库和工具库"></a>选择合适的组件库和工具库</h3><p>electron 社区多年的积累，已经有很多成熟的第三方组建库和工具库帮助你轻松的构建桌面应用，提高开发效率，避免重复造轮子。</p>
+<p>组件库是用来帮助你书写程序的逻辑或者UI：</p>
+<ul>
+<li>electron-store: 保存应用数据，比如数据缓存，应用配置等</li>
+<li>electron-context-menu: 创建右键菜单功能</li>
+<li>menubar: 创建状态栏视图</li>
+<li>photon: 一套快捷的组件库</li>
+<li>electron-log: 日志记录</li>
+</ul>
+<p>工具库是用来帮助你构建程序：</p>
+<ul>
+<li>electron-builder: 创建应用的安装文件(win: exe, linux: deb, mac: dmg 等)</li>
+<li>devtron: 官方的 chromium DevTools 插件</li>
+<li>electron-packager: 把应用打包成一个可运行文件(win: exe, linux: deb, mac: dmg 等，非安装文件)</li>
+<li>spectron: electron 应用的测试工具</li>
+<li>electron-devtools-installer: 确保 electron 开发相关的 chromium DevTools 插件的安装</li>
+</ul>
+<p>更多可以参考 <a href="https://electronjs.org/community" target="_blank" rel="external">electron community.</a></p>
+<h3 id="选择合适的模板"><a href="#选择合适的模板" class="headerlink" title="选择合适的模板"></a>选择合适的模板</h3><p>社区有很多现成的模板，里面封装好了各种工具，打包成应用，创建安装文件等一系列功能，使用者只需要关注怎么编写应用，而不需要关心工具及各个命令的实现及原理。</p>
+<ul>
+<li>electron-react-boilerplate: electron + react + redux</li>
+<li>electron-vue: electron + vue</li>
+<li>electron-boilerplate: electron</li>
+</ul>
+<p>更多可以参考 <a href="https://github.com/search?o=desc&amp;q=electron+boilerplate&amp;s=stars&amp;type=Repositories" target="_blank" rel="external">https://github.com/search?o=desc&amp;q=electron+boilerplate&amp;s=stars&amp;type=Repositories</a>.</p>
+<p>如果你需要扩展功能，可以更改相关的配置文件。</p>
+<h3 id="开发应用与运行命令"><a href="#开发应用与运行命令" class="headerlink" title="开发应用与运行命令"></a>开发应用与运行命令</h3><p>以 electron-react-boilerplate 为例。</p>
+<p>web部分是以 react + redux + react-router + redux-thunk + react-redux，构建工具部分是以 webpack + babel + eslint + stylelint + prettier + flow + enzyme</p>
+<p>另外，它封装了开发工具主要为以下几个命令：</p>
+<h4 id="dev-开发调试命令"><a href="#dev-开发调试命令" class="headerlink" title="dev 开发调试命令"></a>dev 开发调试命令</h4><blockquote>
+<p>npm run dev</p>
+</blockquote>
+<p>这个命令将会运行一个 electron 应用实例，然后在本地开启一个本地 server 服务，当你编写渲染进程代码，本地 server 服务会自动刷新页面，而不需要关闭应用重新运行命令。</p>
+<h4 id="start-以发布模式启动应用"><a href="#start-以发布模式启动应用" class="headerlink" title="start 以发布模式启动应用"></a>start 以发布模式启动应用</h4><blockquote>
+<p>npm run start</p>
+</blockquote>
+<p>与开发调试命令不同的是，它不会开起本地 server 服务，也不会监听文件变动，而是会像发布的应用一样运行。这个一般在发布之前运行，查看应用的运行情况。</p>
+<h4 id="package-打包应用为安装文件"><a href="#package-打包应用为安装文件" class="headerlink" title="package 打包应用为安装文件"></a>package 打包应用为安装文件</h4><blockquote>
+<h1 id="create-installer-for-linux-amp-win-amp-mac"><a href="#create-installer-for-linux-amp-win-amp-mac" class="headerlink" title="create installer for linux&amp;win&amp;mac."></a>create installer for linux&amp;win&amp;mac.</h1><p>npm run package-all</p>
+</blockquote>
+<h1 id="create-installer-only-for-linux"><a href="#create-installer-only-for-linux" class="headerlink" title="create installer only for linux."></a>create installer only for linux.</h1><p>npm run package-linux</p>
+<h1 id="create-installer-only-for-win"><a href="#create-installer-only-for-win" class="headerlink" title="create installer only for win."></a>create installer only for win.</h1><p>npm run package-win</p>
+<h1 id="create-installer-only-for-mac"><a href="#create-installer-only-for-mac" class="headerlink" title="create installer only for mac."></a>create installer only for mac.</h1><p>npm run package-mac</p>
+<h3 id="应用实例"><a href="#应用实例" class="headerlink" title="应用实例"></a>应用实例</h3><p>image-viewer 便是使用 electron-react-boilerplate 模板开发的一个图片浏览器应用。</p>
+<h3 id="更多"><a href="#更多" class="headerlink" title="更多"></a>更多</h3><p><a href="https://github.com/senntyou/blogs" target="_blank" rel="external">查看</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/26/JavaScript 引擎基础：原型优化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/26/JavaScript 引擎基础：原型优化/" itemprop="url">JavaScript 引擎基础：原型优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-26T17:00:06+08:00">
+                2018-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本文就所有 JavaScript 引擎中常见的一些关键基础内容进行了介绍——这不仅仅局限于 V8 引擎。作为一名 JavaScript 开发者，深入了解 JavaScript 引擎是如何工作的将有助于你了解自己所写代码的性能特征。</p>
+<p>在前一篇文章中，我们讨论了 JavaScript 引擎是如何通过 Shapes 和 Inline Caches 来优化访问对象与数组的。本文将介绍引擎在优化流程中的一些权衡与取舍点，并对其在优化原型属性访问方面的工作进行介绍。</p>
+<p>本文中会涉及 JavaScript 引擎中 Inline Caches 和 Shapes 的概念使用，如果你想了解其中更多细节可以移步上一篇译文 JavaScript 引擎基础：Shapes 和 Inline Caches 查看更多。</p>
+<p>原文 JavaScript engine fundamentals: optimizing prototypes，作者 @Benedikt 和 @Mathias，译者 hijiangtao。以下开始正文。</p>
+<blockquote>
+<p>如果你倾向看视频演讲，请移步 <a href="https://link.zhihu.com/?target=https%3A//www.youtube.com/watch%3Fv%3DIFWulQnM5E0" target="_blank" rel="external">YouTube</a> 查看更多。</p>
+</blockquote>
+<h3 id="优化层级与执行效率的取舍"><a href="#优化层级与执行效率的取舍" class="headerlink" title="优化层级与执行效率的取舍"></a>优化层级与执行效率的取舍</h3><p>JavaScript 引擎通用的工作流程：</p>
+<p><img src="/img/v2-a9e70b6a9d7decc22c164f8f953eb7ce_hd.jpg" alt="这里写图片描述"></p>
+<p>我们也指出，尽管从高级抽象层面来看，引擎之间的处理流程都很相似，但他们在优化流程上通常都存在差异。为什么呢？为什么有些引擎的优化层级会比其他引擎多一些？事实证明，在快速获取可运行的代码与花费更多时间获得最优运行性能的代码之间存在一些取舍与平衡点。</p>
+<p><img src="/img/v2-f465fb2efe44c02e6dd42cb7cd34e3e9_hd.jpg" alt="这里写图片描述"></p>
+<p>解释器可以快速生成字节码，但字节码通常效率不高。 相比之下，优化编译器虽然需要更长的时间进行处理，但最终会产生更高效的机器码。</p>
+<p>这正是 V8 在使用的模型。它的解释器叫 Ignition，（就原始字节码执行速度而言）是所有引擎中最快的解释器。V8 的优化编译器名为 TurboFan，最终由它生成高度优化的机器码。</p>
+<p><img src="/img/v2-e7e156e96cc00c3ea8d548f3ff582003_hd.jpg" alt="这里写图片描述"></p>
+<p>我们往往需要在启动延迟与执行速度之间做出一些取舍，而这便是一些 JavaScript 引擎决定是否在流程中加入优化层的原因所在。例如，SpiderMonkey 在解释器和完整的 IonMonkey 优化编译器之间添加了一个 Baseline 层：</p>
+<p><img src="/img/v2-dac06ba5ac123aa21faca57cae54ad4e_hd.jpg" alt="这里写图片描述"></p>
+<p>解释器可以快速生成字节码，但字节码执行起来相对较慢。Baseline 生成代码需要花费更长的时间，但能提供更好的运行时性能。最后，IonMonkey 优化编译器花费最长时间来生成机器码，但该代码运行起来非常高效。</p>
+<p>让我们通过一个具体的例子，看看不同引擎中的优化流程都有哪些差异。这是一些在循环中会经常出现的代码。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> result = <span class="number">0</span>;</div><div class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">4242424242</span>; ++i) &#123;</div><div class="line">	result += i;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(result);</div></pre></td></tr></table></figure>
+<p>V8开始在 Ignition 解释器中运行字节码。从某些方面来看，代码是否足够 hot由引擎决定，引擎还负责调度 TurboFan 前端，它是 TurboFan 中负责处理集成分析数据和构建代码在机器层面表示的一部分。这部分结果之后会被发送到另一个线程上的 TurboFan 优化器被进一步优化。</p>
+<p><img src="/img/v2-2cb19e88a1fca759f121b076d2c6bb33_hd.jpg" alt="这里写图片描述"></p>
+<p>当优化器运行时，V8 会继续在 Ignition 中执行字节码。 当优化器处理完成后，我们获得可执行的机器码，执行流程便会继续下去。</p>
+<p>SpiderMonkey 引擎也开始在解释器中运行字节码。但它有一个额外的 Baseline 层，这意味着比较 hot 的代码会首先被发送到 Baseline。 Baseline 编译器在主线程上生成 Baseline 代码，并在完成后继续后面的执行。</p>
+<p><img src="/img/v2-42ac267c4aacf1aa27c472b7d24d4586_hd.jpg" alt="这里写图片描述"></p>
+<p>如果 Baseline 代码运行了一段时间，SpiderMonkey 最终会激活 IonMonkey 前端，并启动优化器 - 这与 V8 非常相似。当 IonMonkey 进行优化时，代码在 Baseline 中会一直运行。当优化器处理完成后，被执行的是优化后的代码而不是 Baseline 代码。</p>
+<p>Chakra 的架构与 SpiderMonkey 非常相似，但 Chakra 尝试通过并行处理更多内容来避免阻塞主线程。Chakra 不在主线程上运行编译器，而是将不同编译器可能需要的字节码和分析数据复制出来，将其发送到一个专用的编译器进程。</p>
+<p><img src="/img/v2-7defa2186b8bb2573c7dd9edd45ea087_hd.jpg" alt="这里写图片描述"></p>
+<p>当代码准备就绪，引擎便开始运行 SimpleJIT 代码而不是字节码。 对于 FullJIT 来说流程同样如此。这种方法的好处是，与运行完整的编译器（前端）相比，复制所产生的中断时间通常要短得多。但其缺点在于这种启发式复制可能会遗漏某些优化所需的某些信息，因此它在一定程度上是用代码质量来换时间的消耗。</p>
+<p>在 JavaScriptCore 中，所有优化编译器都与主 JavaScript 执行完全并发运行；根本没有复制阶段！相反，主线程仅仅是触发了另一个线程上的编译作业。然后，编译器使用复杂的加锁方式从主线程中获取到要访问的分析数据。</p>
+<p><img src="/img/v2-55a5d7215f31313bd7edbe84a089d981_hd.jpg" alt="这里写图片描述"></p>
+<p>这种方法的优点在于它减少了主线程上由 JavaScript 优化引起的抖动。 缺点是它需要处理复杂的多线程问题并为各种操作付出一些加锁的成本。</p>
+<p>我们已经讨论过在使用解释器快速生成代码或使用优化编译器生成可高效执行代码之间的一些权衡。但还有另一个权衡：内存使用！为了说明这一点，来看一个简单的两数相加 JvaScript 函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">x, y</span>) </span>&#123;</div><div class="line">	<span class="keyword">return</span> x + y;</div><div class="line">&#125;</div><div class="line"></div><div class="line">add(<span class="number">1</span>, <span class="number">2</span>);</div></pre></td></tr></table></figure>
+<p>这是我们使用 V8 中的 Ignition 解释器为 add 函数生成的字节码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">StackCheck</div><div class="line">Ldar a1</div><div class="line">Add a0, [<span class="number">0</span>]</div><div class="line">Return</div></pre></td></tr></table></figure>
+<p>不要在意这些字节码 - 你不需要了解细节。关键在于它只是四条指令！</p>
+<p>当代码变得 hot，TurboFan 便会开始处理以生成如下高度优化的机器码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">leaq rcx,[rip+<span class="number">0x0</span>]</div><div class="line">movq rcx,[rcx<span class="number">-0x37</span>]</div><div class="line">testb [rcx+<span class="number">0xf</span>],<span class="number">0x1</span></div><div class="line">jnz CompileLazyDeoptimizedCode</div><div class="line">push rbp</div><div class="line">movq rbp,rsp</div><div class="line">push rsi</div><div class="line">push rdi</div><div class="line">cmpq rsp,[r13+<span class="number">0xe88</span>]</div><div class="line">jna StackOverflow</div><div class="line">movq rax,[rbp+<span class="number">0x18</span>]</div><div class="line">test al,<span class="number">0x1</span></div><div class="line">jnz Deoptimize</div><div class="line">movq rbx,[rbp+<span class="number">0x10</span>]</div><div class="line">testb rbx,<span class="number">0x1</span></div><div class="line">jnz Deoptimize</div><div class="line">movq rdx,rbx</div><div class="line">shrq rdx, <span class="number">32</span></div><div class="line">movq rcx,rax</div><div class="line">shrq rcx, <span class="number">32</span></div><div class="line">addl rdx,rcx</div><div class="line">jo Deoptimize</div><div class="line">shlq rdx, <span class="number">32</span></div><div class="line">movq rax,rdx</div><div class="line">movq rsp,rbp</div><div class="line">pop rbp</div><div class="line">ret <span class="number">0x18</span></div></pre></td></tr></table></figure>
+<p>这么一大堆代码，这比四行要远远超出更多！通常来说，字节码比机器码更紧凑，特别是对比优化过的机器码。但另一方面，字节码需要解释器才能执行，而优化过机器码可以由处理器直接执行。</p>
+<p>这就是为什么 JavaScript 引擎不简单粗暴”优化一切”的主要原因之一。正如我们之前所见，生成优化的机器码也需要很长时间，而最重要的是，我们刚刚了解到优化的机器码也需要更多的内存。</p>
+<p><img src="/img/v2-4d181566b8b5edc8c57ef8d187a5b02c_hd.jpg" alt="这里写图片描述"></p>
+<blockquote>
+<p>小结：JavaScript 引擎之所以具有不同优化层，就在于使用解释器快速生成代码或使用优化编译器生成高效代码之间存在一个基本权衡。通过添加更多优化层可以让你做出更细粒度的决策，但是以额外的复杂性和开销为代价。此外，在优化级别和生成代码所占用的内存之间也存在折衷。这就是为什么 JavaScript 引擎仅尝试优化比较 hot 功能的原因所在。</p>
+</blockquote>
+<h3 id="原型属性访问优化"><a href="#原型属性访问优化" class="headerlink" title="原型属性访问优化"></a>原型属性访问优化</h3><p>之前的文章解释了 JavaScript 引擎如何使用 Shapes 和 Inline Caches 优化对象属性加载。回顾一下，引擎将对象的 Shape 与对象值分开存储。</p>
+<p><img src="/img/v2-8014267c30392e557b6e336ea6b08b7d_hd.jpg" alt="这里写图片描述"></p>
+<p>Shapes 可以实现称为 Inline Caches 或简称 ICs 的优化。通过组合，Shapes 和 ICs 可以加快代码中相同位置的重复属性访问速度。</p>
+<p><img src="/img/v2-66f3e883ed43057d0d94bec61760a2f2_hd.jpg" alt="这里写图片描述"></p>
+<h4 id="Class-和基于原型的编程"><a href="#Class-和基于原型的编程" class="headerlink" title="Class 和基于原型的编程"></a>Class 和基于原型的编程</h4><p>既然我们知道如何在 JavaScript 对象上快速进行属性访问，那么让我们看一下最近添加到 JavaScript 中的特性：class（类）。JavaScript 中的类语法如下所示：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>(x) &#123;</div><div class="line">		<span class="keyword">this</span>.x = x;</div><div class="line">	&#125;</div><div class="line">	getX() &#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.x;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>尽管它看上去是 JavaScript 中的一个全新概念，但它仅仅是基于原型编程的语法糖：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bar</span>(<span class="params">x</span>) </span>&#123;</div><div class="line">	<span class="keyword">this</span>.x = x;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Bar.prototype.getX = <span class="function"><span class="keyword">function</span> <span class="title">getX</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.x;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>在这里，我们在 Bar.prototype 对象上分配一个 getX 属性。这与其他任何对象的工作方式完全相同，因为原型只是 JavaScript 中的对象！在基于原型的编程语言（如 JavaScript）中，方法通过原型共享，而字段则存储在实际的实例上。</p>
+<p>让我们来实际看看，当我们创建一个名为 foo 的 Bar 新实例时，幕后所发生的事情。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> Bar(<span class="literal">true</span>);</div></pre></td></tr></table></figure>
+<p>通过运行此代码创建的实例具有一个带有属性 “x” 的 shape。foo 的原型是属于 class Bar 的 Bar.prototype。</p>
+<p><img src="/img/v2-51bbb2ce6cea40dea88d4b41afe164e1_hd.jpg" alt="这里写图片描述"></p>
+<p>Bar.prototype 有自己的 shape，其中包含一个属性 ‘getX’，取值则是函数 getX，它在调用时只返回 this.x。Bar.prototype 的原型是 Object.prototype，它是 JavaScript 语言的一部分。由于 Object.prototype是原型树的根节点，因此它的原型是 null。</p>
+<p><img src="/img/v2-bbecbef82de21d921ce07679a291d26c_hd.jpg" alt="这里写图片描述"></p>
+<p>如果你在这个类上创建另一个实例，那么两个实例将共享对象 shape。两个实例都指向相同的 Bar.prototype 对象。</p>
+<h4 id="原型属性访问"><a href="#原型属性访问" class="headerlink" title="原型属性访问"></a>原型属性访问</h4><p>好的，现在我们知道当我们定义一个类并创建一个新实例时会发生什么。但是如果我们在一个实例上调用一个方法会发生什么，比如我们在这里做了什么？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>(x) &#123; <span class="keyword">this</span>.x = x; &#125;</div><div class="line">	getX() &#123; <span class="keyword">return</span> <span class="keyword">this</span>.x; &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> Bar(<span class="literal">true</span>);</div><div class="line"><span class="keyword">const</span> x = foo.getX();</div></pre></td></tr></table></figure>
+<p>你可以将任何方法调用都视为两个单独的步骤：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> x = foo.getX(); </div><div class="line"><span class="comment">// 实际上是两步操作: </span></div><div class="line"><span class="keyword">const</span> $getX = foo.getX; </div><div class="line"><span class="keyword">const</span> x = $getX.call(foo);</div></pre></td></tr></table></figure>
+<p>第1步是加载这个方法，它只是原型上的一个属性（其值恰好是一个函数）。第2步是使用实例作为 this 值来调用该函数。让我们来看看第一步，即从实例 foo 中加载方法 getX。</p>
+<p><img src="/img/v2-0df76c9b83f4b1c7e04c414b2131fbdb_hd.jpg" alt="这里写图片描述"></p>
+<p>引擎从 foo 实例开始，并且意识到 foo 的 shape 上没有 ‘getX’ 属性，所以它必须向原型链追溯。我们到了 Bar.prototype，查看它的原型 shape，发现它在偏移0处有 ‘getX’ 属性。我们在 Bar.prototype 的这个偏移处查找该值，并找到我们想要的JSFunction getX。就是这样！</p>
+<p>但 JavaScript 的灵活性使得我们可以改变原型链链接，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> Bar(<span class="literal">true</span>);</div><div class="line">foo.getX();</div><div class="line"><span class="comment">// → true</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.setPrototypeOf(foo, <span class="literal">null</span>);</div><div class="line">foo.getX();</div><div class="line"><span class="comment">// → Uncaught TypeError: foo.getX is not a function</span></div></pre></td></tr></table></figure>
+<p>在这个例子中，我们调用 foo.getX() 两次，但每次它都具有完全不同的含义和结果。 这就是为什么尽管原型只是 JavaScript 中的对象，但优化原型属性访问对于 JavaScript 引擎而言比优化常规对象的属性访问更具挑战性的原因了。</p>
+<p>粗略的来看，加载原型属性是一个非常频繁的操作：每次调用一个方法时都会发生这种情况！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>(x) &#123; <span class="keyword">this</span>.x = x; &#125;</div><div class="line">	getX() &#123; <span class="keyword">return</span> <span class="keyword">this</span>.x; &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> Bar(<span class="literal">true</span>);</div><div class="line"><span class="keyword">const</span> x = foo.getX();</div></pre></td></tr></table></figure>
+<p>之前，我们讨论了引擎如何通过使用 Shapes 和 Inline Caches 来优化访问常规属性的。 我们如何在具有相似 shape 的对象上优化原型属性的重复访问呢？ 我们在上面已经看过是如何访问属性的。</p>
+<p><img src="/img/v2-25043d3630da77f67fe0958663e4cd9b_hd.jpg" alt="这里写图片描述"></p>
+<p>为了在这种特殊情况下实现快速重复访问，我们需要知道这三件事：</p>
+<p>foo的 shape 不包含 ‘getX’ 并且没有改变过。这意味着没有人通过添加或删除属性或通过更改其中一个属性来更改对象 foo。foo 的原型仍然是最初的 Bar.prototype。这意味着没有人通过使用 Object.setPrototypeOf() 或通过赋予特殊的 <em>proto</em> 属性来更改 foo的原型。Bar.prototype 的形状包含 ‘getX’ 并且没有改变。这意味着没有人通过添加或删除属性或更改其中一个属性来更改 Bar.prototype。</p>
+<p>一般情况下，这意味着我们必须对实例本身执行1次检查，并对每个原型进行2次检查，直到找到我们正在寻找的属性所在原型。1 + 2N 次检查（其中 N是所涉及的原型的数量）对于这种情况听起来可能不太糟糕，因为这里原型链相对较浅 - 但是引擎通常必须处理更长的原型链，就像常见的 DOM 类一样。这是一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> anchor = <span class="built_in">document</span>.createElement(<span class="string">'a'</span>);</div><div class="line"><span class="comment">// → HTMLAnchorElement</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> title = anchor.getAttribute(<span class="string">'title'</span>);</div></pre></td></tr></table></figure>
+<p>我们有一个 HTMLAnchorElement，在其上调用 getAttribute() 方法。这个简单的锚元素原型链就已经涉及6个原型！大多数有趣的 DOM 方法并不是直接存在于 HTMLAnchorElement 原型中，而是在原型链的更高层。</p>
+<p><img src="/img/v2-12705088e96ddfd3afe3d6bffda5b306_hd.jpg" alt="这里写图片描述"></p>
+<p>我们可以在 Element.prototype 上找到 getAttribute() 方法。这意味着我们每次调用 anchor.getAttribute() 时，JavaScript引擎都需要……</p>
+<p>检测到 ‘getAttribute’ 不在锚对象本身上，检测到直接原型为 HTMLAnchorElement.prototype，断言原型上缺少’getAttribute’，检测到下一个原型是 HTMLElement.prototype，断言 ‘getAttribute’ 也不存在于这个原型上，最终检测出下一个原型是 Element.prototype，找到 ‘getAttribute’。</p>
+<p>总共有7次检测！由于这是 Web 上一种非常常见的代码，因此引擎会应用技巧来减少原型上属性加载所需的检查次数。</p>
+<p>回到前面的例子，我们在 foo 上访问 ‘getX’ 时总共执行了3次检查：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span> </span>&#123;</div><div class="line">	<span class="keyword">constructor</span>(x) &#123; <span class="keyword">this</span>.x = x; &#125;</div><div class="line">	getX() &#123; <span class="keyword">return</span> <span class="keyword">this</span>.x; &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">const</span> foo = <span class="keyword">new</span> Bar(<span class="literal">true</span>);</div><div class="line"><span class="keyword">const</span> $getX = foo.getX;</div></pre></td></tr></table></figure>
+<p>在直到我们找到携带目标属性的原型之前，我们需要对原型链上的每个对象进行 shape 的缺失检查。如果我们可以通过将原型检查折叠到缺失检查来减少检查次数，那就太好了。而这基本上就是引擎所做的：引擎将原型链在 Shape 上，而不是直接链在实例上。</p>
+<p><img src="/img/v2-53cede62cf5632b52bf66a6f22d773d76_hd.jpg" alt="这里写图片描述"></p>
+<p>每个 shape 都指向原型。这也意味着每次 foo 原型发生变化时，引擎都会转换到一个新 shape。 现在我们只需要检查一个对象的 shape，这样既可以断言某些属性的缺失，也可以保护原型链链接。</p>
+<p>通过这种方法，我们可以将检查次数从 1 + 2N 降到 1 + N，以便在原型上更快地访问属性。但这仍相当昂贵，因为它在原型链的长度上仍然是线性的。 为了进一步将检查次数减少到一个常量级别，引擎采用了不同的技巧，特别是对于相同属性访问的后续执行。</p>
+<h4 id="Validity-cells"><a href="#Validity-cells" class="headerlink" title="Validity cells"></a>Validity cells</h4><p>V8专门为此目的处理原型的 shape。每个原型都具有一个不与其他对象（特别是不与其他原型共享）共享且独特的 shape，且每个原型的 shape 都具有与之关联的一个特殊 ValidityCell。</p>
+<p><img src="/img/v2-a497a7e9a6f46afcef5376f4f507437b_hd.jpg" alt="这里写图片描述"></p>
+<p>只要有人更改相关原型或其祖先的任何原型，此 ValidityCell 就会失效。让我们来看看它是如何工作的。</p>
+<p>为了加速原型的后续访问，V8 建立了一个 Inline Cache，其中包含四个字段：</p>
+<p><img src="/img/v2-93577009f1276e45544656d94661c026_hd.jpg" alt="这里写图片描述"></p>
+<p>在第一次运行此代码预热 inline cache 时，V8 会记住目标属性在原型中的偏移量，找到属性的原型（本例中为 Bar.prototype），实例的 shape（在这种情况下为 foo 的 shape），以及与实例 shape 链接的直接原型中 ValidityCell 的链接（在本例中也恰好是 Bar.prototype）。</p>
+<p>下次 inline cache 命中时，引擎必须检查实例的 shape 和 ValidityCell。如果它仍然有效，则引擎可以直接到达 Prototype 上的 Offset 位置，跳过其他查找。</p>
+<p><img src="/img/v2-d31e1e11c96db86a381f80f78cdd5388_hd.jpg" alt="这里写图片描述"></p>
+<p>当原型改变时，shape 将重新分配，且先前的 ValidityCell 失效。因此，Inline Cache 在下次执行时会失效，从而导致性能下降。</p>
+<p>回到之前的 DOM 示例，这意味着对 Object.prototype 的任何更改不仅会使 Object.prototype本身的 inline cache 失效，而且还会使其下游的所有原型失效，包括EventTarget.prototype，Node.prototype，Element.prototype 等，直到 HTMLAnchorElement.prototype 为止。</p>
+<p><img src="/img/v2-c40b5c7ce5dc801d4bb5762c29ed018e_hd.jpg" alt="这里写图片描述"></p>
+<p>实际上，在运行代码时修改 Object.prototype 意味着完全抛弃性能上的考虑。不要这样做！</p>
+<p>让我们用一个具体的例子来探讨这个问题。 假设我们有一个类叫做 Bar，并且我们有一个函数 loadX，它调用 Bar 对象上的方法。 我们用同一个类的实例多调用这个 loadX 函数几次。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bar</span> </span>&#123; <span class="comment">/* … */</span> &#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">loadX</span>(<span class="params">bar</span>) </span>&#123;</div><div class="line">	<span class="keyword">return</span> bar.getX(); <span class="comment">// IC for 'getX' on `Bar` instances.</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">loadX(<span class="keyword">new</span> Bar(<span class="literal">true</span>));</div><div class="line">loadX(<span class="keyword">new</span> Bar(<span class="literal">false</span>));</div><div class="line"><span class="comment">// IC in `loadX` now links the `ValidityCell` for</span></div><div class="line"><span class="comment">// `Bar.prototype`.</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.prototype.newMethod = <span class="function"><span class="params">y</span> =&gt;</span> y;</div><div class="line"><span class="comment">// The `ValidityCell` in the `loadX` IC is invalid</span></div><div class="line"><span class="comment">// now, because `Object.prototype` changed.</span></div></pre></td></tr></table></figure>
+<p>loadX 中的 inline cache 现在指向 Bar.prototype 的 ValidityCell。 如果你之后执行了类似于改变 Object.prototype（这是 JavaScript 中所有原型的根节点）的操作，则ValidityCell 将失效，且现有的 inline cache 会在下次命中时丢失，从而导致性能下降。</p>
+<p>修改 Object.prototype 被认为是一个不好的操作，因为它使引擎在此之前为原型访问准备的所有 inline cache 都失效。 这是另一个不推荐的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.prototype.foo = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123; <span class="comment">/* … */</span> &#125;;</div><div class="line"></div><div class="line"><span class="comment">// Run critical code:</span></div><div class="line">someObject.foo();</div><div class="line"><span class="comment">// End of critical code.</span></div><div class="line"></div><div class="line"><span class="keyword">delete</span> <span class="built_in">Object</span>.prototype.foo;</div></pre></td></tr></table></figure>
+<p>我们扩展了 Object.prototype，它使引擎在此之前存储的所有原型 inline cache 均无效了。然后我们运行一些用到新原型方法的代码。引擎此时则需要从头开始，并为所有原型属性的访问设置新的 inline cache。最后，我们删除了之前添加的原型方法。</p>
+<p>删除，这听起来像个好主意，对吧？然而在这种情况下，它只会让情况变得更糟！删除属性会修改 Object.prototype，因此所有 inline cache 会再次失效，而引擎又必须从头开始。</p>
+<blockquote>
+<p>总结：虽然原型只是对象，但它们由 JavaScript 引擎专门处理，以优化在原型上查找方法的性能表现。把你的原型放在一旁！或者，如果你确实需要修改原型，请在其他代码运行之前执行此操作，这样至少不会让引擎所做的优化付诸东流。</p>
+</blockquote>
+<h3 id="Take-aways"><a href="#Take-aways" class="headerlink" title="Take-aways"></a>Take-aways</h3><p>我们已经了解了 JavaScript 引擎是如何存储对象与类的，Shapes、Inline Caches 和 ValidityCells 是如何帮助优化原型的。基于这些知识，我们认为有一个普适实用的 JavaScript 编码技巧，可以帮助提高性能：请勿随意修改原型对象（即便你真的需要，那么请在其他代码运行之前做这件事）。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/26/JSX/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/26/JSX/" itemprop="url">JSX</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-26T17:00:06+08:00">
+                2018-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h3><p>只要你用过React，就应该大概了解过 JSX，一种用于创建 React 元素的类 XML 语法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getGreeting</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    &lt;div className=<span class="string">"greeting"</span>&gt;</div><div class="line">      &lt;h1 foo=<span class="string">"bar"</span>&gt;Hello!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">      &lt;h2&gt;Good to see you &#123;name&#125;&lt;<span class="regexp">/h2&gt;</span></div><div class="line"><span class="regexp">    &lt;/</span>div&gt;</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因为浏览器还不支持 JSX，所以在运行前，需要将代码转换为普通的 JavaScript。从对开发者友好的代码转换成对浏览器友好的代码这项工作，通常都是用 Babel 这样的工具来做。Babel 编译后，getGreeting函数就会被编译成下面这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getGreeting</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> React.createElement(</div><div class="line">    <span class="string">"div"</span>,</div><div class="line">    &#123; <span class="attr">className</span>: <span class="string">"greeting"</span> &#125;,</div><div class="line">    React.createElement(<span class="string">"h1"</span>, &#123; <span class="attr">foo</span>: <span class="string">"bar"</span> &#125;, <span class="string">"Hello!"</span>),</div><div class="line">    React.createElement(<span class="string">"h2"</span>, <span class="literal">null</span>, <span class="string">"Good to see you "</span>, name)</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这个不同的语法中，所有的标签名、属性名、属性值以及文本内容都没有改变。那么React.createElement是什么？</p>
+<p>React.createElement是 React 用来创建元素的方法。因为JSX通常与React同时使用，所以 Babel 默认注入这个方法，但实际情况并非如此。事实上，JSX 是从React中脱离出来的，JSX 是用于在 JS 中使用类似 XML 的语法定义树结构的规范。这个树结构可以是一个 React 组件渲染的元素，也可以是完全不同的其他的东西。</p>
+<p>为了不只是在 React 中使用 JSX，我们需要告诉 Babel 使用其他的函数来代替React.createElement。只要在文件中添加/* @jsx 另一个函数名 /这样的注释就行了。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** @jsx foo */</span></div><div class="line"><span class="keyword">var</span> bar = <span class="xml"><span class="tag">&lt;<span class="name">x</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">x</span>&gt;</span></span>;</div><div class="line"><span class="keyword">var</span> bax = <span class="xml"><span class="tag">&lt;<span class="name">Y</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">Y</span>&gt;</span></span>;</div><div class="line"></div><div class="line"><span class="comment">// becomes:</span></div><div class="line"><span class="keyword">var</span> bar = foo(<span class="string">"x"</span>, <span class="literal">null</span>, <span class="string">"Hi"</span>);</div><div class="line"><span class="keyword">var</span> bax = foo(Y, <span class="literal">null</span>, <span class="string">"Hi"</span>);</div></pre></td></tr></table></figure>
+<p>最后要说的一点是，Babel会根据元素名称的大小写使用不同的方式处理JSX。小写字母名称会以字符串参数的形式进行传递，首字母大写的名称则会作为函数进行传递，就像在代码段中一样。</p>
+<h3 id="数学中的JSX"><a href="#数学中的JSX" class="headerlink" title="数学中的JSX"></a>数学中的JSX</h3><p>我们可以使用Math.sqrt(a <em> a + b </em> b)来算a和b的弦等于多少，但这一点都不好玩。我们可以用JSX来计算这个：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Sum = <span class="function">(<span class="params">...args</span>) =&gt;</span> args.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b, <span class="number">0</span>);</div><div class="line"><span class="keyword">const</span> Pow = <span class="function">(<span class="params">&#123; exponent &#125;, base</span>) =&gt;</span> <span class="built_in">Math</span>.pow(base, exponent);</div><div class="line"><span class="keyword">const</span> Sqrt = <span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">Math</span>.sqrt(x);</div><div class="line"></div><div class="line"><span class="keyword">const</span> Hypotenuse = <span class="function">(<span class="params">&#123; a, b &#125;</span>) =&gt;</span> (</div><div class="line">  &lt;Sqrt&gt;</div><div class="line">    &lt;Sum&gt;</div><div class="line">      &lt;Pow exponent=&#123;<span class="number">2</span>&#125;&gt;&#123;a&#125;&lt;<span class="regexp">/Pow&gt;</span></div><div class="line"><span class="regexp">      &lt;Pow exponent=&#123;2&#125;&gt;&#123;b&#125;&lt;/</span>Pow&gt;</div><div class="line">    &lt;<span class="regexp">/Sum&gt;</span></div><div class="line"><span class="regexp">  &lt;/</span>Sqrt&gt;</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">/** @jsx calc */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">calc</span>(<span class="params">operation, props, ...args</span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> params = props ? [props] : [];</div><div class="line">  params = params.concat(...args);</div><div class="line">  <span class="keyword">return</span> operation(...params);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="xml"><span class="tag">&lt;<span class="name">Hypotenuse</span> <span class="attr">a</span>=<span class="string">&#123;3&#125;</span> <span class="attr">b</span>=<span class="string">&#123;4&#125;</span> /&gt;</span>);</span></div></pre></td></tr></table></figure>
+<p>这里还有另一个版本的hypotenuse可以接收两个以上的参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Hypotenuse = <span class="function">(<span class="params">&#123; values &#125;</span>) =&gt;</span> (</div><div class="line">  &lt;Sqrt&gt;</div><div class="line">    &lt;Sum&gt;&#123;values.map(<span class="function"><span class="params">v</span> =&gt;</span> &lt;Pow exponent=&#123;<span class="number">2</span>&#125;&gt;&#123;v&#125;&lt;<span class="regexp">/Pow&gt;)&#125;&lt;/</span>Sum&gt;</div><div class="line">  &lt;<span class="regexp">/Sqrt&gt;</span></div><div class="line"><span class="regexp">);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">console.log(&lt;Hypotenuse values=&#123;[3, 4, 5]&#125; /</span>&gt;);</div><div class="line">            <span class="keyword">const</span> Hypotenuse = <span class="function">(<span class="params">&#123; values &#125;</span>) =&gt;</span> (</div><div class="line">  &lt;Sqrt&gt;</div><div class="line">    &lt;Sum&gt;&#123;values.map(<span class="function"><span class="params">v</span> =&gt;</span> &lt;Pow exponent=&#123;<span class="number">2</span>&#125;&gt;&#123;v&#125;&lt;<span class="regexp">/Pow&gt;)&#125;&lt;/</span>Sum&gt;</div><div class="line">  &lt;<span class="regexp">/Sqrt&gt;</span></div><div class="line"><span class="regexp">);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">console.log(&lt;Hypotenuse values=&#123;[3, 4, 5]&#125; /</span>&gt;);</div></pre></td></tr></table></figure>
+<h3 id="无所不能的JSX"><a href="#无所不能的JSX" class="headerlink" title="无所不能的JSX"></a>无所不能的JSX</h3><p>接下来尝试做一些更神奇的事情，我们来试试归并排序。</p>
+<p>首先，使用RamdaJS来给我们的组件加入一些初始功能。otaku</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> R <span class="keyword">from</span> <span class="string">"ramda"</span>;</div><div class="line"><span class="keyword">var</span> divisibleBy = R.curry(R.pipe(R.flip(R.modulo), R.equals(<span class="number">0</span>)));</div><div class="line"><span class="keyword">var</span> fizzbuzz = R.map(</div><div class="line">  R.cond([</div><div class="line">    [R.both(divisibleBy(<span class="number">3</span>), divisibleBy(<span class="number">5</span>)), R.always(<span class="string">"FizzBuzz"</span>)],</div><div class="line">    [divisibleBy(<span class="number">3</span>), R.always(<span class="string">"Fizz"</span>)],</div><div class="line">    [divisibleBy(<span class="number">5</span>), R.always(<span class="string">"Buzz"</span>)],</div><div class="line">    [R.T, R.identity]</div><div class="line">  ])</div><div class="line">);</div><div class="line"><span class="built_in">console</span>.log(fizzbuzz(R.range(<span class="number">1</span>, <span class="number">16</span>)));</div></pre></td></tr></table></figure>
+<p>我们可以使用 JSX 写出相同的代码，只需要编写与JSX元素名称匹配的函数去调用ramda函数就好了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** @jsx run */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">f, props, ...args</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> R[f](...args);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> divisibleBy = (</div><div class="line">  &lt;curry&gt;</div><div class="line">    &lt;pipe&gt;</div><div class="line">      &lt;flip&gt;</div><div class="line">        &lt;modulo /&gt;</div><div class="line">      &lt;<span class="regexp">/flip&gt;</span></div><div class="line"><span class="regexp">      &lt;equals&gt;&#123;0&#125;&lt;/</span>equals&gt;</div><div class="line">    &lt;<span class="regexp">/pipe&gt;</span></div><div class="line"><span class="regexp">  &lt;/</span>curry&gt;</div><div class="line">);</div><div class="line"></div><div class="line"><span class="keyword">var</span> fizzbuzz = (</div><div class="line">  &lt;map&gt;</div><div class="line">    &lt;cond&gt;</div><div class="line">      &#123;[</div><div class="line">        [</div><div class="line">          &lt;both&gt;</div><div class="line">            &#123;divisibleBy(<span class="number">3</span>)&#125;</div><div class="line">            &#123;divisibleBy(<span class="number">5</span>)&#125;</div><div class="line">          &lt;<span class="regexp">/both&gt;,</span></div><div class="line"><span class="regexp">          &lt;always&gt;"FizzBuzz"&lt;/</span>always&gt;</div><div class="line">        ],</div><div class="line">        [divisibleBy(<span class="number">3</span>), &lt;always&gt;<span class="string">"Fizz"</span>&lt;<span class="regexp">/always&gt;],</span></div><div class="line"><span class="regexp">        [divisibleBy(5), &lt;always&gt;"Buzz"&lt;/always&gt;],</span></div><div class="line"><span class="regexp">        [R.T, &lt;identity /&gt;]</span></div><div class="line"><span class="regexp">      ]&#125;</span></div><div class="line"><span class="regexp">    &lt;/</span>cond&gt;</div><div class="line">  &lt;<span class="regexp">/map&gt;</span></div><div class="line"><span class="regexp">);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">console.log(fizzbuzz(R.range(1, 16)));</span></div></pre></td></tr></table></figure>
+<p>好看了？……并没有。</p>
+<p>运行的函数还可以再智能一点，这样可以增加 JSX 代码的 “纯净度”：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> FizzBuzz = (</div><div class="line">  &lt;map&gt;</div><div class="line">    &lt;cond concat&gt;</div><div class="line">      &lt;pair&gt;</div><div class="line">        &lt;both&gt;</div><div class="line">          &lt;DivisibleBy value=&#123;<span class="number">3</span>&#125; /&gt;</div><div class="line">          &lt;DivisibleBy value=&#123;<span class="number">5</span>&#125; /&gt;</div><div class="line">        &lt;<span class="regexp">/both&gt;</span></div><div class="line"><span class="regexp">        &lt;always value="FizzBuzz" /</span>&gt;</div><div class="line">      &lt;<span class="regexp">/pair&gt;</span></div><div class="line"><span class="regexp">      &lt;pair&gt;</span></div><div class="line"><span class="regexp">        &lt;DivisibleBy value=&#123;3&#125; /</span>&gt;</div><div class="line">        &lt;always value=<span class="string">"Fizz"</span> /&gt;</div><div class="line">      &lt;<span class="regexp">/pair&gt;</span></div><div class="line"><span class="regexp">      &lt;pair&gt;</span></div><div class="line"><span class="regexp">        &lt;DivisibleBy value=&#123;5&#125; /</span>&gt;</div><div class="line">        &lt;always value=<span class="string">"Buzz"</span> /&gt;</div><div class="line">      &lt;<span class="regexp">/pair&gt;</span></div><div class="line"><span class="regexp">      &lt;pair&gt;</span></div><div class="line"><span class="regexp">        &lt;t /</span>&gt;</div><div class="line">        &lt;identity /&gt;</div><div class="line">      &lt;<span class="regexp">/pair&gt;</span></div><div class="line"><span class="regexp">    &lt;/</span>cond&gt;</div><div class="line">  &lt;<span class="regexp">/map&gt;</span></div><div class="line"><span class="regexp">);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">console.log(</span></div><div class="line"><span class="regexp">  &lt;FizzBuzz&gt;</span></div><div class="line"><span class="regexp">    &lt;range&gt;</span></div><div class="line"><span class="regexp">      &#123;1&#125;</span></div><div class="line"><span class="regexp">      &#123;16&#125;</span></div><div class="line"><span class="regexp">    &lt;/</span>range&gt;</div><div class="line">  &lt;<span class="regexp">/FizzBuzz&gt;</span></div><div class="line"><span class="regexp">);</span></div></pre></td></tr></table></figure>
+<p>现在，你可以用ramda做的所有事情都可以用JSX来做了。你可以使用它来做任何事情，包括归并排序：</p>
+<p><img src="/img/16522dd37ca244f5.png" alt="这里写图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/01/前端缓存概述/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/01/前端缓存概述/" itemprop="url">前端缓存概述</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-01T13:00:06+08:00">
+                2018-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="前端缓存概述"><a href="#前端缓存概述" class="headerlink" title="前端缓存概述"></a>前端缓存概述</h3><p>前端缓存主要是分为HTTP缓存和浏览器缓存。其中HTTP缓存是在HTTP请求传输时用到的缓存，主要在服务器代码上设置；而浏览器缓存则主要由前端开发在前端js上进行设置。下面会分别具体描述。</p>
+<p><img src="/img/bVbekda.png" alt="这里写图片描述"></p>
+<h3 id="前端缓存分类"><a href="#前端缓存分类" class="headerlink" title="前端缓存分类"></a>前端缓存分类</h3><h4 id="HTTP缓存"><a href="#HTTP缓存" class="headerlink" title="HTTP缓存"></a>HTTP缓存</h4><blockquote>
+<p>整体流程：HTTP缓存都是从第二次请求开始的。<br>第一次请求资源时，服务器返回资源，并在respone header头中回传资源的缓存参数；第二次请求时，浏览器判断这些请求参数，击中强缓存就直接200，否则就把请求参数加到request header头中传给服务器，看是否击中协商缓存，击中则返回304，否则服务器会返回新的资源。</p>
+</blockquote>
+<p>HTTP缓存分为强缓存和协议缓存，它们的区别如下：</p>
+<p><img src="/img/bVbekkz.png" alt="这里写图片描述"></p>
+<blockquote>
+<p>200 from disk or 200 from memory :<br>强缓存的200也有两种情况：200 from disk和200 from memory。现在我没有找到明确的文档来描述这种区别的发生条件。知乎这个问题中提到了一些情景，可以自行取用。</p>
+</blockquote>
+<h4 id="协商缓存"><a href="#协商缓存" class="headerlink" title="协商缓存"></a>协商缓存</h4><p>协商缓存都是成对出现的。</p>
+<p><img src="/img/bVbeklT.png" alt="这里写图片描述"></p>
+<h4 id="最佳优化策略-消灭304"><a href="#最佳优化策略-消灭304" class="headerlink" title="最佳优化策略-消灭304"></a>最佳优化策略-消灭304</h4><blockquote>
+<p>最佳优化策略：因为协商缓存本身也有http请求的损耗，所以最佳优化策略是要尽可能的将静态文件存储为较长的时间，多利用强缓存而不是协商缓存，即消灭304。</p>
+</blockquote>
+<p>但是给文件设置一个很长的Cacha-Control也会带来其他的问题，最主要的问题是静态内容更新时，用户不能及时获得更新的内容。这时候就要使用hash的方法对文件进行命名，通过每次更新不同的静态文件名来消除强缓存的影响。</p>
+<blockquote>
+<p>Hash命名：<br><a href="http://xxx.com/main.5eas34fa.js" target="_blank" rel="external">http://xxx.com/main.5eas34fa.js</a><br><a href="http://xxx.com/main.js?5eas34fa" target="_blank" rel="external">http://xxx.com/main.js?5eas34fa</a><br><a href="http://xxx.com/5eas34fa/main.js" target="_blank" rel="external">http://xxx.com/5eas34fa/main.js</a></p>
+</blockquote>
+<h4 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h4><h4 id="本地存储小容量"><a href="#本地存储小容量" class="headerlink" title="本地存储小容量"></a>本地存储小容量</h4><p>Cookie主要用于用户信息的存储，Cookie的内容可以自动在请求的时候被传递给服务器。<br>LocalStorage的数据将一直保存在浏览器内，直到用户清除浏览器缓存数据为止。<br>SessionStorage的其他属性同LocalStorage，只不过它的生命周期同标签页的生命周期，当标签页被关闭时，SessionStorage也会被清除。</p>
+<p><img src="/img/bVbeuT8.png" alt="这里写图片描述"></p>
+<h4 id="本地存储大容量"><a href="#本地存储大容量" class="headerlink" title="本地存储大容量"></a>本地存储大容量</h4><p>WebSql和IndexDB主要用在前端有大容量存储需求的页面上，例如，在线编辑浏览器或者网页邮箱。</p>
+<p><img src="/img/bVbeuT7.png" alt="这里写图片描述"></p>
+<h4 id="应用缓存与PWA"><a href="#应用缓存与PWA" class="headerlink" title="应用缓存与PWA"></a>应用缓存与PWA</h4><p>应用缓存全称为Offline Web Application，它的缓存内容被存在浏览器的Application Cache中。它也是一个被W3C标准废弃的功能，主要是通过manifest文件来标注要被缓存的静态文件清单。但是在缓存静态文件的同时，也会默认缓存html文件。这导致页面的更新只能通过manifest文件中的版本号来决定。而且，即使我们更新了version，用户的第一次访问还是会访问到老的页面，只有下一次再访问才能访问到新的页面。所以，应用缓存只适合那种常年不变化的静态网站。如此的不方便，也是被废弃的重要原因。</p>
+<p>PWA全称是渐进式网络应用，主要目标是实现web网站的APP式功能和展示。尽管PWA也有manifest文件，但是与应用缓存却完全不同。不同于manifest简单的将文件通过是否缓存进行分类，PWA用manifest构建了自己的APP骨架。另外，PWA用Service Worker来控制缓存的使用。这一块的内容较多，在这里就不详细展开了。</p>
+<p><img src="/img/bVbeuTV.png" alt="这里写图片描述"></p>
+<h4 id="往返缓存"><a href="#往返缓存" class="headerlink" title="往返缓存"></a>往返缓存</h4><p>往返缓存又称为BFCache，是浏览器在前进后退按钮上为了提升历史页面的渲染速度的一种策略。BFCache会缓存所有的DOM结构，但是问题在于，一些页面开始时进行的上报或者请求可能会被影响。这个问题现在主要会出现在微信h5的开发中。</p>
+<p>去除BFCache有多种方法，但不是本文的重点，想了解的同学可以看<a href="https://segmentfault.com/a/1190000015321895" target="_blank" rel="external">《浏览器往返缓存（Back/Forward cache）问题的分析与解决》</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/20/vuex持久化方案探究/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/20/vuex持久化方案探究/" itemprop="url">vuex持久化方案探究</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-20T11:00:16+08:00">
+                2018-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>用vue开发中大型应用时候，我们通常都会使用vuex进行状态管理，但由于vuex是将数据以js对象的形势维护在内存中，所以当页面刷新时候，存在内存中的vuex数据将会丢失，在很多场景中，我们不愿意看到这样的结果的</p>
+<h3 id="引出的问题"><a href="#引出的问题" class="headerlink" title="引出的问题"></a>引出的问题</h3><p>那么如何实现vuex的持久化，使得他能变得像localStorage，sessionStorag一样呢？</p>
+<h3 id="自己造轮子"><a href="#自己造轮子" class="headerlink" title="自己造轮子"></a>自己造轮子</h3><p>大体的思路无非就是将vuex的state存起来，初始化的时候去读取缓存并注册vuex，具体可看下面两种方案：</p>
+<h4 id="方案1：编写vuex插件"><a href="#方案1：编写vuex插件" class="headerlink" title="方案1：编写vuex插件"></a>方案1：编写vuex插件</h4><p>vuex提供了插件的功能，我们可以在每次mutation的时候将state保存下来，存到localStorage，sessionStorage中，然后页面初始化的时候，读取存储的state值，覆盖state的初始值</p>
+<h4 id="方案2：利用beforeunload事件"><a href="#方案2：利用beforeunload事件" class="headerlink" title="方案2：利用beforeunload事件"></a>方案2：利用beforeunload事件</h4><p><a href="https://developer.mozilla.org/en-US/docs/Web/Events/beforeunload" target="_blank" rel="external">beforeunload</a>事件可能大家用的不是特别多，他并不是一个新特性，而是一个很老的事件，并且兼容性特别好（IE6都兼容了，你敢信）</p>
+<p>beforeunload事件会在页面卸载之前执。如刷新，返回到其他页面，关闭等操作都会触发这个事件<br>这就给我们提供另外一种缓存思路，与其每次mutation时记录变化，为何不在页面unload时，一次性把要缓存的state都缓存起来呢，这样效率不是更高吗？<br>基于这个原理，我开发了一款插件<a href="https://developer.mozilla.org/en-US/docs/Web/Events/beforeunload" target="_blank" rel="external">vue-vuex-persist</a></p>
+<h3 id="第三方解决方案"><a href="#第三方解决方案" class="headerlink" title="第三方解决方案"></a>第三方解决方案</h3><blockquote>
+<p>大多数第三方插件基于vuex插件实现。</p>
+</blockquote>
+<p>社区也有一些不错的插件，如<a href="https://github.com/robinvdvleuten/vuex-persistedstate" target="_blank" rel="external">vuex-persistedstate</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/Virtual DOM的简单实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -874,1126 +1951,6 @@ var _hmt = _hmt || [];
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/09/前端需要了解的 SSO 与 CAS 知识 /">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/09/前端需要了解的 SSO 与 CAS 知识 /" itemprop="url">前端需要了解的 SSO 与 CAS 知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-09T09:26:50+08:00">
-                2017-11-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>不管是什么公司，只要产品数量大于一个，那么单点登录势必是绕不过去的一个问题。作为前端程序员，我们对其虽然接触不多，但适当的了解还是必要的。本文就来谈谈单点登录相关的问题。<br>前置知识<br>了解 SSO，最好具备以下知识。当然，如果不是特别熟，也不影响阅读。</p>
-<p>cookie及session<br>浏览器同源策略及跨域<br>了解登录系统的构成<br>什么是 SSO 与 CAS?</p>
-<h3 id="SSO"><a href="#SSO" class="headerlink" title="SSO"></a>SSO</h3><p>SSO 是英文 Single Sign On 的缩写，翻译过来就是单点登录。顾名思义，它把两个及以上个产品中的用户登录逻辑抽离出来，达到只输入一次用户名密码，就能同时登录多个产品的效果。<br>使用 SSO 的优点很明显：<br>提升用户体验。就以我厂为例。我厂有两个产品，丁香人才网和丁香园论坛，假如你是我厂用户，肯定无法忍受登录丁香园论坛的时候输入一次用户名密码，登录人才网又要输入一次用户名密码吧？<br>避免重复开发。假如你是我厂后端，每天任务都饱和的不行，肯定无法忍受到人才网开发一套登录逻辑，到论坛又开发一套登录逻辑吧？<br>提升安全系数<br>假如你是我厂运维，发现了一个安全隐患需要紧急修复。你肯定无法忍受给茫茫多的产品后端都发一封邮件，责令修复吧？万一漏了一个呢？ </p>
-<h3 id="CAS"><a href="#CAS" class="headerlink" title="CAS"></a>CAS</h3><p>SSO 仅仅是一种架构，一种设计，而 CAS 则是实现 SSO 的一种手段。两者是抽象与具体的关系。当然，除了 CAS 之外，实现 SSO 还有其他手段，比如简单的 cookie。CAS （Central Authentication Service）中心授权服务，本身是一个开源协议，分为 1.0 版本和 2.0 版本。1.0 称为基础模式，2.0称为代理模式，适用于存在非 Web 应用之间的单点登录。<br>同域 SSO如图，同域 SSO 是最简单的一种情况。此时，两个产品都是在一个域名下，单点登录是很自然的选择。我们来捋一捋步骤，搞清楚这里的步骤是理解后文的基础，千万不要跳过。<br>用户访问产品 a，向 后台服务器发送登录请求。<br>登录认证成功，服务器把用户的登录信息写入 session。<br>服务器为该用户生成一个 cookie，并加入到 response header 中，随着请求返回而写入浏览器。<br>该 cookie 的域设定为 dxy.cn。<br>下一次，当用户访问同域名的产品 b 时，由于 a 和 b 在同一域名下，也是 dxy.cn，浏览器会自动带上之前的 cookie。此时后台服务器就可以通过该 cookie 来验证登录状态了。<br>实际上，这种场景就是最简单最传统的登录操作。虽然我们把产品 a 和 b 人为分开了，但由于它们在同域上，就算看成是同一产品的不同类目也未尝不可。我们没有设置独立的 SSO 服务器，因为业务后台服务器本身就足以承担 SSO 的职能。<br>同父域 SSO<br>同父域 SSO 是同域 SSO 的简单升级，唯一的不同在于，服务器在返回 cookie 的时候，要把cookie 的 domain 设置为其父域。比如两个产品的地址分别为 a.dxy.cn 和 b.dxy.cn，那么 cookie 的域设置为 dxy.cn 即可。在访问 a 和 b 时，这个 cookie 都能发送到服务器，本质上和同域 SSO 没有区别。<br>.跨域 SSO<br>可以看到，在上面两种情况下，我们都没有专门设置 SSO 服务器。但是当两个产品不同域时，cookie 无法共享，所以我们必须设置独立的 SSO 服务器了。这个时候，我们就是通过标准的 CAS 方案来实现 SSO 的。<br>详解CAS</p>
-<p>CAS 1.0 协议定义了一组术语，一组票据，一组接口。<br>术语：</p>
-<p>Client：用户。<br>Server：中心服务器，也是 SSO 中负责单点登录的服务器。<br>Service：需要使用单点登录的各个服务，相当于上文中的产品 a/b。<br>/login：登录接口，用于登录到中心服务器。<br>/logout：登出接口，用于从中心服务器登出。<br>/validate：用于验证用户是否登录中心服务器。<br>/serviceValidate：用于让各个 service 验证用户是否登录中心服务器。 </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/03/阿里巴巴Java开发规约插件使用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/03/阿里巴巴Java开发规约插件使用/" itemprop="url">阿里巴巴Java开发规约插件使用</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-03T00:00:20+08:00">
-                2017-11-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/后端/" itemprop="url" rel="index">
-                    <span itemprop="name">后端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>就在今天 10月14日上午9：00 阿里巴巴于在杭州云栖大会《研发效能峰会》上，正式发布《阿里巴巴Java开发手册》扫描插件，该插件在扫描代码后，将不符合《手册》的代码按Blocker/Critical/Major三个等级显示在下方，甚至在IDEA上，还基于Inspection机制提供了实时检测功能，编写代码的同时也能快速发现问题所在。对于历史代码，部分规则实现了批量一键修复的功能。–两个字牛逼</p>
-<p>git地址为这里写链接内容 <a href="https://github.com/alibaba/p3c" target="_blank" rel="external">https://github.com/alibaba/p3c</a></p>
-<h3 id="IDea的安装方式："><a href="#IDea的安装方式：" class="headerlink" title="IDea的安装方式："></a>IDea的安装方式：</h3><p>IDEA版的插件发布到了IDEA官方仓库中(最低支持版本14.1.7，JDK1.7+)，<br>只需打开<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Settings &gt;&gt; Plugins &gt;&gt; Browse repositories</div></pre></td></tr></table></figure></p>
-<p>输入 Alibaba 搜索一下便可以看到对应插件了，点击安装等待安装完成。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2830896-cfd331e6143be5ec?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IDea"></p>
-<h3 id="Eclipse的安装方式"><a href="#Eclipse的安装方式" class="headerlink" title="Eclipse的安装方式"></a>Eclipse的安装方式</h3><p>Eclipse版插件支持4.2（Juno，JDK1.8+）及以上版本，提供Update Site，通过</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Help &gt;&gt; Install New Software</div></pre></td></tr></table></figure>
-<p>然后输入<a href="https://p3c.alibaba.com/plugin/eclipse/update" target="_blank" rel="external">https://p3c.alibaba.com/plugin/eclipse/update</a> 即可看到安装列表，安装即可。<br>插件的更新，可以通过 Help &gt;&gt; Check for Udates 进行新版本检测。</p>
-<h3 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h3><p><img src="http://upload-images.jianshu.io/upload_images/2830896-1911d3bf3eaaa16f?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IDea"><br><img src="http://upload-images.jianshu.io/upload_images/2830896-2debd0505d66e61b?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IDea"><br><img src="http://upload-images.jianshu.io/upload_images/2830896-59d3710547be75a7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IDea"></p>
-<p>还有自动提示的效果</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2830896-9467b7a4d9073b0c?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IDea"><br>可以说是非常棒了</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/2830896-e4a8c0354cc62ff7?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="IDea"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/01/2017天猫双11，1682亿背后的阿里绝密50+技术/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/01/2017天猫双11，1682亿背后的阿里绝密50+技术/" itemprop="url">2017天猫双11，1682亿背后的阿里绝密50+技术</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-01T22:43:56+08:00">
-                2017-11-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/其他/" itemprop="url" rel="index">
-                    <span itemprop="name">其他</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Spring-Cloud概述"><a href="#Spring-Cloud概述" class="headerlink" title="Spring Cloud概述"></a>Spring Cloud概述</h3><h4 id="传统的应用"><a href="#传统的应用" class="headerlink" title="传统的应用"></a>传统的应用</h4><p>1.单体应用<br>在此之前，笔者所在公司开发Java程序，大都使用Struts、Spring、Hibernate（MyBatis）等技术框架，每一个项目都会发布一个单体应用。例如开发一个进销存系统，将会开发一个war包部署到Tomcat中，每一次需要开发新的模块或添加新功能时，都会在原来的基础上不断的添加。若干年后，这个war包不断的膨胀，程序员在进行调试时，服务器也可能需要启动半天，维护这个系统的效率极为低下。这样一个war包，涵盖了库存、销售、会员、报表等模块，如图1-1。<br><img src="https://static.oschina.net/uploads/space/2017/0924/095718_XMPj_3665821.png" alt="图1-1 单体应用"><br>这样的单体应用隐患非常多，任何的一个bug，都有可能导致整个系统宕机。笔者印象最深刻的是，曾经有一客户在高峰期，导出一张销售明细报表（数据量较大），最终造成整个系统瘫痪，前台的销售人员无法售卖。维护这样一个系统，不仅效率极低，而且充满风险，项目组的各个成员惶惶不可终日，我们需要本质上的改变。</p>
-<p>2.架构演进<br>针对以上的单体应用的问题，我们参考SOA架构，将各个模块划分独立的服务模块（war），并且使用了数据库的读写分离，架构如图1-2。<br><img src="https://static.oschina.net/uploads/space/2017/0924/095730_JNIO_3665821.png" alt="图1-2 架构演进"><br>各个模块之间会存在相互调用的依赖关系，例如销售模块会调用会员模块的接口，为了减少各个模块之间的耦合，我们加入了企业服务总线（ESB），各模块与ESB之间的架构如图1-3所示。<br><img src="https://static.oschina.net/uploads/space/2017/0924/095740_2lFc_3665821.png" alt="图1-2 架构演进"><br>加入ESB后，各个模块将服务发布到ESB中，它们与ESB之间使用SOAP协议进行通信。图1-2与图1-3的架构实现后，整个系统的性能有了明显的提升，各个模块的耦合度也降低了。运行了一段日子后，又出现了新的问题，由于销售终端数量的增多，销售模块明显超过其承受能力，为了保证销售前端的正常运行，我们使用了Nginx做负载均衡，请见图1-4。<br><img src="https://static.oschina.net/uploads/space/2017/0924/095748_jOP0_3665821.png" alt="图1-3 ESB"><br>加入ESB后，各个模块将服务发布到ESB中，它们与ESB之间使用SOAP协议进行通信。图1-2与图1-3的架构实现后，整个系统的性能有了明显的提升，各个模块的耦合度也降低了。运行了一段日子后，又出现了新的问题，由于销售终端数量的增多，销售模块明显超过其承受能力，为了保证销售前端的正常运行，我们使用了Nginx做负载均衡，请见图1-4。<br><img src="https://static.oschina.net/uploads/space/2017/0924/095748_jOP0_3665821.png" alt="图1-4 使用Nginx"><br>随着销售模块的增多，带来了许多问题，例如管理这些模块，对于运维工程师来说，是一项艰巨的任务，一旦销售模块有所修改，他们将通宵达旦进行升级。另外，企业服务总线也有可能成为性能的瓶颈，虽然目前仍未出现该问题，但我们需要未雨绸缪。</p>
-<p>3.架构要求<br>从前面的架构演进可知，应用中的每一个点，都有可能成为系统的问题点。随着互联网应用的普及，在大数据、高并发的环境下，我们的系统架构需要面对更为严苛的挑战，我们需要一套新的架构，它起码能满足以下要求<br>高性能：这是应用程序的基本要求。</p>
-<ul>
-<li>独立性：其中一个模块出现bug或者其他问题，不可以影响其他模块或者整个应用。</li>
-<li>容易扩展：应用中的每一个节点，都可以根据实际需要进行扩展。</li>
-<li>便于管理：对于各个模块的资源，可以轻松进行管理、升级，减少维护成本。</li>
-<li>状态监控与警报：对整个应用程序进行监控，当某一个节点出现问题时，能及时发出警报。</li>
-</ul>
-<p>为了能解决遇到的问题、达到以上的架构要求，我们开始研究Spring Cloud。</p>
-<h4 id="微服务与Spring-Cloud"><a href="#微服务与Spring-Cloud" class="headerlink" title="微服务与Spring Cloud"></a>微服务与Spring Cloud</h4><p>1.什么是微服务<br>微服务一词来源Martin Fowler的“Microservices”一文，微服务是一种架构风格，将单体应用划分为小型的服务单元，微服务之间使用HTTP的API进行资源访问与操作。</p>
-<p>在对单体应用的划分上，微服务与前面的SOA架构有点类似，但是SOA架构侧重于将每个单体应用的服务集成到ESB上，而微服务做得更加彻底，强调将整个模块变成服务组件，微服务对模块的划分粒度可能会更细。以我们前面的销售、会员模块为例，在SOA架构中，只需要将相应的服务发布到ESB容器就可以了，而在微服务架构中，这两个模块本身，将会变为一个或多个的服务组件。SOA架构与微服务架构，请见图1-5与图1-6。</p>
-<p><img src="https://static.oschina.net/uploads/space/2017/0924/095758_YXOu_3665821.png" alt="图1-5 SOA架构"></p>
-<p><img src="https://static.oschina.net/uploads/space/2017/0924/095810_5ep4_3665821.png" alt="图1-6 微服务架构"></p>
-<p>在微服务的架构上，Martin Fowler的文章肯定了Netflix的贡献，接下来，我们了解一下Netflix OSS。</p>
-<ol>
-<li>关于Netflix OSS<br>Netflix是一个互联网影片提供商，在几年前，Netflix公司成立了自己的开源中心，名称为Netflix Open Source Software Center，简称Netflix OSS。这个开源组织专注于大数据、云计算方面的技术，提供了多个开源框架，这些框架包括大数据工具、构建工具、基于云平台的服务工具等。Netflix所提供的这些框架，很好的遵循微服务所推崇的理念，实现了去中心化的服务管理、服务容错等机制。</li>
-</ol>
-<p>3.Spring Cloud与Netflix<br>Spring Cloud并不是一个具体的框架，大家可以把它理解为一个工具箱，它提供的各类工具，可以帮助我们快速的构建分布式系统。</p>
-<p>Spring Cloud的各个项目基于Spring Boot，将Netflix的多个框架进行封装，并且通过自动配置的方式将这些框架绑定到Spring的环境中，从而简化了这些框架的使用。由于Spring Boot的简便，使得我们在使用Spring Cloud时，很容易的将Netflix各个框架整合进我们的项目中。Spring Cloud下的“Spring Cloud Netflix”模块，主要封装了Netflix的以下项目：<br>Eureka：基于REST服务的分布式中间件，主要用于服务管理。</p>
-<ul>
-<li>Hystrix：容错框架，通过添加延迟阀值以及容错的逻辑，来帮助我们控制分布式系统间组件的交互。</li>
-<li>Feign：一个REST客户端，目的是为了简化Web Service客户端的开发</li>
-<li>Ribbon：负载均衡框架，在微服务集群中为各个客户端的通信提供支持，它主要实现中间层应用程序的负载均衡</li>
-<li>Zuul：为微服务集群提供过代理、过滤、路由等功能。</li>
-</ul>
-<p>4.Spring Cloud的主要模块</p>
-<p>除了Spring Cloud Netflix模块外，Spring Cloud还包括以下几个重要的模块：</p>
-<ul>
-<li>Spring Cloud Config：为分布式系统提供了配置服务器和配置客户端，通过对它们的配置，可以很好的管理集群中的配置文件。</li>
-<li>Spring Cloud Sleuth：服务跟踪框架，可以与Zipkin、Apache HTrace和ELK等数据分析、服务跟踪系统进行整合，为服务跟踪、解决问题提供了便利。</li>
-<li>Spring Cloud Stream：用于构建消息驱动微服务的框架，该框架在Spring Boot的基础上，整合了“Spring Integration”来连接消息代理中间件。</li>
-<li>Spring Cloud Bus：连接RabbitMQ、Kafka等消息代理的集群消息总线。</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/12/Java内存模型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/12/Java内存模型/" itemprop="url">Java内存模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-12T20:38:11+08:00">
-                2017-09-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/后端/" itemprop="url" rel="index">
-                    <span itemprop="name">后端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Java内存模型即Java Memory Model，简称JMM。JMM定义了Java 虚拟机(JVM)在计算机内存(RAM)中的工作方式。JVM是整个计算机虚拟模型，所以JMM是隶属于JVM的。</p>
-<h3 id="并发编程模型的分类"><a href="#并发编程模型的分类" class="headerlink" title="并发编程模型的分类"></a>并发编程模型的分类</h3><p>在并发编程中，我们需要处理两个关键问题：线程之间如何通信及线程之间如何同步。<br>这里的线程是指并发执行的活动实体，通信是指线程之间以何种机制来交换信息。</p>
-<p>在命令式编程中，线程之间的通信机制有两种：<strong>共享内存和消息传递。</strong><br>在共享内存的并发模型里，线程之间共享程序的公共状态，线程之间通过写-读内存中的公共状态来隐式进行通信。<br>在消息传递的并发模型里，线程之间没有公共状态，线程之间必须通过明确的发送消息来显式进行通信。</p>
-<p>同步是指程序用于控制不同线程之间操作发生相对顺序的机制。在共享内存并发模型里，同步是显式进行的。程序员必须显式指定某个方法或某段代码需要在线程之间互斥执行。<br>在消息传递的并发模型里，由于消息的发送必须在消息的接收之前，因此同步是隐式进行的。</p>
-<p><strong>Java的并发采用的是共享内存模型</strong><br>Java线程之间的通信总是隐式进行，整个通信过程对程序员完全透明。</p>
-<h3 id="java内存模型三个特性"><a href="#java内存模型三个特性" class="headerlink" title="java内存模型三个特性"></a>java内存模型三个特性</h3><p>Java内存模型有三个特性：原子性、可见性、有序性。<br>这个三个特性主要体现在多线程环境下对变量的操作。这些变量包括：实例字段、静态字段、构成数组对象的元素。这些变量都保存在堆中，<br>堆是线程共享的。那么这些变量在多线程环境下就有可能出现所谓“线程不安全”的问题。 另，局部变量和方法参数是线程私有的，保存在栈中，不会出现线程安全问题。</p>
-<blockquote>
-<p><strong>原子性 : </strong>表明此操作是不可分割的，不可中断，要全部执行，要么全部不执行。<br>.<br><strong>可见性 : </strong>一个线程对某一共享变量修改之后，另一个线程要立即获取到修改后的结果。<br>.<br><strong>有序性 : </strong>在单线程环境下，程序永远会“有序的”执行，即：线程内表现为串行语义。</p>
-</blockquote>
-<h3 id="Java内存模型的抽象"><a href="#Java内存模型的抽象" class="headerlink" title="Java内存模型的抽象"></a>Java内存模型的抽象</h3><p>在Java中，所有实例域、静态域和数组元素存储在堆内存中，堆内存在线程之间共享。</p>
-<p>局部变量，方法定义参数和异常处理器参数不会在线程之间共享，不会出现线程安全问题，也不受内存模型的影响。</p>
-<p><strong>Java线程之间的通信由Java内存模型（本文简称为JMM）控制，JMM决定一个线程对共享变量的写入何时对另一个线程可见。</strong></p>
-<p>从抽象的角度来看，JMM定义了线程和主内存之间的抽象关系：线程之间的共享变量存储在主内存（main memory）中，每个线程都有一个私有的本地内存（local memory），本地内存中存储了该线程以读/写共享变量的副本</p>
-<blockquote>
-<p><strong>本地内存 : </strong> 是JMM的一个抽象概念，并不真实存在。它涵盖了缓存，写缓冲区，寄存器以及其他的硬件和编译器优化</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160921182337904" alt="这里写图片描述"></p>
-<p>从上图来看，线程A与线程B之间如要通信的话，必须要经历下面2个步骤：</p>
-<blockquote>
-<ol>
-<li>首先，线程A把本地内存A中更新过的共享变量刷新到主内存中去。</li>
-<li>然后，线程B到主内存中去读取线程A之前已更新过的共享变量。</li>
-</ol>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160921182748551" alt="这里写图片描述"></p>
-<p>从整体来看，这两个步骤实质上是线程A在向线程B发送消息，而且这个通信过程必须要经过主内存。JMM通过控制主内存与每个线程的本地内存之间的交互，来为java程序员提供内存可见性保证。</p>
-<p>上面也说到了，Java内存模型只是一个抽象概念，那么它在Java中具体是怎么工作的呢？为了更好的理解上Java内存模型工作方式，下面就JVM对Java内存模型的实现、硬件内存模型及它们之间的桥接做详细介绍。</p>
-<h3 id="JVM对Java内存模型的实现"><a href="#JVM对Java内存模型的实现" class="headerlink" title="JVM对Java内存模型的实现"></a>JVM对Java内存模型的实现</h3><p>在JVM内部，Java内存模型把内存分成了两部分：线程栈区和堆区，下图展示了Java内存模型在JVM中的逻辑视图： </p>
-<p><img src="http://img.blog.csdn.net/20160921182837697" alt="这里写图片描述"></p>
-<blockquote>
-<p><strong>线程栈 : </strong> JVM中运行的每个线程都拥有自己的线程栈，线程栈包含了当前线程执行的方法调用相关信息，我们也把它称作调用栈。随着代码的不断执行，调用栈会不断变化。<br>线程栈还包含了当前方法的所有本地变量信息。<strong>一个线程只能读取自己的线程栈</strong>，也就是说，线程中的本地变量对其它线程是不可见的。即使两个线程执行的是同一段代码，它们也会各自在自己的线程栈中创建本地变量，因此，每个线程中的本地变量都会有自己的版本。<br>所有原始类型(boolean,byte,short,char,int,long,float,double)的本地变量都直接保存在线程栈当中，对于它们的值各个线程之间都是独立的。<br>对于原始类型的本地变量，一个线程可以传递一个副本给另一个线程，当它们之间是无法共享的。</p>
-</blockquote>
-<p>..</p>
-<blockquote>
-<p><strong>堆 </strong> : 堆区包含了Java应用创建的所有对象信息，不管对象是哪个线程创建的，其中的对象包括原始类型的封装类（如Byte、Integer、Long等等）。不管对象是属于一个成员变量还是方法中的本地变量，它都会被存储在堆区。</p>
-</blockquote>
-<p>下图展示了调用栈和本地变量都存储在栈区，对象都存储在堆区： </p>
-<p><img src="http://img.blog.csdn.net/20160921182903818" alt="这里写图片描述"></p>
-<p>一个本地变量如果是原始类型，那么它会被完全存储到栈区。<br>一个本地变量也有可能是一个对象的引用，这种情况下，这个本地引用会被存储到栈中，但是对象本身仍然存储在堆区。</p>
-<p>对于一个对象的成员方法，这些方法中包含本地变量，仍需要存储在栈区，即使它们所属的对象在堆区。<br>对于一个对象的成员变量，不管它是原始类型还是包装类型，都会被存储到堆区。</p>
-<p>Static类型的变量以及类本身相关信息都会随着类本身存储在堆区。<br>堆中的对象可以被多线程共享。如果一个线程获得一个对象的应用，它便可访问这个对象的成员变量。如果两个线程同时调用了同一个对象的同一个方法，那么这两个线程便可同时访问这个对象的成员变量，但是对于本地变量，每个线程都会拷贝一份到自己的线程栈中。</p>
-<p><img src="http://img.blog.csdn.net/20160921182948601" alt="这里写图片描述"></p>
-<h3 id="硬件内存架构"><a href="#硬件内存架构" class="headerlink" title="硬件内存架构"></a>硬件内存架构</h3><p>不管是什么内存模型，最终还是运行在计算机硬件上的，所以我们有必要了解计算机硬件内存架构，下图就简单描述了当代计算机硬件内存架构： </p>
-<p><img src="http://img.blog.csdn.net/20160921183013570" alt="这里写图片描述"></p>
-<p>不管是什么内存模型，最终还是运行在计算机硬件上的，所以我们有必要了解计算机硬件内存架构，下图就简单描述了当代计算机硬件内存架构：<br>这里写图片描述</p>
-<p>现代计算机一般都有2个以上CPU，而且每个CPU还有可能包含多个核心。因此，如果我们的应用是多线程的话，这些线程可能会在各个CPU核心中并行运行。</p>
-<p>在CPU内部有一组CPU寄存器，也就是CPU的储存器。CPU操作寄存器的速度要比操作计算机主存快的多。在主存和CPU寄存器之间还存在一个CPU缓存，CPU操作CPU缓存的速度快于主存但慢于CPU寄存器。某些CPU可能有多个缓存层（一级缓存和二级缓存）。计算机的主存也称作RAM，所有的CPU都能够访问主存，而且主存比上面提到的缓存和寄存器大很多。</p>
-<p>当一个CPU需要访问主存时，会先读取一部分主存数据到CPU缓存，进而在读取CPU缓存到寄存器。当CPU需要写数据到主存时，同样会先flush寄存器到CPU缓存，然后再在某些节点把缓存数据flush到主存。</p>
-<h3 id="Java内存模型和硬件架构之间的桥接"><a href="#Java内存模型和硬件架构之间的桥接" class="headerlink" title="Java内存模型和硬件架构之间的桥接"></a>Java内存模型和硬件架构之间的桥接</h3><p>正如上面讲到的，Java内存模型和硬件内存架构并不一致。硬件内存架构中并没有区分栈和堆，从硬件上看，不管是栈还是堆，大部分数据都会存到主存中，当然一部分栈和堆的数据也有可能会存到CPU寄存器中，如下图所示，Java内存模型和计算机硬件内存架构是一个交叉关系：<br><img src="http://img.blog.csdn.net/20160921183144995" alt="这里写图片描述"></p>
-<p>当对象和变量存储到计算机的各个内存区域时，必然会面临一些问题，其中最主要的两个问题是：</p>
-<blockquote>
-<ol>
-<li>共享对象对各个线程的可见性</li>
-<li>共享对象的竞争现象</li>
-</ol>
-</blockquote>
-<h4 id="共享对象的可见性"><a href="#共享对象的可见性" class="headerlink" title="共享对象的可见性"></a>共享对象的可见性</h4><p>当多个线程同时操作同一个共享对象时，如果没有合理的使用volatile和synchronization关键字，一个线程对共享对象的更新有可能导致其它线程不可见。</p>
-<p>想象一下我们的共享对象存储在主存，一个CPU中的线程读取主存数据到CPU缓存，然后对共享对象做了更改，但CPU缓存中的更改后的对象还没有flush到主存，此时线程对共享对象的更改对其它CPU中的线程是不可见的。最终就是每个线程最终都会拷贝共享对象，而且拷贝的对象位于不同的CPU缓存中。</p>
-<p><img src="http://img.blog.csdn.net/20160921183218651" alt="这里写图片描述"></p>
-<p>要解决共享对象可见性这个问题，我们可以使用java volatile关键字。 Java’s volatile keyword. volatile 关键字可以保证变量会直接从主存读取，而对变量的更新也会直接写到主存。volatile原理是基于CPU内存屏障指令实现的。</p>
-<h4 id="竞争现象"><a href="#竞争现象" class="headerlink" title="竞争现象"></a>竞争现象</h4><p>如果多个线程共享一个对象，如果它们同时修改这个共享对象，这就产生了竞争现象。</p>
-<p>如下图所示，线程A和线程B共享一个对象obj。假设线程A从主存读取Obj.count变量到自己的CPU缓存，同时，线程B也读取了Obj.count变量到它的CPU缓存，并且这两个线程都对Obj.count做了加1操作。此时，Obj.count加1操作被执行了两次，不过都在不同的CPU缓存中。</p>
-<p>如果这两个加1操作是串行执行的，那么Obj.count变量便会在原始值上加2，最终主存中的Obj.count的值会是3。然而下图中两个加1操作是并行的，不管是线程A还是线程B先flush计算结果到主存，最终主存中的Obj.count只会增加1次变成2，尽管一共有两次加1操作</p>
-<p><img src="http://img.blog.csdn.net/20160921183251870" alt="这里写图片描述"></p>
-<p>要解决上面的问题我们可以使用java synchronized代码块。synchronized代码块可以保证同一个时刻只能有一个线程进入代码竞争区，synchronized代码块也能保证代码块中所有变量都将会从主存中读，当线程退出代码块时，对所有变量的更新将会flush到主存，不管这些变量是不是volatile类型的。</p>
-<p><strong> volatile和synchronized区别 </strong></p>
-<ul>
-<li>volatile本质是在告诉jvm当前变量在寄存器（工作内存）中的值是不确定的，需要从主存中读取； synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞住。</li>
-<li>volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别的</li>
-<li>volatile仅能实现变量的修改可见性，不能保证原子性；而synchronized则可以保证变量的修改可见性和原子性</li>
-<li>volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。</li>
-<li>volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化</li>
-</ul>
-<p><strong> 对于volatile关键字，当且仅当满足以下所有条件时可使用 </strong></p>
-<ul>
-<li>变量的写入操作不依赖变量的当前值，或者你能确保只有单个线程更新变量的值。</li>
-<li>该变量没有包含在具有其他变量的不变式中。</li>
-</ul>
-<h3 id="支撑Java内存模型的基础原理"><a href="#支撑Java内存模型的基础原理" class="headerlink" title="支撑Java内存模型的基础原理"></a>支撑Java内存模型的基础原理</h3><h4 id="指令重排序"><a href="#指令重排序" class="headerlink" title="指令重排序"></a>指令重排序</h4><p>在执行程序时，为了提高性能，编译器和处理器会对指令做重排序。但是，JMM确保在不同的编译器和不同的处理器平台之上，通过插入特定类型的Memory Barrier来禁止特定类型的编译器重排序和处理器重排序，为上层提供一致的内存可见性保证。</p>
-<ul>
-<li>编译器优化重排序：编译器在不改变单线程程序语义的前提下，可以重新安排语句的执行顺序。</li>
-<li>指令级并行的重排序：如果不存l在数据依赖性，处理器可以改变语句对应机器指令的执行顺序。</li>
-<li>内存系统的重排序：处理器使用缓存和读写缓冲区，这使得加载和存储操作看上去可能是在乱序执行。</li>
-</ul>
-<p><strong>数据依赖性</strong></p>
-<p>如果两个操作访问同一个变量，其中一个为写操作，此时这两个操作之间存在数据依赖性。<br>编译器和处理器不会改变存在数据依赖性关系的两个操作的执行顺序，即不会重排序。</p>
-<p><strong>as-if-serial</strong></p>
-<p>不管怎么重排序，单线程下的执行结果不能被改变，编译器、runtime和处理器都必须遵守as-if-serial语义。</p>
-<h4 id="内存屏障（Memory-Barrier-）"><a href="#内存屏障（Memory-Barrier-）" class="headerlink" title="内存屏障（Memory Barrier ）"></a>内存屏障（Memory Barrier ）</h4><p>通过内存屏障可以禁止特定类型处理器的重排序，从而让程序按我们预想的流程去执行。内存屏障，又称内存栅栏，是一个CPU指令，基本上它是一条这样的指令：</p>
-<ul>
-<li>保证特定操作的执行顺序。</li>
-<li>影响某些数据（或则是某条指令的执行结果）的内存可见性。</li>
-</ul>
-<p>编译器和CPU能够重排序指令，保证最终相同的结果，尝试优化性能。插入一条Memory Barrier会告诉编译器和CPU：不管什么指令都不能和这条Memory Barrier指令重排序。<br>Memory Barrier所做的另外一件事是强制刷出各种CPU cache，如一个Write-Barrier（写入屏障）将刷出所有在Barrier之前写入 cache 的数据，因此，任何CPU上的线程都能读取到这些数据的最新版本。</p>
-<p>上面讲到的volatile是基于Memory Barrier实现的。</p>
-<p>如果一个变量是volatile修饰的，JMM会在写入这个字段之后插进一个Write-Barrier指令，并在读这个字段之前插入一个Read-Barrier指令。这意味着，如果写入一个volatile变量，就可以保证：</p>
-<ul>
-<li>一个线程写入变量a后，任何线程访问该变量都会拿到最新值。</li>
-<li>在写入变量a之前的写入操作，其更新的数据对于其他线程也是可见的。因为Memory Barrier会刷出cache中的所有先前的写入。</li>
-</ul>
-<h4 id="happens-before"><a href="#happens-before" class="headerlink" title="happens-before"></a>happens-before</h4><p>从jdk5开始，java使用新的JSR-133内存模型，基于happens-before的概念来阐述操作之间的内存可见性。<br>在JMM中，如果一个操作的执行结果需要对另一个操作可见，那么这两个操作之间必须要存在happens-before关系，这个的两个操作既可以在同一个线程，也可以在不同的两个线程中。</p>
-<p>与程序员密切相关的happens-before规则如下：</p>
-<ul>
-<li>程序顺序规则：一个线程中的每个操作，happens-before于该线程中任意的后续操作。</li>
-<li>监视器锁规则：对一个锁的解锁操作，happens-before于随后对这个锁的加锁操作。</li>
-<li>volatile域规则：对一个volatile域的写操作，happens-before于任意线程后续对这个volatile域的读。</li>
-<li>传递性规则：如果 A happens-before B，且 B happens-before C，那么A happens-before C。</li>
-</ul>
-<p>注意：两个操作之间具有happens-before关系，并不意味前一个操作必须要在后一个操作之前执行！仅仅要求前一个操作的执行结果，对于后一个操作是可见的，且前一个操作按顺序排在后一个操作之前。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/03/Java性能调优随记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/03/Java性能调优随记/" itemprop="url">Java性能调优随记</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T17:41:37+08:00">
-                2017-09-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/后端/" itemprop="url" rel="index">
-                    <span itemprop="name">后端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>事情发生在16年了。当时系统beta版本进行上线前的性能压测时，发现进程的内存占用率会持续升高，与之而来的时，性能的接口性能的持续下降。最奇怪的是，停止压测后CPU和内存开销并没有恢复过来。记得之前发过博文，不知道怎么回事找不到了。 应其他同事的要求，回忆一下当时的定位过程，再做一个简单分享。<br>在讲述整个过程前，请大家自备两个梯子：<br>1)Java虚拟机的垃圾回收机制<br>2)jmeter的基本使用知识</p>
-<p>首先下载jmeter工具，感觉是一个轻量级的性能检测工具，很好用。有基于windows 的GUI版本，也有在linux上运行的命令行版本。<br>下载地址：<a href="http://jmeter.apache.org/download_jmeter.cgi" target="_blank" rel="external">http://jmeter.apache.org/download_jmeter.cgi</a></p>
-<p>怪象简述<br>刚开始压测时，一切指标都是正常的，也达到了预期水平。<br><img src="https://yqfile.alicdn.com/d68a2baf560215bcbf654489328695c3aca91d76.png" alt="Github"><br>8小时后，性能直线下降。<br><img src="https://yqfile.alicdn.com/2824338ce1f4e454c7e46d2edf22af7f7b1efbdc.png" alt="Github"><br>停止压测后，CPU和内存，仍然居高不下。 不要小看 2.4%的内存占用，这是200多G内存的物理服务器。（后面部署方式已切换为虚拟机的部署方式）<br><img src="https://yqfile.alicdn.com/7ec0340ae5296cc1f690656974add8ea82cc0a3c.png" alt="Github"><br>定位解决<br>1) 首先命令行，看下java堆的情况：jmap -heap 24442<br>看见年老区的内存被占满了<br><img src="https://yqfile.alicdn.com/44e00eddb0bbd82e988038652c3276a52da80be1.png" alt="Github"><br>2) 继续执行命令：jsat –gcutil 24442 1000 5，<br>看见年老区 使用率 100%，同时执行了12304次 FullGC<br><img src="https://yqfile.alicdn.com/27faf3175cf3f30ca3f04b21ef88a699f7851643.png" alt="Github"><br>3）查看进程24442的线程信息： ps –mp 24442 –o THREAD,tid,time<br>发现很多线程运行了好几个小时<br><img src="https://yqfile.alicdn.com/3e4e149b1563c6bc1aec5f10ec1efbc0e6faefbd.png" alt="Github"></p>
-<p>这个时候，明显怀疑有内存泄露了。<br>再执行了两个命令（时间太久，没有找到截图了）：<br>jstat -printcompilation -h3 24442<br>jmap -histo 24442</p>
-<p>进一步发现，内存中某个类的实例数量和String类的实例数量，异常的多。<br>最后在排查代码，找到了具体的类 及其使用逻辑。发现是由于队列的使用不当，造成了内存泄露</p>
-<p>总结<br>本项目中，因为涉及频繁的小IO，所以开发同事期望通过生产者－队列－消费者的模型，用批量IO解决频繁小IO带来的资源开销。但在使用此模型时，忘计考虑了极限状态下，生产者的输入能力远大于消费者的消费能力时，会造成队列中的数据积压，进而造成内存泄露。但又因为常规情况下不会出现 此场景，所以很难发现这个bug。<br>这个案例告诉我们：<br>1) 对于一些关键接口，开发同事可以在完成开发后，自己用Jmeter压测一下，避免问题遗留到上线前期，造成巨大风险。<br>2) Java仍然会有内存泄露的情况，使用类似数组、队列、栈等数据结构时，需要格外小心。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/18/vue常见问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="hanx">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/20171022140737.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="hanx の 碎片栈">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/18/vue常见问题/" itemprop="url">Vue常见问题</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-18T13:00:06+08:00">
-                2017-07-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端/" itemprop="url" rel="index">
-                    <span itemprop="name">前端</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="active-class是哪个组件的属性？嵌套路由怎么定义？"><a href="#active-class是哪个组件的属性？嵌套路由怎么定义？" class="headerlink" title="active-class是哪个组件的属性？嵌套路由怎么定义？"></a>active-class是哪个组件的属性？嵌套路由怎么定义？</h4><p>vue-router模块的router-link组件。</p>
-<hr>
-<h4 id="怎么定义vue-router的动态路由？怎么获取传过来的动态参数？"><a href="#怎么定义vue-router的动态路由？怎么获取传过来的动态参数？" class="headerlink" title="怎么定义vue-router的动态路由？怎么获取传过来的动态参数？"></a>怎么定义vue-router的动态路由？怎么获取传过来的动态参数？</h4><p>在router目录下的index.js文件中，对path属性加上/:id。  使用router对象的params.id</p>
-<hr>
-<h4 id="VUE模板的核心"><a href="#VUE模板的核心" class="headerlink" title="VUE模板的核心"></a>VUE模板的核心</h4><p>Vue.js的组件可以理解为预先定义好了行为的ViewModel类。<br>1.模板（template）：模板声明了数据和最终展现给用户的DOM之间的映射关系。<br>2.初始数据（data）：一个组件的初始数据状态。对于可复用的组件来说，这通常是私有的状态。<br>3.接受的外部参数(props)：组件之间通过参数来进行数据的传递和共享。参数默认是单向绑定（由上至下），但也可以显式地声明为双向绑定。<br>4.方法（methods）：对数据的改动操作一般都在组件的方法内进行。可以通过v-on指令将用户输入事件和组件方法进行绑定。<br>5.生命周期钩子函数（lifecycle hooks）：一个组件会触发多个生命周期钩子函数，比如created，attached，destroyed等等。在这些钩子函数中，我们可以封装一些自定义的逻辑。和传统的MVC相比，可以理解为 Controller的逻辑被分散到了这些钩子函数中。<br>6.私有资源（assets）：Vue.js当中将用户自定义的指令、过滤器、组件等统称为资源。由于全局注册资源容易导致命名冲突，一个组件可以声明自己的私有资源。私有资源只有该组件和它的子组件可以调用。</p>
-<hr>
-<h4 id="SSR的实现原理"><a href="#SSR的实现原理" class="headerlink" title="SSR的实现原理"></a>SSR的实现原理</h4><p>客户端请求服务器，服务器根据请求地址获得匹配的组件，在调用匹配到的组件返回 Promise (官方是preFetch方法)来将需要的数据拿到。最<br>后再通过<script>window.<strong>initial_state=data</script><br>将其写入网页，最后将服务端渲染好的网页返回回去。<br>接下来客户端会将vuex将写入的 initial_state__ 替换为当前的全局状态树，再用这个状态树去检查服务端渲染好的数据有没有问题。遇到没被服务端渲染的组件，再去发异步请求拿数据。<br>说白了就是一个类似React的 shouldComponentUpdate 的Diff操作。<br>Vue2使用的是单向数据流，用了它，就可以通过 SSR 返回唯一一个全局状态， 并确认某个组件是否已经SSR过了。</p>
-<hr>
-<h4 id="双向绑定原理"><a href="#双向绑定原理" class="headerlink" title="双向绑定原理"></a>双向绑定原理</h4><p>脏值检查: angular.js 是通过脏值检测的方式比对数据是否有变更，来决定是否更新视图，最简单的方式就是通过 setInterval() 定时轮询检测数据变动，当然Google不会这么low，angular只有在指定的事件触发时进入脏值检测。<br>数据劫持: vue.js 则是采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。</p>
-<hr>
-<h4 id="vue-router有哪几种导航钩子？"><a href="#vue-router有哪几种导航钩子？" class="headerlink" title="vue-router有哪几种导航钩子？"></a>vue-router有哪几种导航钩子？</h4><p>三种，一种是全局导航钩子：router.beforeEach(to,from,next)，<br>作用：跳转前进行判断拦截。第二种：组件内的钩子；第三种：单独路由独享组件</p>
-<hr>
-<h4 id="scss是什么？安装使用的步骤是？有哪几大特性？"><a href="#scss是什么？安装使用的步骤是？有哪几大特性？" class="headerlink" title="scss是什么？安装使用的步骤是？有哪几大特性？"></a>scss是什么？安装使用的步骤是？有哪几大特性？</h4><p>预处理css，把css当前函数编写，定义变量,嵌套。<br> 先装css-loader、node-loader、sass-loader等加载器模块，<br> 在webpack-base.config.js配置文件中加多一个拓展:extenstion，<br> 再加多一个模块：module里面test、loader</p>
-<hr>
-<h4 id="vue的computed、methods、watched三者区别"><a href="#vue的computed、methods、watched三者区别" class="headerlink" title="vue的computed、methods、watched三者区别"></a>vue的computed、methods、watched三者区别</h4><p>methods里面定义的函数，是需要主动调用的，而watch和computed相关的函数会自动完成调用<br>watch擅长一个数据影响多个数据<br>computed擅长一个数据受多个数据影响<br>methods不处理数据逻辑关系，只提供可调用函数</p>
-<h4 id="scss是什么？在vue-cli中的安装使用步骤是？有哪几大特性？"><a href="#scss是什么？在vue-cli中的安装使用步骤是？有哪几大特性？" class="headerlink" title="scss是什么？在vue.cli中的安装使用步骤是？有哪几大特性？"></a>scss是什么？在vue.cli中的安装使用步骤是？有哪几大特性？</h4><p>css的预编译。<br>使用步骤：<br>第一步：用npm 下三个loader（sass-loader、css-loader、node-sass）<br>第二步：在build目录找到webpack.base.config.js，在那个extends属性中加一个拓展.scss<br>第三步：还是在同一个文件，配置一个module属性<br>第四步：然后在组件的style标签加上lang属性 ，例如：lang=”scss”<br>有哪几大特性:<br>1、可以用变量，例如（$变量名称=值）；<br>2、可以用混合器，例如（）<br>3、可以嵌套</p>
-<hr>
-<h4 id="mint-ui是什么？怎么使用？说出至少三个组件使用方法？"><a href="#mint-ui是什么？怎么使用？说出至少三个组件使用方法？" class="headerlink" title="mint-ui是什么？怎么使用？说出至少三个组件使用方法？"></a>mint-ui是什么？怎么使用？说出至少三个组件使用方法？</h4><p>基于vue的前端组件库。npm安装，然后import样式和js，<br>vue.use（mintUi）全局引入。在单个组件局部引入：<br>import {Toast} from ‘mint-ui’。组件一：<br>Toast(‘登录成功’)；组件二：mint-header；组件三：mint-swiper</p>
-<hr>
-<h4 id="v-model是什么？怎么使用？-vue中标签怎么绑定事件？"><a href="#v-model是什么？怎么使用？-vue中标签怎么绑定事件？" class="headerlink" title="v-model是什么？怎么使用？ vue中标签怎么绑定事件？"></a>v-model是什么？怎么使用？ vue中标签怎么绑定事件？</h4><p>可以实现双向绑定，指令（v-class、v-for、v-if、v-show、v-on）。<br>vue的model层的data属性。绑定事件：<input @click="doLog()"></p>
-<hr>
-<h4 id="axios是什么？怎么使用？描述使用它实现登录功能的流程？"><a href="#axios是什么？怎么使用？描述使用它实现登录功能的流程？" class="headerlink" title="axios是什么？怎么使用？描述使用它实现登录功能的流程？"></a>axios是什么？怎么使用？描述使用它实现登录功能的流程？</h4><p>请求后台资源的模块。npm install axios -S装好，<br>然后发送的是跨域，需在配置文件中config/index.js进行设置。<br>后台如果是Tp5则定义一个资源路由。js中使用import进来，<br>然后.get或.post。返回在.then函数中如果成功，<br>失败则是在.catch函数中</p>
-<hr>
-<h4 id="axios-tp5进阶中，调用axios-post-‘api-user’-是进行的什么操作？axios-put-‘api-user-8′-呢？"><a href="#axios-tp5进阶中，调用axios-post-‘api-user’-是进行的什么操作？axios-put-‘api-user-8′-呢？" class="headerlink" title="axios+tp5进阶中，调用axios.post(‘api/user’)是进行的什么操作？axios.put(‘api/user/8′)呢？"></a>axios+tp5进阶中，调用axios.post(‘api/user’)是进行的什么操作？axios.put(‘api/user/8′)呢？</h4><p>跨域，添加用户操作，更新操作。</p>
-<hr>
-<h4 id="什么是RESTful-API？怎么使用"><a href="#什么是RESTful-API？怎么使用" class="headerlink" title="什么是RESTful API？怎么使用?"></a>什么是RESTful API？怎么使用?</h4><p>是一个api的标准，无状态请求。请求的路由地址是固定的，<br>如果是tp5则先路由配置中把资源路由配置好。标准有：.post .put .delete</p>
-<hr>
-<h4 id="vuex是什么？怎么使用？哪种功能场景使用它？"><a href="#vuex是什么？怎么使用？哪种功能场景使用它？" class="headerlink" title="vuex是什么？怎么使用？哪种功能场景使用它？"></a>vuex是什么？怎么使用？哪种功能场景使用它？</h4><p>vue框架中状态管理。在main.js引入store，注入。<br>新建了一个目录store，….. export 。<br>场景有：单页应用中，组件之间的状态。音乐播放、登录状态、加入购物车</p>
-<hr>
-<h4 id="mvvm框架是什么？它和其它框架（jquery）的区别是什么？哪些场景适合？"><a href="#mvvm框架是什么？它和其它框架（jquery）的区别是什么？哪些场景适合？" class="headerlink" title="mvvm框架是什么？它和其它框架（jquery）的区别是什么？哪些场景适合？"></a>mvvm框架是什么？它和其它框架（jquery）的区别是什么？哪些场景适合？</h4><p>一个model+view+viewModel框架，数据模型model，viewModel连接两个<br>区别：vue数据驱动，通过数据来显示视图层而不是节点操作。<br>场景：数据操作比较多的场景，更加便捷</p>
-<hr>
-<h4 id="自定义指令（v-check、v-focus）的方法有哪些？它有哪些钩子函数？还有哪些钩子函数参数？"><a href="#自定义指令（v-check、v-focus）的方法有哪些？它有哪些钩子函数？还有哪些钩子函数参数？" class="headerlink" title="自定义指令（v-check、v-focus）的方法有哪些？它有哪些钩子函数？还有哪些钩子函数参数？"></a>自定义指令（v-check、v-focus）的方法有哪些？它有哪些钩子函数？还有哪些钩子函数参数？</h4><p>全局定义指令：在vue对象的directive方法里面有两个参数，一个是指令名称，另外一个是函数。组件内定义指令：directives<br>钩子函数：bind（绑定事件触发）、inserted(节点插入的时候触发)、update（组件内相关更新）<br>钩子函数参数：el、binding</p>
-<hr>
-<h4 id="说出至少4种vue当中的指令和它的用法？"><a href="#说出至少4种vue当中的指令和它的用法？" class="headerlink" title="说出至少4种vue当中的指令和它的用法？"></a>说出至少4种vue当中的指令和它的用法？</h4><p>v-if：判断是否隐藏；v-for：数据循环出来；v-bind:class：绑定一个属性；v-model：实现双向绑定</p>
-<hr>
-<h4 id="vue-router是什么？它有哪些组件？"><a href="#vue-router是什么？它有哪些组件？" class="headerlink" title="vue-router是什么？它有哪些组件？"></a>vue-router是什么？它有哪些组件？</h4><p>vue用来写路由一个插件。router-link、router-view</p>
-<hr>
-<h4 id="导航钩子有哪些？它们有哪些参数？"><a href="#导航钩子有哪些？它们有哪些参数？" class="headerlink" title="导航钩子有哪些？它们有哪些参数？"></a>导航钩子有哪些？它们有哪些参数？</h4><p>导航钩子有：a/全局钩子和组件内独享的钩子。b/beforeRouteEnter、afterEnter、beforeRouterUpdate、beforeRouteLeave<br>参数：有to（去的那个路由）、from（离开的路由）、next（一定要用这个函数才能去到下一个路由，如果不用就拦截）最常用就这几种</p>
-<hr>
-<h4 id="Vue的双向数据绑定原理是什么？"><a href="#Vue的双向数据绑定原理是什么？" class="headerlink" title="Vue的双向数据绑定原理是什么？"></a>Vue的双向数据绑定原理是什么？</h4><p>vue.js 是采用数据劫持结合发布者-订阅者模式的方式，通过Object.defineProperty()来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。<br>具体步骤：<br>第一步：需要observe的数据对象进行递归遍历，包括子属性对象的属性，都加上 setter和getter<br>这样的话，给这个对象的某个值赋值，就会触发setter，那么就能监听到了数据变化<br>第二步：compile解析模板指令，将模板中的变量替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，更新视图<br>第三步：Watcher订阅者是Observer和Compile之间通信的桥梁，主要做的事情是:<br>1、在自身实例化时往属性订阅器(dep)里面添加自己<br>2、自身必须有一个update()方法<br>3、待属性变动dep.notice()通知时，能调用自身的update()方法，并触发Compile中绑定的回调，则功成身退。<br>第四步：MVVM作为数据绑定的入口，整合Observer、Compile和Watcher三者，通过Observer来监听自己的model数据变化，通过Compile来解析编译模板指令，最终利用Watcher搭起Observer和Compile之间的通信桥梁，达到数据变化 -&gt; 视图更新；视图交互变化(input) -&gt; 数据model变更的双向绑定效果。<br>ps：16题答案同样适合”vue data是怎么实现的？”此面试题。</p>
-<hr>
-<h4 id="请详细说下你对vue生命周期的理解？"><a href="#请详细说下你对vue生命周期的理解？" class="headerlink" title="请详细说下你对vue生命周期的理解？"></a>请详细说下你对vue生命周期的理解？</h4><p>总共分为8个阶段创建前/后，载入前/后，更新前/后，销毁前/后。<br>创建前/后： 在beforeCreated阶段，vue实例的挂载元素$el和数据对象data都为undefined，还未初始化。在created阶段，vue实例的数据对象data有了，$el还没有。<br>载入前/后：在beforeMount阶段，vue实例的$el和data都初始化了，但还是挂载之前为虚拟的dom节点，data.message还未替换。在mounted阶段，vue实例挂载完成，data.message成功渲染。<br>更新前/后：当data变化时，会触发beforeUpdate和updated方法。<br>销毁前/后：在执行destroy方法后，对data的改变不会再触发周期函数，说明此时vue实例已经解除了事件监听以及和dom的绑定，但是dom结构依然存在</p>
-<hr>
-<h4 id="请说下封装-vue-组件的过程？"><a href="#请说下封装-vue-组件的过程？" class="headerlink" title="请说下封装 vue 组件的过程？"></a>请说下封装 vue 组件的过程？</h4><p>首先，组件可以提升整个项目的开发效率。能够把页面抽象成多个相对独立的模块，解决了我们传统项目开发：效率低、难维护、复用性等问题。<br>然后，使用Vue.extend方法创建一个组件，然后使用Vue.component方法注册组件。子组件需要数据，可以在props中接受定义。而子组件修改好数据后，想把数据传递给父组件。可以采用emit方法。</p>
-<hr>
-<h4 id="你是怎么认识vuex的？"><a href="#你是怎么认识vuex的？" class="headerlink" title="你是怎么认识vuex的？"></a>你是怎么认识vuex的？</h4><p>vuex可以理解为一种开发模式或框架。比如PHP有thinkphp，java有spring等。<br>通过状态（数据源）集中管理驱动组件的变化（好比spring的IOC容器对bean进行集中管理）。<br>应用级的状态集中放在store中； 改变状态的方式是提交mutations，这是个同步的事物； 异步逻辑应该封装在action中。</p>
-<hr>
-<h4 id="vue-loader是什么？使用它的用途有哪些？"><a href="#vue-loader是什么？使用它的用途有哪些？" class="headerlink" title="vue-loader是什么？使用它的用途有哪些？"></a>vue-loader是什么？使用它的用途有哪些？</h4><p>解析.vue文件的一个加载器，跟template/js/style转换成js模块。<br>用途：js可以写es6、style样式可以scss或less、template可以加jade等</p>
-<hr>
-<h4 id="请说出vue-cli项目中src目录每个文件夹和文件的用法？"><a href="#请说出vue-cli项目中src目录每个文件夹和文件的用法？" class="headerlink" title="请说出vue.cli项目中src目录每个文件夹和文件的用法？"></a>请说出vue.cli项目中src目录每个文件夹和文件的用法？</h4><p>assets文件夹是放静态资源；components是放组件；router是定义路由相关的配置;view视图；app.vue是一个应用主组件；main.js是入口文件</p>
-<hr>
-<h4 id="vue-cli中怎样使用自定义的组件？有遇到过哪些问题吗？"><a href="#vue-cli中怎样使用自定义的组件？有遇到过哪些问题吗？" class="headerlink" title="vue.cli中怎样使用自定义的组件？有遇到过哪些问题吗？"></a>vue.cli中怎样使用自定义的组件？有遇到过哪些问题吗？</h4><p>第一步：在components目录新建你的组件文件（smithButton.vue），script一定要export default {<br>第二步：在需要用的页面（组件）中导入：import smithButton from ‘../components/smithButton.vue’<br>第三步：注入到vue的子组件的components属性上面,components:{smithButton}<br>第四步：在template视图view中使用，<smith-button>  </smith-button><br>问题有：smithButton命名，使用的时候则smith-button。</p>
-<hr>
-<h4 id="聊聊你对Vue-js的template编译的理解？"><a href="#聊聊你对Vue-js的template编译的理解？" class="headerlink" title="聊聊你对Vue.js的template编译的理解？"></a>聊聊你对Vue.js的template编译的理解？</h4><p>简而言之，就是先转化成AST树，再得到的render函数返回VNode（Vue的虚拟DOM节点）<br>详情步骤：<br>首先，通过compile编译器把template编译成AST语法树（abstract syntax tree 即 源代码的抽象语法结构的树状表现形式），compile是createCompiler的返回值，createCompiler是用以创建编译器的。另外compile还负责合并option。<br>然后，AST会经过generate（将AST语法树转化成render funtion字符串的过程）得到render函数，render的返回值是VNode，VNode是Vue的虚拟DOM节点，里面有（标签名、子节点、文本等等）</p>
-<hr>
-<h4 id="vue的组件是怎么定义的？父组件怎么给子组件传值？"><a href="#vue的组件是怎么定义的？父组件怎么给子组件传值？" class="headerlink" title="vue的组件是怎么定义的？父组件怎么给子组件传值？"></a>vue的组件是怎么定义的？父组件怎么给子组件传值？</h4><p>首先注册vue.components，第一个参数是组件名称，第二个参数是选项。<br>直接绑定一个属性，然后在子组件props里面接收</p>
-<hr>
-<h4 id="使用过element-ui吗？说下它其中两个组件的使用方法？"><a href="#使用过element-ui吗？说下它其中两个组件的使用方法？" class="headerlink" title="使用过element.ui吗？说下它其中两个组件的使用方法？"></a>使用过element.ui吗？说下它其中两个组件的使用方法？</h4><p>使用过用过一个布局的，它是由24份，它的写法是:span后面带的数字它占24份里面的宽度。:offset是它<br>的间距，后面也是跟数字，也是从24份里面取的。<br>input按钮，标签是el-input，后面type跟上一个属性就是显示不同按钮的类型，有默认的default<br>（默认的）、success（成功的）、warning（警告）、danger（危险）、info（）、primary（）</p>
-<hr>
-<h4 id="说下你对mvvm的理解？双向绑定的理解"><a href="#说下你对mvvm的理解？双向绑定的理解" class="headerlink" title="说下你对mvvm的理解？双向绑定的理解?"></a>说下你对mvvm的理解？双向绑定的理解?</h4><p>mvvm就是vm框架视图、m模型就是用来定义驱动的数据、v经过数据改变后的html、vm就是用来实现双向绑定<br>双向绑定:一个变了另外一个跟着变了，例如：视图一个绑定了模型的节点有变化，模型对应的值会跟着变</p>
-<hr>
-<h4 id="说出你所使用过的vue指令"><a href="#说出你所使用过的vue指令" class="headerlink" title="说出你所使用过的vue指令"></a>说出你所使用过的vue指令</h4><p>v-on（监听事件、@change、@click）<br>v-if（判断的）<br>v-show（显示/隐藏）<br>v-bind（绑定属性、:disabled、:src）</p>
-<hr>
-<h4 id="你觉得怎样的自定义组件是完善的？至少说出4点"><a href="#你觉得怎样的自定义组件是完善的？至少说出4点" class="headerlink" title="你觉得怎样的自定义组件是完善的？至少说出4点"></a>你觉得怎样的自定义组件是完善的？至少说出4点</h4><p>第一点、可以通用<br>第二点、代码尽量简洁<br>第三点、容易修改<br>第四点、功能要多一点 </p>
-<hr>
-<h4 id="请说下具体使用vue的理解？"><a href="#请说下具体使用vue的理解？" class="headerlink" title="请说下具体使用vue的理解？"></a>请说下具体使用vue的理解？</h4><p>1、使用vue不必担心布局更改和类名重复导致的js重写，因为它是靠数据驱动双向绑定，底层是通过Object.defineProperty() 定义的数据 set、get 函数原理实现。<br>2、组件化开发，让项目的可拓展性、移植性更好，代码重用性更高，就好像农民工建房子，拿起自己的工具包就可以开工。项目经理坐等收楼就好。<br>3、单页应用的体验零距离接触安卓原生应用，局部组件更新界面，让用户体验更快速省时。<br>4、js的代码无形的规范，团队合作开发代码可阅读性更高。</p>
-<hr>
-<h4 id="你觉得哪些项目适合vue框架？"><a href="#你觉得哪些项目适合vue框架？" class="headerlink" title="你觉得哪些项目适合vue框架？"></a>你觉得哪些项目适合vue框架？</h4><p>1、数据信息量比较多的，反之类似企业网站就无需此框架了。<br>2、手机web和app应用多端共用一套界面的项目，因为使用vue.cli+webpack后的前端目录，非常有利于项目的跨平台部署。</p>
-<hr>
-<h4 id="怎么理解MVVM模式的这些框架？"><a href="#怎么理解MVVM模式的这些框架？" class="headerlink" title="怎么理解MVVM模式的这些框架？"></a>怎么理解MVVM模式的这些框架？</h4><p>1、M就是Model模型层，存的一个数据对象。<br>2、V就是View视图层，所有的html节点在这一层。<br>3、VM就是ViewModel，它通过data属性连接Model模型层，通过el属性连接View视图层。</p>
-<hr>
-<h4 id="PC端项目你会在哪些场景使用Vue框架？"><a href="#PC端项目你会在哪些场景使用Vue框架？" class="headerlink" title="PC端项目你会在哪些场景使用Vue框架？"></a>PC端项目你会在哪些场景使用Vue框架？</h4><p>上万级数据需要瀑布流更新和搜索的时候，因为数据庞大的时候，用原生的dom操作js和html都会有列表的html布局，迭代很困难。再一个dom节点的大面积添加会影响性能。<br>那么vue为什么解决这些问题呢？<br>第一：只需用v-for在view层一个地方遍历数据即可，无需复制一段html代码在js和html两个地方。<br>第二：vue通过Virtual Dom就是在js中模拟DOM对象树来优化DOM操作。</p>
-<hr>
-<h4 id="vuex有哪几种属性？"><a href="#vuex有哪几种属性？" class="headerlink" title="vuex有哪几种属性？"></a>vuex有哪几种属性？</h4><p>有五种，分别是 State、 Getter、Mutation 、Action、 Module</p>
-<hr>
-<h4 id="vuex的State特性是？"><a href="#vuex的State特性是？" class="headerlink" title="vuex的State特性是？"></a>vuex的State特性是？</h4><p>一、Vuex就是一个仓库，仓库里面放了很多对象。其中state就是数据源存放地，对应于与一般Vue对象里面的data<br>二、state里面存放的数据是响应式的，Vue组件从store中读取数据，若是store中的数据发生改变，依赖这个数据的组件也会发生更新<br>三、它通过mapState把全局的 state 和 getters 映射到当前组件的 computed 计算属性中</p>
-<hr>
-<h4 id="vuex的Getter特性是？"><a href="#vuex的Getter特性是？" class="headerlink" title="vuex的Getter特性是？"></a>vuex的Getter特性是？</h4><p>一、getters 可以对State进行计算操作，它就是Store的计算属性<br>二、 虽然在组件内也可以做计算属性，但是getters 可以在多组件之间复用<br>三、 如果一个状态只在一个组件内使用，是可以不用getters</p>
-<hr>
-<h4 id="vuex的Mutation特性是？"><a href="#vuex的Mutation特性是？" class="headerlink" title="vuex的Mutation特性是？"></a>vuex的Mutation特性是？</h4><p>一、Action 类似于 mutation，不同在于：<br>二、Action 提交的是 mutation，而不是直接变更状态。<br>三、Action 可以包含任意异步操作</p>
-<hr>
-<h4 id="Vue-js中ajax请求代码应该写在组件的methods中还是vuex的actions中？"><a href="#Vue-js中ajax请求代码应该写在组件的methods中还是vuex的actions中？" class="headerlink" title="Vue.js中ajax请求代码应该写在组件的methods中还是vuex的actions中？"></a>Vue.js中ajax请求代码应该写在组件的methods中还是vuex的actions中？</h4><p>一、如果请求来的数据是不是要被其他组件公用，仅仅在请求的组件内使用，就不需要放入vuex 的state里。<br>二、如果被其他地方复用，这个很大几率上是需要的，如果需要，请将请求放入action里，方便复用，并包装成promise返回，在调用处用async await处理返回的数据。如果不要复用这个请求，那么直接写在vue文件里很方便。</p>
-<hr>
-<h4 id="不用Vuex会带来什么问题？"><a href="#不用Vuex会带来什么问题？" class="headerlink" title="不用Vuex会带来什么问题？"></a>不用Vuex会带来什么问题？</h4><p>一、可维护性会下降，你要想修改数据，你得维护三个地方<br>二、可读性会下降，因为一个组件里的数据，你根本就看不出来是从哪来的<br>三、增加耦合，大量的上传派发，会让耦合性大大的增加，本来Vue用Component就是为了减少耦合，现在这么用，和组件化的初衷相背。</p>
-<hr>
-<h4 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h4><p>1、什么是vue生命周期？<br> Vue 实例从创建到销毁的过程，就是生命周期。也就是从开始创建、初始化数据、编译模板、挂载Dom→渲染、更新→渲染、卸载等一系列过程，我们称这是 Vue 的生命周期。</p>
-<hr>
-<h4 id="vue生命周期的作用是什么？"><a href="#vue生命周期的作用是什么？" class="headerlink" title="vue生命周期的作用是什么？"></a>vue生命周期的作用是什么？</h4><p>它的生命周期中有多个事件钩子，让我们在控制整个Vue实例的过程时更容易形成好的逻辑。</p>
-<hr>
-<h4 id="vue生命周期总共有几个阶段？"><a href="#vue生命周期总共有几个阶段？" class="headerlink" title="vue生命周期总共有几个阶段？"></a>vue生命周期总共有几个阶段？</h4><p>它可以总共分为8个阶段：创建前/后, 载入前/后,更新前/后,销毁前/销毁后</p>
-<hr>
-<h4 id="第一次页面加载会触发哪几个钩子？"><a href="#第一次页面加载会触发哪几个钩子？" class="headerlink" title="第一次页面加载会触发哪几个钩子？"></a>第一次页面加载会触发哪几个钩子？</h4><p>第一次页面加载时会触发 beforeCreate, created, beforeMount, mounted 这几个钩子</p>
-<hr>
-<h4 id="DOM-渲染在-哪个周期中就已经完成？"><a href="#DOM-渲染在-哪个周期中就已经完成？" class="headerlink" title="DOM 渲染在 哪个周期中就已经完成？"></a>DOM 渲染在 哪个周期中就已经完成？</h4><p>DOM 渲染在 mounted 中就已经完成了。</p>
-<hr>
-<h4 id="简单描述每个周期具体适合哪些场景？"><a href="#简单描述每个周期具体适合哪些场景？" class="headerlink" title="简单描述每个周期具体适合哪些场景？"></a>简单描述每个周期具体适合哪些场景？</h4><p>生命周期钩子的一些使用方法： beforecreate : 可以在这加个loading事件，在加载实例时触发 created : 初始化完成时的事件写在这里，如在这结束loading事件，异步请求也适宜在这里调用 mounted : 挂载元素，获取到DOM节点 updated : 如果对数据统一处理，在这里写上相应函数 beforeDestroy : 可以做一个确认停止事件的确认框 nextTick : 更新数据后立即操作dom </p>
-<hr>
-<h4 id="axios的特点有哪些？"><a href="#axios的特点有哪些？" class="headerlink" title="axios的特点有哪些？"></a>axios的特点有哪些？</h4><p>一、Axios 是一个基于 promise 的 HTTP 库，支持promise所有的API<br>二、它可以拦截请求和响应<br>三、它可以转换请求数据和响应数据，并对响应回来的内容自动转换成 JSON类型的数据<br>四、安全性更高，客户端支持防御 XSRF</p>
-<h4 id="axios有哪些常用方法？"><a href="#axios有哪些常用方法？" class="headerlink" title="axios有哪些常用方法？"></a>axios有哪些常用方法？</h4><p>一、axios.get(url[, config])   //get请求用于列表和信息查询<br>二、axios.delete(url[, config])  //删除<br>三、axios.post(url[, data[, config]])  //post请求用于信息的添加<br>四、axios.put(url[, data[, config]])  //更新操作</p>
-<h4 id="axios相关配置属性？"><a href="#axios相关配置属性？" class="headerlink" title="axios相关配置属性？"></a>axios相关配置属性？</h4><p><code>url</code>是用于请求的服务器URL<br><code>method</code>是创建请求时使用的方法,默认是get<br><code>baseURL</code>将自动加在<code>url</code>前面，除非<code>url</code>是一个绝对URL。它可以通过设置一个<code>baseURL</code>便于为axios实例的方法传递相对URL<br><code>transformRequest</code>允许在向服务器发送前，修改请求数据，只能用在’PUT’,’POST’和’PATCH’这几个请求方法<br><code>headers</code>是即将被发送的自定义请求头<br>headers:{‘X-Requested-With’:’XMLHttpRequest’},<br><code>params</code>是即将与请求一起发送的URL参数，必须是一个无格式对象(plainobject)或URLSearchParams对象<br>params:{<br>ID:12345<br>},<br><code>auth</code>表示应该使用HTTP基础验证，并提供凭据<br>这将设置一个<code>Authorization</code>头，覆写掉现有的任意使用<code>headers</code>设置的自定义<code>Authorization</code>头<br>auth:{<br>username:’janedoe’,<br>password:’s00pers3cret’<br>},<br>‘proxy’定义代理服务器的主机名称和端口<br><code>auth</code>表示HTTP基础验证应当用于连接代理，并提供凭据<br>这将会设置一个<code>Proxy-Authorization</code>头，覆写掉已有的通过使用<code>header</code>设置的自定义<code>Proxy-Authorization</code>头。<br>proxy:{<br>host:’127.0.0.1’,<br>port:9000,<br>auth::{<br>username:’mikeymike’,<br>password:’rapunz3l’<br>}<br>},<br>keep-alive</p>
-<hr>
-<h4 id="vue-router实现原理"><a href="#vue-router实现原理" class="headerlink" title="vue-router实现原理"></a>vue-router实现原理</h4><p>单页面应用(SPA)的核心之一是: 更新视图而不重新请求页面,<br>Hash: 通过改变hash值<br>History: 利用history对象新特性</p>
-<p>Hash<br>1.push()<br>功能: 设置新的路由添加历史记录并更新视图,常用情况是直接点击切换视图<br>调用流程:<br>1 $router.push() //显式调用方法<br>2 HashHistory.push() //根据hash模式调用,设置hash并添加到浏览器历史记录（window.location.hash= XXX）<br>3 History.transitionTo() //开始更新<br>4 History.updateRoute()  //更新路由<br>5 {app._route= route}<br>6 vm.render() //更新视图<br>2.replace<br>功能: 替换当前路由并更新视图，常用情况是地址栏直接输入新地址<br>流程与push基本一致<br>但流程2变为替换当前hash （window.location.replace= XXX）不懂此方法的可见: <a href="http://www.w3school.com.cn/jsref/met_loc_replace.asp" target="_blank" rel="external">http://www.w3school.com.cn/jsref/met_loc_replace.asp</a><br>3.监听地址栏变化<br>在setupListeners中监听hash变化(window.onhashchange)并调用replace</p>
-<p>History<br>1.push<br>与hash模式类似，只是将window.hash改为history.pushState<br>2.replace<br>与hash模式类似，只是将window.replace改为history.replaceState<br>3.监听地址变化<br>在HTML5History的构造函数中监听popState（window.onpopstate）</p>
-<p>两种模式对比<br>History模式的优点:<br>1.History模式的地址栏更美观。。。<br>2.History模式的pushState、replaceState参数中的新URL可为同源的任意URL（可为不同的html文件），而hash只能是同一文档<br>3.History模式的pushState、replaceState参数中的state可为js对象，能携带更多数据<br>4.History模式的pushState、replaceState参数中的title能携带字符串数据（当然，部分浏览器，例如firefox不支持title，一般title设为null，不建议使用）</p>
-<p>缺点:<br>对于单页面应用来说，理想的场景是仅仅在进入应用时加载页面（例如index.html）,后续的网络操作靠ajax完成，<br>而不会重新请求页面。<br>但当用户直接在用户栏输入地址时则会重新请求，当地址带有参数时两者情况不一样<br>Hash 例如: xxx.com/#/id=5 HTTP请求不会包含后面的hash值，所以请求的仍然是 xxx.com,没有问题<br>History 例如:  xxx.com/id=5 这时请求的便是xxx.com/id=5，如后端没有配置对应id=XXX的路由处理，则会返回404错误。<br>官方推荐的解决办法是在服务端增加一个覆盖所有情况的候选资源：如果 URL 匹配不到任何静态资源，则应该返回同一个 index.html 页面，这个页面就是你 app 依赖的页面。同时这么做以后，服务器就不再返回 404 错误页面，因为对于所有路径都会返回 index.html 文件。为了避免这种情况，在 Vue 应用里面覆盖所有的路由情况，然后在给出一个 404 页面。或者，如果是用 Node.js 作后台，可以使用服务端的路由来匹配 URL，当没有匹配到路由的时候返回 404，从而实现 fallback。</p>
-<h4 id="vue如何实现父子组件通信，以及非父子组件通信？"><a href="#vue如何实现父子组件通信，以及非父子组件通信？" class="headerlink" title="vue如何实现父子组件通信，以及非父子组件通信？"></a>vue如何实现父子组件通信，以及非父子组件通信？</h4><p>1.父组件传递数据给子组件<br>通过props属性来实现</p>
-<p>2.子组件与父组件通信<br>vue只允许单向数据传递，这时候我们可以通过触发事件来通知父组件改变数据，从而达到改变子组件数据的目的.<br>父组件监听子组件触发的事件</p>
-<p>3.非父子组件通信<br>通过eventHub来实现通信.所谓eventHub就是创建一个事件中心，相当于中转站，可以用它来传递事件和接收事件.</p>
-<hr>
-<h4 id="关于服务器端渲染"><a href="#关于服务器端渲染" class="headerlink" title="关于服务器端渲染"></a>关于服务器端渲染</h4><p>Vue 的服务端渲染结果可以直接 pipe 到返回的请求里面。这样一来，就可以更早地在浏览器中呈现给用户内容，通过合理的缓存策略，可以有效地提升服务端渲染的性能。</p>
-<hr>
-<h4 id="Vue状态管理"><a href="#Vue状态管理" class="headerlink" title="Vue状态管理"></a>Vue状态管理</h4><p>State 驱动 View 的渲染，而用户对 View 进行操作产生 Action，会使State产生变化，从而导致 View 重新渲染。</p>
-<hr>
-<h4 id="问什么选vue原因"><a href="#问什么选vue原因" class="headerlink" title="问什么选vue原因"></a>问什么选vue原因</h4><p>当需要做一个更复杂的应用时，再增添相应的工具。例如做一个单页应用的时候才需要用路由；做一个相当庞大的应用，涉及到多组件状态共享以及多个开发者共同协作时，才可能需要大规模状态管理方案。一个纯粹的复杂的单页应用，和只是在后端渲染的静态页面上嵌入交互内容所需要选择的工程栈其实是有相当大区别的。这就是为什么我觉得，核心+生态的栈会是一个在整体选型更为灵活的栈。</p>
-<hr>
-<h4 id="Vue的模板渲染"><a href="#Vue的模板渲染" class="headerlink" title="Vue的模板渲染"></a>Vue的模板渲染</h4><p>Vue的编译器在编译模板之后，会把这些模板编译成一个渲染函数。而函数被调用的时候就会渲染并且返回一个虚拟DOM的树。这个树非常轻量，它的职责就是描述当前界面所应处的状态。当我们有了这个虚拟的树之后，再交给一个patch函数，负责把这些虚拟DOM真正施加到真实的DOM上。在这个过程中，Vue有自身的响应式系统来侦测在渲染过程中所依赖到的数据来源。在渲染过程中，侦测到的数据来源之后，之后就可以精确感知数据源的变动。到时候就可以根据需要重新进行渲染。当重新进行渲染之后，会生成一个新的树，将新树与旧树进行对比，就可以最终得出应施加到真实DOM上的改动。最后再通过patch函数施加改动。<br>这样做的主要原因是，在浏览器当中，JavaScript的运算在现代的引擎中非常快，但DOM本身是非常缓慢的东西。当你调用原生DOM API的时候，浏览器需要在JavaScript引擎的语境下去接触原生的DOM的实现，这个过程有相当的性能损耗。所以，本质的考量是，要把耗费时间的操作尽量放在纯粹的计算中去做，保证最后计算出来的需要实际接触真实DOM的操作是最少的。</p>
-<hr>
-<h4 id="vue的模板和JSX对比"><a href="#vue的模板和JSX对比" class="headerlink" title="vue的模板和JSX对比"></a>vue的模板和JSX对比</h4><p>用户可以选择直接跳过模板这一层去手写渲染函数，同时也有可选JSX支持。从开发者的偏好以及开发者的效益的角度来考量，模板和JSX是各有利弊的东西。模板更贴近我们的HTML，可以让我们更直观地思考语义结构，更好地结合CSS的书写。JSX和直接渲染函数，因为是真正的JavaScript，拥有这个语言本身的所有的能力，可以进行复杂的逻辑判断，进行选择性的返回最终要返回的DOM结构，能够实现一些在模板的语法限制下，很难做到的一些事情。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
   
   <nav class="pagination">
@@ -2049,7 +2006,7 @@ var _hmt = _hmt || [];
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">59</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2071,7 +2028,7 @@ var _hmt = _hmt || [];
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

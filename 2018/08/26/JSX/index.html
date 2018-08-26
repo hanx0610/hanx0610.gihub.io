@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javaScript," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="hanx の 碎片栈" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="JSX只要你用过React，就应该大概了解过 JSX，一种用于创建 React 元素的类 XML 语法： 12345678function getGreeting(name) &amp;#123;  return (    &amp;lt;div className=&quot;greeting&quot;&amp;gt;      &amp;lt;h1 foo=&quot;bar&quot;&amp;gt;Hello!&amp;lt;/h1&amp;gt;      &amp;lt;h2&amp;gt;G">
+<meta name="keywords" content="javaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSX">
+<meta property="og:url" content="http://yoursite.com/2018/08/26/JSX/index.html">
+<meta property="og:site_name" content="hanx の 碎片栈">
+<meta property="og:description" content="JSX只要你用过React，就应该大概了解过 JSX，一种用于创建 React 元素的类 XML 语法： 12345678function getGreeting(name) &amp;#123;  return (    &amp;lt;div className=&quot;greeting&quot;&amp;gt;      &amp;lt;h1 foo=&quot;bar&quot;&amp;gt;Hello!&amp;lt;/h1&amp;gt;      &amp;lt;h2&amp;gt;G">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/img/16522dd37ca244f5.png">
+<meta property="og:updated_time" content="2018-08-26T09:29:22.839Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSX">
+<meta name="twitter:description" content="JSX只要你用过React，就应该大概了解过 JSX，一种用于创建 React 元素的类 XML 语法： 12345678function getGreeting(name) &amp;#123;  return (    &amp;lt;div className=&quot;greeting&quot;&amp;gt;      &amp;lt;h1 foo=&quot;bar&quot;&amp;gt;Hello!&amp;lt;/h1&amp;gt;      &amp;lt;h2&amp;gt;G">
+<meta name="twitter:image" content="http://yoursite.com/img/16522dd37ca244f5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?e7cd7543c04aa55f06761709bc920324";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/26/JSX/"/>
+
+
+
+
+
+  <title>JSX | hanx の 碎片栈</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">hanx の 碎片栈</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Time waits for no one</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/26/JSX/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="hanx">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/20171022140737.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="hanx の 碎片栈">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JSX</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-26T17:00:06+08:00">
+                2018-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h3><p>只要你用过React，就应该大概了解过 JSX，一种用于创建 React 元素的类 XML 语法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getGreeting</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> (</div><div class="line">    &lt;div className=<span class="string">"greeting"</span>&gt;</div><div class="line">      &lt;h1 foo=<span class="string">"bar"</span>&gt;Hello!<span class="xml"><span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></div><div class="line">      &lt;h2&gt;Good to see you &#123;name&#125;&lt;<span class="regexp">/h2&gt;</span></div><div class="line"><span class="regexp">    &lt;/</span>div&gt;</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因为浏览器还不支持 JSX，所以在运行前，需要将代码转换为普通的 JavaScript。从对开发者友好的代码转换成对浏览器友好的代码这项工作，通常都是用 Babel 这样的工具来做。Babel 编译后，getGreeting函数就会被编译成下面这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getGreeting</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> React.createElement(</div><div class="line">    <span class="string">"div"</span>,</div><div class="line">    &#123; <span class="attr">className</span>: <span class="string">"greeting"</span> &#125;,</div><div class="line">    React.createElement(<span class="string">"h1"</span>, &#123; <span class="attr">foo</span>: <span class="string">"bar"</span> &#125;, <span class="string">"Hello!"</span>),</div><div class="line">    React.createElement(<span class="string">"h2"</span>, <span class="literal">null</span>, <span class="string">"Good to see you "</span>, name)</div><div class="line">  );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在这个不同的语法中，所有的标签名、属性名、属性值以及文本内容都没有改变。那么React.createElement是什么？</p>
+<p>React.createElement是 React 用来创建元素的方法。因为JSX通常与React同时使用，所以 Babel 默认注入这个方法，但实际情况并非如此。事实上，JSX 是从React中脱离出来的，JSX 是用于在 JS 中使用类似 XML 的语法定义树结构的规范。这个树结构可以是一个 React 组件渲染的元素，也可以是完全不同的其他的东西。</p>
+<p>为了不只是在 React 中使用 JSX，我们需要告诉 Babel 使用其他的函数来代替React.createElement。只要在文件中添加/* @jsx 另一个函数名 /这样的注释就行了。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** @jsx foo */</span></div><div class="line"><span class="keyword">var</span> bar = <span class="xml"><span class="tag">&lt;<span class="name">x</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">x</span>&gt;</span></span>;</div><div class="line"><span class="keyword">var</span> bax = <span class="xml"><span class="tag">&lt;<span class="name">Y</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">Y</span>&gt;</span></span>;</div><div class="line"></div><div class="line"><span class="comment">// becomes:</span></div><div class="line"><span class="keyword">var</span> bar = foo(<span class="string">"x"</span>, <span class="literal">null</span>, <span class="string">"Hi"</span>);</div><div class="line"><span class="keyword">var</span> bax = foo(Y, <span class="literal">null</span>, <span class="string">"Hi"</span>);</div></pre></td></tr></table></figure>
+<p>最后要说的一点是，Babel会根据元素名称的大小写使用不同的方式处理JSX。小写字母名称会以字符串参数的形式进行传递，首字母大写的名称则会作为函数进行传递，就像在代码段中一样。</p>
+<h3 id="数学中的JSX"><a href="#数学中的JSX" class="headerlink" title="数学中的JSX"></a>数学中的JSX</h3><p>我们可以使用Math.sqrt(a <em> a + b </em> b)来算a和b的弦等于多少，但这一点都不好玩。我们可以用JSX来计算这个：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Sum = <span class="function">(<span class="params">...args</span>) =&gt;</span> args.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b, <span class="number">0</span>);</div><div class="line"><span class="keyword">const</span> Pow = <span class="function">(<span class="params">&#123; exponent &#125;, base</span>) =&gt;</span> <span class="built_in">Math</span>.pow(base, exponent);</div><div class="line"><span class="keyword">const</span> Sqrt = <span class="function"><span class="params">x</span> =&gt;</span> <span class="built_in">Math</span>.sqrt(x);</div><div class="line"></div><div class="line"><span class="keyword">const</span> Hypotenuse = <span class="function">(<span class="params">&#123; a, b &#125;</span>) =&gt;</span> (</div><div class="line">  &lt;Sqrt&gt;</div><div class="line">    &lt;Sum&gt;</div><div class="line">      &lt;Pow exponent=&#123;<span class="number">2</span>&#125;&gt;&#123;a&#125;&lt;<span class="regexp">/Pow&gt;</span></div><div class="line"><span class="regexp">      &lt;Pow exponent=&#123;2&#125;&gt;&#123;b&#125;&lt;/</span>Pow&gt;</div><div class="line">    &lt;<span class="regexp">/Sum&gt;</span></div><div class="line"><span class="regexp">  &lt;/</span>Sqrt&gt;</div><div class="line">);</div><div class="line"></div><div class="line"><span class="comment">/** @jsx calc */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">calc</span>(<span class="params">operation, props, ...args</span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> params = props ? [props] : [];</div><div class="line">  params = params.concat(...args);</div><div class="line">  <span class="keyword">return</span> operation(...params);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="xml"><span class="tag">&lt;<span class="name">Hypotenuse</span> <span class="attr">a</span>=<span class="string">&#123;3&#125;</span> <span class="attr">b</span>=<span class="string">&#123;4&#125;</span> /&gt;</span>);</span></div></pre></td></tr></table></figure>
+<p>这里还有另一个版本的hypotenuse可以接收两个以上的参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> Hypotenuse = <span class="function">(<span class="params">&#123; values &#125;</span>) =&gt;</span> (</div><div class="line">  &lt;Sqrt&gt;</div><div class="line">    &lt;Sum&gt;&#123;values.map(<span class="function"><span class="params">v</span> =&gt;</span> &lt;Pow exponent=&#123;<span class="number">2</span>&#125;&gt;&#123;v&#125;&lt;<span class="regexp">/Pow&gt;)&#125;&lt;/</span>Sum&gt;</div><div class="line">  &lt;<span class="regexp">/Sqrt&gt;</span></div><div class="line"><span class="regexp">);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">console.log(&lt;Hypotenuse values=&#123;[3, 4, 5]&#125; /</span>&gt;);</div><div class="line">            <span class="keyword">const</span> Hypotenuse = <span class="function">(<span class="params">&#123; values &#125;</span>) =&gt;</span> (</div><div class="line">  &lt;Sqrt&gt;</div><div class="line">    &lt;Sum&gt;&#123;values.map(<span class="function"><span class="params">v</span> =&gt;</span> &lt;Pow exponent=&#123;<span class="number">2</span>&#125;&gt;&#123;v&#125;&lt;<span class="regexp">/Pow&gt;)&#125;&lt;/</span>Sum&gt;</div><div class="line">  &lt;<span class="regexp">/Sqrt&gt;</span></div><div class="line"><span class="regexp">);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">console.log(&lt;Hypotenuse values=&#123;[3, 4, 5]&#125; /</span>&gt;);</div></pre></td></tr></table></figure>
+<h3 id="无所不能的JSX"><a href="#无所不能的JSX" class="headerlink" title="无所不能的JSX"></a>无所不能的JSX</h3><p>接下来尝试做一些更神奇的事情，我们来试试归并排序。</p>
+<p>首先，使用RamdaJS来给我们的组件加入一些初始功能。otaku</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> R <span class="keyword">from</span> <span class="string">"ramda"</span>;</div><div class="line"><span class="keyword">var</span> divisibleBy = R.curry(R.pipe(R.flip(R.modulo), R.equals(<span class="number">0</span>)));</div><div class="line"><span class="keyword">var</span> fizzbuzz = R.map(</div><div class="line">  R.cond([</div><div class="line">    [R.both(divisibleBy(<span class="number">3</span>), divisibleBy(<span class="number">5</span>)), R.always(<span class="string">"FizzBuzz"</span>)],</div><div class="line">    [divisibleBy(<span class="number">3</span>), R.always(<span class="string">"Fizz"</span>)],</div><div class="line">    [divisibleBy(<span class="number">5</span>), R.always(<span class="string">"Buzz"</span>)],</div><div class="line">    [R.T, R.identity]</div><div class="line">  ])</div><div class="line">);</div><div class="line"><span class="built_in">console</span>.log(fizzbuzz(R.range(<span class="number">1</span>, <span class="number">16</span>)));</div></pre></td></tr></table></figure>
+<p>我们可以使用 JSX 写出相同的代码，只需要编写与JSX元素名称匹配的函数去调用ramda函数就好了：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** @jsx run */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">run</span>(<span class="params">f, props, ...args</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> R[f](...args);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> divisibleBy = (</div><div class="line">  &lt;curry&gt;</div><div class="line">    &lt;pipe&gt;</div><div class="line">      &lt;flip&gt;</div><div class="line">        &lt;modulo /&gt;</div><div class="line">      &lt;<span class="regexp">/flip&gt;</span></div><div class="line"><span class="regexp">      &lt;equals&gt;&#123;0&#125;&lt;/</span>equals&gt;</div><div class="line">    &lt;<span class="regexp">/pipe&gt;</span></div><div class="line"><span class="regexp">  &lt;/</span>curry&gt;</div><div class="line">);</div><div class="line"></div><div class="line"><span class="keyword">var</span> fizzbuzz = (</div><div class="line">  &lt;map&gt;</div><div class="line">    &lt;cond&gt;</div><div class="line">      &#123;[</div><div class="line">        [</div><div class="line">          &lt;both&gt;</div><div class="line">            &#123;divisibleBy(<span class="number">3</span>)&#125;</div><div class="line">            &#123;divisibleBy(<span class="number">5</span>)&#125;</div><div class="line">          &lt;<span class="regexp">/both&gt;,</span></div><div class="line"><span class="regexp">          &lt;always&gt;"FizzBuzz"&lt;/</span>always&gt;</div><div class="line">        ],</div><div class="line">        [divisibleBy(<span class="number">3</span>), &lt;always&gt;<span class="string">"Fizz"</span>&lt;<span class="regexp">/always&gt;],</span></div><div class="line"><span class="regexp">        [divisibleBy(5), &lt;always&gt;"Buzz"&lt;/always&gt;],</span></div><div class="line"><span class="regexp">        [R.T, &lt;identity /&gt;]</span></div><div class="line"><span class="regexp">      ]&#125;</span></div><div class="line"><span class="regexp">    &lt;/</span>cond&gt;</div><div class="line">  &lt;<span class="regexp">/map&gt;</span></div><div class="line"><span class="regexp">);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">console.log(fizzbuzz(R.range(1, 16)));</span></div></pre></td></tr></table></figure>
+<p>好看了？……并没有。</p>
+<p>运行的函数还可以再智能一点，这样可以增加 JSX 代码的 “纯净度”：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> FizzBuzz = (</div><div class="line">  &lt;map&gt;</div><div class="line">    &lt;cond concat&gt;</div><div class="line">      &lt;pair&gt;</div><div class="line">        &lt;both&gt;</div><div class="line">          &lt;DivisibleBy value=&#123;<span class="number">3</span>&#125; /&gt;</div><div class="line">          &lt;DivisibleBy value=&#123;<span class="number">5</span>&#125; /&gt;</div><div class="line">        &lt;<span class="regexp">/both&gt;</span></div><div class="line"><span class="regexp">        &lt;always value="FizzBuzz" /</span>&gt;</div><div class="line">      &lt;<span class="regexp">/pair&gt;</span></div><div class="line"><span class="regexp">      &lt;pair&gt;</span></div><div class="line"><span class="regexp">        &lt;DivisibleBy value=&#123;3&#125; /</span>&gt;</div><div class="line">        &lt;always value=<span class="string">"Fizz"</span> /&gt;</div><div class="line">      &lt;<span class="regexp">/pair&gt;</span></div><div class="line"><span class="regexp">      &lt;pair&gt;</span></div><div class="line"><span class="regexp">        &lt;DivisibleBy value=&#123;5&#125; /</span>&gt;</div><div class="line">        &lt;always value=<span class="string">"Buzz"</span> /&gt;</div><div class="line">      &lt;<span class="regexp">/pair&gt;</span></div><div class="line"><span class="regexp">      &lt;pair&gt;</span></div><div class="line"><span class="regexp">        &lt;t /</span>&gt;</div><div class="line">        &lt;identity /&gt;</div><div class="line">      &lt;<span class="regexp">/pair&gt;</span></div><div class="line"><span class="regexp">    &lt;/</span>cond&gt;</div><div class="line">  &lt;<span class="regexp">/map&gt;</span></div><div class="line"><span class="regexp">);</span></div><div class="line"><span class="regexp"></span></div><div class="line"><span class="regexp">console.log(</span></div><div class="line"><span class="regexp">  &lt;FizzBuzz&gt;</span></div><div class="line"><span class="regexp">    &lt;range&gt;</span></div><div class="line"><span class="regexp">      &#123;1&#125;</span></div><div class="line"><span class="regexp">      &#123;16&#125;</span></div><div class="line"><span class="regexp">    &lt;/</span>range&gt;</div><div class="line">  &lt;<span class="regexp">/FizzBuzz&gt;</span></div><div class="line"><span class="regexp">);</span></div></pre></td></tr></table></figure>
+<p>现在，你可以用ramda做的所有事情都可以用JSX来做了。你可以使用它来做任何事情，包括归并排序：</p>
+<p><img src="/img/16522dd37ca244f5.png" alt="这里写图片描述"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaScript/" rel="tag"># javaScript</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/01/前端缓存概述/" rel="next" title="前端缓存概述">
+                <i class="fa fa-chevron-left"></i> 前端缓存概述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/26/JavaScript 引擎基础：原型优化/" rel="prev" title="JavaScript 引擎基础：原型优化">
+                JavaScript 引擎基础：原型优化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/20171022140737.png"
+                alt="hanx" />
+            
+              <p class="site-author-name" itemprop="name">hanx</p>
+              <p class="site-description motion-element" itemprop="description">向死而生</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSX"><span class="nav-number">1.</span> <span class="nav-text">JSX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数学中的JSX"><span class="nav-number">2.</span> <span class="nav-text">数学中的JSX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#无所不能的JSX"><span class="nav-number">3.</span> <span class="nav-text">无所不能的JSX</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    ❤
+  </span>
+  <span class="author" itemprop="copyrightHolder">hanx</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  1052685403@qq.com
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
